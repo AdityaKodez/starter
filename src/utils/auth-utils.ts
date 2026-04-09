@@ -7,7 +7,7 @@ export async function requireAuth() {
   });
 
   if (!session) {
-    redirect("/login");
+    redirect("/");
   }
 
   return session;
@@ -19,6 +19,6 @@ export async function requireUnauth() {
   });
 
   if (session) {
-    redirect("/");
+    redirect("/dashboard");
   }
 }

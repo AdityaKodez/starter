@@ -12,6 +12,7 @@ import { IconBrandGoogleFilled } from "@tabler/icons-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner";
+import IconLogo from "../../../public/logo";
 export const LoginDialog = ({
   open,
   setOpen,
@@ -42,7 +43,10 @@ export const LoginDialog = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="max-w-sm">
-        <DialogHeader>
+        <div className="mx-auto flex size-16 items-center justify-center rounded-xl bg-muted">
+          <IconLogo className="size-9" />
+        </div>
+        <DialogHeader className="text-center">
           <DialogTitle>Continue to Coursa</DialogTitle>
           <DialogDescription>
             Sign in or create an account to continue.
@@ -50,8 +54,8 @@ export const LoginDialog = ({
         </DialogHeader>
 
         <Button
-          asChild
           variant="outline"
+          size="lg"
           className="w-full gap-2"
           onClick={handleGoogleSignIn}
           disabled={loading}

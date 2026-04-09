@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "sonner";
+import { TRPCReactProvider } from "@/trpc/client";
 const spaceGroteskHeading = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-heading",
@@ -24,21 +25,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Coursa",
   description: "Turn any YouTube playlist into a structured course.",
-  icons: {
-    icon: "/favicon.ico",
-  },
-  openGraph: {
-    title: "Coursa",
-    description: "Turn any YouTube playlist into a structured course.",
-    images: [
-      {
-        url: "/favicon.ico",
-        width: 1200,
-        height: 630,
-        alt: "Coursa",
-      },
-    ],
-  },
+
 };
 
 export default function RootLayout({
@@ -60,7 +47,11 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        <TooltipProvider>{children}</TooltipProvider>
+        <TooltipProvider>
+          <TRPCReactProvider>
+            {children}
+          </TRPCReactProvider>
+        </TooltipProvider>
         <Toaster position="top-right" richColors />
       </body>
     </html>
