@@ -1,11 +1,5 @@
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroupInput,
-  InputGroupButton,
-} from "@/components/ui/input-group";
-import { IconBrandYoutubeFilled, IconArrowRight } from "@tabler/icons-react";
+import { IconBrandYoutubeFilled } from "@tabler/icons-react";
+import { PlaylistUrlInput } from "./playlist-url-input";
 
 export const Hero = () => {
   return (
@@ -28,29 +22,7 @@ export const Hero = () => {
       </div>
 
       <div className="mt-10 max-w-xl">
-        <InputGroup className="h-12 rounded-xl shadow-md">
-          <InputGroupAddon align="inline-start" className="pl-3">
-            <InputGroupText>
-              <IconBrandYoutubeFilled className="size-5 text-red-500" />
-            </InputGroupText>
-          </InputGroupAddon>
-
-          <InputGroupInput
-            type="url"
-            placeholder="Paste a YouTube playlist URL…"
-            className="text-sm h-full px-3"
-          />
-
-          <InputGroupAddon align="inline-end" className="pr-1.5">
-            <InputGroupButton
-              variant="secondary"
-              className="h-10 gap-1.5 rounded-full px-4 text-sm font-semibold"
-            >
-              <p className="font-bold hidden md:block">Convert</p>
-              <IconArrowRight className="size-4" />
-            </InputGroupButton>
-          </InputGroupAddon>
-        </InputGroup>
+      <PlaylistUrlInput />
       </div>
     </section>
   );

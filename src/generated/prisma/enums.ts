@@ -9,7 +9,21 @@
 * 🟢 You can import this file directly.
 */
 
+export const Status = {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+} as const
+
+export type Status = (typeof Status)[keyof typeof Status]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const ArtifactType = {
+  SUMMARY: 'SUMMARY',
+  FLASHCARD: 'FLASHCARD',
+  TEST: 'TEST',
+  MINDMAP: 'MINDMAP'
+} as const
+
+export type ArtifactType = (typeof ArtifactType)[keyof typeof ArtifactType]

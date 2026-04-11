@@ -19,7 +19,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
-
+  playlists      Playlist[]
   @@unique([email])
   @@map("user")
 }
@@ -70,4 +70,62 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+
+enum Status {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+model Playlist {
+  id        String   @id @default(cuid())
+  title      String 
+  thumbnail String?
+  sourceUrl String
+  ownerName String
+  status   Status  @default(PENDING)
+  videos PlaylistVideo[]
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([userId])
+  @@map("playlist")
+}
+
+model PlaylistVideo {
+  id          String   @default(cuid()) @id
+  title       String
+  thumbnail   String?
+  sourceUrl   String
+  duration   Int
+  transcription String?
+  status     Status @default(PENDING)
+  artifacts  Artifact[]
+  playlistId  String
+  playlist    Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  @@index([playlistId])
+  @@map("playlist_video")
+}
+
+enum ArtifactType {
+   SUMMARY 
+   FLASHCARD
+   TEST
+   MINDMAP
+}
+model Artifact {
+  id          String  @id @default(cuid())
+  type        ArtifactType 
+  json        Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  playlistVideoId String
+  playlistVideo   PlaylistVideo @relation(fields: [playlistVideoId], references: [id], onDelete: Cascade)
+  @@index([playlistVideoId])
+  @@map("artifact")
 }

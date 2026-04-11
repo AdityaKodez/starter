@@ -61,3 +61,18 @@ export type Account = Prisma.AccountModel
  * 
  */
 export type Verification = Prisma.VerificationModel
+/**
+ * Model Playlist
+ * 
+ */
+export type Playlist = Prisma.PlaylistModel
+/**
+ * Model PlaylistVideo
+ * 
+ */
+export type PlaylistVideo = Prisma.PlaylistVideoModel
+/**
+ * Model Artifact
+ * 
+ */
+export type Artifact = Prisma.ArtifactModel

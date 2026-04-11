@@ -1,14 +1,10 @@
 
 // src/trpc/routers/_app.ts
-import { z } from "zod";
-import { createTRPCRouter, baseProcedure } from "../init";
+import { createTRPCRouter } from "../init";
+import { playlistRouter } from "./playlist";
 
 export const appRouter = createTRPCRouter({
-  hello: baseProcedure
-    .input(z.object({ text: z.string() }).optional())
-    .query(({ input }) => ({
-      greeting: `hello ${input?.text || "world"}`,
-    })),
+  playlist: playlistRouter,
 });
 
 export type AppRouter = typeof appRouter;

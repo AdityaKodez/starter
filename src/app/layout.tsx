@@ -37,7 +37,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={cn(
-        "h-full",
+        "h-full dark",
         "antialiased",
         geistSans.variable,
         geistMono.variable,

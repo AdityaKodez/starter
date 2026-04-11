@@ -1,9 +1,10 @@
 "use client";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { useSession } from "@/lib/auth-client";
 import { useState } from "react";
 import IconLogo from "../../../public/logo";
 import { LoginDialog } from "../auth/login-dialog";
-import { useSession } from "@/lib/auth-client";
 export const Navbar = () => {
   const {data:session} = useSession();
   const [open, setOpen] = useState(false);
@@ -15,7 +16,7 @@ export const Navbar = () => {
       </div>
 
       <div className="flex items-center gap-2">
-        {!session?.user && (
+        {!session?.user ? (
           <>
             <Button variant="outline" size="sm" onClick={() => setOpen(true)}>
               Login
@@ -24,6 +25,14 @@ export const Navbar = () => {
               Sign Up
             </Button>
           </>
+        ) : (
+          <Avatar>
+            <AvatarImage src={session.user.image || undefined} sizes="20" alt={session.user.name || "User Avatar"} />
+            <AvatarFallback>{session.user.name ? session.user.name[0] : "U"}</AvatarFallback>
+            
+          </Avatar>
+       
+       
         )}
         </div>
         <LoginDialog open={open} setOpen={setOpen} />
