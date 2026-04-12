@@ -525,14 +525,6 @@ export type PlaylistVideoUncheckedUpdateManyWithoutPlaylistNestedInput = {
   deleteMany?: Prisma.PlaylistVideoScalarWhereInput | Prisma.PlaylistVideoScalarWhereInput[]
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type PlaylistVideoCreateNestedOneWithoutArtifactsInput = {
   create?: Prisma.XOR<Prisma.PlaylistVideoCreateWithoutArtifactsInput, Prisma.PlaylistVideoUncheckedCreateWithoutArtifactsInput>
   connectOrCreate?: Prisma.PlaylistVideoCreateOrConnectWithoutArtifactsInput

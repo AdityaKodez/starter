@@ -140,6 +140,7 @@ export const PlaylistScalarFieldEnum = {
   thumbnail: 'thumbnail',
   sourceUrl: 'sourceUrl',
   ownerName: 'ownerName',
+  videoCount: 'videoCount',
   status: 'status',
   userId: 'userId',
   createdAt: 'createdAt',

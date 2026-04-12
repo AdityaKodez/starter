@@ -3,7 +3,7 @@ import { PlaylistUrlInput } from "./playlist-url-input";
 
 export const Hero = () => {
   return (
-    <section className="bg-background py-8 md:py-18 w-full px-4">
+    <section className="bg-background py-12 md:py-24 w-full px-4">
       <div className="w-full flex flex-col justify-center gap-5">
         <h1 className="text-4xl md:text-6xl font-bold leading-tight tracking-tight font-heading">
           Turn any YouTube playlist ,{" "}

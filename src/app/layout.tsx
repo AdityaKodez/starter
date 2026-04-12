@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "sonner";
 import { TRPCReactProvider } from "@/trpc/client";
+import { WarningDialogProvider } from "@/components/providers/warning-dialog-provider";
 const spaceGroteskHeading = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-heading",
@@ -47,12 +48,14 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        <TooltipProvider>
-          <TRPCReactProvider>
-            {children}
-          </TRPCReactProvider>
-        </TooltipProvider>
-        <Toaster position="top-right" richColors />
+        <WarningDialogProvider>
+          <TooltipProvider>
+            <TRPCReactProvider>
+              {children}
+            </TRPCReactProvider>
+          </TooltipProvider>
+        </WarningDialogProvider>
+        <Toaster position="top-right" closeButton theme="dark" />
       </body>
     </html>
   );

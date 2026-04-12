@@ -1,5 +1,5 @@
 import { useTRPC } from "@/trpc/client";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery  , useQueryClient} from "@tanstack/react-query";
 import { toast } from "sonner";
 
 export const usePlaylistVeiw = () => {
@@ -15,5 +15,23 @@ export const usePlaylistCreate = () => {
               toast.error("Failed to create playlist. Please try again.");
         },
         
+    }));
+}
+
+export const usePlaylistDelete = () => {
+    const trpc = useTRPC();
+    const queryClient =  useQueryClient();
+    return useMutation(trpc.playlist.delete.mutationOptions({
+        onSuccess: () => {
+            toast.success("Playlist deleted");
+            queryClient.invalidateQueries({
+                queryKey: trpc.playlist.list.queryKey(),
+            });
+        },
+   
+        onError: (error) => {
+            console.error("Failed to delete playlist:", error);
+            toast.error("Failed to delete playlist. Please try again.");
+        },
     }));
 }

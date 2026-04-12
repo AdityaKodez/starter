@@ -85,6 +85,8 @@ model Playlist {
   thumbnail String?
   sourceUrl String
   ownerName String
+  videoCount Int @default(0)
+  
   status   Status  @default(PENDING)
   videos PlaylistVideo[]
   userId    String

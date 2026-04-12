@@ -35,14 +35,14 @@ import { Spinner } from "@/components/ui/spinner";
         const listId = parsed.searchParams.get('list');
         if (!listId) return false;
 
-        // YouTube playlist IDs always start with "PL" and are long enough
-        return listId.startsWith('PL') && listId.length >= 16;
+        // Accept any valid YouTube list id (PL, UU, OL, etc.)
+        return listId.length >= 10;
       } catch {
         return false; // invalid URL (should never reach here because of .url())
       }
     },
     {
-      message: 'Must be a valid YouTube playlist URL (e.g. https://www.youtube.com/playlist?list=PL...)',
+      message: 'Must be a valid YouTube playlist URL (e.g. https://www.youtube.com/playlist?list=...)',
     }
   );
 
@@ -56,13 +56,14 @@ export const PlaylistUrlInput = () => {
         if (!result.success) {
           throw result.error; 
         }
-        mutateAsync({ title: "New Playlist", sourceUrl: url , ownerName: "Akshay" });
+
+        mutateAsync({ sourceUrl: url });
         toast.success("Valid playlist URL! Starting conversion...");
         console.log("Valid playlist URL:", result);
          
      } catch (error) {
         if (error instanceof z.ZodError) {
-          toast.error(`Validation errors: ${error.cause}`);
+          toast.error(`Please enter a valid YouTube playlist URL.`);
           // Display error messages to the user as needed
         }
      }

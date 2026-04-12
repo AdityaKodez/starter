@@ -2,13 +2,54 @@
 import { EmptyState } from "@/components/empty-state";
 import { Button } from "@/components/ui/button";
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { IconArrowRight } from "@tabler/icons-react";
-import Avvvatars from "avvvatars-react";
+import Avatar from "boring-avatars";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { IconArrowRight, IconCopy, IconDotsVertical, IconTrash } from "@tabler/icons-react";
+
 import { IconBoxArchive } from "nucleo-glass";
-import { usePlaylistVeiw } from "./hooks/use-playlist";
+import { toast } from "sonner";
+import { useWarningDialog } from "@/components/providers/warning-dialog-provider";
+import { usePlaylistDelete, usePlaylistVeiw } from "./hooks/use-playlist";
+import { VideoProgress } from "./component/video-progress";
+import Link from "next/link";
 
 export const PlaylistViewer = () => {
-	const { data: playlists } = usePlaylistVeiw();
+	const { data: playlists, refetch } = usePlaylistVeiw();
+	const deletePlaylist = usePlaylistDelete();
+	const warningDialog = useWarningDialog();
+const avatarPalette = ["#0B2B1B", "#1C4132", "#3A6B55", "#5BC09A", "#E0FCF3"];
+
+	const handleDelete = async (playlistId: string) => {
+		const confirmed = await warningDialog({
+			title: "Delete this playlist?",
+			description: "This action is permanent and cannot be undone.",
+			confirmLabel: "Delete",
+			cancelLabel: "Keep playlist",
+			destructive: true,
+		});
+
+		if (!confirmed) {
+			return;
+		}
+
+		await deletePlaylist.mutateAsync({ id: playlistId });
+		await refetch();
+	};
+
+	const handleCopyLink = async (sourceUrl: string) => {
+		try {
+			await navigator.clipboard.writeText(sourceUrl);
+			toast.success("Playlist link copied");
+		} catch {
+			toast.error("Could not copy link");
+		}
+	};
 
 	return (
 		<Card className="w-full mt-8">
@@ -18,7 +59,7 @@ export const PlaylistViewer = () => {
                     View and manage your YouTube playlists converted into interactive courses.
                 </CardDescription>
                 <CardAction>
-                    {/* Future action buttons like "Create New Playlist" can go here */}
+                   {/* TODO : MAKE THIS BUTTON FUCKING WORK */}
                     <Button variant="secondary" size="lg" className="ml-auto">
                         
                         View All
@@ -32,21 +73,52 @@ export const PlaylistViewer = () => {
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 						{playlists.map((playlist) => (
 							<Card key={playlist.id} className="border rounded-lg p-0">
-								<CardContent className="p-1 pb-4">
+								<CardContent className="p-2 pb-4">
 									{/* Placeholder for playlist thumbnail */}
-									<div className="h-34 rounded-lg w-full bg-primary flex items-center justify-center gap-4">
-										<Avvvatars style="shape" size={80} value={playlist.title} />
-										<p className="text-center text-xl font-mono text-accent text-medium font-bold mt-2">
-											{playlist.title}
+									<div className="h-34 rounded-sm w-full bg-primary/90  flex items-center justify-center gap-2">
+										<Avatar name={playlist.title} variant="geometric" colors={avatarPalette} />
+										
+										<p className="text-center text-md text-accent text-medium font-geist-sans font-bold mt-2">
+											{playlist.title.length > 20 ? playlist.title.slice(0, 20) + "..." : playlist.title}
 										</p>
 									</div>
 
-                                     <CardHeader className="px-2 pt-4">
-                                        <CardTitle className="text-lg font-bold">{playlist.title}</CardTitle>
-                                        <CardDescription className="text-xs text-muted-foreground">
-                                            {playlist.videos.length} videos
-                                        </CardDescription>
-                                    </CardHeader>
+									<CardHeader className="px-2 pt-6 pb-0">
+										<Link href={`/viewer/${playlist.id}`} className="truncate hover:underline">
+											<CardTitle className="text-md font-bold truncate">
+												{playlist.title}
+											</CardTitle>
+										</Link>
+										<CardDescription className="text-xs text-muted-foreground ">
+											<VideoProgress total={playlist.
+											videoCount} progress={1}
+											  />
+										</CardDescription>
+										<CardAction>
+											<DropdownMenu>
+												<DropdownMenuTrigger asChild>
+													<Button variant="ghost" size="icon-xs" aria-label="Playlist actions">
+														<IconDotsVertical className="size-4" />
+													</Button>
+												</DropdownMenuTrigger>
+												<DropdownMenuContent align="end" className="w-48">
+													<DropdownMenuItem onSelect={() => void handleCopyLink(playlist.sourceUrl)}>
+														<IconCopy className="size-4" />
+														Copy source link
+													</DropdownMenuItem>
+													<DropdownMenuSeparator />
+													<DropdownMenuItem
+														variant="destructive"
+														onSelect={() => void handleDelete(playlist.id)}
+														disabled={deletePlaylist.isPending}
+													>
+														<IconTrash className="size-4" />
+														Delete playlist
+													</DropdownMenuItem>
+												</DropdownMenuContent>
+											</DropdownMenu>
+										</CardAction>
+									</CardHeader>
 
 								</CardContent>
 							

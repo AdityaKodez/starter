@@ -31,8 +31,6 @@ export const Navbar = () => {
             <AvatarFallback>{session.user.name ? session.user.name[0] : "U"}</AvatarFallback>
             
           </Avatar>
-       
-       
         )}
         </div>
         <LoginDialog open={open} setOpen={setOpen} />

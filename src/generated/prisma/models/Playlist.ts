@@ -20,8 +20,18 @@ export type PlaylistModel = runtime.Types.Result.DefaultSelection<Prisma.$Playli
 
 export type AggregatePlaylist = {
   _count: PlaylistCountAggregateOutputType | null
+  _avg: PlaylistAvgAggregateOutputType | null
+  _sum: PlaylistSumAggregateOutputType | null
   _min: PlaylistMinAggregateOutputType | null
   _max: PlaylistMaxAggregateOutputType | null
+}
+
+export type PlaylistAvgAggregateOutputType = {
+  videoCount: number | null
+}
+
+export type PlaylistSumAggregateOutputType = {
+  videoCount: number | null
 }
 
 export type PlaylistMinAggregateOutputType = {
@@ -30,6 +40,7 @@ export type PlaylistMinAggregateOutputType = {
   thumbnail: string | null
   sourceUrl: string | null
   ownerName: string | null
+  videoCount: number | null
   status: $Enums.Status | null
   userId: string | null
   createdAt: Date | null
@@ -42,6 +53,7 @@ export type PlaylistMaxAggregateOutputType = {
   thumbnail: string | null
   sourceUrl: string | null
   ownerName: string | null
+  videoCount: number | null
   status: $Enums.Status | null
   userId: string | null
   createdAt: Date | null
@@ -54,6 +66,7 @@ export type PlaylistCountAggregateOutputType = {
   thumbnail: number
   sourceUrl: number
   ownerName: number
+  videoCount: number
   status: number
   userId: number
   createdAt: number
@@ -62,12 +75,21 @@ export type PlaylistCountAggregateOutputType = {
 }
 
 
+export type PlaylistAvgAggregateInputType = {
+  videoCount?: true
+}
+
+export type PlaylistSumAggregateInputType = {
+  videoCount?: true
+}
+
 export type PlaylistMinAggregateInputType = {
   id?: true
   title?: true
   thumbnail?: true
   sourceUrl?: true
   ownerName?: true
+  videoCount?: true
   status?: true
   userId?: true
   createdAt?: true
@@ -80,6 +102,7 @@ export type PlaylistMaxAggregateInputType = {
   thumbnail?: true
   sourceUrl?: true
   ownerName?: true
+  videoCount?: true
   status?: true
   userId?: true
   createdAt?: true
@@ -92,6 +115,7 @@ export type PlaylistCountAggregateInputType = {
   thumbnail?: true
   sourceUrl?: true
   ownerName?: true
+  videoCount?: true
   status?: true
   userId?: true
   createdAt?: true
@@ -137,6 +161,18 @@ export type PlaylistAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inter
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: PlaylistAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: PlaylistSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: PlaylistMinAggregateInputType
@@ -167,6 +203,8 @@ export type PlaylistGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   _count?: PlaylistCountAggregateInputType | true
+  _avg?: PlaylistAvgAggregateInputType
+  _sum?: PlaylistSumAggregateInputType
   _min?: PlaylistMinAggregateInputType
   _max?: PlaylistMaxAggregateInputType
 }
@@ -177,11 +215,14 @@ export type PlaylistGroupByOutputType = {
   thumbnail: string | null
   sourceUrl: string
   ownerName: string
+  videoCount: number
   status: $Enums.Status
   userId: string
   createdAt: Date
   updatedAt: Date
   _count: PlaylistCountAggregateOutputType | null
+  _avg: PlaylistAvgAggregateOutputType | null
+  _sum: PlaylistSumAggregateOutputType | null
   _min: PlaylistMinAggregateOutputType | null
   _max: PlaylistMaxAggregateOutputType | null
 }
@@ -210,6 +251,7 @@ export type PlaylistWhereInput = {
   thumbnail?: Prisma.StringNullableFilter<"Playlist"> | string | null
   sourceUrl?: Prisma.StringFilter<"Playlist"> | string
   ownerName?: Prisma.StringFilter<"Playlist"> | string
+  videoCount?: Prisma.IntFilter<"Playlist"> | number
   status?: Prisma.EnumStatusFilter<"Playlist"> | $Enums.Status
   userId?: Prisma.StringFilter<"Playlist"> | string
   createdAt?: Prisma.DateTimeFilter<"Playlist"> | Date | string
@@ -224,6 +266,7 @@ export type PlaylistOrderByWithRelationInput = {
   thumbnail?: Prisma.SortOrderInput | Prisma.SortOrder
   sourceUrl?: Prisma.SortOrder
   ownerName?: Prisma.SortOrder
+  videoCount?: Prisma.SortOrder
   status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -241,6 +284,7 @@ export type PlaylistWhereUniqueInput = Prisma.AtLeast<{
   thumbnail?: Prisma.StringNullableFilter<"Playlist"> | string | null
   sourceUrl?: Prisma.StringFilter<"Playlist"> | string
   ownerName?: Prisma.StringFilter<"Playlist"> | string
+  videoCount?: Prisma.IntFilter<"Playlist"> | number
   status?: Prisma.EnumStatusFilter<"Playlist"> | $Enums.Status
   userId?: Prisma.StringFilter<"Playlist"> | string
   createdAt?: Prisma.DateTimeFilter<"Playlist"> | Date | string
@@ -255,13 +299,16 @@ export type PlaylistOrderByWithAggregationInput = {
   thumbnail?: Prisma.SortOrderInput | Prisma.SortOrder
   sourceUrl?: Prisma.SortOrder
   ownerName?: Prisma.SortOrder
+  videoCount?: Prisma.SortOrder
   status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.PlaylistCountOrderByAggregateInput
+  _avg?: Prisma.PlaylistAvgOrderByAggregateInput
   _max?: Prisma.PlaylistMaxOrderByAggregateInput
   _min?: Prisma.PlaylistMinOrderByAggregateInput
+  _sum?: Prisma.PlaylistSumOrderByAggregateInput
 }
 
 export type PlaylistScalarWhereWithAggregatesInput = {
@@ -273,6 +320,7 @@ export type PlaylistScalarWhereWithAggregatesInput = {
   thumbnail?: Prisma.StringNullableWithAggregatesFilter<"Playlist"> | string | null
   sourceUrl?: Prisma.StringWithAggregatesFilter<"Playlist"> | string
   ownerName?: Prisma.StringWithAggregatesFilter<"Playlist"> | string
+  videoCount?: Prisma.IntWithAggregatesFilter<"Playlist"> | number
   status?: Prisma.EnumStatusWithAggregatesFilter<"Playlist"> | $Enums.Status
   userId?: Prisma.StringWithAggregatesFilter<"Playlist"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Playlist"> | Date | string
@@ -285,6 +333,7 @@ export type PlaylistCreateInput = {
   thumbnail?: string | null
   sourceUrl: string
   ownerName: string
+  videoCount?: number
   status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -298,6 +347,7 @@ export type PlaylistUncheckedCreateInput = {
   thumbnail?: string | null
   sourceUrl: string
   ownerName: string
+  videoCount?: number
   status?: $Enums.Status
   userId: string
   createdAt?: Date | string
@@ -311,6 +361,7 @@ export type PlaylistUpdateInput = {
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
   ownerName?: Prisma.StringFieldUpdateOperationsInput | string
+  videoCount?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -324,6 +375,7 @@ export type PlaylistUncheckedUpdateInput = {
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
   ownerName?: Prisma.StringFieldUpdateOperationsInput | string
+  videoCount?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -337,6 +389,7 @@ export type PlaylistCreateManyInput = {
   thumbnail?: string | null
   sourceUrl: string
   ownerName: string
+  videoCount?: number
   status?: $Enums.Status
   userId: string
   createdAt?: Date | string
@@ -349,6 +402,7 @@ export type PlaylistUpdateManyMutationInput = {
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
   ownerName?: Prisma.StringFieldUpdateOperationsInput | string
+  videoCount?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -360,6 +414,7 @@ export type PlaylistUncheckedUpdateManyInput = {
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
   ownerName?: Prisma.StringFieldUpdateOperationsInput | string
+  videoCount?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -382,10 +437,15 @@ export type PlaylistCountOrderByAggregateInput = {
   thumbnail?: Prisma.SortOrder
   sourceUrl?: Prisma.SortOrder
   ownerName?: Prisma.SortOrder
+  videoCount?: Prisma.SortOrder
   status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type PlaylistAvgOrderByAggregateInput = {
+  videoCount?: Prisma.SortOrder
 }
 
 export type PlaylistMaxOrderByAggregateInput = {
@@ -394,6 +454,7 @@ export type PlaylistMaxOrderByAggregateInput = {
   thumbnail?: Prisma.SortOrder
   sourceUrl?: Prisma.SortOrder
   ownerName?: Prisma.SortOrder
+  videoCount?: Prisma.SortOrder
   status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -406,10 +467,15 @@ export type PlaylistMinOrderByAggregateInput = {
   thumbnail?: Prisma.SortOrder
   sourceUrl?: Prisma.SortOrder
   ownerName?: Prisma.SortOrder
+  videoCount?: Prisma.SortOrder
   status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type PlaylistSumOrderByAggregateInput = {
+  videoCount?: Prisma.SortOrder
 }
 
 export type PlaylistScalarRelationFilter = {
@@ -459,6 +525,14 @@ export type PlaylistUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.PlaylistScalarWhereInput | Prisma.PlaylistScalarWhereInput[]
 }
 
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type EnumStatusFieldUpdateOperationsInput = {
   set?: $Enums.Status
 }
@@ -483,6 +557,7 @@ export type PlaylistCreateWithoutUserInput = {
   thumbnail?: string | null
   sourceUrl: string
   ownerName: string
+  videoCount?: number
   status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -495,6 +570,7 @@ export type PlaylistUncheckedCreateWithoutUserInput = {
   thumbnail?: string | null
   sourceUrl: string
   ownerName: string
+  videoCount?: number
   status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -536,6 +612,7 @@ export type PlaylistScalarWhereInput = {
   thumbnail?: Prisma.StringNullableFilter<"Playlist"> | string | null
   sourceUrl?: Prisma.StringFilter<"Playlist"> | string
   ownerName?: Prisma.StringFilter<"Playlist"> | string
+  videoCount?: Prisma.IntFilter<"Playlist"> | number
   status?: Prisma.EnumStatusFilter<"Playlist"> | $Enums.Status
   userId?: Prisma.StringFilter<"Playlist"> | string
   createdAt?: Prisma.DateTimeFilter<"Playlist"> | Date | string
@@ -548,6 +625,7 @@ export type PlaylistCreateWithoutVideosInput = {
   thumbnail?: string | null
   sourceUrl: string
   ownerName: string
+  videoCount?: number
   status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -560,6 +638,7 @@ export type PlaylistUncheckedCreateWithoutVideosInput = {
   thumbnail?: string | null
   sourceUrl: string
   ownerName: string
+  videoCount?: number
   status?: $Enums.Status
   userId: string
   createdAt?: Date | string
@@ -588,6 +667,7 @@ export type PlaylistUpdateWithoutVideosInput = {
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
   ownerName?: Prisma.StringFieldUpdateOperationsInput | string
+  videoCount?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -600,6 +680,7 @@ export type PlaylistUncheckedUpdateWithoutVideosInput = {
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
   ownerName?: Prisma.StringFieldUpdateOperationsInput | string
+  videoCount?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -612,6 +693,7 @@ export type PlaylistCreateManyUserInput = {
   thumbnail?: string | null
   sourceUrl: string
   ownerName: string
+  videoCount?: number
   status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -623,6 +705,7 @@ export type PlaylistUpdateWithoutUserInput = {
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
   ownerName?: Prisma.StringFieldUpdateOperationsInput | string
+  videoCount?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -635,6 +718,7 @@ export type PlaylistUncheckedUpdateWithoutUserInput = {
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
   ownerName?: Prisma.StringFieldUpdateOperationsInput | string
+  videoCount?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -647,6 +731,7 @@ export type PlaylistUncheckedUpdateManyWithoutUserInput = {
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
   ownerName?: Prisma.StringFieldUpdateOperationsInput | string
+  videoCount?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -689,6 +774,7 @@ export type PlaylistSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   thumbnail?: boolean
   sourceUrl?: boolean
   ownerName?: boolean
+  videoCount?: boolean
   status?: boolean
   userId?: boolean
   createdAt?: boolean
@@ -704,6 +790,7 @@ export type PlaylistSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   thumbnail?: boolean
   sourceUrl?: boolean
   ownerName?: boolean
+  videoCount?: boolean
   status?: boolean
   userId?: boolean
   createdAt?: boolean
@@ -717,6 +804,7 @@ export type PlaylistSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   thumbnail?: boolean
   sourceUrl?: boolean
   ownerName?: boolean
+  videoCount?: boolean
   status?: boolean
   userId?: boolean
   createdAt?: boolean
@@ -730,13 +818,14 @@ export type PlaylistSelectScalar = {
   thumbnail?: boolean
   sourceUrl?: boolean
   ownerName?: boolean
+  videoCount?: boolean
   status?: boolean
   userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type PlaylistOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "thumbnail" | "sourceUrl" | "ownerName" | "status" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["playlist"]>
+export type PlaylistOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "thumbnail" | "sourceUrl" | "ownerName" | "videoCount" | "status" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["playlist"]>
 export type PlaylistInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   videos?: boolean | Prisma.Playlist$videosArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -761,6 +850,7 @@ export type $PlaylistPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     thumbnail: string | null
     sourceUrl: string
     ownerName: string
+    videoCount: number
     status: $Enums.Status
     userId: string
     createdAt: Date
@@ -1195,6 +1285,7 @@ export interface PlaylistFieldRefs {
   readonly thumbnail: Prisma.FieldRef<"Playlist", 'String'>
   readonly sourceUrl: Prisma.FieldRef<"Playlist", 'String'>
   readonly ownerName: Prisma.FieldRef<"Playlist", 'String'>
+  readonly videoCount: Prisma.FieldRef<"Playlist", 'Int'>
   readonly status: Prisma.FieldRef<"Playlist", 'Status'>
   readonly userId: Prisma.FieldRef<"Playlist", 'String'>
   readonly createdAt: Prisma.FieldRef<"Playlist", 'DateTime'>

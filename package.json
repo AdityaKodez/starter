@@ -19,6 +19,7 @@
     "@trpc/tanstack-react-query": "^11.13.0",
     "avvvatars-react": "^0.4.2",
     "better-auth": "^1.6.0",
+    "boring-avatars": "^2.0.4",
     "class-variance-authority": "^0.7.1",
     "client-only": "^0.0.1",
     "clsx": "^2.1.1",
