@@ -57,7 +57,10 @@ export const ModelName = {
   Verification: 'Verification',
   Playlist: 'Playlist',
   PlaylistVideo: 'PlaylistVideo',
-  Artifact: 'Artifact'
+  PlaylistLesson: 'PlaylistLesson',
+  Artifact: 'Artifact',
+  TranscriptChunks: 'TranscriptChunks',
+  PlaylistNotes: 'PlaylistNotes'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -152,18 +155,33 @@ export type PlaylistScalarFieldEnum = (typeof PlaylistScalarFieldEnum)[keyof typ
 
 export const PlaylistVideoScalarFieldEnum = {
   id: 'id',
+  youtubeVideoId: 'youtubeVideoId',
   title: 'title',
   thumbnail: 'thumbnail',
   sourceUrl: 'sourceUrl',
   duration: 'duration',
   transcription: 'transcription',
   status: 'status',
+  lessonId: 'lessonId',
   playlistId: 'playlistId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type PlaylistVideoScalarFieldEnum = (typeof PlaylistVideoScalarFieldEnum)[keyof typeof PlaylistVideoScalarFieldEnum]
+
+
+export const PlaylistLessonScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  summary: 'summary',
+  order: 'order',
+  playlistId: 'playlistId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PlaylistLessonScalarFieldEnum = (typeof PlaylistLessonScalarFieldEnum)[keyof typeof PlaylistLessonScalarFieldEnum]
 
 
 export const ArtifactScalarFieldEnum = {
@@ -176,6 +194,33 @@ export const ArtifactScalarFieldEnum = {
 } as const
 
 export type ArtifactScalarFieldEnum = (typeof ArtifactScalarFieldEnum)[keyof typeof ArtifactScalarFieldEnum]
+
+
+export const TranscriptChunksScalarFieldEnum = {
+  id: 'id',
+  chunkIndex: 'chunkIndex',
+  text: 'text',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  tokenCount: 'tokenCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  playlistVideoId: 'playlistVideoId'
+} as const
+
+export type TranscriptChunksScalarFieldEnum = (typeof TranscriptChunksScalarFieldEnum)[keyof typeof TranscriptChunksScalarFieldEnum]
+
+
+export const PlaylistNotesScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  timestamp: 'timestamp',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  playlistvideoId: 'playlistvideoId'
+} as const
+
+export type PlaylistNotesScalarFieldEnum = (typeof PlaylistNotesScalarFieldEnum)[keyof typeof PlaylistNotesScalarFieldEnum]
 
 
 export const SortOrder = {

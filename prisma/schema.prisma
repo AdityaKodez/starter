@@ -86,9 +86,10 @@ model Playlist {
   sourceUrl String
   ownerName String
   videoCount Int @default(0)
-  
+
   status   Status  @default(PENDING)
   videos PlaylistVideo[]
+  lessons PlaylistLesson[]
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
@@ -99,6 +100,7 @@ model Playlist {
 
 model PlaylistVideo {
   id          String   @default(cuid()) @id
+  youtubeVideoId String
   title       String
   thumbnail   String?
   sourceUrl   String
@@ -106,12 +108,35 @@ model PlaylistVideo {
   transcription String?
   status     Status @default(PENDING)
   artifacts  Artifact[]
+  lessonId   String?
+  lesson     PlaylistLesson? @relation(fields: [lessonId], references: [id], onDelete: SetNull)
   playlistId  String
   playlist    Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  notes  PlaylistNotes[]
+  transcriptChunks TranscriptChunks[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@unique([playlistId, youtubeVideoId])
+  @@index([lessonId])
   @@index([playlistId])
   @@map("playlist_video")
+}
+
+model PlaylistLesson {
+  id         String   @id @default(cuid())
+  title      String
+  summary    String
+  order      Int
+  playlistId String
+  playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  videos     PlaylistVideo[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([playlistId, order])
+  @@index([playlistId])
+  @@map("playlist_lesson")
 }
 
 enum ArtifactType {
@@ -130,4 +155,34 @@ model Artifact {
   playlistVideo   PlaylistVideo @relation(fields: [playlistVideoId], references: [id], onDelete: Cascade)
   @@index([playlistVideoId])
   @@map("artifact")
+}
+
+model TranscriptChunks {
+  id          String  @id @default(cuid())
+  chunkIndex  Int
+  text        String
+  startTime   Int
+  endTime     Int
+  tokenCount  Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  playlistVideoId String
+  playlistVideo   PlaylistVideo @relation(fields: [playlistVideoId], references: [id], onDelete: Cascade)
+  @@index([playlistVideoId])
+  @@index([playlistVideoId, startTime])
+  @@unique([playlistVideoId, chunkIndex])
+  @@map("transcript_chunks")
+}
+
+model PlaylistNotes {
+  id          String  @id @default(cuid())
+  content     String
+  timestamp   String
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  playlistvideoId String
+  playlistVideo   PlaylistVideo @relation(fields: [playlistvideoId], references: [id], onDelete: Cascade)
+  @@index([playlistvideoId])
+  @@map("playlist_notes")
 }

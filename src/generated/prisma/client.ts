@@ -72,7 +72,22 @@ export type Playlist = Prisma.PlaylistModel
  */
 export type PlaylistVideo = Prisma.PlaylistVideoModel
 /**
+ * Model PlaylistLesson
+ * 
+ */
+export type PlaylistLesson = Prisma.PlaylistLessonModel
+/**
  * Model Artifact
  * 
  */
 export type Artifact = Prisma.ArtifactModel
+/**
+ * Model TranscriptChunks
+ * 
+ */
+export type TranscriptChunks = Prisma.TranscriptChunksModel
+/**
+ * Model PlaylistNotes
+ * 
+ */
+export type PlaylistNotes = Prisma.PlaylistNotesModel

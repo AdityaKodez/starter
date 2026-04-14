@@ -24,7 +24,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Coursa",
+  title: "Corusa",
   description: "Turn any YouTube playlist into a structured course.",
 
 };

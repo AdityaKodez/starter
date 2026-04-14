@@ -390,7 +390,10 @@ export const ModelName = {
   Verification: 'Verification',
   Playlist: 'Playlist',
   PlaylistVideo: 'PlaylistVideo',
-  Artifact: 'Artifact'
+  PlaylistLesson: 'PlaylistLesson',
+  Artifact: 'Artifact',
+  TranscriptChunks: 'TranscriptChunks',
+  PlaylistNotes: 'PlaylistNotes'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -406,7 +409,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification" | "playlist" | "playlistVideo" | "artifact"
+    modelProps: "user" | "session" | "account" | "verification" | "playlist" | "playlistVideo" | "playlistLesson" | "artifact" | "transcriptChunks" | "playlistNotes"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -854,6 +857,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PlaylistLesson: {
+      payload: Prisma.$PlaylistLessonPayload<ExtArgs>
+      fields: Prisma.PlaylistLessonFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PlaylistLessonFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PlaylistLessonFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload>
+        }
+        findFirst: {
+          args: Prisma.PlaylistLessonFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PlaylistLessonFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload>
+        }
+        findMany: {
+          args: Prisma.PlaylistLessonFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload>[]
+        }
+        create: {
+          args: Prisma.PlaylistLessonCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload>
+        }
+        createMany: {
+          args: Prisma.PlaylistLessonCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PlaylistLessonCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload>[]
+        }
+        delete: {
+          args: Prisma.PlaylistLessonDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload>
+        }
+        update: {
+          args: Prisma.PlaylistLessonUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload>
+        }
+        deleteMany: {
+          args: Prisma.PlaylistLessonDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PlaylistLessonUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PlaylistLessonUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload>[]
+        }
+        upsert: {
+          args: Prisma.PlaylistLessonUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload>
+        }
+        aggregate: {
+          args: Prisma.PlaylistLessonAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePlaylistLesson>
+        }
+        groupBy: {
+          args: Prisma.PlaylistLessonGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PlaylistLessonGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PlaylistLessonCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PlaylistLessonCountAggregateOutputType> | number
+        }
+      }
+    }
     Artifact: {
       payload: Prisma.$ArtifactPayload<ExtArgs>
       fields: Prisma.ArtifactFieldRefs
@@ -925,6 +1002,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ArtifactCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ArtifactCountAggregateOutputType> | number
+        }
+      }
+    }
+    TranscriptChunks: {
+      payload: Prisma.$TranscriptChunksPayload<ExtArgs>
+      fields: Prisma.TranscriptChunksFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TranscriptChunksFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TranscriptChunksFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload>
+        }
+        findFirst: {
+          args: Prisma.TranscriptChunksFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TranscriptChunksFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload>
+        }
+        findMany: {
+          args: Prisma.TranscriptChunksFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload>[]
+        }
+        create: {
+          args: Prisma.TranscriptChunksCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload>
+        }
+        createMany: {
+          args: Prisma.TranscriptChunksCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TranscriptChunksCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload>[]
+        }
+        delete: {
+          args: Prisma.TranscriptChunksDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload>
+        }
+        update: {
+          args: Prisma.TranscriptChunksUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload>
+        }
+        deleteMany: {
+          args: Prisma.TranscriptChunksDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TranscriptChunksUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TranscriptChunksUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload>[]
+        }
+        upsert: {
+          args: Prisma.TranscriptChunksUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload>
+        }
+        aggregate: {
+          args: Prisma.TranscriptChunksAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTranscriptChunks>
+        }
+        groupBy: {
+          args: Prisma.TranscriptChunksGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TranscriptChunksGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TranscriptChunksCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TranscriptChunksCountAggregateOutputType> | number
+        }
+      }
+    }
+    PlaylistNotes: {
+      payload: Prisma.$PlaylistNotesPayload<ExtArgs>
+      fields: Prisma.PlaylistNotesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PlaylistNotesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PlaylistNotesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload>
+        }
+        findFirst: {
+          args: Prisma.PlaylistNotesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PlaylistNotesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload>
+        }
+        findMany: {
+          args: Prisma.PlaylistNotesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload>[]
+        }
+        create: {
+          args: Prisma.PlaylistNotesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload>
+        }
+        createMany: {
+          args: Prisma.PlaylistNotesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PlaylistNotesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload>[]
+        }
+        delete: {
+          args: Prisma.PlaylistNotesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload>
+        }
+        update: {
+          args: Prisma.PlaylistNotesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload>
+        }
+        deleteMany: {
+          args: Prisma.PlaylistNotesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PlaylistNotesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PlaylistNotesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload>[]
+        }
+        upsert: {
+          args: Prisma.PlaylistNotesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload>
+        }
+        aggregate: {
+          args: Prisma.PlaylistNotesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePlaylistNotes>
+        }
+        groupBy: {
+          args: Prisma.PlaylistNotesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PlaylistNotesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PlaylistNotesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PlaylistNotesCountAggregateOutputType> | number
         }
       }
     }
@@ -1043,18 +1268,33 @@ export type PlaylistScalarFieldEnum = (typeof PlaylistScalarFieldEnum)[keyof typ
 
 export const PlaylistVideoScalarFieldEnum = {
   id: 'id',
+  youtubeVideoId: 'youtubeVideoId',
   title: 'title',
   thumbnail: 'thumbnail',
   sourceUrl: 'sourceUrl',
   duration: 'duration',
   transcription: 'transcription',
   status: 'status',
+  lessonId: 'lessonId',
   playlistId: 'playlistId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type PlaylistVideoScalarFieldEnum = (typeof PlaylistVideoScalarFieldEnum)[keyof typeof PlaylistVideoScalarFieldEnum]
+
+
+export const PlaylistLessonScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  summary: 'summary',
+  order: 'order',
+  playlistId: 'playlistId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PlaylistLessonScalarFieldEnum = (typeof PlaylistLessonScalarFieldEnum)[keyof typeof PlaylistLessonScalarFieldEnum]
 
 
 export const ArtifactScalarFieldEnum = {
@@ -1067,6 +1307,33 @@ export const ArtifactScalarFieldEnum = {
 } as const
 
 export type ArtifactScalarFieldEnum = (typeof ArtifactScalarFieldEnum)[keyof typeof ArtifactScalarFieldEnum]
+
+
+export const TranscriptChunksScalarFieldEnum = {
+  id: 'id',
+  chunkIndex: 'chunkIndex',
+  text: 'text',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  tokenCount: 'tokenCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  playlistVideoId: 'playlistVideoId'
+} as const
+
+export type TranscriptChunksScalarFieldEnum = (typeof TranscriptChunksScalarFieldEnum)[keyof typeof TranscriptChunksScalarFieldEnum]
+
+
+export const PlaylistNotesScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  timestamp: 'timestamp',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  playlistvideoId: 'playlistvideoId'
+} as const
+
+export type PlaylistNotesScalarFieldEnum = (typeof PlaylistNotesScalarFieldEnum)[keyof typeof PlaylistNotesScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1320,7 +1587,10 @@ export type GlobalOmitConfig = {
   verification?: Prisma.VerificationOmit
   playlist?: Prisma.PlaylistOmit
   playlistVideo?: Prisma.PlaylistVideoOmit
+  playlistLesson?: Prisma.PlaylistLessonOmit
   artifact?: Prisma.ArtifactOmit
+  transcriptChunks?: Prisma.TranscriptChunksOmit
+  playlistNotes?: Prisma.PlaylistNotesOmit
 }
 
 /* Types for Logging */

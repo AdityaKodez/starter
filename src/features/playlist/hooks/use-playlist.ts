@@ -7,13 +7,28 @@ export const usePlaylistVeiw = () => {
     return useQuery(trpc.playlist.list.queryOptions())
 }
 
+export const usePlaylistById = (id?: string) => {
+    const trpc = useTRPC();
+    return useQuery({
+        ...trpc.playlist.byId.queryOptions({ id: id ?? "" }),
+        enabled: Boolean(id),
+    });
+}
+
 export const usePlaylistCreate = () => {
     const trpc = useTRPC();
+    const queryClient =  useQueryClient();
     return useMutation(trpc.playlist.create.mutationOptions({
         onError: (error) => {
               console.error("Failed to create playlist:", error);
               toast.error("Failed to create playlist. Please try again.");
         },
+            onSuccess: (data) => {
+                queryClient.invalidateQueries({
+                    queryKey: trpc.playlist.list.queryKey(),
+                });
+                toast.success(`Playlist ${data.title} created`);
+            },
         
     }));
 }
@@ -23,12 +38,11 @@ export const usePlaylistDelete = () => {
     const queryClient =  useQueryClient();
     return useMutation(trpc.playlist.delete.mutationOptions({
         onSuccess: () => {
-            toast.success("Playlist deleted");
+            toast.success(`Lesson has been deleted`);
             queryClient.invalidateQueries({
                 queryKey: trpc.playlist.list.queryKey(),
             });
         },
-   
         onError: (error) => {
             console.error("Failed to delete playlist:", error);
             toast.error("Failed to delete playlist. Please try again.");

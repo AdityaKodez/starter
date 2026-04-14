@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { generateModules } from "@/lib/ai";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { authedProcedure, createTRPCRouter } from "../init";
@@ -145,6 +146,7 @@ async function fetchYouTubePlaylistData(playlistId: string, apiKey: string) {
       if (!videoId) return null;
 
       return {
+        youtubeVideoId: videoId,
         title: item.snippet?.title ?? "Untitled video",
         thumbnail:
           item.snippet?.thumbnails?.high?.url ??
@@ -198,6 +200,17 @@ export const playlistRouter = createTRPCRouter({
           userId: ctx.user.id,
         },
         include: {
+          lessons: {
+            orderBy: { order: "asc" },
+            include: {
+              videos: {
+                orderBy: { createdAt: "asc" },
+                include: {
+                  artifacts: true,
+                },
+              },
+            },
+          },
           videos: {
             orderBy: { createdAt: "asc" },
             include: {
@@ -246,6 +259,7 @@ export const playlistRouter = createTRPCRouter({
       let resolvedOwnerName = input.ownerName ?? "Unknown channel";
       let resolvedThumbnail = input.thumbnail ?? null;
       let videos: Array<{
+        youtubeVideoId: string;
         title: string;
         thumbnail: string | null;
         sourceUrl: string;
@@ -261,25 +275,80 @@ export const playlistRouter = createTRPCRouter({
         videos = youtubeData.videos;
       }
 
-      return prisma.playlist.create({
-        data: {
-          title: resolvedTitle,
-          thumbnail: resolvedThumbnail,
-          sourceUrl: canonicalSourceUrl,
-          ownerName: resolvedOwnerName,
-          status: input.status,
-          userId: ctx.user.id,
-          videoCount: videos.length,
-          videos: {
-            create: videos.map((video) => ({
+      let generatedCourse: Awaited<ReturnType<typeof generateModules>> | null = null;
+      if (videos.length > 0 && process.env.GOOGLE_AI_API_KEY) {
+        try {
+          generatedCourse = await generateModules({
+            playlistVideos: videos.map((video) => ({
               title: video.title,
-              thumbnail: video.thumbnail,
-              sourceUrl: video.sourceUrl,
-              duration: video.duration,
-              status: video.status,
+              id: video.youtubeVideoId,
             })),
+          });
+        } catch (error) {
+          console.error("Failed to generate lessons for playlist:", error);
+        }
+      }
+
+      return prisma.$transaction(async (tx) => {
+        const playlist = await tx.playlist.create({
+          data: {
+            title: resolvedTitle,
+            thumbnail: resolvedThumbnail,
+            sourceUrl: canonicalSourceUrl,
+            ownerName: resolvedOwnerName,
+            status: input.status,
+            userId: ctx.user.id,
+            videoCount: videos.length,
+            videos: {
+              create: videos.map((video) => ({
+                youtubeVideoId: video.youtubeVideoId,
+                title: video.title,
+                thumbnail: video.thumbnail,
+                sourceUrl: video.sourceUrl,
+                duration: video.duration,
+                status: video.status,
+              })),
+            },
           },
-        },
+        });
+
+        const lessons = generatedCourse?.lessons ?? [];
+        if (lessons.length === 0) {
+          return playlist;
+        }
+
+        const orderedLessons = [...lessons].sort((a, b) => a.order - b.order);
+
+        for (let index = 0; index < orderedLessons.length; index += 1) {
+          const lesson = orderedLessons[index];
+          const createdLesson = await tx.playlistLesson.create({
+            data: {
+              playlistId: playlist.id,
+              title: lesson.title,
+              summary: lesson.summary,
+              order: index + 1,
+            },
+          });
+
+          const videoIds = Array.from(new Set(lesson.videoIds.filter((videoId) => videoId.length > 0)));
+          if (videoIds.length === 0) {
+            continue;
+          }
+
+          await tx.playlistVideo.updateMany({
+            where: {
+              playlistId: playlist.id,
+              youtubeVideoId: {
+                in: videoIds,
+              },
+            },
+            data: {
+              lessonId: createdLesson.id,
+            },
+          });
+        }
+
+        return playlist;
       });
     }),
 

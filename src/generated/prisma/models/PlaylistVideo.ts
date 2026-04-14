@@ -36,12 +36,14 @@ export type PlaylistVideoSumAggregateOutputType = {
 
 export type PlaylistVideoMinAggregateOutputType = {
   id: string | null
+  youtubeVideoId: string | null
   title: string | null
   thumbnail: string | null
   sourceUrl: string | null
   duration: number | null
   transcription: string | null
   status: $Enums.Status | null
+  lessonId: string | null
   playlistId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -49,12 +51,14 @@ export type PlaylistVideoMinAggregateOutputType = {
 
 export type PlaylistVideoMaxAggregateOutputType = {
   id: string | null
+  youtubeVideoId: string | null
   title: string | null
   thumbnail: string | null
   sourceUrl: string | null
   duration: number | null
   transcription: string | null
   status: $Enums.Status | null
+  lessonId: string | null
   playlistId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -62,12 +66,14 @@ export type PlaylistVideoMaxAggregateOutputType = {
 
 export type PlaylistVideoCountAggregateOutputType = {
   id: number
+  youtubeVideoId: number
   title: number
   thumbnail: number
   sourceUrl: number
   duration: number
   transcription: number
   status: number
+  lessonId: number
   playlistId: number
   createdAt: number
   updatedAt: number
@@ -85,12 +91,14 @@ export type PlaylistVideoSumAggregateInputType = {
 
 export type PlaylistVideoMinAggregateInputType = {
   id?: true
+  youtubeVideoId?: true
   title?: true
   thumbnail?: true
   sourceUrl?: true
   duration?: true
   transcription?: true
   status?: true
+  lessonId?: true
   playlistId?: true
   createdAt?: true
   updatedAt?: true
@@ -98,12 +106,14 @@ export type PlaylistVideoMinAggregateInputType = {
 
 export type PlaylistVideoMaxAggregateInputType = {
   id?: true
+  youtubeVideoId?: true
   title?: true
   thumbnail?: true
   sourceUrl?: true
   duration?: true
   transcription?: true
   status?: true
+  lessonId?: true
   playlistId?: true
   createdAt?: true
   updatedAt?: true
@@ -111,12 +121,14 @@ export type PlaylistVideoMaxAggregateInputType = {
 
 export type PlaylistVideoCountAggregateInputType = {
   id?: true
+  youtubeVideoId?: true
   title?: true
   thumbnail?: true
   sourceUrl?: true
   duration?: true
   transcription?: true
   status?: true
+  lessonId?: true
   playlistId?: true
   createdAt?: true
   updatedAt?: true
@@ -211,12 +223,14 @@ export type PlaylistVideoGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 
 export type PlaylistVideoGroupByOutputType = {
   id: string
+  youtubeVideoId: string
   title: string
   thumbnail: string | null
   sourceUrl: string
   duration: number
   transcription: string | null
   status: $Enums.Status
+  lessonId: string | null
   playlistId: string
   createdAt: Date
   updatedAt: Date
@@ -247,60 +261,78 @@ export type PlaylistVideoWhereInput = {
   OR?: Prisma.PlaylistVideoWhereInput[]
   NOT?: Prisma.PlaylistVideoWhereInput | Prisma.PlaylistVideoWhereInput[]
   id?: Prisma.StringFilter<"PlaylistVideo"> | string
+  youtubeVideoId?: Prisma.StringFilter<"PlaylistVideo"> | string
   title?: Prisma.StringFilter<"PlaylistVideo"> | string
   thumbnail?: Prisma.StringNullableFilter<"PlaylistVideo"> | string | null
   sourceUrl?: Prisma.StringFilter<"PlaylistVideo"> | string
   duration?: Prisma.IntFilter<"PlaylistVideo"> | number
   transcription?: Prisma.StringNullableFilter<"PlaylistVideo"> | string | null
   status?: Prisma.EnumStatusFilter<"PlaylistVideo"> | $Enums.Status
+  lessonId?: Prisma.StringNullableFilter<"PlaylistVideo"> | string | null
   playlistId?: Prisma.StringFilter<"PlaylistVideo"> | string
   createdAt?: Prisma.DateTimeFilter<"PlaylistVideo"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PlaylistVideo"> | Date | string
   artifacts?: Prisma.ArtifactListRelationFilter
+  lesson?: Prisma.XOR<Prisma.PlaylistLessonNullableScalarRelationFilter, Prisma.PlaylistLessonWhereInput> | null
   playlist?: Prisma.XOR<Prisma.PlaylistScalarRelationFilter, Prisma.PlaylistWhereInput>
+  notes?: Prisma.PlaylistNotesListRelationFilter
+  transcriptChunks?: Prisma.TranscriptChunksListRelationFilter
 }
 
 export type PlaylistVideoOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  youtubeVideoId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   thumbnail?: Prisma.SortOrderInput | Prisma.SortOrder
   sourceUrl?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   transcription?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  lessonId?: Prisma.SortOrderInput | Prisma.SortOrder
   playlistId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   artifacts?: Prisma.ArtifactOrderByRelationAggregateInput
+  lesson?: Prisma.PlaylistLessonOrderByWithRelationInput
   playlist?: Prisma.PlaylistOrderByWithRelationInput
+  notes?: Prisma.PlaylistNotesOrderByRelationAggregateInput
+  transcriptChunks?: Prisma.TranscriptChunksOrderByRelationAggregateInput
 }
 
 export type PlaylistVideoWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  playlistId_youtubeVideoId?: Prisma.PlaylistVideoPlaylistIdYoutubeVideoIdCompoundUniqueInput
   AND?: Prisma.PlaylistVideoWhereInput | Prisma.PlaylistVideoWhereInput[]
   OR?: Prisma.PlaylistVideoWhereInput[]
   NOT?: Prisma.PlaylistVideoWhereInput | Prisma.PlaylistVideoWhereInput[]
+  youtubeVideoId?: Prisma.StringFilter<"PlaylistVideo"> | string
   title?: Prisma.StringFilter<"PlaylistVideo"> | string
   thumbnail?: Prisma.StringNullableFilter<"PlaylistVideo"> | string | null
   sourceUrl?: Prisma.StringFilter<"PlaylistVideo"> | string
   duration?: Prisma.IntFilter<"PlaylistVideo"> | number
   transcription?: Prisma.StringNullableFilter<"PlaylistVideo"> | string | null
   status?: Prisma.EnumStatusFilter<"PlaylistVideo"> | $Enums.Status
+  lessonId?: Prisma.StringNullableFilter<"PlaylistVideo"> | string | null
   playlistId?: Prisma.StringFilter<"PlaylistVideo"> | string
   createdAt?: Prisma.DateTimeFilter<"PlaylistVideo"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PlaylistVideo"> | Date | string
   artifacts?: Prisma.ArtifactListRelationFilter
+  lesson?: Prisma.XOR<Prisma.PlaylistLessonNullableScalarRelationFilter, Prisma.PlaylistLessonWhereInput> | null
   playlist?: Prisma.XOR<Prisma.PlaylistScalarRelationFilter, Prisma.PlaylistWhereInput>
-}, "id">
+  notes?: Prisma.PlaylistNotesListRelationFilter
+  transcriptChunks?: Prisma.TranscriptChunksListRelationFilter
+}, "id" | "playlistId_youtubeVideoId">
 
 export type PlaylistVideoOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  youtubeVideoId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   thumbnail?: Prisma.SortOrderInput | Prisma.SortOrder
   sourceUrl?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   transcription?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  lessonId?: Prisma.SortOrderInput | Prisma.SortOrder
   playlistId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -316,12 +348,14 @@ export type PlaylistVideoScalarWhereWithAggregatesInput = {
   OR?: Prisma.PlaylistVideoScalarWhereWithAggregatesInput[]
   NOT?: Prisma.PlaylistVideoScalarWhereWithAggregatesInput | Prisma.PlaylistVideoScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"PlaylistVideo"> | string
+  youtubeVideoId?: Prisma.StringWithAggregatesFilter<"PlaylistVideo"> | string
   title?: Prisma.StringWithAggregatesFilter<"PlaylistVideo"> | string
   thumbnail?: Prisma.StringNullableWithAggregatesFilter<"PlaylistVideo"> | string | null
   sourceUrl?: Prisma.StringWithAggregatesFilter<"PlaylistVideo"> | string
   duration?: Prisma.IntWithAggregatesFilter<"PlaylistVideo"> | number
   transcription?: Prisma.StringNullableWithAggregatesFilter<"PlaylistVideo"> | string | null
   status?: Prisma.EnumStatusWithAggregatesFilter<"PlaylistVideo"> | $Enums.Status
+  lessonId?: Prisma.StringNullableWithAggregatesFilter<"PlaylistVideo"> | string | null
   playlistId?: Prisma.StringWithAggregatesFilter<"PlaylistVideo"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"PlaylistVideo"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"PlaylistVideo"> | Date | string
@@ -329,6 +363,7 @@ export type PlaylistVideoScalarWhereWithAggregatesInput = {
 
 export type PlaylistVideoCreateInput = {
   id?: string
+  youtubeVideoId: string
   title: string
   thumbnail?: string | null
   sourceUrl: string
@@ -338,25 +373,33 @@ export type PlaylistVideoCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   artifacts?: Prisma.ArtifactCreateNestedManyWithoutPlaylistVideoInput
+  lesson?: Prisma.PlaylistLessonCreateNestedOneWithoutVideosInput
   playlist: Prisma.PlaylistCreateNestedOneWithoutVideosInput
+  notes?: Prisma.PlaylistNotesCreateNestedManyWithoutPlaylistVideoInput
+  transcriptChunks?: Prisma.TranscriptChunksCreateNestedManyWithoutPlaylistVideoInput
 }
 
 export type PlaylistVideoUncheckedCreateInput = {
   id?: string
+  youtubeVideoId: string
   title: string
   thumbnail?: string | null
   sourceUrl: string
   duration: number
   transcription?: string | null
   status?: $Enums.Status
+  lessonId?: string | null
   playlistId: string
   createdAt?: Date | string
   updatedAt?: Date | string
   artifacts?: Prisma.ArtifactUncheckedCreateNestedManyWithoutPlaylistVideoInput
+  notes?: Prisma.PlaylistNotesUncheckedCreateNestedManyWithoutPlaylistVideoInput
+  transcriptChunks?: Prisma.TranscriptChunksUncheckedCreateNestedManyWithoutPlaylistVideoInput
 }
 
 export type PlaylistVideoUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  youtubeVideoId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
@@ -366,31 +409,40 @@ export type PlaylistVideoUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   artifacts?: Prisma.ArtifactUpdateManyWithoutPlaylistVideoNestedInput
+  lesson?: Prisma.PlaylistLessonUpdateOneWithoutVideosNestedInput
   playlist?: Prisma.PlaylistUpdateOneRequiredWithoutVideosNestedInput
+  notes?: Prisma.PlaylistNotesUpdateManyWithoutPlaylistVideoNestedInput
+  transcriptChunks?: Prisma.TranscriptChunksUpdateManyWithoutPlaylistVideoNestedInput
 }
 
 export type PlaylistVideoUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  youtubeVideoId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   transcription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  lessonId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playlistId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   artifacts?: Prisma.ArtifactUncheckedUpdateManyWithoutPlaylistVideoNestedInput
+  notes?: Prisma.PlaylistNotesUncheckedUpdateManyWithoutPlaylistVideoNestedInput
+  transcriptChunks?: Prisma.TranscriptChunksUncheckedUpdateManyWithoutPlaylistVideoNestedInput
 }
 
 export type PlaylistVideoCreateManyInput = {
   id?: string
+  youtubeVideoId: string
   title: string
   thumbnail?: string | null
   sourceUrl: string
   duration: number
   transcription?: string | null
   status?: $Enums.Status
+  lessonId?: string | null
   playlistId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -398,6 +450,7 @@ export type PlaylistVideoCreateManyInput = {
 
 export type PlaylistVideoUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  youtubeVideoId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
@@ -410,12 +463,14 @@ export type PlaylistVideoUpdateManyMutationInput = {
 
 export type PlaylistVideoUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  youtubeVideoId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   transcription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  lessonId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playlistId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -431,14 +486,21 @@ export type PlaylistVideoOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type PlaylistVideoPlaylistIdYoutubeVideoIdCompoundUniqueInput = {
+  playlistId: string
+  youtubeVideoId: string
+}
+
 export type PlaylistVideoCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  youtubeVideoId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   thumbnail?: Prisma.SortOrder
   sourceUrl?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   transcription?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  lessonId?: Prisma.SortOrder
   playlistId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -450,12 +512,14 @@ export type PlaylistVideoAvgOrderByAggregateInput = {
 
 export type PlaylistVideoMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  youtubeVideoId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   thumbnail?: Prisma.SortOrder
   sourceUrl?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   transcription?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  lessonId?: Prisma.SortOrder
   playlistId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -463,12 +527,14 @@ export type PlaylistVideoMaxOrderByAggregateInput = {
 
 export type PlaylistVideoMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  youtubeVideoId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   thumbnail?: Prisma.SortOrder
   sourceUrl?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   transcription?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  lessonId?: Prisma.SortOrder
   playlistId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -525,6 +591,48 @@ export type PlaylistVideoUncheckedUpdateManyWithoutPlaylistNestedInput = {
   deleteMany?: Prisma.PlaylistVideoScalarWhereInput | Prisma.PlaylistVideoScalarWhereInput[]
 }
 
+export type PlaylistVideoCreateNestedManyWithoutLessonInput = {
+  create?: Prisma.XOR<Prisma.PlaylistVideoCreateWithoutLessonInput, Prisma.PlaylistVideoUncheckedCreateWithoutLessonInput> | Prisma.PlaylistVideoCreateWithoutLessonInput[] | Prisma.PlaylistVideoUncheckedCreateWithoutLessonInput[]
+  connectOrCreate?: Prisma.PlaylistVideoCreateOrConnectWithoutLessonInput | Prisma.PlaylistVideoCreateOrConnectWithoutLessonInput[]
+  createMany?: Prisma.PlaylistVideoCreateManyLessonInputEnvelope
+  connect?: Prisma.PlaylistVideoWhereUniqueInput | Prisma.PlaylistVideoWhereUniqueInput[]
+}
+
+export type PlaylistVideoUncheckedCreateNestedManyWithoutLessonInput = {
+  create?: Prisma.XOR<Prisma.PlaylistVideoCreateWithoutLessonInput, Prisma.PlaylistVideoUncheckedCreateWithoutLessonInput> | Prisma.PlaylistVideoCreateWithoutLessonInput[] | Prisma.PlaylistVideoUncheckedCreateWithoutLessonInput[]
+  connectOrCreate?: Prisma.PlaylistVideoCreateOrConnectWithoutLessonInput | Prisma.PlaylistVideoCreateOrConnectWithoutLessonInput[]
+  createMany?: Prisma.PlaylistVideoCreateManyLessonInputEnvelope
+  connect?: Prisma.PlaylistVideoWhereUniqueInput | Prisma.PlaylistVideoWhereUniqueInput[]
+}
+
+export type PlaylistVideoUpdateManyWithoutLessonNestedInput = {
+  create?: Prisma.XOR<Prisma.PlaylistVideoCreateWithoutLessonInput, Prisma.PlaylistVideoUncheckedCreateWithoutLessonInput> | Prisma.PlaylistVideoCreateWithoutLessonInput[] | Prisma.PlaylistVideoUncheckedCreateWithoutLessonInput[]
+  connectOrCreate?: Prisma.PlaylistVideoCreateOrConnectWithoutLessonInput | Prisma.PlaylistVideoCreateOrConnectWithoutLessonInput[]
+  upsert?: Prisma.PlaylistVideoUpsertWithWhereUniqueWithoutLessonInput | Prisma.PlaylistVideoUpsertWithWhereUniqueWithoutLessonInput[]
+  createMany?: Prisma.PlaylistVideoCreateManyLessonInputEnvelope
+  set?: Prisma.PlaylistVideoWhereUniqueInput | Prisma.PlaylistVideoWhereUniqueInput[]
+  disconnect?: Prisma.PlaylistVideoWhereUniqueInput | Prisma.PlaylistVideoWhereUniqueInput[]
+  delete?: Prisma.PlaylistVideoWhereUniqueInput | Prisma.PlaylistVideoWhereUniqueInput[]
+  connect?: Prisma.PlaylistVideoWhereUniqueInput | Prisma.PlaylistVideoWhereUniqueInput[]
+  update?: Prisma.PlaylistVideoUpdateWithWhereUniqueWithoutLessonInput | Prisma.PlaylistVideoUpdateWithWhereUniqueWithoutLessonInput[]
+  updateMany?: Prisma.PlaylistVideoUpdateManyWithWhereWithoutLessonInput | Prisma.PlaylistVideoUpdateManyWithWhereWithoutLessonInput[]
+  deleteMany?: Prisma.PlaylistVideoScalarWhereInput | Prisma.PlaylistVideoScalarWhereInput[]
+}
+
+export type PlaylistVideoUncheckedUpdateManyWithoutLessonNestedInput = {
+  create?: Prisma.XOR<Prisma.PlaylistVideoCreateWithoutLessonInput, Prisma.PlaylistVideoUncheckedCreateWithoutLessonInput> | Prisma.PlaylistVideoCreateWithoutLessonInput[] | Prisma.PlaylistVideoUncheckedCreateWithoutLessonInput[]
+  connectOrCreate?: Prisma.PlaylistVideoCreateOrConnectWithoutLessonInput | Prisma.PlaylistVideoCreateOrConnectWithoutLessonInput[]
+  upsert?: Prisma.PlaylistVideoUpsertWithWhereUniqueWithoutLessonInput | Prisma.PlaylistVideoUpsertWithWhereUniqueWithoutLessonInput[]
+  createMany?: Prisma.PlaylistVideoCreateManyLessonInputEnvelope
+  set?: Prisma.PlaylistVideoWhereUniqueInput | Prisma.PlaylistVideoWhereUniqueInput[]
+  disconnect?: Prisma.PlaylistVideoWhereUniqueInput | Prisma.PlaylistVideoWhereUniqueInput[]
+  delete?: Prisma.PlaylistVideoWhereUniqueInput | Prisma.PlaylistVideoWhereUniqueInput[]
+  connect?: Prisma.PlaylistVideoWhereUniqueInput | Prisma.PlaylistVideoWhereUniqueInput[]
+  update?: Prisma.PlaylistVideoUpdateWithWhereUniqueWithoutLessonInput | Prisma.PlaylistVideoUpdateWithWhereUniqueWithoutLessonInput[]
+  updateMany?: Prisma.PlaylistVideoUpdateManyWithWhereWithoutLessonInput | Prisma.PlaylistVideoUpdateManyWithWhereWithoutLessonInput[]
+  deleteMany?: Prisma.PlaylistVideoScalarWhereInput | Prisma.PlaylistVideoScalarWhereInput[]
+}
+
 export type PlaylistVideoCreateNestedOneWithoutArtifactsInput = {
   create?: Prisma.XOR<Prisma.PlaylistVideoCreateWithoutArtifactsInput, Prisma.PlaylistVideoUncheckedCreateWithoutArtifactsInput>
   connectOrCreate?: Prisma.PlaylistVideoCreateOrConnectWithoutArtifactsInput
@@ -539,8 +647,37 @@ export type PlaylistVideoUpdateOneRequiredWithoutArtifactsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PlaylistVideoUpdateToOneWithWhereWithoutArtifactsInput, Prisma.PlaylistVideoUpdateWithoutArtifactsInput>, Prisma.PlaylistVideoUncheckedUpdateWithoutArtifactsInput>
 }
 
+export type PlaylistVideoCreateNestedOneWithoutTranscriptChunksInput = {
+  create?: Prisma.XOR<Prisma.PlaylistVideoCreateWithoutTranscriptChunksInput, Prisma.PlaylistVideoUncheckedCreateWithoutTranscriptChunksInput>
+  connectOrCreate?: Prisma.PlaylistVideoCreateOrConnectWithoutTranscriptChunksInput
+  connect?: Prisma.PlaylistVideoWhereUniqueInput
+}
+
+export type PlaylistVideoUpdateOneRequiredWithoutTranscriptChunksNestedInput = {
+  create?: Prisma.XOR<Prisma.PlaylistVideoCreateWithoutTranscriptChunksInput, Prisma.PlaylistVideoUncheckedCreateWithoutTranscriptChunksInput>
+  connectOrCreate?: Prisma.PlaylistVideoCreateOrConnectWithoutTranscriptChunksInput
+  upsert?: Prisma.PlaylistVideoUpsertWithoutTranscriptChunksInput
+  connect?: Prisma.PlaylistVideoWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PlaylistVideoUpdateToOneWithWhereWithoutTranscriptChunksInput, Prisma.PlaylistVideoUpdateWithoutTranscriptChunksInput>, Prisma.PlaylistVideoUncheckedUpdateWithoutTranscriptChunksInput>
+}
+
+export type PlaylistVideoCreateNestedOneWithoutNotesInput = {
+  create?: Prisma.XOR<Prisma.PlaylistVideoCreateWithoutNotesInput, Prisma.PlaylistVideoUncheckedCreateWithoutNotesInput>
+  connectOrCreate?: Prisma.PlaylistVideoCreateOrConnectWithoutNotesInput
+  connect?: Prisma.PlaylistVideoWhereUniqueInput
+}
+
+export type PlaylistVideoUpdateOneRequiredWithoutNotesNestedInput = {
+  create?: Prisma.XOR<Prisma.PlaylistVideoCreateWithoutNotesInput, Prisma.PlaylistVideoUncheckedCreateWithoutNotesInput>
+  connectOrCreate?: Prisma.PlaylistVideoCreateOrConnectWithoutNotesInput
+  upsert?: Prisma.PlaylistVideoUpsertWithoutNotesInput
+  connect?: Prisma.PlaylistVideoWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PlaylistVideoUpdateToOneWithWhereWithoutNotesInput, Prisma.PlaylistVideoUpdateWithoutNotesInput>, Prisma.PlaylistVideoUncheckedUpdateWithoutNotesInput>
+}
+
 export type PlaylistVideoCreateWithoutPlaylistInput = {
   id?: string
+  youtubeVideoId: string
   title: string
   thumbnail?: string | null
   sourceUrl: string
@@ -550,19 +687,26 @@ export type PlaylistVideoCreateWithoutPlaylistInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   artifacts?: Prisma.ArtifactCreateNestedManyWithoutPlaylistVideoInput
+  lesson?: Prisma.PlaylistLessonCreateNestedOneWithoutVideosInput
+  notes?: Prisma.PlaylistNotesCreateNestedManyWithoutPlaylistVideoInput
+  transcriptChunks?: Prisma.TranscriptChunksCreateNestedManyWithoutPlaylistVideoInput
 }
 
 export type PlaylistVideoUncheckedCreateWithoutPlaylistInput = {
   id?: string
+  youtubeVideoId: string
   title: string
   thumbnail?: string | null
   sourceUrl: string
   duration: number
   transcription?: string | null
   status?: $Enums.Status
+  lessonId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   artifacts?: Prisma.ArtifactUncheckedCreateNestedManyWithoutPlaylistVideoInput
+  notes?: Prisma.PlaylistNotesUncheckedCreateNestedManyWithoutPlaylistVideoInput
+  transcriptChunks?: Prisma.TranscriptChunksUncheckedCreateNestedManyWithoutPlaylistVideoInput
 }
 
 export type PlaylistVideoCreateOrConnectWithoutPlaylistInput = {
@@ -596,19 +740,22 @@ export type PlaylistVideoScalarWhereInput = {
   OR?: Prisma.PlaylistVideoScalarWhereInput[]
   NOT?: Prisma.PlaylistVideoScalarWhereInput | Prisma.PlaylistVideoScalarWhereInput[]
   id?: Prisma.StringFilter<"PlaylistVideo"> | string
+  youtubeVideoId?: Prisma.StringFilter<"PlaylistVideo"> | string
   title?: Prisma.StringFilter<"PlaylistVideo"> | string
   thumbnail?: Prisma.StringNullableFilter<"PlaylistVideo"> | string | null
   sourceUrl?: Prisma.StringFilter<"PlaylistVideo"> | string
   duration?: Prisma.IntFilter<"PlaylistVideo"> | number
   transcription?: Prisma.StringNullableFilter<"PlaylistVideo"> | string | null
   status?: Prisma.EnumStatusFilter<"PlaylistVideo"> | $Enums.Status
+  lessonId?: Prisma.StringNullableFilter<"PlaylistVideo"> | string | null
   playlistId?: Prisma.StringFilter<"PlaylistVideo"> | string
   createdAt?: Prisma.DateTimeFilter<"PlaylistVideo"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PlaylistVideo"> | Date | string
 }
 
-export type PlaylistVideoCreateWithoutArtifactsInput = {
+export type PlaylistVideoCreateWithoutLessonInput = {
   id?: string
+  youtubeVideoId: string
   title: string
   thumbnail?: string | null
   sourceUrl: string
@@ -617,11 +764,15 @@ export type PlaylistVideoCreateWithoutArtifactsInput = {
   status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
+  artifacts?: Prisma.ArtifactCreateNestedManyWithoutPlaylistVideoInput
   playlist: Prisma.PlaylistCreateNestedOneWithoutVideosInput
+  notes?: Prisma.PlaylistNotesCreateNestedManyWithoutPlaylistVideoInput
+  transcriptChunks?: Prisma.TranscriptChunksCreateNestedManyWithoutPlaylistVideoInput
 }
 
-export type PlaylistVideoUncheckedCreateWithoutArtifactsInput = {
+export type PlaylistVideoUncheckedCreateWithoutLessonInput = {
   id?: string
+  youtubeVideoId: string
   title: string
   thumbnail?: string | null
   sourceUrl: string
@@ -631,6 +782,69 @@ export type PlaylistVideoUncheckedCreateWithoutArtifactsInput = {
   playlistId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  artifacts?: Prisma.ArtifactUncheckedCreateNestedManyWithoutPlaylistVideoInput
+  notes?: Prisma.PlaylistNotesUncheckedCreateNestedManyWithoutPlaylistVideoInput
+  transcriptChunks?: Prisma.TranscriptChunksUncheckedCreateNestedManyWithoutPlaylistVideoInput
+}
+
+export type PlaylistVideoCreateOrConnectWithoutLessonInput = {
+  where: Prisma.PlaylistVideoWhereUniqueInput
+  create: Prisma.XOR<Prisma.PlaylistVideoCreateWithoutLessonInput, Prisma.PlaylistVideoUncheckedCreateWithoutLessonInput>
+}
+
+export type PlaylistVideoCreateManyLessonInputEnvelope = {
+  data: Prisma.PlaylistVideoCreateManyLessonInput | Prisma.PlaylistVideoCreateManyLessonInput[]
+  skipDuplicates?: boolean
+}
+
+export type PlaylistVideoUpsertWithWhereUniqueWithoutLessonInput = {
+  where: Prisma.PlaylistVideoWhereUniqueInput
+  update: Prisma.XOR<Prisma.PlaylistVideoUpdateWithoutLessonInput, Prisma.PlaylistVideoUncheckedUpdateWithoutLessonInput>
+  create: Prisma.XOR<Prisma.PlaylistVideoCreateWithoutLessonInput, Prisma.PlaylistVideoUncheckedCreateWithoutLessonInput>
+}
+
+export type PlaylistVideoUpdateWithWhereUniqueWithoutLessonInput = {
+  where: Prisma.PlaylistVideoWhereUniqueInput
+  data: Prisma.XOR<Prisma.PlaylistVideoUpdateWithoutLessonInput, Prisma.PlaylistVideoUncheckedUpdateWithoutLessonInput>
+}
+
+export type PlaylistVideoUpdateManyWithWhereWithoutLessonInput = {
+  where: Prisma.PlaylistVideoScalarWhereInput
+  data: Prisma.XOR<Prisma.PlaylistVideoUpdateManyMutationInput, Prisma.PlaylistVideoUncheckedUpdateManyWithoutLessonInput>
+}
+
+export type PlaylistVideoCreateWithoutArtifactsInput = {
+  id?: string
+  youtubeVideoId: string
+  title: string
+  thumbnail?: string | null
+  sourceUrl: string
+  duration: number
+  transcription?: string | null
+  status?: $Enums.Status
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lesson?: Prisma.PlaylistLessonCreateNestedOneWithoutVideosInput
+  playlist: Prisma.PlaylistCreateNestedOneWithoutVideosInput
+  notes?: Prisma.PlaylistNotesCreateNestedManyWithoutPlaylistVideoInput
+  transcriptChunks?: Prisma.TranscriptChunksCreateNestedManyWithoutPlaylistVideoInput
+}
+
+export type PlaylistVideoUncheckedCreateWithoutArtifactsInput = {
+  id?: string
+  youtubeVideoId: string
+  title: string
+  thumbnail?: string | null
+  sourceUrl: string
+  duration: number
+  transcription?: string | null
+  status?: $Enums.Status
+  lessonId?: string | null
+  playlistId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  notes?: Prisma.PlaylistNotesUncheckedCreateNestedManyWithoutPlaylistVideoInput
+  transcriptChunks?: Prisma.TranscriptChunksUncheckedCreateNestedManyWithoutPlaylistVideoInput
 }
 
 export type PlaylistVideoCreateOrConnectWithoutArtifactsInput = {
@@ -651,6 +865,7 @@ export type PlaylistVideoUpdateToOneWithWhereWithoutArtifactsInput = {
 
 export type PlaylistVideoUpdateWithoutArtifactsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  youtubeVideoId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
@@ -659,11 +874,310 @@ export type PlaylistVideoUpdateWithoutArtifactsInput = {
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lesson?: Prisma.PlaylistLessonUpdateOneWithoutVideosNestedInput
   playlist?: Prisma.PlaylistUpdateOneRequiredWithoutVideosNestedInput
+  notes?: Prisma.PlaylistNotesUpdateManyWithoutPlaylistVideoNestedInput
+  transcriptChunks?: Prisma.TranscriptChunksUpdateManyWithoutPlaylistVideoNestedInput
 }
 
 export type PlaylistVideoUncheckedUpdateWithoutArtifactsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  youtubeVideoId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  duration?: Prisma.IntFieldUpdateOperationsInput | number
+  transcription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  lessonId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  playlistId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notes?: Prisma.PlaylistNotesUncheckedUpdateManyWithoutPlaylistVideoNestedInput
+  transcriptChunks?: Prisma.TranscriptChunksUncheckedUpdateManyWithoutPlaylistVideoNestedInput
+}
+
+export type PlaylistVideoCreateWithoutTranscriptChunksInput = {
+  id?: string
+  youtubeVideoId: string
+  title: string
+  thumbnail?: string | null
+  sourceUrl: string
+  duration: number
+  transcription?: string | null
+  status?: $Enums.Status
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  artifacts?: Prisma.ArtifactCreateNestedManyWithoutPlaylistVideoInput
+  lesson?: Prisma.PlaylistLessonCreateNestedOneWithoutVideosInput
+  playlist: Prisma.PlaylistCreateNestedOneWithoutVideosInput
+  notes?: Prisma.PlaylistNotesCreateNestedManyWithoutPlaylistVideoInput
+}
+
+export type PlaylistVideoUncheckedCreateWithoutTranscriptChunksInput = {
+  id?: string
+  youtubeVideoId: string
+  title: string
+  thumbnail?: string | null
+  sourceUrl: string
+  duration: number
+  transcription?: string | null
+  status?: $Enums.Status
+  lessonId?: string | null
+  playlistId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  artifacts?: Prisma.ArtifactUncheckedCreateNestedManyWithoutPlaylistVideoInput
+  notes?: Prisma.PlaylistNotesUncheckedCreateNestedManyWithoutPlaylistVideoInput
+}
+
+export type PlaylistVideoCreateOrConnectWithoutTranscriptChunksInput = {
+  where: Prisma.PlaylistVideoWhereUniqueInput
+  create: Prisma.XOR<Prisma.PlaylistVideoCreateWithoutTranscriptChunksInput, Prisma.PlaylistVideoUncheckedCreateWithoutTranscriptChunksInput>
+}
+
+export type PlaylistVideoUpsertWithoutTranscriptChunksInput = {
+  update: Prisma.XOR<Prisma.PlaylistVideoUpdateWithoutTranscriptChunksInput, Prisma.PlaylistVideoUncheckedUpdateWithoutTranscriptChunksInput>
+  create: Prisma.XOR<Prisma.PlaylistVideoCreateWithoutTranscriptChunksInput, Prisma.PlaylistVideoUncheckedCreateWithoutTranscriptChunksInput>
+  where?: Prisma.PlaylistVideoWhereInput
+}
+
+export type PlaylistVideoUpdateToOneWithWhereWithoutTranscriptChunksInput = {
+  where?: Prisma.PlaylistVideoWhereInput
+  data: Prisma.XOR<Prisma.PlaylistVideoUpdateWithoutTranscriptChunksInput, Prisma.PlaylistVideoUncheckedUpdateWithoutTranscriptChunksInput>
+}
+
+export type PlaylistVideoUpdateWithoutTranscriptChunksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  youtubeVideoId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  duration?: Prisma.IntFieldUpdateOperationsInput | number
+  transcription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  artifacts?: Prisma.ArtifactUpdateManyWithoutPlaylistVideoNestedInput
+  lesson?: Prisma.PlaylistLessonUpdateOneWithoutVideosNestedInput
+  playlist?: Prisma.PlaylistUpdateOneRequiredWithoutVideosNestedInput
+  notes?: Prisma.PlaylistNotesUpdateManyWithoutPlaylistVideoNestedInput
+}
+
+export type PlaylistVideoUncheckedUpdateWithoutTranscriptChunksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  youtubeVideoId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  duration?: Prisma.IntFieldUpdateOperationsInput | number
+  transcription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  lessonId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  playlistId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  artifacts?: Prisma.ArtifactUncheckedUpdateManyWithoutPlaylistVideoNestedInput
+  notes?: Prisma.PlaylistNotesUncheckedUpdateManyWithoutPlaylistVideoNestedInput
+}
+
+export type PlaylistVideoCreateWithoutNotesInput = {
+  id?: string
+  youtubeVideoId: string
+  title: string
+  thumbnail?: string | null
+  sourceUrl: string
+  duration: number
+  transcription?: string | null
+  status?: $Enums.Status
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  artifacts?: Prisma.ArtifactCreateNestedManyWithoutPlaylistVideoInput
+  lesson?: Prisma.PlaylistLessonCreateNestedOneWithoutVideosInput
+  playlist: Prisma.PlaylistCreateNestedOneWithoutVideosInput
+  transcriptChunks?: Prisma.TranscriptChunksCreateNestedManyWithoutPlaylistVideoInput
+}
+
+export type PlaylistVideoUncheckedCreateWithoutNotesInput = {
+  id?: string
+  youtubeVideoId: string
+  title: string
+  thumbnail?: string | null
+  sourceUrl: string
+  duration: number
+  transcription?: string | null
+  status?: $Enums.Status
+  lessonId?: string | null
+  playlistId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  artifacts?: Prisma.ArtifactUncheckedCreateNestedManyWithoutPlaylistVideoInput
+  transcriptChunks?: Prisma.TranscriptChunksUncheckedCreateNestedManyWithoutPlaylistVideoInput
+}
+
+export type PlaylistVideoCreateOrConnectWithoutNotesInput = {
+  where: Prisma.PlaylistVideoWhereUniqueInput
+  create: Prisma.XOR<Prisma.PlaylistVideoCreateWithoutNotesInput, Prisma.PlaylistVideoUncheckedCreateWithoutNotesInput>
+}
+
+export type PlaylistVideoUpsertWithoutNotesInput = {
+  update: Prisma.XOR<Prisma.PlaylistVideoUpdateWithoutNotesInput, Prisma.PlaylistVideoUncheckedUpdateWithoutNotesInput>
+  create: Prisma.XOR<Prisma.PlaylistVideoCreateWithoutNotesInput, Prisma.PlaylistVideoUncheckedCreateWithoutNotesInput>
+  where?: Prisma.PlaylistVideoWhereInput
+}
+
+export type PlaylistVideoUpdateToOneWithWhereWithoutNotesInput = {
+  where?: Prisma.PlaylistVideoWhereInput
+  data: Prisma.XOR<Prisma.PlaylistVideoUpdateWithoutNotesInput, Prisma.PlaylistVideoUncheckedUpdateWithoutNotesInput>
+}
+
+export type PlaylistVideoUpdateWithoutNotesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  youtubeVideoId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  duration?: Prisma.IntFieldUpdateOperationsInput | number
+  transcription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  artifacts?: Prisma.ArtifactUpdateManyWithoutPlaylistVideoNestedInput
+  lesson?: Prisma.PlaylistLessonUpdateOneWithoutVideosNestedInput
+  playlist?: Prisma.PlaylistUpdateOneRequiredWithoutVideosNestedInput
+  transcriptChunks?: Prisma.TranscriptChunksUpdateManyWithoutPlaylistVideoNestedInput
+}
+
+export type PlaylistVideoUncheckedUpdateWithoutNotesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  youtubeVideoId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  duration?: Prisma.IntFieldUpdateOperationsInput | number
+  transcription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  lessonId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  playlistId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  artifacts?: Prisma.ArtifactUncheckedUpdateManyWithoutPlaylistVideoNestedInput
+  transcriptChunks?: Prisma.TranscriptChunksUncheckedUpdateManyWithoutPlaylistVideoNestedInput
+}
+
+export type PlaylistVideoCreateManyPlaylistInput = {
+  id?: string
+  youtubeVideoId: string
+  title: string
+  thumbnail?: string | null
+  sourceUrl: string
+  duration: number
+  transcription?: string | null
+  status?: $Enums.Status
+  lessonId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type PlaylistVideoUpdateWithoutPlaylistInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  youtubeVideoId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  duration?: Prisma.IntFieldUpdateOperationsInput | number
+  transcription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  artifacts?: Prisma.ArtifactUpdateManyWithoutPlaylistVideoNestedInput
+  lesson?: Prisma.PlaylistLessonUpdateOneWithoutVideosNestedInput
+  notes?: Prisma.PlaylistNotesUpdateManyWithoutPlaylistVideoNestedInput
+  transcriptChunks?: Prisma.TranscriptChunksUpdateManyWithoutPlaylistVideoNestedInput
+}
+
+export type PlaylistVideoUncheckedUpdateWithoutPlaylistInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  youtubeVideoId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  duration?: Prisma.IntFieldUpdateOperationsInput | number
+  transcription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  lessonId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  artifacts?: Prisma.ArtifactUncheckedUpdateManyWithoutPlaylistVideoNestedInput
+  notes?: Prisma.PlaylistNotesUncheckedUpdateManyWithoutPlaylistVideoNestedInput
+  transcriptChunks?: Prisma.TranscriptChunksUncheckedUpdateManyWithoutPlaylistVideoNestedInput
+}
+
+export type PlaylistVideoUncheckedUpdateManyWithoutPlaylistInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  youtubeVideoId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  duration?: Prisma.IntFieldUpdateOperationsInput | number
+  transcription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  lessonId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type PlaylistVideoCreateManyLessonInput = {
+  id?: string
+  youtubeVideoId: string
+  title: string
+  thumbnail?: string | null
+  sourceUrl: string
+  duration: number
+  transcription?: string | null
+  status?: $Enums.Status
+  playlistId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type PlaylistVideoUpdateWithoutLessonInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  youtubeVideoId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  duration?: Prisma.IntFieldUpdateOperationsInput | number
+  transcription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  artifacts?: Prisma.ArtifactUpdateManyWithoutPlaylistVideoNestedInput
+  playlist?: Prisma.PlaylistUpdateOneRequiredWithoutVideosNestedInput
+  notes?: Prisma.PlaylistNotesUpdateManyWithoutPlaylistVideoNestedInput
+  transcriptChunks?: Prisma.TranscriptChunksUpdateManyWithoutPlaylistVideoNestedInput
+}
+
+export type PlaylistVideoUncheckedUpdateWithoutLessonInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  youtubeVideoId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  duration?: Prisma.IntFieldUpdateOperationsInput | number
+  transcription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  playlistId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  artifacts?: Prisma.ArtifactUncheckedUpdateManyWithoutPlaylistVideoNestedInput
+  notes?: Prisma.PlaylistNotesUncheckedUpdateManyWithoutPlaylistVideoNestedInput
+  transcriptChunks?: Prisma.TranscriptChunksUncheckedUpdateManyWithoutPlaylistVideoNestedInput
+}
+
+export type PlaylistVideoUncheckedUpdateManyWithoutLessonInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  youtubeVideoId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
@@ -675,56 +1189,6 @@ export type PlaylistVideoUncheckedUpdateWithoutArtifactsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type PlaylistVideoCreateManyPlaylistInput = {
-  id?: string
-  title: string
-  thumbnail?: string | null
-  sourceUrl: string
-  duration: number
-  transcription?: string | null
-  status?: $Enums.Status
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type PlaylistVideoUpdateWithoutPlaylistInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  duration?: Prisma.IntFieldUpdateOperationsInput | number
-  transcription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  artifacts?: Prisma.ArtifactUpdateManyWithoutPlaylistVideoNestedInput
-}
-
-export type PlaylistVideoUncheckedUpdateWithoutPlaylistInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  duration?: Prisma.IntFieldUpdateOperationsInput | number
-  transcription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  artifacts?: Prisma.ArtifactUncheckedUpdateManyWithoutPlaylistVideoNestedInput
-}
-
-export type PlaylistVideoUncheckedUpdateManyWithoutPlaylistInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sourceUrl?: Prisma.StringFieldUpdateOperationsInput | string
-  duration?: Prisma.IntFieldUpdateOperationsInput | number
-  transcription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
 
 /**
  * Count Type PlaylistVideoCountOutputType
@@ -732,10 +1196,14 @@ export type PlaylistVideoUncheckedUpdateManyWithoutPlaylistInput = {
 
 export type PlaylistVideoCountOutputType = {
   artifacts: number
+  notes: number
+  transcriptChunks: number
 }
 
 export type PlaylistVideoCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   artifacts?: boolean | PlaylistVideoCountOutputTypeCountArtifactsArgs
+  notes?: boolean | PlaylistVideoCountOutputTypeCountNotesArgs
+  transcriptChunks?: boolean | PlaylistVideoCountOutputTypeCountTranscriptChunksArgs
 }
 
 /**
@@ -755,74 +1223,106 @@ export type PlaylistVideoCountOutputTypeCountArtifactsArgs<ExtArgs extends runti
   where?: Prisma.ArtifactWhereInput
 }
 
+/**
+ * PlaylistVideoCountOutputType without action
+ */
+export type PlaylistVideoCountOutputTypeCountNotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PlaylistNotesWhereInput
+}
+
+/**
+ * PlaylistVideoCountOutputType without action
+ */
+export type PlaylistVideoCountOutputTypeCountTranscriptChunksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TranscriptChunksWhereInput
+}
+
 
 export type PlaylistVideoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  youtubeVideoId?: boolean
   title?: boolean
   thumbnail?: boolean
   sourceUrl?: boolean
   duration?: boolean
   transcription?: boolean
   status?: boolean
+  lessonId?: boolean
   playlistId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   artifacts?: boolean | Prisma.PlaylistVideo$artifactsArgs<ExtArgs>
+  lesson?: boolean | Prisma.PlaylistVideo$lessonArgs<ExtArgs>
   playlist?: boolean | Prisma.PlaylistDefaultArgs<ExtArgs>
+  notes?: boolean | Prisma.PlaylistVideo$notesArgs<ExtArgs>
+  transcriptChunks?: boolean | Prisma.PlaylistVideo$transcriptChunksArgs<ExtArgs>
   _count?: boolean | Prisma.PlaylistVideoCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["playlistVideo"]>
 
 export type PlaylistVideoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  youtubeVideoId?: boolean
   title?: boolean
   thumbnail?: boolean
   sourceUrl?: boolean
   duration?: boolean
   transcription?: boolean
   status?: boolean
+  lessonId?: boolean
   playlistId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  lesson?: boolean | Prisma.PlaylistVideo$lessonArgs<ExtArgs>
   playlist?: boolean | Prisma.PlaylistDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["playlistVideo"]>
 
 export type PlaylistVideoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  youtubeVideoId?: boolean
   title?: boolean
   thumbnail?: boolean
   sourceUrl?: boolean
   duration?: boolean
   transcription?: boolean
   status?: boolean
+  lessonId?: boolean
   playlistId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  lesson?: boolean | Prisma.PlaylistVideo$lessonArgs<ExtArgs>
   playlist?: boolean | Prisma.PlaylistDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["playlistVideo"]>
 
 export type PlaylistVideoSelectScalar = {
   id?: boolean
+  youtubeVideoId?: boolean
   title?: boolean
   thumbnail?: boolean
   sourceUrl?: boolean
   duration?: boolean
   transcription?: boolean
   status?: boolean
+  lessonId?: boolean
   playlistId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type PlaylistVideoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "thumbnail" | "sourceUrl" | "duration" | "transcription" | "status" | "playlistId" | "createdAt" | "updatedAt", ExtArgs["result"]["playlistVideo"]>
+export type PlaylistVideoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "youtubeVideoId" | "title" | "thumbnail" | "sourceUrl" | "duration" | "transcription" | "status" | "lessonId" | "playlistId" | "createdAt" | "updatedAt", ExtArgs["result"]["playlistVideo"]>
 export type PlaylistVideoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   artifacts?: boolean | Prisma.PlaylistVideo$artifactsArgs<ExtArgs>
+  lesson?: boolean | Prisma.PlaylistVideo$lessonArgs<ExtArgs>
   playlist?: boolean | Prisma.PlaylistDefaultArgs<ExtArgs>
+  notes?: boolean | Prisma.PlaylistVideo$notesArgs<ExtArgs>
+  transcriptChunks?: boolean | Prisma.PlaylistVideo$transcriptChunksArgs<ExtArgs>
   _count?: boolean | Prisma.PlaylistVideoCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PlaylistVideoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  lesson?: boolean | Prisma.PlaylistVideo$lessonArgs<ExtArgs>
   playlist?: boolean | Prisma.PlaylistDefaultArgs<ExtArgs>
 }
 export type PlaylistVideoIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  lesson?: boolean | Prisma.PlaylistVideo$lessonArgs<ExtArgs>
   playlist?: boolean | Prisma.PlaylistDefaultArgs<ExtArgs>
 }
 
@@ -830,16 +1330,21 @@ export type $PlaylistVideoPayload<ExtArgs extends runtime.Types.Extensions.Inter
   name: "PlaylistVideo"
   objects: {
     artifacts: Prisma.$ArtifactPayload<ExtArgs>[]
+    lesson: Prisma.$PlaylistLessonPayload<ExtArgs> | null
     playlist: Prisma.$PlaylistPayload<ExtArgs>
+    notes: Prisma.$PlaylistNotesPayload<ExtArgs>[]
+    transcriptChunks: Prisma.$TranscriptChunksPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    youtubeVideoId: string
     title: string
     thumbnail: string | null
     sourceUrl: string
     duration: number
     transcription: string | null
     status: $Enums.Status
+    lessonId: string | null
     playlistId: string
     createdAt: Date
     updatedAt: Date
@@ -1238,7 +1743,10 @@ readonly fields: PlaylistVideoFieldRefs;
 export interface Prisma__PlaylistVideoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   artifacts<T extends Prisma.PlaylistVideo$artifactsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PlaylistVideo$artifactsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ArtifactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  lesson<T extends Prisma.PlaylistVideo$lessonArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PlaylistVideo$lessonArgs<ExtArgs>>): Prisma.Prisma__PlaylistLessonClient<runtime.Types.Result.GetResult<Prisma.$PlaylistLessonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   playlist<T extends Prisma.PlaylistDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PlaylistDefaultArgs<ExtArgs>>): Prisma.Prisma__PlaylistClient<runtime.Types.Result.GetResult<Prisma.$PlaylistPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  notes<T extends Prisma.PlaylistVideo$notesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PlaylistVideo$notesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PlaylistNotesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  transcriptChunks<T extends Prisma.PlaylistVideo$transcriptChunksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PlaylistVideo$transcriptChunksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TranscriptChunksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1269,12 +1777,14 @@ export interface Prisma__PlaylistVideoClient<T, Null = never, ExtArgs extends ru
  */
 export interface PlaylistVideoFieldRefs {
   readonly id: Prisma.FieldRef<"PlaylistVideo", 'String'>
+  readonly youtubeVideoId: Prisma.FieldRef<"PlaylistVideo", 'String'>
   readonly title: Prisma.FieldRef<"PlaylistVideo", 'String'>
   readonly thumbnail: Prisma.FieldRef<"PlaylistVideo", 'String'>
   readonly sourceUrl: Prisma.FieldRef<"PlaylistVideo", 'String'>
   readonly duration: Prisma.FieldRef<"PlaylistVideo", 'Int'>
   readonly transcription: Prisma.FieldRef<"PlaylistVideo", 'String'>
   readonly status: Prisma.FieldRef<"PlaylistVideo", 'Status'>
+  readonly lessonId: Prisma.FieldRef<"PlaylistVideo", 'String'>
   readonly playlistId: Prisma.FieldRef<"PlaylistVideo", 'String'>
   readonly createdAt: Prisma.FieldRef<"PlaylistVideo", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"PlaylistVideo", 'DateTime'>
@@ -1700,6 +2210,73 @@ export type PlaylistVideo$artifactsArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.ArtifactScalarFieldEnum | Prisma.ArtifactScalarFieldEnum[]
+}
+
+/**
+ * PlaylistVideo.lesson
+ */
+export type PlaylistVideo$lessonArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PlaylistLesson
+   */
+  select?: Prisma.PlaylistLessonSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PlaylistLesson
+   */
+  omit?: Prisma.PlaylistLessonOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PlaylistLessonInclude<ExtArgs> | null
+  where?: Prisma.PlaylistLessonWhereInput
+}
+
+/**
+ * PlaylistVideo.notes
+ */
+export type PlaylistVideo$notesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PlaylistNotes
+   */
+  select?: Prisma.PlaylistNotesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PlaylistNotes
+   */
+  omit?: Prisma.PlaylistNotesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PlaylistNotesInclude<ExtArgs> | null
+  where?: Prisma.PlaylistNotesWhereInput
+  orderBy?: Prisma.PlaylistNotesOrderByWithRelationInput | Prisma.PlaylistNotesOrderByWithRelationInput[]
+  cursor?: Prisma.PlaylistNotesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PlaylistNotesScalarFieldEnum | Prisma.PlaylistNotesScalarFieldEnum[]
+}
+
+/**
+ * PlaylistVideo.transcriptChunks
+ */
+export type PlaylistVideo$transcriptChunksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TranscriptChunks
+   */
+  select?: Prisma.TranscriptChunksSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TranscriptChunks
+   */
+  omit?: Prisma.TranscriptChunksOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TranscriptChunksInclude<ExtArgs> | null
+  where?: Prisma.TranscriptChunksWhereInput
+  orderBy?: Prisma.TranscriptChunksOrderByWithRelationInput | Prisma.TranscriptChunksOrderByWithRelationInput[]
+  cursor?: Prisma.TranscriptChunksWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TranscriptChunksScalarFieldEnum | Prisma.TranscriptChunksScalarFieldEnum[]
 }
 
 /**
