@@ -1,9 +1,18 @@
-import { Button } from "@/components/ui/button";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import { AppBottom } from "@/components/app-bottom";
+import { VideoHeader } from "@/features/video/component/video-header";
 import { VideoPlayer } from "@/features/video/component/video-player";
+import { MarkdownRenderer } from "@/utils/markdown";
 import { requireAuth } from "@/utils/auth-utils";
+import { ArtifactType } from "@/generated/prisma/enums";
 import { notFound } from "next/navigation";
 import { getPlaylistData } from "../../page";
-import { VideoHeader } from "@/features/video/component/video-header";
 
 type VideoPageProps = {
     params: Promise<{
@@ -21,6 +30,18 @@ function resolveYoutubeVideoId(sourceUrl: string) {
     }
 }
 
+const dummySummaryMarkdown = `
+## Dummy Summary
+
+This is placeholder markdown for the lesson summary area.
+
+- Key idea one
+- Key idea two
+- Key idea three
+
+> Replace this with the generated lesson summary once that data is ready.
+`;
+
 export default async function VideoPage({ params }: VideoPageProps) {
     await requireAuth();
     const { id, videoId } = await params;
@@ -35,21 +56,80 @@ export default async function VideoPage({ params }: VideoPageProps) {
         notFound();
     }
 
+    const currentVideoIndex = playlist.videos.findIndex((item) => item.id === videoId);
+    const previousVideo = currentVideoIndex > 0 ? playlist.videos[currentVideoIndex - 1] : null;
+    const nextVideo =
+        currentVideoIndex >= 0 && currentVideoIndex < playlist.videos.length - 1
+            ? playlist.videos[currentVideoIndex + 1]
+            : null;
+
+    const lesson = playlist.lessons.find((item) =>
+        item.videos.some((lessonVideo) => lessonVideo.id === videoId),
+    );
+
+    const summaryArtifact = video.artifacts
+        .filter((artifact) => artifact.type === ArtifactType.SUMMARY)
+        .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())[0];
+
+    const summaryPayload = (summaryArtifact?.json ?? null) as {
+        markdown?: unknown;
+        model?: unknown;
+        chunkCount?: unknown;
+    } | null;
+
+    const generatedSummaryMarkdown =
+        typeof summaryPayload?.markdown === "string" && summaryPayload.markdown.trim().length > 0
+            ? summaryPayload.markdown
+            : null;
+
+    const summaryModel =
+        typeof summaryPayload?.model === "string" && summaryPayload.model.trim().length > 0
+            ? summaryPayload.model
+            : null;
+
+    const summaryChunkCount =
+        typeof summaryPayload?.chunkCount === "number" && Number.isFinite(summaryPayload.chunkCount)
+            ? summaryPayload.chunkCount
+            : null;
+
     const youtubeVideoId = video.youtubeVideoId || resolveYoutubeVideoId(video.sourceUrl);
     if (!youtubeVideoId) {
         notFound();
     }
 
+    const summaryMarkdown = generatedSummaryMarkdown || lesson?.summary?.trim() || dummySummaryMarkdown;
+
     return (
-        <div className="space-y-4 p-4 sm:p-6">
-        <VideoHeader title={video.title} />
-            <div className="overflow-hidden rounded-xl border bg-card max-w-4xl">
+        <>
+  
+  <div className="space-y-6 p-2 sm:p-6 w-full max-w-6xl mx-auto">
+            <VideoHeader title={video.title} />
+            <div className="overflow-hidden rounded-xl border bg-card w-full ">
                 <VideoPlayer youtubeVideoId={youtubeVideoId} title={video.title} />
             </div>
-
-            <div>
-                <Button type="button">Add Note</Button>
-            </div>
+            <Card className="w-full">
+                <CardHeader className="space-y-2 border-b">
+                    <CardTitle>Summary</CardTitle>
+                    <CardDescription>
+                        {generatedSummaryMarkdown
+                            ? `Generated from transcript${summaryModel ? ` • ${summaryModel}` : ""}${summaryChunkCount ? ` • ${summaryChunkCount} chunks` : ""}`
+                            : lesson?.title
+                              ? `Notes for ${lesson.title}`
+                              : "Markdown-rendered lesson notes will appear here."}
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="pt-2">
+                    <div className="[&>*+*]:mt-4">
+                        <MarkdownRenderer content={summaryMarkdown} />
+                    </div>
+                </CardContent>
+            </Card>
         </div>
+                    <AppBottom
+                previousHref={previousVideo ? `/viewer/${id}/video/${previousVideo.id}` : undefined}
+                nextHref={nextVideo ? `/viewer/${id}/video/${nextVideo.id}` : undefined}
+              
+            />
+                  </>
     );
 }

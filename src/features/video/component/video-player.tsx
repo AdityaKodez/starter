@@ -18,7 +18,7 @@ export function VideoPlayer({ youtubeVideoId, title }: VideoPlayerProps) {
   };
 
   return (
-    <div className="aspect-video max-w-4xl">
+    <div className="aspect-video">
       <YouTube videoId={youtubeVideoId} title={title} opts={opts} className="h-full w-full" iframeClassName="h-full w-full" />
     </div>
   );

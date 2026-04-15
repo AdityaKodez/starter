@@ -6,10 +6,9 @@ export function VideoHeader({ title }: { title: string }) {
         <div className="space-y-1 flex items-center justify-between">
             <h1 className="text-xl font-semibold tracking-tight">{title}</h1>
             <div className="flex item-center gap-2">
-                <Button type="button">
+                <Button type="button" size={"lg"}>
                     <IconStackPerspective />
-                   <span className="text-xs">Add Note</span>  </Button>
-
+                  Add Note</Button>
                <Button variant="ghost" size="icon">
                <IconShare />
                 </Button>
