@@ -10,7 +10,6 @@ import { VideoHeader } from "@/features/video/component/video-header";
 import { VideoPlayer } from "@/features/video/component/video-player";
 import { MarkdownRenderer } from "@/utils/markdown";
 import { requireAuth } from "@/utils/auth-utils";
-import { ArtifactType } from "@/generated/prisma/enums";
 import { notFound } from "next/navigation";
 import { getPlaylistData } from "../../page";
 
@@ -67,37 +66,12 @@ export default async function VideoPage({ params }: VideoPageProps) {
         item.videos.some((lessonVideo) => lessonVideo.id === videoId),
     );
 
-    const summaryArtifact = video.artifacts
-        .filter((artifact) => artifact.type === ArtifactType.SUMMARY)
-        .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())[0];
-
-    const summaryPayload = (summaryArtifact?.json ?? null) as {
-        markdown?: unknown;
-        model?: unknown;
-        chunkCount?: unknown;
-    } | null;
-
-    const generatedSummaryMarkdown =
-        typeof summaryPayload?.markdown === "string" && summaryPayload.markdown.trim().length > 0
-            ? summaryPayload.markdown
-            : null;
-
-    const summaryModel =
-        typeof summaryPayload?.model === "string" && summaryPayload.model.trim().length > 0
-            ? summaryPayload.model
-            : null;
-
-    const summaryChunkCount =
-        typeof summaryPayload?.chunkCount === "number" && Number.isFinite(summaryPayload.chunkCount)
-            ? summaryPayload.chunkCount
-            : null;
-
     const youtubeVideoId = video.youtubeVideoId || resolveYoutubeVideoId(video.sourceUrl);
     if (!youtubeVideoId) {
         notFound();
     }
 
-    const summaryMarkdown = generatedSummaryMarkdown || lesson?.summary?.trim() || dummySummaryMarkdown;
+    const summaryMarkdown = lesson?.summary?.trim() || dummySummaryMarkdown;
 
     return (
         <>
@@ -111,11 +85,9 @@ export default async function VideoPage({ params }: VideoPageProps) {
                 <CardHeader className="space-y-2 border-b">
                     <CardTitle>Summary</CardTitle>
                     <CardDescription>
-                        {generatedSummaryMarkdown
-                            ? `Generated from transcript${summaryModel ? ` • ${summaryModel}` : ""}${summaryChunkCount ? ` • ${summaryChunkCount} chunks` : ""}`
-                            : lesson?.title
-                              ? `Notes for ${lesson.title}`
-                              : "Markdown-rendered lesson notes will appear here."}
+                        {lesson?.title
+                            ? `Notes for ${lesson.title}`
+                            : "Markdown-rendered lesson notes will appear here."}
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="pt-2">

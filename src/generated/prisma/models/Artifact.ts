@@ -201,6 +201,7 @@ export type ArtifactOrderByWithRelationInput = {
 
 export type ArtifactWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  playlistVideoId_type?: Prisma.ArtifactPlaylistVideoIdTypeCompoundUniqueInput
   AND?: Prisma.ArtifactWhereInput | Prisma.ArtifactWhereInput[]
   OR?: Prisma.ArtifactWhereInput[]
   NOT?: Prisma.ArtifactWhereInput | Prisma.ArtifactWhereInput[]
@@ -210,7 +211,7 @@ export type ArtifactWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Artifact"> | Date | string
   playlistVideoId?: Prisma.StringFilter<"Artifact"> | string
   playlistVideo?: Prisma.XOR<Prisma.PlaylistVideoScalarRelationFilter, Prisma.PlaylistVideoWhereInput>
-}, "id">
+}, "id" | "playlistVideoId_type">
 
 export type ArtifactOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -306,6 +307,11 @@ export type ArtifactListRelationFilter = {
 
 export type ArtifactOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type ArtifactPlaylistVideoIdTypeCompoundUniqueInput = {
+  playlistVideoId: string
+  type: $Enums.ArtifactType
 }
 
 export type ArtifactCountOrderByAggregateInput = {

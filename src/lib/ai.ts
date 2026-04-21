@@ -1,9 +1,9 @@
 
-import { generateText, Output } from 'ai';
-import { createGoogleGenerativeAI } from '@ai-sdk/google';
+import { generateText, Output } from "ai";
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
 
 import { z } from "zod";
-import { TRPCError } from '@trpc/server';
+import { TRPCError } from "@trpc/server";
 
 export const LessonSchema = z.object({
   title: z.string().describe("Lesson title"),
@@ -19,16 +19,17 @@ export const CourseSchema = z.object({
 });
 
 const google = createGoogleGenerativeAI({
- apiKey: process.env.GOOGLE_AI_API_KEY as string,
- 
+  apiKey: process.env.GOOGLE_AI_API_KEY as string,
 });
+
+const GOOGLE_MODEL = "gemini-3.1-flash-lite-preview";
 
 export const generateModules = async ({ playlistVideos } :{
     playlistVideos: { title: string ,  id: string }[];
 }) => {
   try {
     const response = await  generateText({
-        model:google("gemini-3.1-flash-lite-preview"),
+        model: google(GOOGLE_MODEL),
      output:Output.object({
      schema: CourseSchema,
         }),
@@ -51,4 +52,4 @@ export const generateModules = async ({ playlistVideos } :{
       message: "Failed to generate modules. Please try again."
     });
   }
-}
+};

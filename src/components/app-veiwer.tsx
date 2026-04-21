@@ -1,5 +1,6 @@
 "use client";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Sidebar,
   SidebarContent,
@@ -16,15 +17,14 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { VideoProgress } from "@/features/playlist/component/video-progress";
 import { usePlaylistById } from "@/features/playlist/hooks/use-playlist";
 import { useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import {
+  IconAlertTriangleFilled,
   IconCheck,
-  IconLoader,
-  IconX
+  IconLoader
 } from "@tabler/icons-react";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
@@ -42,7 +42,7 @@ export function AppSidebar() {
  function getStatusPrefix(status: string) {
   if (status === "COMPLETED") return <IconCheck size={16} />;
   if (status === "PROCESSING") return <IconLoader size={16} className="animate-spin" />;
-  if (status === "FAILED") return <IconX size={16} />;
+  if (status === "FAILED") return <IconAlertTriangleFilled size={16} className="text-red-400" />;
 
 }
 

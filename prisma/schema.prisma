@@ -154,6 +154,7 @@ model Artifact {
   playlistVideoId String
   playlistVideo   PlaylistVideo @relation(fields: [playlistVideoId], references: [id], onDelete: Cascade)
   @@index([playlistVideoId])
+  @@unique([playlistVideoId, type])
   @@map("artifact")
 }
 
