@@ -98,7 +98,7 @@ export const PlaylistUrlInput = () => {
                     <InputGroupButton
                     disabled={isPending}
                       variant="default"
-                      className="h-10 gap-1.5 rounded-full px-4 text-sm font-semibold"
+                      className="h-10 gap-1.5 px-4 rounded-lg text-sm font-medium"
                       onClick={handleConvert}
                     >
                   

@@ -23,7 +23,13 @@ export const PlaylistViewer = () => {
 	const { data: playlists, refetch } = usePlaylistVeiw();
 	const deletePlaylist = usePlaylistDelete();
 	const warningDialog = useWarningDialog();
-const avatarPalette = ["#0B2B1B", "#1C4132", "#3A6B55", "#5BC09A", "#E0FCF3"];
+const avatarPalette = [
+  "#1A1B3A", // deep indigo (almost navy)
+  "#2C2F6B", // dark indigo
+  "#4F46E5", // primary indigo (anchor)
+  "#818CF8", // light indigo
+  "#E0E7FF"  // soft background tint
+];
 
 	const handleDelete = async (playlistId: string) => {
 		const confirmed = await warningDialog({
@@ -75,10 +81,10 @@ const avatarPalette = ["#0B2B1B", "#1C4132", "#3A6B55", "#5BC09A", "#E0FCF3"];
 							<Card key={playlist.id} className="border rounded-lg p-0">
 								<CardContent className="p-2 pb-4">
 									{/* Placeholder for playlist thumbnail */}
-									<div className="h-34 rounded-sm w-full bg-primary/90  flex items-center justify-center gap-2">
+									<div className="h-34 rounded-sm w-full bg-accent/90  flex items-center justify-center gap-2">
 										<Avatar name={playlist.title} variant="geometric" colors={avatarPalette} />
 										
-										<p className="text-center text-md text-accent text-medium font-geist-sans font-bold mt-2">
+										<p className="text-center text-md text-medium font-geist-sans font-bold mt-2">
 											{playlist.title.length > 20 ? playlist.title.slice(0, 20) + "..." : playlist.title}
 										</p>
 									</div>

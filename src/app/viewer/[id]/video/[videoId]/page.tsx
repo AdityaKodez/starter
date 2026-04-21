@@ -42,8 +42,7 @@ This is placeholder markdown for the lesson summary area.
 `;
 
 export default async function VideoPage({ params }: VideoPageProps) {
-    await requireAuth();
-    const { id, videoId } = await params;
+    const [, { id, videoId }] = await Promise.all([requireAuth(), params]);
 
     const playlist = await getPlaylistData(id).catch(() => null);
     if (!playlist) {

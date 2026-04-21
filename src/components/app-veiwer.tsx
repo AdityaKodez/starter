@@ -56,7 +56,7 @@ export function AppSidebar() {
     );
 
   return (
-    <Sidebar>
+    <Sidebar variant="floating" collapsible="offcanvas">
       <SidebarHeader>
         <Link className="flex items-center gap-2" href="/" prefetch>
           <IconLogo className="size-6" />
