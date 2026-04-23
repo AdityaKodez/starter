@@ -3,12 +3,12 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { TRPCReactProvider } from "@/trpc/client";
 import type { Metadata } from "next";
-import { DM_Sans, Figtree, Geist, Geist_Mono } from "next/font/google";
+import { Figtree, Geist, Geist_Mono, DM_Sans } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
-const figtreeHeading = Figtree({subsets:['latin'],variable:'--font-heading'});
+const noto = DM_Sans({subsets:['latin'],variable:'--font-heading'});
 
-const dmSans = DM_Sans({subsets:['latin'],variable:'--font-sans'});
+const figtree = Figtree({subsets:['latin'],variable:'--font-sans'});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Corusa",
+  title: "Revind",
   description: "Turn any YouTube playlist into a structured course.",
 
 };
@@ -40,8 +40,8 @@ export default function RootLayout({
         geistSans.variable,
         geistMono.variable,
         "font-sans",
-        dmSans.variable,
-        figtreeHeading.variable,
+        figtree.variable,
+        noto.variable,
       )}
     >
       <body className="min-h-full flex flex-col">

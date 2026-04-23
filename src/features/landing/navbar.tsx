@@ -9,10 +9,10 @@ export const Navbar = () => {
   const {data:session} = useSession();
   const [open, setOpen] = useState(false);
   return (
-    <nav className="backdrop-blur-lg w-full h-14 max-w-4xl flex items-center justify-between sticky top-0 z-50 px-4 ">
+    <nav className="backdrop-blur-3xl w-full mt-4 h-14 mx-auto flex items-center justify-between sticky top-0 rounded-b-lg z-50 px-4">
       <div className="flex items-center gap-2">
         <IconLogo className="size-6" />
-        <p className="text-sm md:text-lg font-bold font-heading">Corusa</p>
+        <p className="text-sm md:text-lg font-bold font-heading">ReviseRight</p>
       </div>
 
       <div className="flex items-center gap-2">

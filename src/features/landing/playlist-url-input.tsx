@@ -78,7 +78,7 @@ export const PlaylistUrlInput = () => {
 
             
     return (
-          <InputGroup className="h-12 rounded-xl shadow-md">
+          <InputGroup className="h-12 rounded-xl shadow-md backdrop-blur-2xl bg-transparent">
                   <InputGroupAddon align="inline-start" className="pl-3">
                     <InputGroupText>
                       <IconBrandYoutubeFilled className="size-5 text-red-500" />

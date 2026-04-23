@@ -1,13 +1,12 @@
 import { EmptyState } from "@/components/empty-state";
 import { Hero } from "@/features/landing/hero";
 import { Navbar } from "@/features/landing/navbar";
-import { ProblemSolution } from "@/features/landing/problem-solution";
 import { PlaylistViewer } from "@/features/playlist/playlist-viewer";
-import { prefetchPlaylistList } from "@/utils/prefetch";
-import { Suspense } from "react";
 import { auth } from "@/lib/auth";
-import { ErrorBoundary } from "react-error-boundary"; 
+import { prefetchPlaylistList } from "@/utils/prefetch";
 import { headers } from "next/headers";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 export default async function Home() {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -16,12 +15,11 @@ export default async function Home() {
   await prefetchPlaylistList().catch(() => undefined);
  }
   return (
-    <main className="flex flex-col flex-1 items-center font-sans size-full">
-      <div className="w-full h-full max-w-5xl">
-        <Navbar />
+    <main className="flex flex-col flex-1 items-start sm:items-center font-sans size-full sm:px-14">
+      <div className="w-full h-full">
+        <Navbar />  
         <Hero />
-      <div className="px-4">
-
+      <div className="px-4 pb-12">
       {
         session && (
          <Suspense fallback="Loading...">
@@ -32,9 +30,6 @@ export default async function Home() {
         )
       }
       </div>
-    
-        <ProblemSolution />
-        {/* <HowItWorks /> */}
       </div>
     </main>
   );

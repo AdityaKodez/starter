@@ -1,6 +1,9 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import {
   Sidebar,
   SidebarContent,
@@ -12,161 +15,122 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSkeleton,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import { VideoProgress } from "@/features/playlist/component/video-progress";
-import { usePlaylistById } from "@/features/playlist/hooks/use-playlist";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useSession } from "@/lib/auth-client";
-import { cn } from "@/lib/utils";
-import {
-  IconAlertTriangleFilled,
-  IconCheck,
-  IconLoader
-} from "@tabler/icons-react";
+import { IconBookmark, IconSparkles } from "@tabler/icons-react";
 import Link from "next/link";
-import { useParams, usePathname } from "next/navigation";
-import { IconBookOpen } from "nucleo-glass";
+import { usePathname } from "next/navigation";
+import { RiHome3Line } from "react-icons/ri";
+import { RxCrossCircled } from "react-icons/rx";
 import IconLogo from "../../public/logo";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
+const items = [
+  {
+    label: "Dashboard",
+    href: "/home",
+    icon: RiHome3Line,
+  },
+  {
+    label: "Mistakes",
+    href: "/home/mistakes",
+    icon: RxCrossCircled,
+  },
+  {
+    label: "Bookmark",
+    href: "/home/bookmark",
+    icon: IconBookmark,
+  },
+] as const;
+
 export function AppSidebar() {
   const pathname = usePathname();
-  const params = useParams<{ id?: string }>();
-  const playlistId = typeof params?.id === "string" ? params.id : undefined;
-  const { data: playlist, isLoading } = usePlaylistById(playlistId);
-  const { data: session } = useSession();
-
-
- function getStatusPrefix(status: string) {
-  if (status === "COMPLETED") return <IconCheck size={16} />;
-  if (status === "PROCESSING") return <IconLoader size={16} className="animate-spin" />;
-  if (status === "FAILED") return <IconAlertTriangleFilled size={16} className="text-red-400" />;
-
-}
-
-  const getStatusClassName = (status: string) =>
-    cn(
-      "truncate text-sm",
-      status === "COMPLETED" && "text-emerald-400",
-      status === "PROCESSING" && "text-amber-400",
-      status === "FAILED" && "text-red-400",
-      status === "PENDING" && "text-muted-foreground"
-    );
+  const { data: session, isPending } = useSession();
+  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+  const creditsUsed = 72;
+  const creditsTotal = 100;
+  const creditsLeft = Math.max(creditsTotal - creditsUsed, 0);
 
   return (
-    <Sidebar variant="floating" collapsible="offcanvas">
+    <Sidebar variant="sidebar" collapsible="offcanvas">
       <SidebarHeader>
-        <Link className="flex items-center gap-2" href="/" prefetch>
+        <Link className="flex items-center gap-2" href="/home" prefetch>
           <IconLogo className="size-6" />
-          <p className="text-sm md:text-lg font-bold font-heading">Corusa</p>
+          <p className="text-sm md:text-lg font-bold font-heading">Revind</p>
         </Link>
-       
       </SidebarHeader>
       <SidebarContent>
-       
         <SidebarGroup>
-             <VideoProgress progress={10} total={playlist?.videos.length || 0}  isLoading={isLoading}/>
-            <SidebarGroupLabel>
-                <p>Lessons</p>
-            </SidebarGroupLabel>
-        
-         <SidebarGroupContent>
+          <SidebarGroupLabel>
+            <p>Home</p>
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
             <SidebarMenu>
-              {!playlistId ? (
-                <SidebarMenuItem>
-                  <SidebarMenuButton disabled>No playlist selected</SidebarMenuButton>
+              {items.map((item) => (
+                <SidebarMenuItem key={item.href}>
+                  <SidebarMenuButton asChild isActive={isActive(item.href)}>
+                    <Link href={item.href} prefetch>
+                      <item.icon className="size-4" />
+                      <span>{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
                 </SidebarMenuItem>
-              ) : isLoading ? (
-                   Array.from({ length: 10 }).map((_, index) => (
-                        <SidebarMenuItem key={index}>
-                        <SidebarMenuSkeleton />
-                     </SidebarMenuItem>
-                ))
-                
-                
-              ) : playlist?.lessons?.length ? (
-                playlist.lessons.map((lesson, index) => (
-                  <Collapsible defaultOpen={index === 0} key={lesson.id} className="mb-1">
-                    <SidebarMenuItem>
-                      <CollapsibleTrigger asChild>
-                        <SidebarMenuButton>
-                          <IconBookOpen size={16} className="mr-2" />
-                          <span className="font-medium">{lesson.title}</span>
-                        </SidebarMenuButton>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent className="pt-1">
-                        <SidebarMenuSub>
-                          {lesson.videos.map((video) => (
-                            <SidebarMenuSubItem key={video.id}>
-                              <SidebarMenuSubButton
-                                asChild
-                                isActive={pathname === `/viewer/${playlistId}/video/${video.id}`}
-                                className={getStatusClassName(video.status)}
-                              >
-                                <Link href={`/viewer/${playlistId}/video/${video.id}`} className="w-full" prefetch>
-                                  <span>{getStatusPrefix(video.status)}</span>
-                                  <span className="text-xs">{video.title}</span>
-                                </Link>
-                              </SidebarMenuSubButton>
-                            </SidebarMenuSubItem>
-                          ))}
-                        </SidebarMenuSub>
-                      </CollapsibleContent>
-                    </SidebarMenuItem>
-                  </Collapsible>
-                ))
-              ) : playlist?.videos?.length ? (
-                playlist.videos.map((video) => (
-                  <SidebarMenuItem key={video.id}>
-                    <SidebarMenuButton
-                      asChild
-                      isActive={pathname === `/viewer/${playlistId}/video/${video.id}`}
-                      className={getStatusClassName(video.status)}
-                    >
-                      <Link href={`/viewer/${playlistId}/video/${video.id}`} className="w-full h-full" prefetch>
-                        <span>{getStatusPrefix(video.status)}</span>
-                        <span>{video.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))
-              ) : (
-                <SidebarMenuItem>
-                  <SidebarMenuButton disabled>No videos in this playlist yet</SidebarMenuButton>
-                </SidebarMenuItem>
-              )}
+              ))}
             </SidebarMenu>
-         </SidebarGroupContent>
+          </SidebarGroupContent>
         </SidebarGroup>
-        <SidebarGroup />
       </SidebarContent>
       <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            {session?.user ? (
-              <div className="flex items-center gap-3 rounded-md border bg-card px-2 py-2">
-                <Avatar className="size-8">
-                  <AvatarImage
-                    src={session.user.image || undefined}
-                    alt={session.user.name || "User avatar"}
-                  />
-                  <AvatarFallback>
-                    {session.user.name?.[0]?.toUpperCase() ?? "U"}
-                  </AvatarFallback>
+        <div className="space-y-3 border-t border-sidebar-border/80 p-3">
+          <div className="rounded-xl bg-sidebar-accent/45 p-2.5">
+            {isPending ? (
+              <div className="flex items-center gap-2.5">
+                <Skeleton className="size-9 rounded-full" />
+                <div className="flex-1 space-y-1.5">
+                  <Skeleton className="h-3 w-24" />
+                  <Skeleton className="h-3 w-36" />
+                </div>
+              </div>
+            ) : session?.user ? (
+              <div className="flex items-center gap-2.5">
+                <Avatar size="lg">
+                  <AvatarImage src={session.user.image || undefined} alt={session.user.name || "User avatar"} />
+                  <AvatarFallback>{session.user.name?.[0]?.toUpperCase() ?? "U"}</AvatarFallback>
                 </Avatar>
                 <div className="min-w-0">
-                  <p className="truncate text-sm">{session.user.name.toLowerCase() || "User"}</p>
+                  <p className="truncate text-sm font-medium uppercase">{session.user.name || "User"}</p>
                   <p className="truncate text-xs text-muted-foreground">{session.user.email}</p>
                 </div>
               </div>
             ) : (
-              <SidebarMenuButton disabled>Not signed in</SidebarMenuButton>
+              <p className="text-xs text-muted-foreground">Not signed in</p>
             )}
-          </SidebarMenuItem>
-        </SidebarMenu>
+          </div>
+
+          <Card size="sm" className="gap-3 rounded-xl border border-sidebar-border/80 bg-sidebar-accent/25 py-3">
+            <CardContent className="space-y-2 px-3">
+              <div className="flex items-center gap-2 text-sm">
+                <IconSparkles className="size-4 text-amber-400" />
+                <CardTitle className="text-sm">Upgrade to Pro</CardTitle>
+              </div>
+              <CardDescription className="text-xs leading-relaxed">
+                Unlock advanced summaries, priority processing, and more monthly credits.
+              </CardDescription>
+              <Button size="sm" className="w-full">
+                Upgrade now
+              </Button>
+            </CardContent>
+          </Card>
+
+          <div className="rounded-xl border border-sidebar-border/80 bg-sidebar-accent/20 p-3">
+            <div className="mb-2 flex items-center justify-between text-xs">
+              <p className="font-medium">Credits left</p>
+              <p className="text-muted-foreground">{creditsLeft}/{creditsTotal}</p>
+            </div>
+            <Progress value={(creditsUsed / creditsTotal) * 100} className="h-2" />
+          </div>
+        </div>
       </SidebarFooter>
+
     </Sidebar>
-  )
+  );
 }

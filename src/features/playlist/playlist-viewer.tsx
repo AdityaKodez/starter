@@ -24,11 +24,11 @@ export const PlaylistViewer = () => {
 	const deletePlaylist = usePlaylistDelete();
 	const warningDialog = useWarningDialog();
 const avatarPalette = [
-  "#1A1B3A", // deep indigo (almost navy)
-  "#2C2F6B", // dark indigo
-  "#4F46E5", // primary indigo (anchor)
-  "#818CF8", // light indigo
-  "#E0E7FF"  // soft background tint
+  "#3A2F00", // deep amber-brown (replaces navy depth)
+  "#6B5500", // dark yellow
+  "#EAB308", // primary yellow (anchor)
+  "#FACC15", // light yellow
+  "#FEFCE8"  // soft warm background
 ];
 
 	const handleDelete = async (playlistId: string) => {
@@ -76,13 +76,13 @@ const avatarPalette = [
 			<CardContent>
 
 				{playlists && playlists.length > 0 ? (
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 						{playlists.map((playlist) => (
 							<Card key={playlist.id} className="border rounded-lg p-0">
 								<CardContent className="p-2 pb-4">
 									{/* Placeholder for playlist thumbnail */}
 									<div className="h-34 rounded-sm w-full bg-accent/90  flex items-center justify-center gap-2">
-										<Avatar name={playlist.title} variant="geometric" colors={avatarPalette} />
+										<Avatar name={playlist.title} variant="pixel" colors={avatarPalette} />
 										
 										<p className="text-center text-md text-medium font-geist-sans font-bold mt-2">
 											{playlist.title.length > 20 ? playlist.title.slice(0, 20) + "..." : playlist.title}

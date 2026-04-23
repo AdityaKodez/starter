@@ -92,3 +92,23 @@ export function EmptyState({
     </Empty>
   )
 }
+
+export const EntityHeader = ({
+  title, 
+  description, 
+  actions,
+ }: {
+  title: string
+  description?: string
+  actions?:React.ReactElement,
+}
+) =>{
+ return(
+  <div className="text-center">
+    <h2 className="text-lg font-semibold">{title}</h2>
+    {description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}
+    {actions && <div className="mt-4">{actions}</div>}
+  </div>
+ )
+}
+
