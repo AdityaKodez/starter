@@ -55,12 +55,11 @@ export const ModelName = {
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
-  Playlist: 'Playlist',
-  PlaylistVideo: 'PlaylistVideo',
-  PlaylistLesson: 'PlaylistLesson',
-  Artifact: 'Artifact',
-  TranscriptChunks: 'TranscriptChunks',
-  PlaylistNotes: 'PlaylistNotes'
+  TestAttempt: 'TestAttempt',
+  QuestionAttempt: 'QuestionAttempt',
+  Mistake: 'Mistake',
+  MistakeAttachment: 'MistakeAttachment',
+  MistakeRetry: 'MistakeRetry'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -137,90 +136,108 @@ export const VerificationScalarFieldEnum = {
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
-export const PlaylistScalarFieldEnum = {
+export const TestAttemptScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  thumbnail: 'thumbnail',
-  sourceUrl: 'sourceUrl',
-  ownerName: 'ownerName',
-  videoCount: 'videoCount',
+  examName: 'examName',
+  sourceName: 'sourceName',
+  sourceYear: 'sourceYear',
+  type: 'type',
   status: 'status',
+  attemptedAt: 'attemptedAt',
+  durationSeconds: 'durationSeconds',
+  totalQuestions: 'totalQuestions',
+  correctCount: 'correctCount',
+  incorrectCount: 'incorrectCount',
+  skippedCount: 'skippedCount',
+  score: 'score',
+  maxScore: 'maxScore',
+  notes: 'notes',
   userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type PlaylistScalarFieldEnum = (typeof PlaylistScalarFieldEnum)[keyof typeof PlaylistScalarFieldEnum]
+export type TestAttemptScalarFieldEnum = (typeof TestAttemptScalarFieldEnum)[keyof typeof TestAttemptScalarFieldEnum]
 
 
-export const PlaylistVideoScalarFieldEnum = {
+export const QuestionAttemptScalarFieldEnum = {
   id: 'id',
-  youtubeVideoId: 'youtubeVideoId',
+  questionNumber: 'questionNumber',
+  questionText: 'questionText',
+  options: 'options',
+  correctAnswer: 'correctAnswer',
+  userAnswer: 'userAnswer',
+  result: 'result',
+  subject: 'subject',
+  topic: 'topic',
+  subtopic: 'subtopic',
+  difficulty: 'difficulty',
+  marksAwarded: 'marksAwarded',
+  maxMarks: 'maxMarks',
+  testAttemptId: 'testAttemptId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type QuestionAttemptScalarFieldEnum = (typeof QuestionAttemptScalarFieldEnum)[keyof typeof QuestionAttemptScalarFieldEnum]
+
+
+export const MistakeScalarFieldEnum = {
+  id: 'id',
   title: 'title',
-  thumbnail: 'thumbnail',
-  sourceUrl: 'sourceUrl',
-  duration: 'duration',
-  transcription: 'transcription',
+  type: 'type',
   status: 'status',
-  lessonId: 'lessonId',
-  playlistId: 'playlistId',
+  contextFlags: 'contextFlags',
+  userNote: 'userNote',
+  rootCause: 'rootCause',
+  fixPlan: 'fixPlan',
+  retryDueAt: 'retryDueAt',
+  lastRetriedAt: 'lastRetriedAt',
+  masteredAt: 'masteredAt',
+  questionAttemptId: 'questionAttemptId',
+  userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type PlaylistVideoScalarFieldEnum = (typeof PlaylistVideoScalarFieldEnum)[keyof typeof PlaylistVideoScalarFieldEnum]
+export type MistakeScalarFieldEnum = (typeof MistakeScalarFieldEnum)[keyof typeof MistakeScalarFieldEnum]
 
 
-export const PlaylistLessonScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  summary: 'summary',
-  order: 'order',
-  playlistId: 'playlistId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type PlaylistLessonScalarFieldEnum = (typeof PlaylistLessonScalarFieldEnum)[keyof typeof PlaylistLessonScalarFieldEnum]
-
-
-export const ArtifactScalarFieldEnum = {
+export const MistakeAttachmentScalarFieldEnum = {
   id: 'id',
   type: 'type',
-  json: 'json',
+  storageKey: 'storageKey',
+  fileName: 'fileName',
+  mimeType: 'mimeType',
+  sizeBytes: 'sizeBytes',
+  pageCount: 'pageCount',
+  publicUrl: 'publicUrl',
+  ocrStatus: 'ocrStatus',
+  ocrText: 'ocrText',
+  ocrJson: 'ocrJson',
+  ocrError: 'ocrError',
+  mistakeId: 'mistakeId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  playlistVideoId: 'playlistVideoId'
+  updatedAt: 'updatedAt'
 } as const
 
-export type ArtifactScalarFieldEnum = (typeof ArtifactScalarFieldEnum)[keyof typeof ArtifactScalarFieldEnum]
+export type MistakeAttachmentScalarFieldEnum = (typeof MistakeAttachmentScalarFieldEnum)[keyof typeof MistakeAttachmentScalarFieldEnum]
 
 
-export const TranscriptChunksScalarFieldEnum = {
+export const MistakeRetryScalarFieldEnum = {
   id: 'id',
-  chunkIndex: 'chunkIndex',
-  text: 'text',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  tokenCount: 'tokenCount',
+  answer: 'answer',
+  isCorrect: 'isCorrect',
+  note: 'note',
+  attemptedAt: 'attemptedAt',
+  mistakeId: 'mistakeId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  playlistVideoId: 'playlistVideoId'
+  updatedAt: 'updatedAt'
 } as const
 
-export type TranscriptChunksScalarFieldEnum = (typeof TranscriptChunksScalarFieldEnum)[keyof typeof TranscriptChunksScalarFieldEnum]
-
-
-export const PlaylistNotesScalarFieldEnum = {
-  id: 'id',
-  content: 'content',
-  timestamp: 'timestamp',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  playlistvideoId: 'playlistvideoId'
-} as const
-
-export type PlaylistNotesScalarFieldEnum = (typeof PlaylistNotesScalarFieldEnum)[keyof typeof PlaylistNotesScalarFieldEnum]
+export type MistakeRetryScalarFieldEnum = (typeof MistakeRetryScalarFieldEnum)[keyof typeof MistakeRetryScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -231,11 +248,12 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const JsonNullValueInput = {
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
   JsonNull: JsonNull
 } as const
 
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {

@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -6,20 +5,22 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-
 }
 
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean   @default(false)
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  sessions      Session[]
-  accounts      Account[]
-  playlists      Playlist[]
+  id               String            @id
+  name             String
+  email            String
+  emailVerified    Boolean           @default(false)
+  image            String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  sessions         Session[]
+  accounts         Account[]
+  testAttempts     TestAttempt[]
+  questionAttempts QuestionAttempt[]
+  mistakes         Mistake[]
+
   @@unique([email])
   @@map("user")
 }
@@ -72,118 +73,176 @@ model Verification {
   @@map("verification")
 }
 
+enum TestAttemptType {
+  MOCK_TEST
+  PAST_PAPER
+  SECTIONAL_TEST
+  CHAPTER_TEST
+  PRACTICE_SET
+  LOOSE_PRACTICE
+}
 
-enum Status {
+enum TestAttemptStatus {
+  IN_PROGRESS
+  COMPLETED
+  ARCHIVED
+}
+
+enum QuestionResult {
+  UNREVIEWED
+  CORRECT
+  INCORRECT
+  PARTIAL
+  SKIPPED
+}
+
+enum MistakeType {
+  CONCEPTUAL
+  SILLY
+  CALCULATION
+  MISREAD
+  UNKNOWN
+}
+
+enum MistakeStatus {
+  NEW
+  REVIEWING
+  MASTERED
+  ARCHIVED
+}
+
+enum AttachmentType {
+  IMAGE
+  PDF
+}
+
+enum OcrStatus {
+  NOT_STARTED
   PENDING
   PROCESSING
   COMPLETED
   FAILED
 }
-model Playlist {
-  id        String   @id @default(cuid())
-  title      String 
-  thumbnail String?
-  sourceUrl String
-  ownerName String
-  videoCount Int @default(0)
 
-  status   Status  @default(PENDING)
-  videos PlaylistVideo[]
-  lessons PlaylistLesson[]
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  @@index([userId])
-  @@map("playlist")
+model TestAttempt {
+  id              String            @id @default(cuid())
+  title           String
+  examName        String?
+  sourceName      String?
+  sourceYear      Int?
+  type            TestAttemptType   @default(MOCK_TEST)
+  status          TestAttemptStatus @default(IN_PROGRESS)
+  attemptedAt     DateTime          @default(now())
+  durationSeconds Int?
+  totalQuestions  Int?
+  correctCount    Int?
+  incorrectCount  Int?
+  skippedCount    Int?
+  score           Float?
+  maxScore        Float?
+  notes           String?
+  userId          String
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questions       QuestionAttempt[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@index([userId, attemptedAt])
+  @@index([userId, type])
+  @@map("test_attempt")
 }
 
-model PlaylistVideo {
-  id          String   @default(cuid()) @id
-  youtubeVideoId String
-  title       String
-  thumbnail   String?
-  sourceUrl   String
-  duration   Int
-  transcription String?
-  status     Status @default(PENDING)
-  artifacts  Artifact[]
-  lessonId   String?
-  lesson     PlaylistLesson? @relation(fields: [lessonId], references: [id], onDelete: SetNull)
-  playlistId  String
-  playlist    Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
-  notes  PlaylistNotes[]
-  transcriptChunks TranscriptChunks[]
+model QuestionAttempt {
+  id             String         @id @default(cuid())
+  questionNumber Int?
+  questionText   String?
+  options        Json?
+  correctAnswer  String?
+  userAnswer     String?
+  result         QuestionResult @default(UNREVIEWED)
+  subject        String?
+  topic          String?
+  subtopic       String?
+  difficulty     String?
+  marksAwarded   Float?
+  maxMarks       Float?
+  testAttemptId  String
+  testAttempt    TestAttempt    @relation(fields: [testAttemptId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mistake        Mistake?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@unique([testAttemptId, questionNumber])
+  @@index([testAttemptId])
+  @@index([userId, result])
+  @@index([userId, subject, topic])
+  @@map("question_attempt")
+}
+
+model Mistake {
+  id                String              @id @default(cuid())
+  title             String?
+  type              MistakeType         @default(UNKNOWN)
+  status            MistakeStatus       @default(NEW)
+  contextFlags      Json?
+  userNote          String?
+  rootCause         String?
+  fixPlan           String?
+  retryDueAt        DateTime?
+  lastRetriedAt     DateTime?
+  masteredAt        DateTime?
+  questionAttemptId String              @unique
+  questionAttempt   QuestionAttempt     @relation(fields: [questionAttemptId], references: [id], onDelete: Cascade)
+  userId            String
+  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attachments       MistakeAttachment[]
+  retries           MistakeRetry[]
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+
+  @@index([userId, status])
+  @@index([userId, type])
+  @@index([userId, retryDueAt])
+  @@map("mistake")
+}
+
+model MistakeAttachment {
+  id         String         @id @default(cuid())
+  type       AttachmentType
+  storageKey String
+  fileName   String?
+  mimeType   String
+  sizeBytes  Int?
+  pageCount  Int?
+  publicUrl  String?
+  ocrStatus  OcrStatus      @default(NOT_STARTED)
+  ocrText    String?
+  ocrJson    Json?
+  ocrError   String?
+  mistakeId  String
+  mistake    Mistake        @relation(fields: [mistakeId], references: [id], onDelete: Cascade)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  @@unique([storageKey])
+  @@index([mistakeId])
+  @@index([ocrStatus])
+  @@map("mistake_attachment")
+}
+
+model MistakeRetry {
+  id          String   @id @default(cuid())
+  answer      String?
+  isCorrect   Boolean
+  note        String?
+  attemptedAt DateTime @default(now())
+  mistakeId   String
+  mistake     Mistake  @relation(fields: [mistakeId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  @@unique([playlistId, youtubeVideoId])
-  @@index([lessonId])
-  @@index([playlistId])
-  @@map("playlist_video")
-}
-
-model PlaylistLesson {
-  id         String   @id @default(cuid())
-  title      String
-  summary    String
-  order      Int
-  playlistId String
-  playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
-  videos     PlaylistVideo[]
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  @@unique([playlistId, order])
-  @@index([playlistId])
-  @@map("playlist_lesson")
-}
-
-enum ArtifactType {
-   SUMMARY 
-   FLASHCARD
-   TEST
-   MINDMAP
-}
-model Artifact {
-  id          String  @id @default(cuid())
-  type        ArtifactType 
-  json        Json
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  playlistVideoId String
-  playlistVideo   PlaylistVideo @relation(fields: [playlistVideoId], references: [id], onDelete: Cascade)
-  @@index([playlistVideoId])
-  @@unique([playlistVideoId, type])
-  @@map("artifact")
-}
-
-model TranscriptChunks {
-  id          String  @id @default(cuid())
-  chunkIndex  Int
-  text        String
-  startTime   Int
-  endTime     Int
-  tokenCount  Int?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  playlistVideoId String
-  playlistVideo   PlaylistVideo @relation(fields: [playlistVideoId], references: [id], onDelete: Cascade)
-  @@index([playlistVideoId])
-  @@index([playlistVideoId, startTime])
-  @@unique([playlistVideoId, chunkIndex])
-  @@map("transcript_chunks")
-}
-
-model PlaylistNotes {
-  id          String  @id @default(cuid())
-  content     String
-  timestamp   String
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  playlistvideoId String
-  playlistVideo   PlaylistVideo @relation(fields: [playlistvideoId], references: [id], onDelete: Cascade)
-  @@index([playlistvideoId])
-  @@map("playlist_notes")
+  @@index([mistakeId, attemptedAt])
+  @@map("mistake_retry")
 }

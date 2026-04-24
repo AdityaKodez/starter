@@ -388,12 +388,11 @@ export const ModelName = {
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
-  Playlist: 'Playlist',
-  PlaylistVideo: 'PlaylistVideo',
-  PlaylistLesson: 'PlaylistLesson',
-  Artifact: 'Artifact',
-  TranscriptChunks: 'TranscriptChunks',
-  PlaylistNotes: 'PlaylistNotes'
+  TestAttempt: 'TestAttempt',
+  QuestionAttempt: 'QuestionAttempt',
+  Mistake: 'Mistake',
+  MistakeAttachment: 'MistakeAttachment',
+  MistakeRetry: 'MistakeRetry'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -409,7 +408,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification" | "playlist" | "playlistVideo" | "playlistLesson" | "artifact" | "transcriptChunks" | "playlistNotes"
+    modelProps: "user" | "session" | "account" | "verification" | "testAttempt" | "questionAttempt" | "mistake" | "mistakeAttachment" | "mistakeRetry"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -709,447 +708,373 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Playlist: {
-      payload: Prisma.$PlaylistPayload<ExtArgs>
-      fields: Prisma.PlaylistFieldRefs
+    TestAttempt: {
+      payload: Prisma.$TestAttemptPayload<ExtArgs>
+      fields: Prisma.TestAttemptFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.PlaylistFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistPayload> | null
+          args: Prisma.TestAttemptFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TestAttemptPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.PlaylistFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistPayload>
+          args: Prisma.TestAttemptFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TestAttemptPayload>
         }
         findFirst: {
-          args: Prisma.PlaylistFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistPayload> | null
+          args: Prisma.TestAttemptFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TestAttemptPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.PlaylistFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistPayload>
+          args: Prisma.TestAttemptFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TestAttemptPayload>
         }
         findMany: {
-          args: Prisma.PlaylistFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistPayload>[]
+          args: Prisma.TestAttemptFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TestAttemptPayload>[]
         }
         create: {
-          args: Prisma.PlaylistCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistPayload>
+          args: Prisma.TestAttemptCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TestAttemptPayload>
         }
         createMany: {
-          args: Prisma.PlaylistCreateManyArgs<ExtArgs>
+          args: Prisma.TestAttemptCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.PlaylistCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistPayload>[]
+          args: Prisma.TestAttemptCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TestAttemptPayload>[]
         }
         delete: {
-          args: Prisma.PlaylistDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistPayload>
+          args: Prisma.TestAttemptDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TestAttemptPayload>
         }
         update: {
-          args: Prisma.PlaylistUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistPayload>
+          args: Prisma.TestAttemptUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TestAttemptPayload>
         }
         deleteMany: {
-          args: Prisma.PlaylistDeleteManyArgs<ExtArgs>
+          args: Prisma.TestAttemptDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.PlaylistUpdateManyArgs<ExtArgs>
+          args: Prisma.TestAttemptUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.PlaylistUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistPayload>[]
+          args: Prisma.TestAttemptUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TestAttemptPayload>[]
         }
         upsert: {
-          args: Prisma.PlaylistUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistPayload>
+          args: Prisma.TestAttemptUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TestAttemptPayload>
         }
         aggregate: {
-          args: Prisma.PlaylistAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregatePlaylist>
+          args: Prisma.TestAttemptAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTestAttempt>
         }
         groupBy: {
-          args: Prisma.PlaylistGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.PlaylistGroupByOutputType>[]
+          args: Prisma.TestAttemptGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TestAttemptGroupByOutputType>[]
         }
         count: {
-          args: Prisma.PlaylistCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.PlaylistCountAggregateOutputType> | number
+          args: Prisma.TestAttemptCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TestAttemptCountAggregateOutputType> | number
         }
       }
     }
-    PlaylistVideo: {
-      payload: Prisma.$PlaylistVideoPayload<ExtArgs>
-      fields: Prisma.PlaylistVideoFieldRefs
+    QuestionAttempt: {
+      payload: Prisma.$QuestionAttemptPayload<ExtArgs>
+      fields: Prisma.QuestionAttemptFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.PlaylistVideoFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistVideoPayload> | null
+          args: Prisma.QuestionAttemptFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionAttemptPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.PlaylistVideoFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistVideoPayload>
+          args: Prisma.QuestionAttemptFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionAttemptPayload>
         }
         findFirst: {
-          args: Prisma.PlaylistVideoFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistVideoPayload> | null
+          args: Prisma.QuestionAttemptFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionAttemptPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.PlaylistVideoFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistVideoPayload>
+          args: Prisma.QuestionAttemptFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionAttemptPayload>
         }
         findMany: {
-          args: Prisma.PlaylistVideoFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistVideoPayload>[]
+          args: Prisma.QuestionAttemptFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionAttemptPayload>[]
         }
         create: {
-          args: Prisma.PlaylistVideoCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistVideoPayload>
+          args: Prisma.QuestionAttemptCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionAttemptPayload>
         }
         createMany: {
-          args: Prisma.PlaylistVideoCreateManyArgs<ExtArgs>
+          args: Prisma.QuestionAttemptCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.PlaylistVideoCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistVideoPayload>[]
+          args: Prisma.QuestionAttemptCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionAttemptPayload>[]
         }
         delete: {
-          args: Prisma.PlaylistVideoDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistVideoPayload>
+          args: Prisma.QuestionAttemptDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionAttemptPayload>
         }
         update: {
-          args: Prisma.PlaylistVideoUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistVideoPayload>
+          args: Prisma.QuestionAttemptUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionAttemptPayload>
         }
         deleteMany: {
-          args: Prisma.PlaylistVideoDeleteManyArgs<ExtArgs>
+          args: Prisma.QuestionAttemptDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.PlaylistVideoUpdateManyArgs<ExtArgs>
+          args: Prisma.QuestionAttemptUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.PlaylistVideoUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistVideoPayload>[]
+          args: Prisma.QuestionAttemptUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionAttemptPayload>[]
         }
         upsert: {
-          args: Prisma.PlaylistVideoUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistVideoPayload>
+          args: Prisma.QuestionAttemptUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionAttemptPayload>
         }
         aggregate: {
-          args: Prisma.PlaylistVideoAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregatePlaylistVideo>
+          args: Prisma.QuestionAttemptAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateQuestionAttempt>
         }
         groupBy: {
-          args: Prisma.PlaylistVideoGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.PlaylistVideoGroupByOutputType>[]
+          args: Prisma.QuestionAttemptGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.QuestionAttemptGroupByOutputType>[]
         }
         count: {
-          args: Prisma.PlaylistVideoCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.PlaylistVideoCountAggregateOutputType> | number
+          args: Prisma.QuestionAttemptCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.QuestionAttemptCountAggregateOutputType> | number
         }
       }
     }
-    PlaylistLesson: {
-      payload: Prisma.$PlaylistLessonPayload<ExtArgs>
-      fields: Prisma.PlaylistLessonFieldRefs
+    Mistake: {
+      payload: Prisma.$MistakePayload<ExtArgs>
+      fields: Prisma.MistakeFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.PlaylistLessonFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload> | null
+          args: Prisma.MistakeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.PlaylistLessonFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload>
+          args: Prisma.MistakeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>
         }
         findFirst: {
-          args: Prisma.PlaylistLessonFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload> | null
+          args: Prisma.MistakeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.PlaylistLessonFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload>
+          args: Prisma.MistakeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>
         }
         findMany: {
-          args: Prisma.PlaylistLessonFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload>[]
+          args: Prisma.MistakeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>[]
         }
         create: {
-          args: Prisma.PlaylistLessonCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload>
+          args: Prisma.MistakeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>
         }
         createMany: {
-          args: Prisma.PlaylistLessonCreateManyArgs<ExtArgs>
+          args: Prisma.MistakeCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.PlaylistLessonCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload>[]
+          args: Prisma.MistakeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>[]
         }
         delete: {
-          args: Prisma.PlaylistLessonDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload>
+          args: Prisma.MistakeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>
         }
         update: {
-          args: Prisma.PlaylistLessonUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload>
+          args: Prisma.MistakeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>
         }
         deleteMany: {
-          args: Prisma.PlaylistLessonDeleteManyArgs<ExtArgs>
+          args: Prisma.MistakeDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.PlaylistLessonUpdateManyArgs<ExtArgs>
+          args: Prisma.MistakeUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.PlaylistLessonUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload>[]
+          args: Prisma.MistakeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>[]
         }
         upsert: {
-          args: Prisma.PlaylistLessonUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistLessonPayload>
+          args: Prisma.MistakeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>
         }
         aggregate: {
-          args: Prisma.PlaylistLessonAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregatePlaylistLesson>
+          args: Prisma.MistakeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMistake>
         }
         groupBy: {
-          args: Prisma.PlaylistLessonGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.PlaylistLessonGroupByOutputType>[]
+          args: Prisma.MistakeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MistakeGroupByOutputType>[]
         }
         count: {
-          args: Prisma.PlaylistLessonCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.PlaylistLessonCountAggregateOutputType> | number
+          args: Prisma.MistakeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MistakeCountAggregateOutputType> | number
         }
       }
     }
-    Artifact: {
-      payload: Prisma.$ArtifactPayload<ExtArgs>
-      fields: Prisma.ArtifactFieldRefs
+    MistakeAttachment: {
+      payload: Prisma.$MistakeAttachmentPayload<ExtArgs>
+      fields: Prisma.MistakeAttachmentFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.ArtifactFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArtifactPayload> | null
+          args: Prisma.MistakeAttachmentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.ArtifactFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArtifactPayload>
+          args: Prisma.MistakeAttachmentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload>
         }
         findFirst: {
-          args: Prisma.ArtifactFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArtifactPayload> | null
+          args: Prisma.MistakeAttachmentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.ArtifactFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArtifactPayload>
+          args: Prisma.MistakeAttachmentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload>
         }
         findMany: {
-          args: Prisma.ArtifactFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArtifactPayload>[]
+          args: Prisma.MistakeAttachmentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload>[]
         }
         create: {
-          args: Prisma.ArtifactCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArtifactPayload>
+          args: Prisma.MistakeAttachmentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload>
         }
         createMany: {
-          args: Prisma.ArtifactCreateManyArgs<ExtArgs>
+          args: Prisma.MistakeAttachmentCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.ArtifactCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArtifactPayload>[]
+          args: Prisma.MistakeAttachmentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload>[]
         }
         delete: {
-          args: Prisma.ArtifactDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArtifactPayload>
+          args: Prisma.MistakeAttachmentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload>
         }
         update: {
-          args: Prisma.ArtifactUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArtifactPayload>
+          args: Prisma.MistakeAttachmentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload>
         }
         deleteMany: {
-          args: Prisma.ArtifactDeleteManyArgs<ExtArgs>
+          args: Prisma.MistakeAttachmentDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.ArtifactUpdateManyArgs<ExtArgs>
+          args: Prisma.MistakeAttachmentUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.ArtifactUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArtifactPayload>[]
+          args: Prisma.MistakeAttachmentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload>[]
         }
         upsert: {
-          args: Prisma.ArtifactUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArtifactPayload>
+          args: Prisma.MistakeAttachmentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload>
         }
         aggregate: {
-          args: Prisma.ArtifactAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateArtifact>
+          args: Prisma.MistakeAttachmentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMistakeAttachment>
         }
         groupBy: {
-          args: Prisma.ArtifactGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ArtifactGroupByOutputType>[]
+          args: Prisma.MistakeAttachmentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MistakeAttachmentGroupByOutputType>[]
         }
         count: {
-          args: Prisma.ArtifactCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ArtifactCountAggregateOutputType> | number
+          args: Prisma.MistakeAttachmentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MistakeAttachmentCountAggregateOutputType> | number
         }
       }
     }
-    TranscriptChunks: {
-      payload: Prisma.$TranscriptChunksPayload<ExtArgs>
-      fields: Prisma.TranscriptChunksFieldRefs
+    MistakeRetry: {
+      payload: Prisma.$MistakeRetryPayload<ExtArgs>
+      fields: Prisma.MistakeRetryFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.TranscriptChunksFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload> | null
+          args: Prisma.MistakeRetryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.TranscriptChunksFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload>
+          args: Prisma.MistakeRetryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload>
         }
         findFirst: {
-          args: Prisma.TranscriptChunksFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload> | null
+          args: Prisma.MistakeRetryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.TranscriptChunksFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload>
+          args: Prisma.MistakeRetryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload>
         }
         findMany: {
-          args: Prisma.TranscriptChunksFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload>[]
+          args: Prisma.MistakeRetryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload>[]
         }
         create: {
-          args: Prisma.TranscriptChunksCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload>
+          args: Prisma.MistakeRetryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload>
         }
         createMany: {
-          args: Prisma.TranscriptChunksCreateManyArgs<ExtArgs>
+          args: Prisma.MistakeRetryCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.TranscriptChunksCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload>[]
+          args: Prisma.MistakeRetryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload>[]
         }
         delete: {
-          args: Prisma.TranscriptChunksDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload>
+          args: Prisma.MistakeRetryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload>
         }
         update: {
-          args: Prisma.TranscriptChunksUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload>
+          args: Prisma.MistakeRetryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload>
         }
         deleteMany: {
-          args: Prisma.TranscriptChunksDeleteManyArgs<ExtArgs>
+          args: Prisma.MistakeRetryDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.TranscriptChunksUpdateManyArgs<ExtArgs>
+          args: Prisma.MistakeRetryUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.TranscriptChunksUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload>[]
+          args: Prisma.MistakeRetryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload>[]
         }
         upsert: {
-          args: Prisma.TranscriptChunksUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TranscriptChunksPayload>
+          args: Prisma.MistakeRetryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload>
         }
         aggregate: {
-          args: Prisma.TranscriptChunksAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateTranscriptChunks>
+          args: Prisma.MistakeRetryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMistakeRetry>
         }
         groupBy: {
-          args: Prisma.TranscriptChunksGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TranscriptChunksGroupByOutputType>[]
+          args: Prisma.MistakeRetryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MistakeRetryGroupByOutputType>[]
         }
         count: {
-          args: Prisma.TranscriptChunksCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TranscriptChunksCountAggregateOutputType> | number
-        }
-      }
-    }
-    PlaylistNotes: {
-      payload: Prisma.$PlaylistNotesPayload<ExtArgs>
-      fields: Prisma.PlaylistNotesFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.PlaylistNotesFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.PlaylistNotesFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload>
-        }
-        findFirst: {
-          args: Prisma.PlaylistNotesFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.PlaylistNotesFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload>
-        }
-        findMany: {
-          args: Prisma.PlaylistNotesFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload>[]
-        }
-        create: {
-          args: Prisma.PlaylistNotesCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload>
-        }
-        createMany: {
-          args: Prisma.PlaylistNotesCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.PlaylistNotesCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload>[]
-        }
-        delete: {
-          args: Prisma.PlaylistNotesDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload>
-        }
-        update: {
-          args: Prisma.PlaylistNotesUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload>
-        }
-        deleteMany: {
-          args: Prisma.PlaylistNotesDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.PlaylistNotesUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.PlaylistNotesUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload>[]
-        }
-        upsert: {
-          args: Prisma.PlaylistNotesUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlaylistNotesPayload>
-        }
-        aggregate: {
-          args: Prisma.PlaylistNotesAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregatePlaylistNotes>
-        }
-        groupBy: {
-          args: Prisma.PlaylistNotesGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.PlaylistNotesGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.PlaylistNotesCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.PlaylistNotesCountAggregateOutputType> | number
+          args: Prisma.MistakeRetryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MistakeRetryCountAggregateOutputType> | number
         }
       }
     }
@@ -1250,90 +1175,108 @@ export const VerificationScalarFieldEnum = {
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
-export const PlaylistScalarFieldEnum = {
+export const TestAttemptScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  thumbnail: 'thumbnail',
-  sourceUrl: 'sourceUrl',
-  ownerName: 'ownerName',
-  videoCount: 'videoCount',
+  examName: 'examName',
+  sourceName: 'sourceName',
+  sourceYear: 'sourceYear',
+  type: 'type',
   status: 'status',
+  attemptedAt: 'attemptedAt',
+  durationSeconds: 'durationSeconds',
+  totalQuestions: 'totalQuestions',
+  correctCount: 'correctCount',
+  incorrectCount: 'incorrectCount',
+  skippedCount: 'skippedCount',
+  score: 'score',
+  maxScore: 'maxScore',
+  notes: 'notes',
   userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type PlaylistScalarFieldEnum = (typeof PlaylistScalarFieldEnum)[keyof typeof PlaylistScalarFieldEnum]
+export type TestAttemptScalarFieldEnum = (typeof TestAttemptScalarFieldEnum)[keyof typeof TestAttemptScalarFieldEnum]
 
 
-export const PlaylistVideoScalarFieldEnum = {
+export const QuestionAttemptScalarFieldEnum = {
   id: 'id',
-  youtubeVideoId: 'youtubeVideoId',
+  questionNumber: 'questionNumber',
+  questionText: 'questionText',
+  options: 'options',
+  correctAnswer: 'correctAnswer',
+  userAnswer: 'userAnswer',
+  result: 'result',
+  subject: 'subject',
+  topic: 'topic',
+  subtopic: 'subtopic',
+  difficulty: 'difficulty',
+  marksAwarded: 'marksAwarded',
+  maxMarks: 'maxMarks',
+  testAttemptId: 'testAttemptId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type QuestionAttemptScalarFieldEnum = (typeof QuestionAttemptScalarFieldEnum)[keyof typeof QuestionAttemptScalarFieldEnum]
+
+
+export const MistakeScalarFieldEnum = {
+  id: 'id',
   title: 'title',
-  thumbnail: 'thumbnail',
-  sourceUrl: 'sourceUrl',
-  duration: 'duration',
-  transcription: 'transcription',
+  type: 'type',
   status: 'status',
-  lessonId: 'lessonId',
-  playlistId: 'playlistId',
+  contextFlags: 'contextFlags',
+  userNote: 'userNote',
+  rootCause: 'rootCause',
+  fixPlan: 'fixPlan',
+  retryDueAt: 'retryDueAt',
+  lastRetriedAt: 'lastRetriedAt',
+  masteredAt: 'masteredAt',
+  questionAttemptId: 'questionAttemptId',
+  userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type PlaylistVideoScalarFieldEnum = (typeof PlaylistVideoScalarFieldEnum)[keyof typeof PlaylistVideoScalarFieldEnum]
+export type MistakeScalarFieldEnum = (typeof MistakeScalarFieldEnum)[keyof typeof MistakeScalarFieldEnum]
 
 
-export const PlaylistLessonScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  summary: 'summary',
-  order: 'order',
-  playlistId: 'playlistId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type PlaylistLessonScalarFieldEnum = (typeof PlaylistLessonScalarFieldEnum)[keyof typeof PlaylistLessonScalarFieldEnum]
-
-
-export const ArtifactScalarFieldEnum = {
+export const MistakeAttachmentScalarFieldEnum = {
   id: 'id',
   type: 'type',
-  json: 'json',
+  storageKey: 'storageKey',
+  fileName: 'fileName',
+  mimeType: 'mimeType',
+  sizeBytes: 'sizeBytes',
+  pageCount: 'pageCount',
+  publicUrl: 'publicUrl',
+  ocrStatus: 'ocrStatus',
+  ocrText: 'ocrText',
+  ocrJson: 'ocrJson',
+  ocrError: 'ocrError',
+  mistakeId: 'mistakeId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  playlistVideoId: 'playlistVideoId'
+  updatedAt: 'updatedAt'
 } as const
 
-export type ArtifactScalarFieldEnum = (typeof ArtifactScalarFieldEnum)[keyof typeof ArtifactScalarFieldEnum]
+export type MistakeAttachmentScalarFieldEnum = (typeof MistakeAttachmentScalarFieldEnum)[keyof typeof MistakeAttachmentScalarFieldEnum]
 
 
-export const TranscriptChunksScalarFieldEnum = {
+export const MistakeRetryScalarFieldEnum = {
   id: 'id',
-  chunkIndex: 'chunkIndex',
-  text: 'text',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  tokenCount: 'tokenCount',
+  answer: 'answer',
+  isCorrect: 'isCorrect',
+  note: 'note',
+  attemptedAt: 'attemptedAt',
+  mistakeId: 'mistakeId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  playlistVideoId: 'playlistVideoId'
+  updatedAt: 'updatedAt'
 } as const
 
-export type TranscriptChunksScalarFieldEnum = (typeof TranscriptChunksScalarFieldEnum)[keyof typeof TranscriptChunksScalarFieldEnum]
-
-
-export const PlaylistNotesScalarFieldEnum = {
-  id: 'id',
-  content: 'content',
-  timestamp: 'timestamp',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  playlistvideoId: 'playlistvideoId'
-} as const
-
-export type PlaylistNotesScalarFieldEnum = (typeof PlaylistNotesScalarFieldEnum)[keyof typeof PlaylistNotesScalarFieldEnum]
+export type MistakeRetryScalarFieldEnum = (typeof MistakeRetryScalarFieldEnum)[keyof typeof MistakeRetryScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1344,11 +1287,12 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const JsonNullValueInput = {
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
   JsonNull: JsonNull
 } as const
 
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -1432,30 +1376,44 @@ export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
- * Reference to a field of type 'Status'
+ * Reference to a field of type 'TestAttemptType'
  */
-export type EnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status'>
+export type EnumTestAttemptTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TestAttemptType'>
     
 
 
 /**
- * Reference to a field of type 'Status[]'
+ * Reference to a field of type 'TestAttemptType[]'
  */
-export type ListEnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status[]'>
+export type ListEnumTestAttemptTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TestAttemptType[]'>
     
 
 
 /**
- * Reference to a field of type 'ArtifactType'
+ * Reference to a field of type 'TestAttemptStatus'
  */
-export type EnumArtifactTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ArtifactType'>
+export type EnumTestAttemptStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TestAttemptStatus'>
     
 
 
 /**
- * Reference to a field of type 'ArtifactType[]'
+ * Reference to a field of type 'TestAttemptStatus[]'
  */
-export type ListEnumArtifactTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ArtifactType[]'>
+export type ListEnumTestAttemptStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TestAttemptStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 
@@ -1474,16 +1432,72 @@ export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$Prisma
 
 
 /**
- * Reference to a field of type 'Float'
+ * Reference to a field of type 'QuestionResult'
  */
-export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+export type EnumQuestionResultFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuestionResult'>
     
 
 
 /**
- * Reference to a field of type 'Float[]'
+ * Reference to a field of type 'QuestionResult[]'
  */
-export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+export type ListEnumQuestionResultFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuestionResult[]'>
+    
+
+
+/**
+ * Reference to a field of type 'MistakeType'
+ */
+export type EnumMistakeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MistakeType'>
+    
+
+
+/**
+ * Reference to a field of type 'MistakeType[]'
+ */
+export type ListEnumMistakeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MistakeType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'MistakeStatus'
+ */
+export type EnumMistakeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MistakeStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'MistakeStatus[]'
+ */
+export type ListEnumMistakeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MistakeStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'AttachmentType'
+ */
+export type EnumAttachmentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttachmentType'>
+    
+
+
+/**
+ * Reference to a field of type 'AttachmentType[]'
+ */
+export type ListEnumAttachmentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttachmentType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'OcrStatus'
+ */
+export type EnumOcrStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OcrStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'OcrStatus[]'
+ */
+export type ListEnumOcrStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OcrStatus[]'>
     
 
 /**
@@ -1585,12 +1599,11 @@ export type GlobalOmitConfig = {
   session?: Prisma.SessionOmit
   account?: Prisma.AccountOmit
   verification?: Prisma.VerificationOmit
-  playlist?: Prisma.PlaylistOmit
-  playlistVideo?: Prisma.PlaylistVideoOmit
-  playlistLesson?: Prisma.PlaylistLessonOmit
-  artifact?: Prisma.ArtifactOmit
-  transcriptChunks?: Prisma.TranscriptChunksOmit
-  playlistNotes?: Prisma.PlaylistNotesOmit
+  testAttempt?: Prisma.TestAttemptOmit
+  questionAttempt?: Prisma.QuestionAttemptOmit
+  mistake?: Prisma.MistakeOmit
+  mistakeAttachment?: Prisma.MistakeAttachmentOmit
+  mistakeRetry?: Prisma.MistakeRetryOmit
 }
 
 /* Types for Logging */

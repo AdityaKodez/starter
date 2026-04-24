@@ -1,9 +1,26 @@
-export default function Home() {
+import { EmptyState } from "@/components/empty-state";
+import { EntityHeader } from "@/components/entity-state";
+import { getHomeNavItem } from "@/lib/home-navigation";
+import { requireAuth } from "@/utils/auth-utils";
+import { IconHome2 } from "@tabler/icons-react";
+
+export default async function Home() {
+  const session = await requireAuth();
+  const page = getHomeNavItem("/home");
+  const userName = session?.user?.name || "User";
+  const dashboardTitle = `Hey, ${userName.toLowerCase()}! 👋`;
   return (
-    <main className="flex flex-col flex-1 items-start sm:items-center font-sans size-full sm:px-14">
-      <div className="w-full h-full">
-      Hii
-      </div>
-    </main>
+    <>
+    <EntityHeader
+      title={dashboardTitle}
+      description={page.description}
+    />
+    <EmptyState
+     icon={IconHome2}
+      title={dashboardTitle}
+      description={page.description}
+      
+    />
+    </>
   );
 }

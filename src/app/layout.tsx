@@ -1,10 +1,11 @@
 import { WarningDialogProvider } from "@/components/providers/warning-dialog-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import { TRPCReactProvider } from "@/trpc/client";
 import type { Metadata } from "next";
 import { Figtree, Geist, Geist_Mono, DM_Sans } from "next/font/google";
-import { Toaster } from "sonner";
 import "./globals.css";
 const noto = DM_Sans({subsets:['latin'],variable:'--font-heading'});
 
@@ -34,8 +35,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={cn(
-        "h-full dark",
+        "h-full",
         "antialiased",
         geistSans.variable,
         geistMono.variable,
@@ -45,14 +47,16 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        <WarningDialogProvider>
-          <TooltipProvider>
-            <TRPCReactProvider>
-              {children}
-            </TRPCReactProvider>
-          </TooltipProvider>
-        </WarningDialogProvider>
-        <Toaster position="top-right" closeButton theme="dark" />
+        <ThemeProvider>
+          <WarningDialogProvider>
+            <TooltipProvider>
+              <TRPCReactProvider>
+                {children}
+              </TRPCReactProvider>
+            </TooltipProvider>
+          </WarningDialogProvider>
+          <Toaster position="top-right" closeButton />
+        </ThemeProvider>
       </body>
     </html>
   );

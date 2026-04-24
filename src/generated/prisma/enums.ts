@@ -9,21 +9,73 @@
 * 🟢 You can import this file directly.
 */
 
-export const Status = {
+export const TestAttemptType = {
+  MOCK_TEST: 'MOCK_TEST',
+  PAST_PAPER: 'PAST_PAPER',
+  SECTIONAL_TEST: 'SECTIONAL_TEST',
+  CHAPTER_TEST: 'CHAPTER_TEST',
+  PRACTICE_SET: 'PRACTICE_SET',
+  LOOSE_PRACTICE: 'LOOSE_PRACTICE'
+} as const
+
+export type TestAttemptType = (typeof TestAttemptType)[keyof typeof TestAttemptType]
+
+
+export const TestAttemptStatus = {
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type TestAttemptStatus = (typeof TestAttemptStatus)[keyof typeof TestAttemptStatus]
+
+
+export const QuestionResult = {
+  UNREVIEWED: 'UNREVIEWED',
+  CORRECT: 'CORRECT',
+  INCORRECT: 'INCORRECT',
+  PARTIAL: 'PARTIAL',
+  SKIPPED: 'SKIPPED'
+} as const
+
+export type QuestionResult = (typeof QuestionResult)[keyof typeof QuestionResult]
+
+
+export const MistakeType = {
+  CONCEPTUAL: 'CONCEPTUAL',
+  SILLY: 'SILLY',
+  CALCULATION: 'CALCULATION',
+  MISREAD: 'MISREAD',
+  UNKNOWN: 'UNKNOWN'
+} as const
+
+export type MistakeType = (typeof MistakeType)[keyof typeof MistakeType]
+
+
+export const MistakeStatus = {
+  NEW: 'NEW',
+  REVIEWING: 'REVIEWING',
+  MASTERED: 'MASTERED',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type MistakeStatus = (typeof MistakeStatus)[keyof typeof MistakeStatus]
+
+
+export const AttachmentType = {
+  IMAGE: 'IMAGE',
+  PDF: 'PDF'
+} as const
+
+export type AttachmentType = (typeof AttachmentType)[keyof typeof AttachmentType]
+
+
+export const OcrStatus = {
+  NOT_STARTED: 'NOT_STARTED',
   PENDING: 'PENDING',
   PROCESSING: 'PROCESSING',
   COMPLETED: 'COMPLETED',
   FAILED: 'FAILED'
 } as const
 
-export type Status = (typeof Status)[keyof typeof Status]
-
-
-export const ArtifactType = {
-  SUMMARY: 'SUMMARY',
-  FLASHCARD: 'FLASHCARD',
-  TEST: 'TEST',
-  MINDMAP: 'MINDMAP'
-} as const
-
-export type ArtifactType = (typeof ArtifactType)[keyof typeof ArtifactType]
+export type OcrStatus = (typeof OcrStatus)[keyof typeof OcrStatus]

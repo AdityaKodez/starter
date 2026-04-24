@@ -200,7 +200,9 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
-  playlists?: Prisma.PlaylistListRelationFilter
+  testAttempts?: Prisma.TestAttemptListRelationFilter
+  questionAttempts?: Prisma.QuestionAttemptListRelationFilter
+  mistakes?: Prisma.MistakeListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -213,7 +215,9 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   accounts?: Prisma.AccountOrderByRelationAggregateInput
-  playlists?: Prisma.PlaylistOrderByRelationAggregateInput
+  testAttempts?: Prisma.TestAttemptOrderByRelationAggregateInput
+  questionAttempts?: Prisma.QuestionAttemptOrderByRelationAggregateInput
+  mistakes?: Prisma.MistakeOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -229,7 +233,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
-  playlists?: Prisma.PlaylistListRelationFilter
+  testAttempts?: Prisma.TestAttemptListRelationFilter
+  questionAttempts?: Prisma.QuestionAttemptListRelationFilter
+  mistakes?: Prisma.MistakeListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -268,7 +274,9 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  playlists?: Prisma.PlaylistCreateNestedManyWithoutUserInput
+  testAttempts?: Prisma.TestAttemptCreateNestedManyWithoutUserInput
+  questionAttempts?: Prisma.QuestionAttemptCreateNestedManyWithoutUserInput
+  mistakes?: Prisma.MistakeCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -281,7 +289,9 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  playlists?: Prisma.PlaylistUncheckedCreateNestedManyWithoutUserInput
+  testAttempts?: Prisma.TestAttemptUncheckedCreateNestedManyWithoutUserInput
+  questionAttempts?: Prisma.QuestionAttemptUncheckedCreateNestedManyWithoutUserInput
+  mistakes?: Prisma.MistakeUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -294,7 +304,9 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  playlists?: Prisma.PlaylistUpdateManyWithoutUserNestedInput
+  testAttempts?: Prisma.TestAttemptUpdateManyWithoutUserNestedInput
+  questionAttempts?: Prisma.QuestionAttemptUpdateManyWithoutUserNestedInput
+  mistakes?: Prisma.MistakeUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -307,7 +319,9 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  playlists?: Prisma.PlaylistUncheckedUpdateManyWithoutUserNestedInput
+  testAttempts?: Prisma.TestAttemptUncheckedUpdateManyWithoutUserNestedInput
+  questionAttempts?: Prisma.QuestionAttemptUncheckedUpdateManyWithoutUserNestedInput
+  mistakes?: Prisma.MistakeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -419,18 +433,46 @@ export type UserUpdateOneRequiredWithoutAccountsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAccountsInput, Prisma.UserUpdateWithoutAccountsInput>, Prisma.UserUncheckedUpdateWithoutAccountsInput>
 }
 
-export type UserCreateNestedOneWithoutPlaylistsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutPlaylistsInput, Prisma.UserUncheckedCreateWithoutPlaylistsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPlaylistsInput
+export type UserCreateNestedOneWithoutTestAttemptsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTestAttemptsInput, Prisma.UserUncheckedCreateWithoutTestAttemptsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTestAttemptsInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutPlaylistsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutPlaylistsInput, Prisma.UserUncheckedCreateWithoutPlaylistsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPlaylistsInput
-  upsert?: Prisma.UserUpsertWithoutPlaylistsInput
+export type UserUpdateOneRequiredWithoutTestAttemptsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTestAttemptsInput, Prisma.UserUncheckedCreateWithoutTestAttemptsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTestAttemptsInput
+  upsert?: Prisma.UserUpsertWithoutTestAttemptsInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPlaylistsInput, Prisma.UserUpdateWithoutPlaylistsInput>, Prisma.UserUncheckedUpdateWithoutPlaylistsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTestAttemptsInput, Prisma.UserUpdateWithoutTestAttemptsInput>, Prisma.UserUncheckedUpdateWithoutTestAttemptsInput>
+}
+
+export type UserCreateNestedOneWithoutQuestionAttemptsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutQuestionAttemptsInput, Prisma.UserUncheckedCreateWithoutQuestionAttemptsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutQuestionAttemptsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutQuestionAttemptsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutQuestionAttemptsInput, Prisma.UserUncheckedCreateWithoutQuestionAttemptsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutQuestionAttemptsInput
+  upsert?: Prisma.UserUpsertWithoutQuestionAttemptsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutQuestionAttemptsInput, Prisma.UserUpdateWithoutQuestionAttemptsInput>, Prisma.UserUncheckedUpdateWithoutQuestionAttemptsInput>
+}
+
+export type UserCreateNestedOneWithoutMistakesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutMistakesInput, Prisma.UserUncheckedCreateWithoutMistakesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMistakesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutMistakesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutMistakesInput, Prisma.UserUncheckedCreateWithoutMistakesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMistakesInput
+  upsert?: Prisma.UserUpsertWithoutMistakesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMistakesInput, Prisma.UserUpdateWithoutMistakesInput>, Prisma.UserUncheckedUpdateWithoutMistakesInput>
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -442,7 +484,9 @@ export type UserCreateWithoutSessionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  playlists?: Prisma.PlaylistCreateNestedManyWithoutUserInput
+  testAttempts?: Prisma.TestAttemptCreateNestedManyWithoutUserInput
+  questionAttempts?: Prisma.QuestionAttemptCreateNestedManyWithoutUserInput
+  mistakes?: Prisma.MistakeCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -454,7 +498,9 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  playlists?: Prisma.PlaylistUncheckedCreateNestedManyWithoutUserInput
+  testAttempts?: Prisma.TestAttemptUncheckedCreateNestedManyWithoutUserInput
+  questionAttempts?: Prisma.QuestionAttemptUncheckedCreateNestedManyWithoutUserInput
+  mistakes?: Prisma.MistakeUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -482,7 +528,9 @@ export type UserUpdateWithoutSessionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  playlists?: Prisma.PlaylistUpdateManyWithoutUserNestedInput
+  testAttempts?: Prisma.TestAttemptUpdateManyWithoutUserNestedInput
+  questionAttempts?: Prisma.QuestionAttemptUpdateManyWithoutUserNestedInput
+  mistakes?: Prisma.MistakeUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -494,7 +542,9 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  playlists?: Prisma.PlaylistUncheckedUpdateManyWithoutUserNestedInput
+  testAttempts?: Prisma.TestAttemptUncheckedUpdateManyWithoutUserNestedInput
+  questionAttempts?: Prisma.QuestionAttemptUncheckedUpdateManyWithoutUserNestedInput
+  mistakes?: Prisma.MistakeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -506,7 +556,9 @@ export type UserCreateWithoutAccountsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  playlists?: Prisma.PlaylistCreateNestedManyWithoutUserInput
+  testAttempts?: Prisma.TestAttemptCreateNestedManyWithoutUserInput
+  questionAttempts?: Prisma.QuestionAttemptCreateNestedManyWithoutUserInput
+  mistakes?: Prisma.MistakeCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -518,7 +570,9 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  playlists?: Prisma.PlaylistUncheckedCreateNestedManyWithoutUserInput
+  testAttempts?: Prisma.TestAttemptUncheckedCreateNestedManyWithoutUserInput
+  questionAttempts?: Prisma.QuestionAttemptUncheckedCreateNestedManyWithoutUserInput
+  mistakes?: Prisma.MistakeUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -546,7 +600,9 @@ export type UserUpdateWithoutAccountsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  playlists?: Prisma.PlaylistUpdateManyWithoutUserNestedInput
+  testAttempts?: Prisma.TestAttemptUpdateManyWithoutUserNestedInput
+  questionAttempts?: Prisma.QuestionAttemptUpdateManyWithoutUserNestedInput
+  mistakes?: Prisma.MistakeUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -558,10 +614,12 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  playlists?: Prisma.PlaylistUncheckedUpdateManyWithoutUserNestedInput
+  testAttempts?: Prisma.TestAttemptUncheckedUpdateManyWithoutUserNestedInput
+  questionAttempts?: Prisma.QuestionAttemptUncheckedUpdateManyWithoutUserNestedInput
+  mistakes?: Prisma.MistakeUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserCreateWithoutPlaylistsInput = {
+export type UserCreateWithoutTestAttemptsInput = {
   id: string
   name: string
   email: string
@@ -571,9 +629,11 @@ export type UserCreateWithoutPlaylistsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  questionAttempts?: Prisma.QuestionAttemptCreateNestedManyWithoutUserInput
+  mistakes?: Prisma.MistakeCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutPlaylistsInput = {
+export type UserUncheckedCreateWithoutTestAttemptsInput = {
   id: string
   name: string
   email: string
@@ -583,25 +643,27 @@ export type UserUncheckedCreateWithoutPlaylistsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  questionAttempts?: Prisma.QuestionAttemptUncheckedCreateNestedManyWithoutUserInput
+  mistakes?: Prisma.MistakeUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type UserCreateOrConnectWithoutPlaylistsInput = {
+export type UserCreateOrConnectWithoutTestAttemptsInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutPlaylistsInput, Prisma.UserUncheckedCreateWithoutPlaylistsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTestAttemptsInput, Prisma.UserUncheckedCreateWithoutTestAttemptsInput>
 }
 
-export type UserUpsertWithoutPlaylistsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutPlaylistsInput, Prisma.UserUncheckedUpdateWithoutPlaylistsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutPlaylistsInput, Prisma.UserUncheckedCreateWithoutPlaylistsInput>
+export type UserUpsertWithoutTestAttemptsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTestAttemptsInput, Prisma.UserUncheckedUpdateWithoutTestAttemptsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTestAttemptsInput, Prisma.UserUncheckedCreateWithoutTestAttemptsInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutPlaylistsInput = {
+export type UserUpdateToOneWithWhereWithoutTestAttemptsInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutPlaylistsInput, Prisma.UserUncheckedUpdateWithoutPlaylistsInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTestAttemptsInput, Prisma.UserUncheckedUpdateWithoutTestAttemptsInput>
 }
 
-export type UserUpdateWithoutPlaylistsInput = {
+export type UserUpdateWithoutTestAttemptsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -611,9 +673,11 @@ export type UserUpdateWithoutPlaylistsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  questionAttempts?: Prisma.QuestionAttemptUpdateManyWithoutUserNestedInput
+  mistakes?: Prisma.MistakeUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutPlaylistsInput = {
+export type UserUncheckedUpdateWithoutTestAttemptsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -623,6 +687,152 @@ export type UserUncheckedUpdateWithoutPlaylistsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  questionAttempts?: Prisma.QuestionAttemptUncheckedUpdateManyWithoutUserNestedInput
+  mistakes?: Prisma.MistakeUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutQuestionAttemptsInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  testAttempts?: Prisma.TestAttemptCreateNestedManyWithoutUserInput
+  mistakes?: Prisma.MistakeCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutQuestionAttemptsInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  testAttempts?: Prisma.TestAttemptUncheckedCreateNestedManyWithoutUserInput
+  mistakes?: Prisma.MistakeUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutQuestionAttemptsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutQuestionAttemptsInput, Prisma.UserUncheckedCreateWithoutQuestionAttemptsInput>
+}
+
+export type UserUpsertWithoutQuestionAttemptsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutQuestionAttemptsInput, Prisma.UserUncheckedUpdateWithoutQuestionAttemptsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutQuestionAttemptsInput, Prisma.UserUncheckedCreateWithoutQuestionAttemptsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutQuestionAttemptsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutQuestionAttemptsInput, Prisma.UserUncheckedUpdateWithoutQuestionAttemptsInput>
+}
+
+export type UserUpdateWithoutQuestionAttemptsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  testAttempts?: Prisma.TestAttemptUpdateManyWithoutUserNestedInput
+  mistakes?: Prisma.MistakeUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutQuestionAttemptsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  testAttempts?: Prisma.TestAttemptUncheckedUpdateManyWithoutUserNestedInput
+  mistakes?: Prisma.MistakeUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutMistakesInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  testAttempts?: Prisma.TestAttemptCreateNestedManyWithoutUserInput
+  questionAttempts?: Prisma.QuestionAttemptCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutMistakesInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  testAttempts?: Prisma.TestAttemptUncheckedCreateNestedManyWithoutUserInput
+  questionAttempts?: Prisma.QuestionAttemptUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutMistakesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutMistakesInput, Prisma.UserUncheckedCreateWithoutMistakesInput>
+}
+
+export type UserUpsertWithoutMistakesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutMistakesInput, Prisma.UserUncheckedUpdateWithoutMistakesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutMistakesInput, Prisma.UserUncheckedCreateWithoutMistakesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutMistakesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutMistakesInput, Prisma.UserUncheckedUpdateWithoutMistakesInput>
+}
+
+export type UserUpdateWithoutMistakesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  testAttempts?: Prisma.TestAttemptUpdateManyWithoutUserNestedInput
+  questionAttempts?: Prisma.QuestionAttemptUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutMistakesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  testAttempts?: Prisma.TestAttemptUncheckedUpdateManyWithoutUserNestedInput
+  questionAttempts?: Prisma.QuestionAttemptUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -633,13 +843,17 @@ export type UserUncheckedUpdateWithoutPlaylistsInput = {
 export type UserCountOutputType = {
   sessions: number
   accounts: number
-  playlists: number
+  testAttempts: number
+  questionAttempts: number
+  mistakes: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs
-  playlists?: boolean | UserCountOutputTypeCountPlaylistsArgs
+  testAttempts?: boolean | UserCountOutputTypeCountTestAttemptsArgs
+  questionAttempts?: boolean | UserCountOutputTypeCountQuestionAttemptsArgs
+  mistakes?: boolean | UserCountOutputTypeCountMistakesArgs
 }
 
 /**
@@ -669,8 +883,22 @@ export type UserCountOutputTypeCountAccountsArgs<ExtArgs extends runtime.Types.E
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountPlaylistsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PlaylistWhereInput
+export type UserCountOutputTypeCountTestAttemptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TestAttemptWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountQuestionAttemptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.QuestionAttemptWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountMistakesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MistakeWhereInput
 }
 
 
@@ -684,7 +912,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
-  playlists?: boolean | Prisma.User$playlistsArgs<ExtArgs>
+  testAttempts?: boolean | Prisma.User$testAttemptsArgs<ExtArgs>
+  questionAttempts?: boolean | Prisma.User$questionAttemptsArgs<ExtArgs>
+  mistakes?: boolean | Prisma.User$mistakesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -722,7 +952,9 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
-  playlists?: boolean | Prisma.User$playlistsArgs<ExtArgs>
+  testAttempts?: boolean | Prisma.User$testAttemptsArgs<ExtArgs>
+  questionAttempts?: boolean | Prisma.User$questionAttemptsArgs<ExtArgs>
+  mistakes?: boolean | Prisma.User$mistakesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -733,7 +965,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     accounts: Prisma.$AccountPayload<ExtArgs>[]
-    playlists: Prisma.$PlaylistPayload<ExtArgs>[]
+    testAttempts: Prisma.$TestAttemptPayload<ExtArgs>[]
+    questionAttempts: Prisma.$QuestionAttemptPayload<ExtArgs>[]
+    mistakes: Prisma.$MistakePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1139,7 +1373,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  playlists<T extends Prisma.User$playlistsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$playlistsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PlaylistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  testAttempts<T extends Prisma.User$testAttemptsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$testAttemptsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TestAttemptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  questionAttempts<T extends Prisma.User$questionAttemptsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$questionAttemptsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuestionAttemptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  mistakes<T extends Prisma.User$mistakesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$mistakesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MistakePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1617,27 +1853,75 @@ export type User$accountsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 /**
- * User.playlists
+ * User.testAttempts
  */
-export type User$playlistsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$testAttemptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Playlist
+   * Select specific fields to fetch from the TestAttempt
    */
-  select?: Prisma.PlaylistSelect<ExtArgs> | null
+  select?: Prisma.TestAttemptSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Playlist
+   * Omit specific fields from the TestAttempt
    */
-  omit?: Prisma.PlaylistOmit<ExtArgs> | null
+  omit?: Prisma.TestAttemptOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.PlaylistInclude<ExtArgs> | null
-  where?: Prisma.PlaylistWhereInput
-  orderBy?: Prisma.PlaylistOrderByWithRelationInput | Prisma.PlaylistOrderByWithRelationInput[]
-  cursor?: Prisma.PlaylistWhereUniqueInput
+  include?: Prisma.TestAttemptInclude<ExtArgs> | null
+  where?: Prisma.TestAttemptWhereInput
+  orderBy?: Prisma.TestAttemptOrderByWithRelationInput | Prisma.TestAttemptOrderByWithRelationInput[]
+  cursor?: Prisma.TestAttemptWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.PlaylistScalarFieldEnum | Prisma.PlaylistScalarFieldEnum[]
+  distinct?: Prisma.TestAttemptScalarFieldEnum | Prisma.TestAttemptScalarFieldEnum[]
+}
+
+/**
+ * User.questionAttempts
+ */
+export type User$questionAttemptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the QuestionAttempt
+   */
+  select?: Prisma.QuestionAttemptSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the QuestionAttempt
+   */
+  omit?: Prisma.QuestionAttemptOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.QuestionAttemptInclude<ExtArgs> | null
+  where?: Prisma.QuestionAttemptWhereInput
+  orderBy?: Prisma.QuestionAttemptOrderByWithRelationInput | Prisma.QuestionAttemptOrderByWithRelationInput[]
+  cursor?: Prisma.QuestionAttemptWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.QuestionAttemptScalarFieldEnum | Prisma.QuestionAttemptScalarFieldEnum[]
+}
+
+/**
+ * User.mistakes
+ */
+export type User$mistakesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Mistake
+   */
+  select?: Prisma.MistakeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Mistake
+   */
+  omit?: Prisma.MistakeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MistakeInclude<ExtArgs> | null
+  where?: Prisma.MistakeWhereInput
+  orderBy?: Prisma.MistakeOrderByWithRelationInput | Prisma.MistakeOrderByWithRelationInput[]
+  cursor?: Prisma.MistakeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MistakeScalarFieldEnum | Prisma.MistakeScalarFieldEnum[]
 }
 
 /**

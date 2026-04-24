@@ -62,32 +62,27 @@ export type Account = Prisma.AccountModel
  */
 export type Verification = Prisma.VerificationModel
 /**
- * Model Playlist
+ * Model TestAttempt
  * 
  */
-export type Playlist = Prisma.PlaylistModel
+export type TestAttempt = Prisma.TestAttemptModel
 /**
- * Model PlaylistVideo
+ * Model QuestionAttempt
  * 
  */
-export type PlaylistVideo = Prisma.PlaylistVideoModel
+export type QuestionAttempt = Prisma.QuestionAttemptModel
 /**
- * Model PlaylistLesson
+ * Model Mistake
  * 
  */
-export type PlaylistLesson = Prisma.PlaylistLessonModel
+export type Mistake = Prisma.MistakeModel
 /**
- * Model Artifact
+ * Model MistakeAttachment
  * 
  */
-export type Artifact = Prisma.ArtifactModel
+export type MistakeAttachment = Prisma.MistakeAttachmentModel
 /**
- * Model TranscriptChunks
+ * Model MistakeRetry
  * 
  */
-export type TranscriptChunks = Prisma.TranscriptChunksModel
-/**
- * Model PlaylistNotes
- * 
- */
-export type PlaylistNotes = Prisma.PlaylistNotesModel
+export type MistakeRetry = Prisma.MistakeRetryModel

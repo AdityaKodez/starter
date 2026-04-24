@@ -22,7 +22,9 @@ import {
 } from "@/components/ui/tooltip"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
-import { IconLayoutSidebarLeftExpand } from "@tabler/icons-react"
+import { IconMoon, IconSun } from "@tabler/icons-react"
+import { useTheme } from "next-themes"
+import { BsLayoutSidebarReverse } from "react-icons/bs";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -270,9 +272,46 @@ function SidebarTrigger({
       }}
       {...props}
     >
-      <IconLayoutSidebarLeftExpand className="size-6 shrink-0" stroke={1.8} />
+      <BsLayoutSidebarReverse className="size-3 shrink-0" />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
+  )
+}
+
+function SidebarThemeToggle({ className, onClick, ...props }: React.ComponentProps<typeof Button>) {
+  const { resolvedTheme, setTheme } = useTheme()
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const isDark = mounted ? resolvedTheme === "dark" : true
+  const label = isDark ? "Switch to light mode" : "Switch to dark mode"
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          aria-label={label}
+          data-sidebar="theme-toggle"
+          data-slot="sidebar-theme-toggle"
+          variant="ghost"
+          size="icon-sm"
+          className={cn("text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground", className)}
+          onClick={(event) => {
+            onClick?.(event)
+            if (!event.defaultPrevented) {
+              setTheme(isDark ? "light" : "dark")
+            }
+          }}
+          {...props}
+        >
+          {isDark ? <IconSun className="size-4" /> : <IconMoon className="size-4" />}
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent side="top">{label}</TooltipContent>
+    </Tooltip>
   )
 }
 
@@ -700,7 +739,7 @@ export {
   SidebarProvider,
   SidebarRail,
   SidebarSeparator,
+  SidebarThemeToggle,
   SidebarTrigger,
   useSidebar
 }
-

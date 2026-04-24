@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import {
-  IconArrowRight,
   IconFileUpload,
   IconTargetArrow
 } from "@tabler/icons-react";

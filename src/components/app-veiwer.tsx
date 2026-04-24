@@ -15,43 +15,29 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarThemeToggle,
 } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSession } from "@/lib/auth-client";
-import { IconBookmark, IconSparkles } from "@tabler/icons-react";
+import { homeNavItems } from "@/lib/home-navigation";
+import { IconSparkles } from "@tabler/icons-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { RiHome3Line } from "react-icons/ri";
-import { RxCrossCircled } from "react-icons/rx";
 import IconLogo from "../../public/logo";
-const items = [
-  {
-    label: "Dashboard",
-    href: "/home",
-    icon: RiHome3Line,
-  },
-  {
-    label: "Mistakes",
-    href: "/home/mistakes",
-    icon: RxCrossCircled,
-  },
-  {
-    label: "Bookmark",
-    href: "/home/bookmark",
-    icon: IconBookmark,
-  },
-] as const;
 
 export function AppSidebar() {
   const pathname = usePathname();
   const { data: session, isPending } = useSession();
-  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+  const isActive = (href: string) =>
+    href === "/home"
+      ? pathname === href
+      : pathname === href || pathname.startsWith(`${href}/`);
   const creditsUsed = 72;
   const creditsTotal = 100;
   const creditsLeft = Math.max(creditsTotal - creditsUsed, 0);
 
   return (
-    <Sidebar variant="sidebar" collapsible="offcanvas">
+    <Sidebar variant="floating" collapsible="offcanvas">
       <SidebarHeader>
         <Link className="flex items-center gap-2" href="/home" prefetch>
           <IconLogo className="size-6" />
@@ -65,7 +51,7 @@ export function AppSidebar() {
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {homeNavItems.map((item) => (
                 <SidebarMenuItem key={item.href}>
                   <SidebarMenuButton asChild isActive={isActive(item.href)}>
                     <Link href={item.href} prefetch>
@@ -96,13 +82,17 @@ export function AppSidebar() {
                   <AvatarImage src={session.user.image || undefined} alt={session.user.name || "User avatar"} />
                   <AvatarFallback>{session.user.name?.[0]?.toUpperCase() ?? "U"}</AvatarFallback>
                 </Avatar>
-                <div className="min-w-0">
+                <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium uppercase">{session.user.name || "User"}</p>
                   <p className="truncate text-xs text-muted-foreground">{session.user.email}</p>
                 </div>
+                <SidebarThemeToggle className="ml-auto" />
               </div>
             ) : (
-              <p className="text-xs text-muted-foreground">Not signed in</p>
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-xs text-muted-foreground">Not signed in</p>
+                <SidebarThemeToggle />
+              </div>
             )}
           </div>
 
