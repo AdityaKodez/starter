@@ -1251,7 +1251,6 @@ export const MistakeAttachmentScalarFieldEnum = {
   fileName: 'fileName',
   mimeType: 'mimeType',
   sizeBytes: 'sizeBytes',
-  pageCount: 'pageCount',
   publicUrl: 'publicUrl',
   ocrStatus: 'ocrStatus',
   ocrText: 'ocrText',

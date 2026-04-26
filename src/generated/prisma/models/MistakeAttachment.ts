@@ -28,12 +28,10 @@ export type AggregateMistakeAttachment = {
 
 export type MistakeAttachmentAvgAggregateOutputType = {
   sizeBytes: number | null
-  pageCount: number | null
 }
 
 export type MistakeAttachmentSumAggregateOutputType = {
   sizeBytes: number | null
-  pageCount: number | null
 }
 
 export type MistakeAttachmentMinAggregateOutputType = {
@@ -43,7 +41,6 @@ export type MistakeAttachmentMinAggregateOutputType = {
   fileName: string | null
   mimeType: string | null
   sizeBytes: number | null
-  pageCount: number | null
   publicUrl: string | null
   ocrStatus: $Enums.OcrStatus | null
   ocrText: string | null
@@ -60,7 +57,6 @@ export type MistakeAttachmentMaxAggregateOutputType = {
   fileName: string | null
   mimeType: string | null
   sizeBytes: number | null
-  pageCount: number | null
   publicUrl: string | null
   ocrStatus: $Enums.OcrStatus | null
   ocrText: string | null
@@ -77,7 +73,6 @@ export type MistakeAttachmentCountAggregateOutputType = {
   fileName: number
   mimeType: number
   sizeBytes: number
-  pageCount: number
   publicUrl: number
   ocrStatus: number
   ocrText: number
@@ -92,12 +87,10 @@ export type MistakeAttachmentCountAggregateOutputType = {
 
 export type MistakeAttachmentAvgAggregateInputType = {
   sizeBytes?: true
-  pageCount?: true
 }
 
 export type MistakeAttachmentSumAggregateInputType = {
   sizeBytes?: true
-  pageCount?: true
 }
 
 export type MistakeAttachmentMinAggregateInputType = {
@@ -107,7 +100,6 @@ export type MistakeAttachmentMinAggregateInputType = {
   fileName?: true
   mimeType?: true
   sizeBytes?: true
-  pageCount?: true
   publicUrl?: true
   ocrStatus?: true
   ocrText?: true
@@ -124,7 +116,6 @@ export type MistakeAttachmentMaxAggregateInputType = {
   fileName?: true
   mimeType?: true
   sizeBytes?: true
-  pageCount?: true
   publicUrl?: true
   ocrStatus?: true
   ocrText?: true
@@ -141,7 +132,6 @@ export type MistakeAttachmentCountAggregateInputType = {
   fileName?: true
   mimeType?: true
   sizeBytes?: true
-  pageCount?: true
   publicUrl?: true
   ocrStatus?: true
   ocrText?: true
@@ -246,7 +236,6 @@ export type MistakeAttachmentGroupByOutputType = {
   fileName: string | null
   mimeType: string
   sizeBytes: number | null
-  pageCount: number | null
   publicUrl: string | null
   ocrStatus: $Enums.OcrStatus
   ocrText: string | null
@@ -287,7 +276,6 @@ export type MistakeAttachmentWhereInput = {
   fileName?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
   mimeType?: Prisma.StringFilter<"MistakeAttachment"> | string
   sizeBytes?: Prisma.IntNullableFilter<"MistakeAttachment"> | number | null
-  pageCount?: Prisma.IntNullableFilter<"MistakeAttachment"> | number | null
   publicUrl?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
   ocrStatus?: Prisma.EnumOcrStatusFilter<"MistakeAttachment"> | $Enums.OcrStatus
   ocrText?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
@@ -306,7 +294,6 @@ export type MistakeAttachmentOrderByWithRelationInput = {
   fileName?: Prisma.SortOrderInput | Prisma.SortOrder
   mimeType?: Prisma.SortOrder
   sizeBytes?: Prisma.SortOrderInput | Prisma.SortOrder
-  pageCount?: Prisma.SortOrderInput | Prisma.SortOrder
   publicUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   ocrStatus?: Prisma.SortOrder
   ocrText?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -328,7 +315,6 @@ export type MistakeAttachmentWhereUniqueInput = Prisma.AtLeast<{
   fileName?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
   mimeType?: Prisma.StringFilter<"MistakeAttachment"> | string
   sizeBytes?: Prisma.IntNullableFilter<"MistakeAttachment"> | number | null
-  pageCount?: Prisma.IntNullableFilter<"MistakeAttachment"> | number | null
   publicUrl?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
   ocrStatus?: Prisma.EnumOcrStatusFilter<"MistakeAttachment"> | $Enums.OcrStatus
   ocrText?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
@@ -347,7 +333,6 @@ export type MistakeAttachmentOrderByWithAggregationInput = {
   fileName?: Prisma.SortOrderInput | Prisma.SortOrder
   mimeType?: Prisma.SortOrder
   sizeBytes?: Prisma.SortOrderInput | Prisma.SortOrder
-  pageCount?: Prisma.SortOrderInput | Prisma.SortOrder
   publicUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   ocrStatus?: Prisma.SortOrder
   ocrText?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -373,7 +358,6 @@ export type MistakeAttachmentScalarWhereWithAggregatesInput = {
   fileName?: Prisma.StringNullableWithAggregatesFilter<"MistakeAttachment"> | string | null
   mimeType?: Prisma.StringWithAggregatesFilter<"MistakeAttachment"> | string
   sizeBytes?: Prisma.IntNullableWithAggregatesFilter<"MistakeAttachment"> | number | null
-  pageCount?: Prisma.IntNullableWithAggregatesFilter<"MistakeAttachment"> | number | null
   publicUrl?: Prisma.StringNullableWithAggregatesFilter<"MistakeAttachment"> | string | null
   ocrStatus?: Prisma.EnumOcrStatusWithAggregatesFilter<"MistakeAttachment"> | $Enums.OcrStatus
   ocrText?: Prisma.StringNullableWithAggregatesFilter<"MistakeAttachment"> | string | null
@@ -391,7 +375,6 @@ export type MistakeAttachmentCreateInput = {
   fileName?: string | null
   mimeType: string
   sizeBytes?: number | null
-  pageCount?: number | null
   publicUrl?: string | null
   ocrStatus?: $Enums.OcrStatus
   ocrText?: string | null
@@ -409,7 +392,6 @@ export type MistakeAttachmentUncheckedCreateInput = {
   fileName?: string | null
   mimeType: string
   sizeBytes?: number | null
-  pageCount?: number | null
   publicUrl?: string | null
   ocrStatus?: $Enums.OcrStatus
   ocrText?: string | null
@@ -427,7 +409,6 @@ export type MistakeAttachmentUpdateInput = {
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  pageCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   publicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ocrStatus?: Prisma.EnumOcrStatusFieldUpdateOperationsInput | $Enums.OcrStatus
   ocrText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -445,7 +426,6 @@ export type MistakeAttachmentUncheckedUpdateInput = {
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  pageCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   publicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ocrStatus?: Prisma.EnumOcrStatusFieldUpdateOperationsInput | $Enums.OcrStatus
   ocrText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -463,7 +443,6 @@ export type MistakeAttachmentCreateManyInput = {
   fileName?: string | null
   mimeType: string
   sizeBytes?: number | null
-  pageCount?: number | null
   publicUrl?: string | null
   ocrStatus?: $Enums.OcrStatus
   ocrText?: string | null
@@ -481,7 +460,6 @@ export type MistakeAttachmentUpdateManyMutationInput = {
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  pageCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   publicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ocrStatus?: Prisma.EnumOcrStatusFieldUpdateOperationsInput | $Enums.OcrStatus
   ocrText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -498,7 +476,6 @@ export type MistakeAttachmentUncheckedUpdateManyInput = {
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  pageCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   publicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ocrStatus?: Prisma.EnumOcrStatusFieldUpdateOperationsInput | $Enums.OcrStatus
   ocrText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -526,7 +503,6 @@ export type MistakeAttachmentCountOrderByAggregateInput = {
   fileName?: Prisma.SortOrder
   mimeType?: Prisma.SortOrder
   sizeBytes?: Prisma.SortOrder
-  pageCount?: Prisma.SortOrder
   publicUrl?: Prisma.SortOrder
   ocrStatus?: Prisma.SortOrder
   ocrText?: Prisma.SortOrder
@@ -539,7 +515,6 @@ export type MistakeAttachmentCountOrderByAggregateInput = {
 
 export type MistakeAttachmentAvgOrderByAggregateInput = {
   sizeBytes?: Prisma.SortOrder
-  pageCount?: Prisma.SortOrder
 }
 
 export type MistakeAttachmentMaxOrderByAggregateInput = {
@@ -549,7 +524,6 @@ export type MistakeAttachmentMaxOrderByAggregateInput = {
   fileName?: Prisma.SortOrder
   mimeType?: Prisma.SortOrder
   sizeBytes?: Prisma.SortOrder
-  pageCount?: Prisma.SortOrder
   publicUrl?: Prisma.SortOrder
   ocrStatus?: Prisma.SortOrder
   ocrText?: Prisma.SortOrder
@@ -566,7 +540,6 @@ export type MistakeAttachmentMinOrderByAggregateInput = {
   fileName?: Prisma.SortOrder
   mimeType?: Prisma.SortOrder
   sizeBytes?: Prisma.SortOrder
-  pageCount?: Prisma.SortOrder
   publicUrl?: Prisma.SortOrder
   ocrStatus?: Prisma.SortOrder
   ocrText?: Prisma.SortOrder
@@ -578,7 +551,6 @@ export type MistakeAttachmentMinOrderByAggregateInput = {
 
 export type MistakeAttachmentSumOrderByAggregateInput = {
   sizeBytes?: Prisma.SortOrder
-  pageCount?: Prisma.SortOrder
 }
 
 export type MistakeAttachmentCreateNestedManyWithoutMistakeInput = {
@@ -638,7 +610,6 @@ export type MistakeAttachmentCreateWithoutMistakeInput = {
   fileName?: string | null
   mimeType: string
   sizeBytes?: number | null
-  pageCount?: number | null
   publicUrl?: string | null
   ocrStatus?: $Enums.OcrStatus
   ocrText?: string | null
@@ -655,7 +626,6 @@ export type MistakeAttachmentUncheckedCreateWithoutMistakeInput = {
   fileName?: string | null
   mimeType: string
   sizeBytes?: number | null
-  pageCount?: number | null
   publicUrl?: string | null
   ocrStatus?: $Enums.OcrStatus
   ocrText?: string | null
@@ -701,7 +671,6 @@ export type MistakeAttachmentScalarWhereInput = {
   fileName?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
   mimeType?: Prisma.StringFilter<"MistakeAttachment"> | string
   sizeBytes?: Prisma.IntNullableFilter<"MistakeAttachment"> | number | null
-  pageCount?: Prisma.IntNullableFilter<"MistakeAttachment"> | number | null
   publicUrl?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
   ocrStatus?: Prisma.EnumOcrStatusFilter<"MistakeAttachment"> | $Enums.OcrStatus
   ocrText?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
@@ -719,7 +688,6 @@ export type MistakeAttachmentCreateManyMistakeInput = {
   fileName?: string | null
   mimeType: string
   sizeBytes?: number | null
-  pageCount?: number | null
   publicUrl?: string | null
   ocrStatus?: $Enums.OcrStatus
   ocrText?: string | null
@@ -736,7 +704,6 @@ export type MistakeAttachmentUpdateWithoutMistakeInput = {
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  pageCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   publicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ocrStatus?: Prisma.EnumOcrStatusFieldUpdateOperationsInput | $Enums.OcrStatus
   ocrText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -753,7 +720,6 @@ export type MistakeAttachmentUncheckedUpdateWithoutMistakeInput = {
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  pageCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   publicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ocrStatus?: Prisma.EnumOcrStatusFieldUpdateOperationsInput | $Enums.OcrStatus
   ocrText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -770,7 +736,6 @@ export type MistakeAttachmentUncheckedUpdateManyWithoutMistakeInput = {
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
   sizeBytes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  pageCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   publicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ocrStatus?: Prisma.EnumOcrStatusFieldUpdateOperationsInput | $Enums.OcrStatus
   ocrText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -789,7 +754,6 @@ export type MistakeAttachmentSelect<ExtArgs extends runtime.Types.Extensions.Int
   fileName?: boolean
   mimeType?: boolean
   sizeBytes?: boolean
-  pageCount?: boolean
   publicUrl?: boolean
   ocrStatus?: boolean
   ocrText?: boolean
@@ -808,7 +772,6 @@ export type MistakeAttachmentSelectCreateManyAndReturn<ExtArgs extends runtime.T
   fileName?: boolean
   mimeType?: boolean
   sizeBytes?: boolean
-  pageCount?: boolean
   publicUrl?: boolean
   ocrStatus?: boolean
   ocrText?: boolean
@@ -827,7 +790,6 @@ export type MistakeAttachmentSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   fileName?: boolean
   mimeType?: boolean
   sizeBytes?: boolean
-  pageCount?: boolean
   publicUrl?: boolean
   ocrStatus?: boolean
   ocrText?: boolean
@@ -846,7 +808,6 @@ export type MistakeAttachmentSelectScalar = {
   fileName?: boolean
   mimeType?: boolean
   sizeBytes?: boolean
-  pageCount?: boolean
   publicUrl?: boolean
   ocrStatus?: boolean
   ocrText?: boolean
@@ -857,7 +818,7 @@ export type MistakeAttachmentSelectScalar = {
   updatedAt?: boolean
 }
 
-export type MistakeAttachmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "storageKey" | "fileName" | "mimeType" | "sizeBytes" | "pageCount" | "publicUrl" | "ocrStatus" | "ocrText" | "ocrJson" | "ocrError" | "mistakeId" | "createdAt" | "updatedAt", ExtArgs["result"]["mistakeAttachment"]>
+export type MistakeAttachmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "storageKey" | "fileName" | "mimeType" | "sizeBytes" | "publicUrl" | "ocrStatus" | "ocrText" | "ocrJson" | "ocrError" | "mistakeId" | "createdAt" | "updatedAt", ExtArgs["result"]["mistakeAttachment"]>
 export type MistakeAttachmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   mistake?: boolean | Prisma.MistakeDefaultArgs<ExtArgs>
 }
@@ -880,7 +841,6 @@ export type $MistakeAttachmentPayload<ExtArgs extends runtime.Types.Extensions.I
     fileName: string | null
     mimeType: string
     sizeBytes: number | null
-    pageCount: number | null
     publicUrl: string | null
     ocrStatus: $Enums.OcrStatus
     ocrText: string | null
@@ -1319,7 +1279,6 @@ export interface MistakeAttachmentFieldRefs {
   readonly fileName: Prisma.FieldRef<"MistakeAttachment", 'String'>
   readonly mimeType: Prisma.FieldRef<"MistakeAttachment", 'String'>
   readonly sizeBytes: Prisma.FieldRef<"MistakeAttachment", 'Int'>
-  readonly pageCount: Prisma.FieldRef<"MistakeAttachment", 'Int'>
   readonly publicUrl: Prisma.FieldRef<"MistakeAttachment", 'String'>
   readonly ocrStatus: Prisma.FieldRef<"MistakeAttachment", 'OcrStatus'>
   readonly ocrText: Prisma.FieldRef<"MistakeAttachment", 'String'>

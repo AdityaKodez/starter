@@ -17,7 +17,7 @@ export function EntityHeader({
   return (
     <div
       className={cn(
-        "flex flex-col gap-4 bg-background/95 px-5 sm:px-8 lg:flex-row lg:items-center lg:justify-between",
+        "flex flex-col gap-4 bg-background/95 pb-6 lg:flex-row lg:items-center lg:justify-between",
         className
       )}
     >

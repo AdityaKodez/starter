@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.62",
+    "@aws-sdk/client-s3": "^3.1037.0",
+    "@aws-sdk/s3-request-presigner": "^3.1037.0",
     "@base-ui/react": "^1.4.1",
+    "@paralleldrive/cuid2": "^3.3.0",
     "@prisma/adapter-pg": "^7.7.0",
     "@prisma/client": "^7.7.0",
     "@tabler/icons-react": "^3.41.1",

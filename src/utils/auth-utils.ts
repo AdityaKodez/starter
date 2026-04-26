@@ -19,6 +19,6 @@ export async function requireUnauth() {
   });
 
   if (session) {
-    redirect("/dashboard");
+    redirect("/home");
   }
 }

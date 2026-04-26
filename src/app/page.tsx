@@ -1,7 +1,6 @@
 import { EmptyState } from "@/components/empty-state";
 import { Hero } from "@/features/landing/hero";
 import { Navbar } from "@/features/landing/navbar";
-import { PlaylistViewer } from "@/features/playlist/playlist-viewer";
 import { auth } from "@/lib/auth";
 import { prefetchPlaylistList } from "@/utils/prefetch";
 import { headers } from "next/headers";
@@ -24,7 +23,7 @@ export default async function Home() {
         session && (
          <Suspense fallback="Loading...">
           <ErrorBoundary fallback={<EmptyState title="Failed to load playlists" description="Please try again later." />}>
-            <PlaylistViewer />
+     
           </ErrorBoundary>
         </Suspense>
         )
