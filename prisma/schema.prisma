@@ -8,18 +8,19 @@ datasource db {
 }
 
 model User {
-  id               String            @id
-  name             String
-  email            String
-  emailVerified    Boolean           @default(false)
-  image            String?
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
-  sessions         Session[]
-  accounts         Account[]
-  testAttempts     TestAttempt[]
-  questionAttempts QuestionAttempt[]
-  mistakes         Mistake[]
+  id                 String              @id
+  name               String
+  email              String
+  emailVerified      Boolean             @default(false)
+  image              String?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  sessions           Session[]
+  accounts           Account[]
+  testAttempts       TestAttempt[]
+  questionAttempts   QuestionAttempt[]
+  mistakes           Mistake[]
+  mistakeAttachments MistakeAttachment[]
 
   @@unique([email])
   @@map("user")
@@ -124,6 +125,13 @@ enum OcrStatus {
   FAILED
 }
 
+enum AttachmentUploadStatus {
+  PENDING
+  UPLOADED
+  ATTACHED
+  FAILED
+}
+
 model TestAttempt {
   id              String            @id @default(cuid())
   title           String
@@ -209,24 +217,28 @@ model Mistake {
 }
 
 model MistakeAttachment {
-  id         String         @id @default(cuid())
-  type       AttachmentType
-  storageKey String
-  fileName   String?
-  mimeType   String
-  sizeBytes  Int?
-  publicUrl  String?
-  ocrStatus  OcrStatus      @default(NOT_STARTED)
-  ocrText    String?
-  ocrJson    Json?
-  ocrError   String?
-  mistakeId  String
-  mistake    Mistake        @relation(fields: [mistakeId], references: [id], onDelete: Cascade)
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime       @updatedAt
+  id           String                 @id @default(cuid())
+  type         AttachmentType
+  uploadStatus AttachmentUploadStatus @default(PENDING)
+  storageKey   String
+  fileName     String?
+  mimeType     String
+  sizeBytes    Int?
+  publicUrl    String?
+  ocrStatus    OcrStatus              @default(NOT_STARTED)
+  ocrText      String?
+  ocrJson      Json?
+  ocrError     String?
+  mistakeId    String?
+  mistake      Mistake?               @relation(fields: [mistakeId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
 
   @@unique([storageKey])
   @@index([mistakeId])
+  @@index([userId, uploadStatus])
   @@index([ocrStatus])
   @@map("mistake_attachment")
 }

@@ -37,6 +37,7 @@ export type MistakeAttachmentSumAggregateOutputType = {
 export type MistakeAttachmentMinAggregateOutputType = {
   id: string | null
   type: $Enums.AttachmentType | null
+  uploadStatus: $Enums.AttachmentUploadStatus | null
   storageKey: string | null
   fileName: string | null
   mimeType: string | null
@@ -46,6 +47,7 @@ export type MistakeAttachmentMinAggregateOutputType = {
   ocrText: string | null
   ocrError: string | null
   mistakeId: string | null
+  userId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -53,6 +55,7 @@ export type MistakeAttachmentMinAggregateOutputType = {
 export type MistakeAttachmentMaxAggregateOutputType = {
   id: string | null
   type: $Enums.AttachmentType | null
+  uploadStatus: $Enums.AttachmentUploadStatus | null
   storageKey: string | null
   fileName: string | null
   mimeType: string | null
@@ -62,6 +65,7 @@ export type MistakeAttachmentMaxAggregateOutputType = {
   ocrText: string | null
   ocrError: string | null
   mistakeId: string | null
+  userId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -69,6 +73,7 @@ export type MistakeAttachmentMaxAggregateOutputType = {
 export type MistakeAttachmentCountAggregateOutputType = {
   id: number
   type: number
+  uploadStatus: number
   storageKey: number
   fileName: number
   mimeType: number
@@ -79,6 +84,7 @@ export type MistakeAttachmentCountAggregateOutputType = {
   ocrJson: number
   ocrError: number
   mistakeId: number
+  userId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -96,6 +102,7 @@ export type MistakeAttachmentSumAggregateInputType = {
 export type MistakeAttachmentMinAggregateInputType = {
   id?: true
   type?: true
+  uploadStatus?: true
   storageKey?: true
   fileName?: true
   mimeType?: true
@@ -105,6 +112,7 @@ export type MistakeAttachmentMinAggregateInputType = {
   ocrText?: true
   ocrError?: true
   mistakeId?: true
+  userId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -112,6 +120,7 @@ export type MistakeAttachmentMinAggregateInputType = {
 export type MistakeAttachmentMaxAggregateInputType = {
   id?: true
   type?: true
+  uploadStatus?: true
   storageKey?: true
   fileName?: true
   mimeType?: true
@@ -121,6 +130,7 @@ export type MistakeAttachmentMaxAggregateInputType = {
   ocrText?: true
   ocrError?: true
   mistakeId?: true
+  userId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -128,6 +138,7 @@ export type MistakeAttachmentMaxAggregateInputType = {
 export type MistakeAttachmentCountAggregateInputType = {
   id?: true
   type?: true
+  uploadStatus?: true
   storageKey?: true
   fileName?: true
   mimeType?: true
@@ -138,6 +149,7 @@ export type MistakeAttachmentCountAggregateInputType = {
   ocrJson?: true
   ocrError?: true
   mistakeId?: true
+  userId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -232,6 +244,7 @@ export type MistakeAttachmentGroupByArgs<ExtArgs extends runtime.Types.Extension
 export type MistakeAttachmentGroupByOutputType = {
   id: string
   type: $Enums.AttachmentType
+  uploadStatus: $Enums.AttachmentUploadStatus
   storageKey: string
   fileName: string | null
   mimeType: string
@@ -241,7 +254,8 @@ export type MistakeAttachmentGroupByOutputType = {
   ocrText: string | null
   ocrJson: runtime.JsonValue | null
   ocrError: string | null
-  mistakeId: string
+  mistakeId: string | null
+  userId: string
   createdAt: Date
   updatedAt: Date
   _count: MistakeAttachmentCountAggregateOutputType | null
@@ -272,6 +286,7 @@ export type MistakeAttachmentWhereInput = {
   NOT?: Prisma.MistakeAttachmentWhereInput | Prisma.MistakeAttachmentWhereInput[]
   id?: Prisma.StringFilter<"MistakeAttachment"> | string
   type?: Prisma.EnumAttachmentTypeFilter<"MistakeAttachment"> | $Enums.AttachmentType
+  uploadStatus?: Prisma.EnumAttachmentUploadStatusFilter<"MistakeAttachment"> | $Enums.AttachmentUploadStatus
   storageKey?: Prisma.StringFilter<"MistakeAttachment"> | string
   fileName?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
   mimeType?: Prisma.StringFilter<"MistakeAttachment"> | string
@@ -281,15 +296,18 @@ export type MistakeAttachmentWhereInput = {
   ocrText?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
   ocrJson?: Prisma.JsonNullableFilter<"MistakeAttachment">
   ocrError?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
-  mistakeId?: Prisma.StringFilter<"MistakeAttachment"> | string
+  mistakeId?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
+  userId?: Prisma.StringFilter<"MistakeAttachment"> | string
   createdAt?: Prisma.DateTimeFilter<"MistakeAttachment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MistakeAttachment"> | Date | string
-  mistake?: Prisma.XOR<Prisma.MistakeScalarRelationFilter, Prisma.MistakeWhereInput>
+  mistake?: Prisma.XOR<Prisma.MistakeNullableScalarRelationFilter, Prisma.MistakeWhereInput> | null
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type MistakeAttachmentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  uploadStatus?: Prisma.SortOrder
   storageKey?: Prisma.SortOrder
   fileName?: Prisma.SortOrderInput | Prisma.SortOrder
   mimeType?: Prisma.SortOrder
@@ -299,10 +317,12 @@ export type MistakeAttachmentOrderByWithRelationInput = {
   ocrText?: Prisma.SortOrderInput | Prisma.SortOrder
   ocrJson?: Prisma.SortOrderInput | Prisma.SortOrder
   ocrError?: Prisma.SortOrderInput | Prisma.SortOrder
-  mistakeId?: Prisma.SortOrder
+  mistakeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   mistake?: Prisma.MistakeOrderByWithRelationInput
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type MistakeAttachmentWhereUniqueInput = Prisma.AtLeast<{
@@ -312,6 +332,7 @@ export type MistakeAttachmentWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.MistakeAttachmentWhereInput[]
   NOT?: Prisma.MistakeAttachmentWhereInput | Prisma.MistakeAttachmentWhereInput[]
   type?: Prisma.EnumAttachmentTypeFilter<"MistakeAttachment"> | $Enums.AttachmentType
+  uploadStatus?: Prisma.EnumAttachmentUploadStatusFilter<"MistakeAttachment"> | $Enums.AttachmentUploadStatus
   fileName?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
   mimeType?: Prisma.StringFilter<"MistakeAttachment"> | string
   sizeBytes?: Prisma.IntNullableFilter<"MistakeAttachment"> | number | null
@@ -320,15 +341,18 @@ export type MistakeAttachmentWhereUniqueInput = Prisma.AtLeast<{
   ocrText?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
   ocrJson?: Prisma.JsonNullableFilter<"MistakeAttachment">
   ocrError?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
-  mistakeId?: Prisma.StringFilter<"MistakeAttachment"> | string
+  mistakeId?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
+  userId?: Prisma.StringFilter<"MistakeAttachment"> | string
   createdAt?: Prisma.DateTimeFilter<"MistakeAttachment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MistakeAttachment"> | Date | string
-  mistake?: Prisma.XOR<Prisma.MistakeScalarRelationFilter, Prisma.MistakeWhereInput>
+  mistake?: Prisma.XOR<Prisma.MistakeNullableScalarRelationFilter, Prisma.MistakeWhereInput> | null
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "storageKey">
 
 export type MistakeAttachmentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  uploadStatus?: Prisma.SortOrder
   storageKey?: Prisma.SortOrder
   fileName?: Prisma.SortOrderInput | Prisma.SortOrder
   mimeType?: Prisma.SortOrder
@@ -338,7 +362,8 @@ export type MistakeAttachmentOrderByWithAggregationInput = {
   ocrText?: Prisma.SortOrderInput | Prisma.SortOrder
   ocrJson?: Prisma.SortOrderInput | Prisma.SortOrder
   ocrError?: Prisma.SortOrderInput | Prisma.SortOrder
-  mistakeId?: Prisma.SortOrder
+  mistakeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.MistakeAttachmentCountOrderByAggregateInput
@@ -354,6 +379,7 @@ export type MistakeAttachmentScalarWhereWithAggregatesInput = {
   NOT?: Prisma.MistakeAttachmentScalarWhereWithAggregatesInput | Prisma.MistakeAttachmentScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"MistakeAttachment"> | string
   type?: Prisma.EnumAttachmentTypeWithAggregatesFilter<"MistakeAttachment"> | $Enums.AttachmentType
+  uploadStatus?: Prisma.EnumAttachmentUploadStatusWithAggregatesFilter<"MistakeAttachment"> | $Enums.AttachmentUploadStatus
   storageKey?: Prisma.StringWithAggregatesFilter<"MistakeAttachment"> | string
   fileName?: Prisma.StringNullableWithAggregatesFilter<"MistakeAttachment"> | string | null
   mimeType?: Prisma.StringWithAggregatesFilter<"MistakeAttachment"> | string
@@ -363,7 +389,8 @@ export type MistakeAttachmentScalarWhereWithAggregatesInput = {
   ocrText?: Prisma.StringNullableWithAggregatesFilter<"MistakeAttachment"> | string | null
   ocrJson?: Prisma.JsonNullableWithAggregatesFilter<"MistakeAttachment">
   ocrError?: Prisma.StringNullableWithAggregatesFilter<"MistakeAttachment"> | string | null
-  mistakeId?: Prisma.StringWithAggregatesFilter<"MistakeAttachment"> | string
+  mistakeId?: Prisma.StringNullableWithAggregatesFilter<"MistakeAttachment"> | string | null
+  userId?: Prisma.StringWithAggregatesFilter<"MistakeAttachment"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"MistakeAttachment"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"MistakeAttachment"> | Date | string
 }
@@ -371,6 +398,7 @@ export type MistakeAttachmentScalarWhereWithAggregatesInput = {
 export type MistakeAttachmentCreateInput = {
   id?: string
   type: $Enums.AttachmentType
+  uploadStatus?: $Enums.AttachmentUploadStatus
   storageKey: string
   fileName?: string | null
   mimeType: string
@@ -382,12 +410,14 @@ export type MistakeAttachmentCreateInput = {
   ocrError?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  mistake: Prisma.MistakeCreateNestedOneWithoutAttachmentsInput
+  mistake?: Prisma.MistakeCreateNestedOneWithoutAttachmentsInput
+  user: Prisma.UserCreateNestedOneWithoutMistakeAttachmentsInput
 }
 
 export type MistakeAttachmentUncheckedCreateInput = {
   id?: string
   type: $Enums.AttachmentType
+  uploadStatus?: $Enums.AttachmentUploadStatus
   storageKey: string
   fileName?: string | null
   mimeType: string
@@ -397,7 +427,8 @@ export type MistakeAttachmentUncheckedCreateInput = {
   ocrText?: string | null
   ocrJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ocrError?: string | null
-  mistakeId: string
+  mistakeId?: string | null
+  userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -405,6 +436,7 @@ export type MistakeAttachmentUncheckedCreateInput = {
 export type MistakeAttachmentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumAttachmentTypeFieldUpdateOperationsInput | $Enums.AttachmentType
+  uploadStatus?: Prisma.EnumAttachmentUploadStatusFieldUpdateOperationsInput | $Enums.AttachmentUploadStatus
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
@@ -416,12 +448,14 @@ export type MistakeAttachmentUpdateInput = {
   ocrError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  mistake?: Prisma.MistakeUpdateOneRequiredWithoutAttachmentsNestedInput
+  mistake?: Prisma.MistakeUpdateOneWithoutAttachmentsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutMistakeAttachmentsNestedInput
 }
 
 export type MistakeAttachmentUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumAttachmentTypeFieldUpdateOperationsInput | $Enums.AttachmentType
+  uploadStatus?: Prisma.EnumAttachmentUploadStatusFieldUpdateOperationsInput | $Enums.AttachmentUploadStatus
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
@@ -431,7 +465,8 @@ export type MistakeAttachmentUncheckedUpdateInput = {
   ocrText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ocrJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ocrError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mistakeId?: Prisma.StringFieldUpdateOperationsInput | string
+  mistakeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -439,6 +474,7 @@ export type MistakeAttachmentUncheckedUpdateInput = {
 export type MistakeAttachmentCreateManyInput = {
   id?: string
   type: $Enums.AttachmentType
+  uploadStatus?: $Enums.AttachmentUploadStatus
   storageKey: string
   fileName?: string | null
   mimeType: string
@@ -448,7 +484,8 @@ export type MistakeAttachmentCreateManyInput = {
   ocrText?: string | null
   ocrJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ocrError?: string | null
-  mistakeId: string
+  mistakeId?: string | null
+  userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -456,6 +493,7 @@ export type MistakeAttachmentCreateManyInput = {
 export type MistakeAttachmentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumAttachmentTypeFieldUpdateOperationsInput | $Enums.AttachmentType
+  uploadStatus?: Prisma.EnumAttachmentUploadStatusFieldUpdateOperationsInput | $Enums.AttachmentUploadStatus
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
@@ -472,6 +510,7 @@ export type MistakeAttachmentUpdateManyMutationInput = {
 export type MistakeAttachmentUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumAttachmentTypeFieldUpdateOperationsInput | $Enums.AttachmentType
+  uploadStatus?: Prisma.EnumAttachmentUploadStatusFieldUpdateOperationsInput | $Enums.AttachmentUploadStatus
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
@@ -481,7 +520,8 @@ export type MistakeAttachmentUncheckedUpdateManyInput = {
   ocrText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ocrJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ocrError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mistakeId?: Prisma.StringFieldUpdateOperationsInput | string
+  mistakeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -499,6 +539,7 @@ export type MistakeAttachmentOrderByRelationAggregateInput = {
 export type MistakeAttachmentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  uploadStatus?: Prisma.SortOrder
   storageKey?: Prisma.SortOrder
   fileName?: Prisma.SortOrder
   mimeType?: Prisma.SortOrder
@@ -509,6 +550,7 @@ export type MistakeAttachmentCountOrderByAggregateInput = {
   ocrJson?: Prisma.SortOrder
   ocrError?: Prisma.SortOrder
   mistakeId?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -520,6 +562,7 @@ export type MistakeAttachmentAvgOrderByAggregateInput = {
 export type MistakeAttachmentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  uploadStatus?: Prisma.SortOrder
   storageKey?: Prisma.SortOrder
   fileName?: Prisma.SortOrder
   mimeType?: Prisma.SortOrder
@@ -529,6 +572,7 @@ export type MistakeAttachmentMaxOrderByAggregateInput = {
   ocrText?: Prisma.SortOrder
   ocrError?: Prisma.SortOrder
   mistakeId?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -536,6 +580,7 @@ export type MistakeAttachmentMaxOrderByAggregateInput = {
 export type MistakeAttachmentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  uploadStatus?: Prisma.SortOrder
   storageKey?: Prisma.SortOrder
   fileName?: Prisma.SortOrder
   mimeType?: Prisma.SortOrder
@@ -545,12 +590,55 @@ export type MistakeAttachmentMinOrderByAggregateInput = {
   ocrText?: Prisma.SortOrder
   ocrError?: Prisma.SortOrder
   mistakeId?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type MistakeAttachmentSumOrderByAggregateInput = {
   sizeBytes?: Prisma.SortOrder
+}
+
+export type MistakeAttachmentCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.MistakeAttachmentCreateWithoutUserInput, Prisma.MistakeAttachmentUncheckedCreateWithoutUserInput> | Prisma.MistakeAttachmentCreateWithoutUserInput[] | Prisma.MistakeAttachmentUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.MistakeAttachmentCreateOrConnectWithoutUserInput | Prisma.MistakeAttachmentCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.MistakeAttachmentCreateManyUserInputEnvelope
+  connect?: Prisma.MistakeAttachmentWhereUniqueInput | Prisma.MistakeAttachmentWhereUniqueInput[]
+}
+
+export type MistakeAttachmentUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.MistakeAttachmentCreateWithoutUserInput, Prisma.MistakeAttachmentUncheckedCreateWithoutUserInput> | Prisma.MistakeAttachmentCreateWithoutUserInput[] | Prisma.MistakeAttachmentUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.MistakeAttachmentCreateOrConnectWithoutUserInput | Prisma.MistakeAttachmentCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.MistakeAttachmentCreateManyUserInputEnvelope
+  connect?: Prisma.MistakeAttachmentWhereUniqueInput | Prisma.MistakeAttachmentWhereUniqueInput[]
+}
+
+export type MistakeAttachmentUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.MistakeAttachmentCreateWithoutUserInput, Prisma.MistakeAttachmentUncheckedCreateWithoutUserInput> | Prisma.MistakeAttachmentCreateWithoutUserInput[] | Prisma.MistakeAttachmentUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.MistakeAttachmentCreateOrConnectWithoutUserInput | Prisma.MistakeAttachmentCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.MistakeAttachmentUpsertWithWhereUniqueWithoutUserInput | Prisma.MistakeAttachmentUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.MistakeAttachmentCreateManyUserInputEnvelope
+  set?: Prisma.MistakeAttachmentWhereUniqueInput | Prisma.MistakeAttachmentWhereUniqueInput[]
+  disconnect?: Prisma.MistakeAttachmentWhereUniqueInput | Prisma.MistakeAttachmentWhereUniqueInput[]
+  delete?: Prisma.MistakeAttachmentWhereUniqueInput | Prisma.MistakeAttachmentWhereUniqueInput[]
+  connect?: Prisma.MistakeAttachmentWhereUniqueInput | Prisma.MistakeAttachmentWhereUniqueInput[]
+  update?: Prisma.MistakeAttachmentUpdateWithWhereUniqueWithoutUserInput | Prisma.MistakeAttachmentUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.MistakeAttachmentUpdateManyWithWhereWithoutUserInput | Prisma.MistakeAttachmentUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.MistakeAttachmentScalarWhereInput | Prisma.MistakeAttachmentScalarWhereInput[]
+}
+
+export type MistakeAttachmentUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.MistakeAttachmentCreateWithoutUserInput, Prisma.MistakeAttachmentUncheckedCreateWithoutUserInput> | Prisma.MistakeAttachmentCreateWithoutUserInput[] | Prisma.MistakeAttachmentUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.MistakeAttachmentCreateOrConnectWithoutUserInput | Prisma.MistakeAttachmentCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.MistakeAttachmentUpsertWithWhereUniqueWithoutUserInput | Prisma.MistakeAttachmentUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.MistakeAttachmentCreateManyUserInputEnvelope
+  set?: Prisma.MistakeAttachmentWhereUniqueInput | Prisma.MistakeAttachmentWhereUniqueInput[]
+  disconnect?: Prisma.MistakeAttachmentWhereUniqueInput | Prisma.MistakeAttachmentWhereUniqueInput[]
+  delete?: Prisma.MistakeAttachmentWhereUniqueInput | Prisma.MistakeAttachmentWhereUniqueInput[]
+  connect?: Prisma.MistakeAttachmentWhereUniqueInput | Prisma.MistakeAttachmentWhereUniqueInput[]
+  update?: Prisma.MistakeAttachmentUpdateWithWhereUniqueWithoutUserInput | Prisma.MistakeAttachmentUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.MistakeAttachmentUpdateManyWithWhereWithoutUserInput | Prisma.MistakeAttachmentUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.MistakeAttachmentScalarWhereInput | Prisma.MistakeAttachmentScalarWhereInput[]
 }
 
 export type MistakeAttachmentCreateNestedManyWithoutMistakeInput = {
@@ -599,13 +687,18 @@ export type EnumAttachmentTypeFieldUpdateOperationsInput = {
   set?: $Enums.AttachmentType
 }
 
+export type EnumAttachmentUploadStatusFieldUpdateOperationsInput = {
+  set?: $Enums.AttachmentUploadStatus
+}
+
 export type EnumOcrStatusFieldUpdateOperationsInput = {
   set?: $Enums.OcrStatus
 }
 
-export type MistakeAttachmentCreateWithoutMistakeInput = {
+export type MistakeAttachmentCreateWithoutUserInput = {
   id?: string
   type: $Enums.AttachmentType
+  uploadStatus?: $Enums.AttachmentUploadStatus
   storageKey: string
   fileName?: string | null
   mimeType: string
@@ -617,11 +710,13 @@ export type MistakeAttachmentCreateWithoutMistakeInput = {
   ocrError?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  mistake?: Prisma.MistakeCreateNestedOneWithoutAttachmentsInput
 }
 
-export type MistakeAttachmentUncheckedCreateWithoutMistakeInput = {
+export type MistakeAttachmentUncheckedCreateWithoutUserInput = {
   id?: string
   type: $Enums.AttachmentType
+  uploadStatus?: $Enums.AttachmentUploadStatus
   storageKey: string
   fileName?: string | null
   mimeType: string
@@ -631,6 +726,91 @@ export type MistakeAttachmentUncheckedCreateWithoutMistakeInput = {
   ocrText?: string | null
   ocrJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ocrError?: string | null
+  mistakeId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type MistakeAttachmentCreateOrConnectWithoutUserInput = {
+  where: Prisma.MistakeAttachmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.MistakeAttachmentCreateWithoutUserInput, Prisma.MistakeAttachmentUncheckedCreateWithoutUserInput>
+}
+
+export type MistakeAttachmentCreateManyUserInputEnvelope = {
+  data: Prisma.MistakeAttachmentCreateManyUserInput | Prisma.MistakeAttachmentCreateManyUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type MistakeAttachmentUpsertWithWhereUniqueWithoutUserInput = {
+  where: Prisma.MistakeAttachmentWhereUniqueInput
+  update: Prisma.XOR<Prisma.MistakeAttachmentUpdateWithoutUserInput, Prisma.MistakeAttachmentUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.MistakeAttachmentCreateWithoutUserInput, Prisma.MistakeAttachmentUncheckedCreateWithoutUserInput>
+}
+
+export type MistakeAttachmentUpdateWithWhereUniqueWithoutUserInput = {
+  where: Prisma.MistakeAttachmentWhereUniqueInput
+  data: Prisma.XOR<Prisma.MistakeAttachmentUpdateWithoutUserInput, Prisma.MistakeAttachmentUncheckedUpdateWithoutUserInput>
+}
+
+export type MistakeAttachmentUpdateManyWithWhereWithoutUserInput = {
+  where: Prisma.MistakeAttachmentScalarWhereInput
+  data: Prisma.XOR<Prisma.MistakeAttachmentUpdateManyMutationInput, Prisma.MistakeAttachmentUncheckedUpdateManyWithoutUserInput>
+}
+
+export type MistakeAttachmentScalarWhereInput = {
+  AND?: Prisma.MistakeAttachmentScalarWhereInput | Prisma.MistakeAttachmentScalarWhereInput[]
+  OR?: Prisma.MistakeAttachmentScalarWhereInput[]
+  NOT?: Prisma.MistakeAttachmentScalarWhereInput | Prisma.MistakeAttachmentScalarWhereInput[]
+  id?: Prisma.StringFilter<"MistakeAttachment"> | string
+  type?: Prisma.EnumAttachmentTypeFilter<"MistakeAttachment"> | $Enums.AttachmentType
+  uploadStatus?: Prisma.EnumAttachmentUploadStatusFilter<"MistakeAttachment"> | $Enums.AttachmentUploadStatus
+  storageKey?: Prisma.StringFilter<"MistakeAttachment"> | string
+  fileName?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
+  mimeType?: Prisma.StringFilter<"MistakeAttachment"> | string
+  sizeBytes?: Prisma.IntNullableFilter<"MistakeAttachment"> | number | null
+  publicUrl?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
+  ocrStatus?: Prisma.EnumOcrStatusFilter<"MistakeAttachment"> | $Enums.OcrStatus
+  ocrText?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
+  ocrJson?: Prisma.JsonNullableFilter<"MistakeAttachment">
+  ocrError?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
+  mistakeId?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
+  userId?: Prisma.StringFilter<"MistakeAttachment"> | string
+  createdAt?: Prisma.DateTimeFilter<"MistakeAttachment"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"MistakeAttachment"> | Date | string
+}
+
+export type MistakeAttachmentCreateWithoutMistakeInput = {
+  id?: string
+  type: $Enums.AttachmentType
+  uploadStatus?: $Enums.AttachmentUploadStatus
+  storageKey: string
+  fileName?: string | null
+  mimeType: string
+  sizeBytes?: number | null
+  publicUrl?: string | null
+  ocrStatus?: $Enums.OcrStatus
+  ocrText?: string | null
+  ocrJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrError?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutMistakeAttachmentsInput
+}
+
+export type MistakeAttachmentUncheckedCreateWithoutMistakeInput = {
+  id?: string
+  type: $Enums.AttachmentType
+  uploadStatus?: $Enums.AttachmentUploadStatus
+  storageKey: string
+  fileName?: string | null
+  mimeType: string
+  sizeBytes?: number | null
+  publicUrl?: string | null
+  ocrStatus?: $Enums.OcrStatus
+  ocrText?: string | null
+  ocrJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrError?: string | null
+  userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -661,29 +841,10 @@ export type MistakeAttachmentUpdateManyWithWhereWithoutMistakeInput = {
   data: Prisma.XOR<Prisma.MistakeAttachmentUpdateManyMutationInput, Prisma.MistakeAttachmentUncheckedUpdateManyWithoutMistakeInput>
 }
 
-export type MistakeAttachmentScalarWhereInput = {
-  AND?: Prisma.MistakeAttachmentScalarWhereInput | Prisma.MistakeAttachmentScalarWhereInput[]
-  OR?: Prisma.MistakeAttachmentScalarWhereInput[]
-  NOT?: Prisma.MistakeAttachmentScalarWhereInput | Prisma.MistakeAttachmentScalarWhereInput[]
-  id?: Prisma.StringFilter<"MistakeAttachment"> | string
-  type?: Prisma.EnumAttachmentTypeFilter<"MistakeAttachment"> | $Enums.AttachmentType
-  storageKey?: Prisma.StringFilter<"MistakeAttachment"> | string
-  fileName?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
-  mimeType?: Prisma.StringFilter<"MistakeAttachment"> | string
-  sizeBytes?: Prisma.IntNullableFilter<"MistakeAttachment"> | number | null
-  publicUrl?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
-  ocrStatus?: Prisma.EnumOcrStatusFilter<"MistakeAttachment"> | $Enums.OcrStatus
-  ocrText?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
-  ocrJson?: Prisma.JsonNullableFilter<"MistakeAttachment">
-  ocrError?: Prisma.StringNullableFilter<"MistakeAttachment"> | string | null
-  mistakeId?: Prisma.StringFilter<"MistakeAttachment"> | string
-  createdAt?: Prisma.DateTimeFilter<"MistakeAttachment"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"MistakeAttachment"> | Date | string
-}
-
-export type MistakeAttachmentCreateManyMistakeInput = {
+export type MistakeAttachmentCreateManyUserInput = {
   id?: string
   type: $Enums.AttachmentType
+  uploadStatus?: $Enums.AttachmentUploadStatus
   storageKey: string
   fileName?: string | null
   mimeType: string
@@ -693,6 +854,79 @@ export type MistakeAttachmentCreateManyMistakeInput = {
   ocrText?: string | null
   ocrJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ocrError?: string | null
+  mistakeId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type MistakeAttachmentUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumAttachmentTypeFieldUpdateOperationsInput | $Enums.AttachmentType
+  uploadStatus?: Prisma.EnumAttachmentUploadStatusFieldUpdateOperationsInput | $Enums.AttachmentUploadStatus
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  sizeBytes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  publicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ocrStatus?: Prisma.EnumOcrStatusFieldUpdateOperationsInput | $Enums.OcrStatus
+  ocrText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ocrJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  mistake?: Prisma.MistakeUpdateOneWithoutAttachmentsNestedInput
+}
+
+export type MistakeAttachmentUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumAttachmentTypeFieldUpdateOperationsInput | $Enums.AttachmentType
+  uploadStatus?: Prisma.EnumAttachmentUploadStatusFieldUpdateOperationsInput | $Enums.AttachmentUploadStatus
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  sizeBytes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  publicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ocrStatus?: Prisma.EnumOcrStatusFieldUpdateOperationsInput | $Enums.OcrStatus
+  ocrText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ocrJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mistakeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type MistakeAttachmentUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumAttachmentTypeFieldUpdateOperationsInput | $Enums.AttachmentType
+  uploadStatus?: Prisma.EnumAttachmentUploadStatusFieldUpdateOperationsInput | $Enums.AttachmentUploadStatus
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  sizeBytes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  publicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ocrStatus?: Prisma.EnumOcrStatusFieldUpdateOperationsInput | $Enums.OcrStatus
+  ocrText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ocrJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mistakeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type MistakeAttachmentCreateManyMistakeInput = {
+  id?: string
+  type: $Enums.AttachmentType
+  uploadStatus?: $Enums.AttachmentUploadStatus
+  storageKey: string
+  fileName?: string | null
+  mimeType: string
+  sizeBytes?: number | null
+  publicUrl?: string | null
+  ocrStatus?: $Enums.OcrStatus
+  ocrText?: string | null
+  ocrJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrError?: string | null
+  userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -700,6 +934,7 @@ export type MistakeAttachmentCreateManyMistakeInput = {
 export type MistakeAttachmentUpdateWithoutMistakeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumAttachmentTypeFieldUpdateOperationsInput | $Enums.AttachmentType
+  uploadStatus?: Prisma.EnumAttachmentUploadStatusFieldUpdateOperationsInput | $Enums.AttachmentUploadStatus
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
@@ -711,11 +946,13 @@ export type MistakeAttachmentUpdateWithoutMistakeInput = {
   ocrError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutMistakeAttachmentsNestedInput
 }
 
 export type MistakeAttachmentUncheckedUpdateWithoutMistakeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumAttachmentTypeFieldUpdateOperationsInput | $Enums.AttachmentType
+  uploadStatus?: Prisma.EnumAttachmentUploadStatusFieldUpdateOperationsInput | $Enums.AttachmentUploadStatus
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
@@ -725,6 +962,7 @@ export type MistakeAttachmentUncheckedUpdateWithoutMistakeInput = {
   ocrText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ocrJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ocrError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -732,6 +970,7 @@ export type MistakeAttachmentUncheckedUpdateWithoutMistakeInput = {
 export type MistakeAttachmentUncheckedUpdateManyWithoutMistakeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumAttachmentTypeFieldUpdateOperationsInput | $Enums.AttachmentType
+  uploadStatus?: Prisma.EnumAttachmentUploadStatusFieldUpdateOperationsInput | $Enums.AttachmentUploadStatus
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mimeType?: Prisma.StringFieldUpdateOperationsInput | string
@@ -741,6 +980,7 @@ export type MistakeAttachmentUncheckedUpdateManyWithoutMistakeInput = {
   ocrText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ocrJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ocrError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -750,6 +990,7 @@ export type MistakeAttachmentUncheckedUpdateManyWithoutMistakeInput = {
 export type MistakeAttachmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   type?: boolean
+  uploadStatus?: boolean
   storageKey?: boolean
   fileName?: boolean
   mimeType?: boolean
@@ -760,14 +1001,17 @@ export type MistakeAttachmentSelect<ExtArgs extends runtime.Types.Extensions.Int
   ocrJson?: boolean
   ocrError?: boolean
   mistakeId?: boolean
+  userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  mistake?: boolean | Prisma.MistakeDefaultArgs<ExtArgs>
+  mistake?: boolean | Prisma.MistakeAttachment$mistakeArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["mistakeAttachment"]>
 
 export type MistakeAttachmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   type?: boolean
+  uploadStatus?: boolean
   storageKey?: boolean
   fileName?: boolean
   mimeType?: boolean
@@ -778,14 +1022,17 @@ export type MistakeAttachmentSelectCreateManyAndReturn<ExtArgs extends runtime.T
   ocrJson?: boolean
   ocrError?: boolean
   mistakeId?: boolean
+  userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  mistake?: boolean | Prisma.MistakeDefaultArgs<ExtArgs>
+  mistake?: boolean | Prisma.MistakeAttachment$mistakeArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["mistakeAttachment"]>
 
 export type MistakeAttachmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   type?: boolean
+  uploadStatus?: boolean
   storageKey?: boolean
   fileName?: boolean
   mimeType?: boolean
@@ -796,14 +1043,17 @@ export type MistakeAttachmentSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   ocrJson?: boolean
   ocrError?: boolean
   mistakeId?: boolean
+  userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  mistake?: boolean | Prisma.MistakeDefaultArgs<ExtArgs>
+  mistake?: boolean | Prisma.MistakeAttachment$mistakeArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["mistakeAttachment"]>
 
 export type MistakeAttachmentSelectScalar = {
   id?: boolean
   type?: boolean
+  uploadStatus?: boolean
   storageKey?: boolean
   fileName?: boolean
   mimeType?: boolean
@@ -814,29 +1064,35 @@ export type MistakeAttachmentSelectScalar = {
   ocrJson?: boolean
   ocrError?: boolean
   mistakeId?: boolean
+  userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type MistakeAttachmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "storageKey" | "fileName" | "mimeType" | "sizeBytes" | "publicUrl" | "ocrStatus" | "ocrText" | "ocrJson" | "ocrError" | "mistakeId" | "createdAt" | "updatedAt", ExtArgs["result"]["mistakeAttachment"]>
+export type MistakeAttachmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "uploadStatus" | "storageKey" | "fileName" | "mimeType" | "sizeBytes" | "publicUrl" | "ocrStatus" | "ocrText" | "ocrJson" | "ocrError" | "mistakeId" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["mistakeAttachment"]>
 export type MistakeAttachmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  mistake?: boolean | Prisma.MistakeDefaultArgs<ExtArgs>
+  mistake?: boolean | Prisma.MistakeAttachment$mistakeArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type MistakeAttachmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  mistake?: boolean | Prisma.MistakeDefaultArgs<ExtArgs>
+  mistake?: boolean | Prisma.MistakeAttachment$mistakeArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type MistakeAttachmentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  mistake?: boolean | Prisma.MistakeDefaultArgs<ExtArgs>
+  mistake?: boolean | Prisma.MistakeAttachment$mistakeArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $MistakeAttachmentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "MistakeAttachment"
   objects: {
-    mistake: Prisma.$MistakePayload<ExtArgs>
+    mistake: Prisma.$MistakePayload<ExtArgs> | null
+    user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     type: $Enums.AttachmentType
+    uploadStatus: $Enums.AttachmentUploadStatus
     storageKey: string
     fileName: string | null
     mimeType: string
@@ -846,7 +1102,8 @@ export type $MistakeAttachmentPayload<ExtArgs extends runtime.Types.Extensions.I
     ocrText: string | null
     ocrJson: runtime.JsonValue | null
     ocrError: string | null
-    mistakeId: string
+    mistakeId: string | null
+    userId: string
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["mistakeAttachment"]>
@@ -1243,7 +1500,8 @@ readonly fields: MistakeAttachmentFieldRefs;
  */
 export interface Prisma__MistakeAttachmentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  mistake<T extends Prisma.MistakeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MistakeDefaultArgs<ExtArgs>>): Prisma.Prisma__MistakeClient<runtime.Types.Result.GetResult<Prisma.$MistakePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  mistake<T extends Prisma.MistakeAttachment$mistakeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MistakeAttachment$mistakeArgs<ExtArgs>>): Prisma.Prisma__MistakeClient<runtime.Types.Result.GetResult<Prisma.$MistakePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1275,6 +1533,7 @@ export interface Prisma__MistakeAttachmentClient<T, Null = never, ExtArgs extend
 export interface MistakeAttachmentFieldRefs {
   readonly id: Prisma.FieldRef<"MistakeAttachment", 'String'>
   readonly type: Prisma.FieldRef<"MistakeAttachment", 'AttachmentType'>
+  readonly uploadStatus: Prisma.FieldRef<"MistakeAttachment", 'AttachmentUploadStatus'>
   readonly storageKey: Prisma.FieldRef<"MistakeAttachment", 'String'>
   readonly fileName: Prisma.FieldRef<"MistakeAttachment", 'String'>
   readonly mimeType: Prisma.FieldRef<"MistakeAttachment", 'String'>
@@ -1285,6 +1544,7 @@ export interface MistakeAttachmentFieldRefs {
   readonly ocrJson: Prisma.FieldRef<"MistakeAttachment", 'Json'>
   readonly ocrError: Prisma.FieldRef<"MistakeAttachment", 'String'>
   readonly mistakeId: Prisma.FieldRef<"MistakeAttachment", 'String'>
+  readonly userId: Prisma.FieldRef<"MistakeAttachment", 'String'>
   readonly createdAt: Prisma.FieldRef<"MistakeAttachment", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"MistakeAttachment", 'DateTime'>
 }
@@ -1685,6 +1945,25 @@ export type MistakeAttachmentDeleteManyArgs<ExtArgs extends runtime.Types.Extens
    * Limit how many MistakeAttachments to delete.
    */
   limit?: number
+}
+
+/**
+ * MistakeAttachment.mistake
+ */
+export type MistakeAttachment$mistakeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Mistake
+   */
+  select?: Prisma.MistakeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Mistake
+   */
+  omit?: Prisma.MistakeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MistakeInclude<ExtArgs> | null
+  where?: Prisma.MistakeWhereInput
 }
 
 /**

@@ -21,14 +21,16 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
+import { useTRPC } from "@/trpc/client";
+import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { toast } from "sonner";
 import { BsArrowDownCircleFill, BsArrowUpCircleFill } from "react-icons/bs";
 
 type PresignedUpload = {
-  key: string;
+  attachmentId: string;
   uploadUrl: string;
-  fileUrl: string | null;
+  publicUrl: string | null;
 };
 
 type UploadStatus = "pending" | "uploading" | "complete" | "failed";
@@ -43,6 +45,10 @@ type UploadItem = {
   error?: string;
   previewUrl: string | null;
   upload?: PresignedUpload;
+};
+
+type FileUploadProps = {
+  onUploaded?: (attachmentIds: string[]) => void;
 };
 
 function getUploadId(file: File) {
@@ -61,7 +67,14 @@ function createUploadItem(file: File): UploadItem {
   };
 }
 
-export function FileUpload() {
+export function FileUpload({ onUploaded }: FileUploadProps = {}) {
+  const trpc = useTRPC();
+  const prepareUploadsMutation = useMutation(
+    trpc.attachment.prepareUploads.mutationOptions()
+  );
+  const markUploadedMutation = useMutation(
+    trpc.attachment.markUploaded.mutationOptions()
+  );
   const inputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -94,25 +107,6 @@ export function FileUpload() {
 
       return nextUploads;
     });
-  }
-
-  async function createUploadUrl(file: File) {
-    const response = await fetch("/api/upload-url", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        fileName: file.name,
-        fileType: file.type,
-      }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error ?? "Could not create upload URL.");
-    }
-
-    return data as PresignedUpload;
   }
 
   function updateUpload(id: string, nextUpload: Partial<UploadItem>) {
@@ -152,18 +146,17 @@ export function FileUpload() {
     });
   }
 
-  async function uploadFile(file: File, id: string) {
+  async function uploadFile(file: File, id: string, presignedUpload: PresignedUpload) {
     updateUpload(id, { status: "uploading", progress: 0 });
 
     try {
-      const presignedUpload = await createUploadUrl(file);
       await uploadToS3(file, presignedUpload.uploadUrl, id);
       updateUpload(id, {
         status: "complete",
         progress: 100,
         upload: presignedUpload,
       });
-      return { ok: true };
+      return { ok: true, attachmentId: presignedUpload.attachmentId };
     } catch (uploadError) {
       const message =
         uploadError instanceof Error
@@ -194,32 +187,69 @@ export function FileUpload() {
     setError(null);
     setIsUploading(true);
 
-    const results = await Promise.all(
-      uploadsList.map((upload) => uploadFile(upload.file, upload.id))
-    );
+    try {
+      const preparedUploads = await prepareUploadsMutation.mutateAsync({
+        files: uploadsList.map((upload) => ({
+          fileName: upload.file.name,
+          mimeType: upload.file.type || "application/octet-stream",
+          sizeBytes: upload.file.size,
+        })),
+      });
 
-    const failedCount = results.filter((result) => !result.ok).length;
+      const results = await Promise.all(
+        uploadsList.map((upload, index) =>
+          uploadFile(upload.file, upload.id, preparedUploads[index])
+        )
+      );
 
-    if (failedCount > 0) {
-      const message = `${failedCount} ${
-        failedCount === 1 ? "file" : "files"
-      } failed to upload.`;
+      const uploadedAttachmentIds = results
+        .filter(
+          (result): result is { ok: true; attachmentId: string } =>
+            result.ok === true
+        )
+        .map((result) => result.attachmentId);
+
+      if (uploadedAttachmentIds.length > 0) {
+        await markUploadedMutation.mutateAsync({
+          attachmentIds: uploadedAttachmentIds,
+        });
+        onUploaded?.(uploadedAttachmentIds);
+      }
+
+      const failedCount = results.filter((result) => !result.ok).length;
+
+      if (failedCount > 0) {
+        const message = `${failedCount} ${
+          failedCount === 1 ? "file" : "files"
+        } failed to upload.`;
+        setError(message);
+        toast.error(message);
+      } else {
+        if (inputRef.current) {
+          inputRef.current.value = "";
+        }
+        toast.success(
+          `${uploadsList.length} ${
+            uploadsList.length === 1 ? "file" : "files"
+          } uploaded`
+        );
+      }
+    } catch (uploadError) {
+      const message =
+        uploadError instanceof Error
+          ? uploadError.message
+          : "Upload failed. Please try again.";
       setError(message);
       toast.error(message);
-    } else {
-      setUploads((currentUploads) => {
-        revokePreviewUrls(currentUploads);
-        return [];
+      uploadsList.forEach((upload) => {
+        updateUpload(upload.id, {
+          status: "failed",
+          error: message,
+        });
       });
-      if (inputRef.current) {
-        inputRef.current.value = "";
-      }
-      toast.success(
-        `${uploadsList.length} ${uploadsList.length === 1 ? "file" : "files"} uploaded`
-      );
+    } finally {
+      setIsUploading(false);
     }
-
-    setIsUploading(false);
   }
 
   function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
@@ -281,7 +311,7 @@ export function FileUpload() {
       : 0;
 
   return (
-    <Card className="max-w-md">
+    <Card>
       <CardHeader className="space-y-1">
         <CardTitle className="text-lg font-semibold tracking-tight">
           Upload Files
@@ -417,9 +447,9 @@ export function FileUpload() {
               <AlertDescription>
                 <div className="flex flex-col gap-1">
                   {completedUploads.map((upload) =>
-                    upload.upload?.fileUrl ? (
+                    upload.upload?.publicUrl ? (
                       <Link
-                        href={upload.upload.fileUrl}
+                        href={upload.upload.publicUrl}
                         key={upload.id}
                         rel="noreferrer"
                         target="_blank"
@@ -427,7 +457,7 @@ export function FileUpload() {
                         {upload.name}
                       </Link>
                     ) : (
-                      <span key={upload.id}>{upload.upload?.key}</span>
+                      <span key={upload.id}>{upload.upload?.attachmentId}</span>
                     )
                   )}
                 </div>

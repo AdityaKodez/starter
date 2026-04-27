@@ -46,7 +46,7 @@ export default function RootLayout({
         noto.variable,
       )}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full  flex flex-col">
         <ThemeProvider>
           <WarningDialogProvider>
             <TooltipProvider>

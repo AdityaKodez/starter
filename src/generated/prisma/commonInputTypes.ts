@@ -345,6 +345,13 @@ export type EnumAttachmentTypeFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumAttachmentTypeFilter<$PrismaModel> | $Enums.AttachmentType
 }
 
+export type EnumAttachmentUploadStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.AttachmentUploadStatus | Prisma.EnumAttachmentUploadStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.AttachmentUploadStatus[] | Prisma.ListEnumAttachmentUploadStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.AttachmentUploadStatus[] | Prisma.ListEnumAttachmentUploadStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumAttachmentUploadStatusFilter<$PrismaModel> | $Enums.AttachmentUploadStatus
+}
+
 export type EnumOcrStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.OcrStatus | Prisma.EnumOcrStatusFieldRefInput<$PrismaModel>
   in?: $Enums.OcrStatus[] | Prisma.ListEnumOcrStatusFieldRefInput<$PrismaModel>
@@ -360,6 +367,16 @@ export type EnumAttachmentTypeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumAttachmentTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumAttachmentTypeFilter<$PrismaModel>
+}
+
+export type EnumAttachmentUploadStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.AttachmentUploadStatus | Prisma.EnumAttachmentUploadStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.AttachmentUploadStatus[] | Prisma.ListEnumAttachmentUploadStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.AttachmentUploadStatus[] | Prisma.ListEnumAttachmentUploadStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumAttachmentUploadStatusWithAggregatesFilter<$PrismaModel> | $Enums.AttachmentUploadStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAttachmentUploadStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAttachmentUploadStatusFilter<$PrismaModel>
 }
 
 export type EnumOcrStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -678,6 +695,13 @@ export type NestedEnumAttachmentTypeFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumAttachmentTypeFilter<$PrismaModel> | $Enums.AttachmentType
 }
 
+export type NestedEnumAttachmentUploadStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.AttachmentUploadStatus | Prisma.EnumAttachmentUploadStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.AttachmentUploadStatus[] | Prisma.ListEnumAttachmentUploadStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.AttachmentUploadStatus[] | Prisma.ListEnumAttachmentUploadStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumAttachmentUploadStatusFilter<$PrismaModel> | $Enums.AttachmentUploadStatus
+}
+
 export type NestedEnumOcrStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.OcrStatus | Prisma.EnumOcrStatusFieldRefInput<$PrismaModel>
   in?: $Enums.OcrStatus[] | Prisma.ListEnumOcrStatusFieldRefInput<$PrismaModel>
@@ -693,6 +717,16 @@ export type NestedEnumAttachmentTypeWithAggregatesFilter<$PrismaModel = never> =
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumAttachmentTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumAttachmentTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumAttachmentUploadStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.AttachmentUploadStatus | Prisma.EnumAttachmentUploadStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.AttachmentUploadStatus[] | Prisma.ListEnumAttachmentUploadStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.AttachmentUploadStatus[] | Prisma.ListEnumAttachmentUploadStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumAttachmentUploadStatusWithAggregatesFilter<$PrismaModel> | $Enums.AttachmentUploadStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAttachmentUploadStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAttachmentUploadStatusFilter<$PrismaModel>
 }
 
 export type NestedEnumOcrStatusWithAggregatesFilter<$PrismaModel = never> = {

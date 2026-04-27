@@ -79,3 +79,13 @@ export const OcrStatus = {
 } as const
 
 export type OcrStatus = (typeof OcrStatus)[keyof typeof OcrStatus]
+
+
+export const AttachmentUploadStatus = {
+  PENDING: 'PENDING',
+  UPLOADED: 'UPLOADED',
+  ATTACHED: 'ATTACHED',
+  FAILED: 'FAILED'
+} as const
+
+export type AttachmentUploadStatus = (typeof AttachmentUploadStatus)[keyof typeof AttachmentUploadStatus]

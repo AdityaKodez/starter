@@ -1247,6 +1247,7 @@ export type MistakeScalarFieldEnum = (typeof MistakeScalarFieldEnum)[keyof typeo
 export const MistakeAttachmentScalarFieldEnum = {
   id: 'id',
   type: 'type',
+  uploadStatus: 'uploadStatus',
   storageKey: 'storageKey',
   fileName: 'fileName',
   mimeType: 'mimeType',
@@ -1257,6 +1258,7 @@ export const MistakeAttachmentScalarFieldEnum = {
   ocrJson: 'ocrJson',
   ocrError: 'ocrError',
   mistakeId: 'mistakeId',
+  userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1483,6 +1485,20 @@ export type EnumAttachmentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$P
  * Reference to a field of type 'AttachmentType[]'
  */
 export type ListEnumAttachmentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttachmentType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'AttachmentUploadStatus'
+ */
+export type EnumAttachmentUploadStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttachmentUploadStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'AttachmentUploadStatus[]'
+ */
+export type ListEnumAttachmentUploadStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttachmentUploadStatus[]'>
     
 
 

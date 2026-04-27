@@ -1,9 +1,13 @@
+import { TEST_ATTEMPT_DEFAULT_PAGE_SIZE } from "@/configs/const/test-attempt";
 import { prefetch, trpc } from "@/trpc/server";
 
-export const prefetchPlaylistList = () => {
-    return prefetch(trpc.playlist.list.queryOptions());
+export const prefetchTestAttempts = () => {
+        return prefetch(
+            trpc.testAttempt.view.infiniteQueryOptions(
+                { limit: TEST_ATTEMPT_DEFAULT_PAGE_SIZE },
+                {
+                    getNextPageParam: (lastPage) => lastPage.nextCursor,
+                },
+            ),
+        );
 };
-
-export const prefetchPlaylistById = (id: string) => {
-    return prefetch(trpc.playlist.byId.queryOptions({ id }));   
-}

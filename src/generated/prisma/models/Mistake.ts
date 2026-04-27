@@ -645,10 +645,12 @@ export type MistakeCreateNestedOneWithoutAttachmentsInput = {
   connect?: Prisma.MistakeWhereUniqueInput
 }
 
-export type MistakeUpdateOneRequiredWithoutAttachmentsNestedInput = {
+export type MistakeUpdateOneWithoutAttachmentsNestedInput = {
   create?: Prisma.XOR<Prisma.MistakeCreateWithoutAttachmentsInput, Prisma.MistakeUncheckedCreateWithoutAttachmentsInput>
   connectOrCreate?: Prisma.MistakeCreateOrConnectWithoutAttachmentsInput
   upsert?: Prisma.MistakeUpsertWithoutAttachmentsInput
+  disconnect?: Prisma.MistakeWhereInput | boolean
+  delete?: Prisma.MistakeWhereInput | boolean
   connect?: Prisma.MistakeWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.MistakeUpdateToOneWithWhereWithoutAttachmentsInput, Prisma.MistakeUpdateWithoutAttachmentsInput>, Prisma.MistakeUncheckedUpdateWithoutAttachmentsInput>
 }

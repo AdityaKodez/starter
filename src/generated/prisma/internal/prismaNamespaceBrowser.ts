@@ -208,6 +208,7 @@ export type MistakeScalarFieldEnum = (typeof MistakeScalarFieldEnum)[keyof typeo
 export const MistakeAttachmentScalarFieldEnum = {
   id: 'id',
   type: 'type',
+  uploadStatus: 'uploadStatus',
   storageKey: 'storageKey',
   fileName: 'fileName',
   mimeType: 'mimeType',
@@ -218,6 +219,7 @@ export const MistakeAttachmentScalarFieldEnum = {
   ocrJson: 'ocrJson',
   ocrError: 'ocrError',
   mistakeId: 'mistakeId',
+  userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
