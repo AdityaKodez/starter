@@ -20,114 +20,94 @@ export type MistakeModel = runtime.Types.Result.DefaultSelection<Prisma.$Mistake
 
 export type AggregateMistake = {
   _count: MistakeCountAggregateOutputType | null
+  _avg: MistakeAvgAggregateOutputType | null
+  _sum: MistakeSumAggregateOutputType | null
   _min: MistakeMinAggregateOutputType | null
   _max: MistakeMaxAggregateOutputType | null
 }
 
+export type MistakeAvgAggregateOutputType = {
+  confidence: number | null
+}
+
+export type MistakeSumAggregateOutputType = {
+  confidence: number | null
+}
+
 export type MistakeMinAggregateOutputType = {
   id: string | null
-  title: string | null
+  analysisRunId: string | null
   type: $Enums.MistakeType | null
+  description: string | null
+  topic: string | null
+  confidence: number | null
   status: $Enums.MistakeStatus | null
-  userNote: string | null
-  rootCause: string | null
-  fixPlan: string | null
-  retryDueAt: Date | null
-  lastRetriedAt: Date | null
-  masteredAt: Date | null
-  questionAttemptId: string | null
-  userId: string | null
   createdAt: Date | null
-  updatedAt: Date | null
 }
 
 export type MistakeMaxAggregateOutputType = {
   id: string | null
-  title: string | null
+  analysisRunId: string | null
   type: $Enums.MistakeType | null
+  description: string | null
+  topic: string | null
+  confidence: number | null
   status: $Enums.MistakeStatus | null
-  userNote: string | null
-  rootCause: string | null
-  fixPlan: string | null
-  retryDueAt: Date | null
-  lastRetriedAt: Date | null
-  masteredAt: Date | null
-  questionAttemptId: string | null
-  userId: string | null
   createdAt: Date | null
-  updatedAt: Date | null
 }
 
 export type MistakeCountAggregateOutputType = {
   id: number
-  title: number
+  analysisRunId: number
   type: number
+  description: number
+  topic: number
+  confidence: number
   status: number
-  contextFlags: number
-  userNote: number
-  rootCause: number
-  fixPlan: number
-  retryDueAt: number
-  lastRetriedAt: number
-  masteredAt: number
-  questionAttemptId: number
-  userId: number
   createdAt: number
-  updatedAt: number
   _all: number
 }
 
 
+export type MistakeAvgAggregateInputType = {
+  confidence?: true
+}
+
+export type MistakeSumAggregateInputType = {
+  confidence?: true
+}
+
 export type MistakeMinAggregateInputType = {
   id?: true
-  title?: true
+  analysisRunId?: true
   type?: true
+  description?: true
+  topic?: true
+  confidence?: true
   status?: true
-  userNote?: true
-  rootCause?: true
-  fixPlan?: true
-  retryDueAt?: true
-  lastRetriedAt?: true
-  masteredAt?: true
-  questionAttemptId?: true
-  userId?: true
   createdAt?: true
-  updatedAt?: true
 }
 
 export type MistakeMaxAggregateInputType = {
   id?: true
-  title?: true
+  analysisRunId?: true
   type?: true
+  description?: true
+  topic?: true
+  confidence?: true
   status?: true
-  userNote?: true
-  rootCause?: true
-  fixPlan?: true
-  retryDueAt?: true
-  lastRetriedAt?: true
-  masteredAt?: true
-  questionAttemptId?: true
-  userId?: true
   createdAt?: true
-  updatedAt?: true
 }
 
 export type MistakeCountAggregateInputType = {
   id?: true
-  title?: true
+  analysisRunId?: true
   type?: true
+  description?: true
+  topic?: true
+  confidence?: true
   status?: true
-  contextFlags?: true
-  userNote?: true
-  rootCause?: true
-  fixPlan?: true
-  retryDueAt?: true
-  lastRetriedAt?: true
-  masteredAt?: true
-  questionAttemptId?: true
-  userId?: true
   createdAt?: true
-  updatedAt?: true
   _all?: true
 }
 
@@ -169,6 +149,18 @@ export type MistakeAggregateArgs<ExtArgs extends runtime.Types.Extensions.Intern
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: MistakeAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: MistakeSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: MistakeMinAggregateInputType
@@ -199,27 +191,24 @@ export type MistakeGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   _count?: MistakeCountAggregateInputType | true
+  _avg?: MistakeAvgAggregateInputType
+  _sum?: MistakeSumAggregateInputType
   _min?: MistakeMinAggregateInputType
   _max?: MistakeMaxAggregateInputType
 }
 
 export type MistakeGroupByOutputType = {
   id: string
-  title: string | null
+  analysisRunId: string
   type: $Enums.MistakeType
+  description: string
+  topic: string
+  confidence: number | null
   status: $Enums.MistakeStatus
-  contextFlags: runtime.JsonValue | null
-  userNote: string | null
-  rootCause: string | null
-  fixPlan: string | null
-  retryDueAt: Date | null
-  lastRetriedAt: Date | null
-  masteredAt: Date | null
-  questionAttemptId: string
-  userId: string
   createdAt: Date
-  updatedAt: Date
   _count: MistakeCountAggregateOutputType | null
+  _avg: MistakeAvgAggregateOutputType | null
+  _sum: MistakeSumAggregateOutputType | null
   _min: MistakeMinAggregateOutputType | null
   _max: MistakeMaxAggregateOutputType | null
 }
@@ -244,92 +233,57 @@ export type MistakeWhereInput = {
   OR?: Prisma.MistakeWhereInput[]
   NOT?: Prisma.MistakeWhereInput | Prisma.MistakeWhereInput[]
   id?: Prisma.StringFilter<"Mistake"> | string
-  title?: Prisma.StringNullableFilter<"Mistake"> | string | null
+  analysisRunId?: Prisma.StringFilter<"Mistake"> | string
   type?: Prisma.EnumMistakeTypeFilter<"Mistake"> | $Enums.MistakeType
+  description?: Prisma.StringFilter<"Mistake"> | string
+  topic?: Prisma.StringFilter<"Mistake"> | string
+  confidence?: Prisma.FloatNullableFilter<"Mistake"> | number | null
   status?: Prisma.EnumMistakeStatusFilter<"Mistake"> | $Enums.MistakeStatus
-  contextFlags?: Prisma.JsonNullableFilter<"Mistake">
-  userNote?: Prisma.StringNullableFilter<"Mistake"> | string | null
-  rootCause?: Prisma.StringNullableFilter<"Mistake"> | string | null
-  fixPlan?: Prisma.StringNullableFilter<"Mistake"> | string | null
-  retryDueAt?: Prisma.DateTimeNullableFilter<"Mistake"> | Date | string | null
-  lastRetriedAt?: Prisma.DateTimeNullableFilter<"Mistake"> | Date | string | null
-  masteredAt?: Prisma.DateTimeNullableFilter<"Mistake"> | Date | string | null
-  questionAttemptId?: Prisma.StringFilter<"Mistake"> | string
-  userId?: Prisma.StringFilter<"Mistake"> | string
   createdAt?: Prisma.DateTimeFilter<"Mistake"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Mistake"> | Date | string
-  questionAttempt?: Prisma.XOR<Prisma.QuestionAttemptScalarRelationFilter, Prisma.QuestionAttemptWhereInput>
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  attachments?: Prisma.MistakeAttachmentListRelationFilter
-  retries?: Prisma.MistakeRetryListRelationFilter
+  analysisRun?: Prisma.XOR<Prisma.AnalysisRunScalarRelationFilter, Prisma.AnalysisRunWhereInput>
 }
 
 export type MistakeOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrderInput | Prisma.SortOrder
+  analysisRunId?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  topic?: Prisma.SortOrder
+  confidence?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
-  contextFlags?: Prisma.SortOrderInput | Prisma.SortOrder
-  userNote?: Prisma.SortOrderInput | Prisma.SortOrder
-  rootCause?: Prisma.SortOrderInput | Prisma.SortOrder
-  fixPlan?: Prisma.SortOrderInput | Prisma.SortOrder
-  retryDueAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  lastRetriedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  masteredAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  questionAttemptId?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
-  questionAttempt?: Prisma.QuestionAttemptOrderByWithRelationInput
-  user?: Prisma.UserOrderByWithRelationInput
-  attachments?: Prisma.MistakeAttachmentOrderByRelationAggregateInput
-  retries?: Prisma.MistakeRetryOrderByRelationAggregateInput
+  analysisRun?: Prisma.AnalysisRunOrderByWithRelationInput
 }
 
 export type MistakeWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  questionAttemptId?: string
   AND?: Prisma.MistakeWhereInput | Prisma.MistakeWhereInput[]
   OR?: Prisma.MistakeWhereInput[]
   NOT?: Prisma.MistakeWhereInput | Prisma.MistakeWhereInput[]
-  title?: Prisma.StringNullableFilter<"Mistake"> | string | null
+  analysisRunId?: Prisma.StringFilter<"Mistake"> | string
   type?: Prisma.EnumMistakeTypeFilter<"Mistake"> | $Enums.MistakeType
+  description?: Prisma.StringFilter<"Mistake"> | string
+  topic?: Prisma.StringFilter<"Mistake"> | string
+  confidence?: Prisma.FloatNullableFilter<"Mistake"> | number | null
   status?: Prisma.EnumMistakeStatusFilter<"Mistake"> | $Enums.MistakeStatus
-  contextFlags?: Prisma.JsonNullableFilter<"Mistake">
-  userNote?: Prisma.StringNullableFilter<"Mistake"> | string | null
-  rootCause?: Prisma.StringNullableFilter<"Mistake"> | string | null
-  fixPlan?: Prisma.StringNullableFilter<"Mistake"> | string | null
-  retryDueAt?: Prisma.DateTimeNullableFilter<"Mistake"> | Date | string | null
-  lastRetriedAt?: Prisma.DateTimeNullableFilter<"Mistake"> | Date | string | null
-  masteredAt?: Prisma.DateTimeNullableFilter<"Mistake"> | Date | string | null
-  userId?: Prisma.StringFilter<"Mistake"> | string
   createdAt?: Prisma.DateTimeFilter<"Mistake"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Mistake"> | Date | string
-  questionAttempt?: Prisma.XOR<Prisma.QuestionAttemptScalarRelationFilter, Prisma.QuestionAttemptWhereInput>
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  attachments?: Prisma.MistakeAttachmentListRelationFilter
-  retries?: Prisma.MistakeRetryListRelationFilter
-}, "id" | "questionAttemptId">
+  analysisRun?: Prisma.XOR<Prisma.AnalysisRunScalarRelationFilter, Prisma.AnalysisRunWhereInput>
+}, "id">
 
 export type MistakeOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrderInput | Prisma.SortOrder
+  analysisRunId?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  topic?: Prisma.SortOrder
+  confidence?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
-  contextFlags?: Prisma.SortOrderInput | Prisma.SortOrder
-  userNote?: Prisma.SortOrderInput | Prisma.SortOrder
-  rootCause?: Prisma.SortOrderInput | Prisma.SortOrder
-  fixPlan?: Prisma.SortOrderInput | Prisma.SortOrder
-  retryDueAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  lastRetriedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  masteredAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  questionAttemptId?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   _count?: Prisma.MistakeCountOrderByAggregateInput
+  _avg?: Prisma.MistakeAvgOrderByAggregateInput
   _max?: Prisma.MistakeMaxOrderByAggregateInput
   _min?: Prisma.MistakeMinOrderByAggregateInput
+  _sum?: Prisma.MistakeSumOrderByAggregateInput
 }
 
 export type MistakeScalarWhereWithAggregatesInput = {
@@ -337,152 +291,89 @@ export type MistakeScalarWhereWithAggregatesInput = {
   OR?: Prisma.MistakeScalarWhereWithAggregatesInput[]
   NOT?: Prisma.MistakeScalarWhereWithAggregatesInput | Prisma.MistakeScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Mistake"> | string
-  title?: Prisma.StringNullableWithAggregatesFilter<"Mistake"> | string | null
+  analysisRunId?: Prisma.StringWithAggregatesFilter<"Mistake"> | string
   type?: Prisma.EnumMistakeTypeWithAggregatesFilter<"Mistake"> | $Enums.MistakeType
+  description?: Prisma.StringWithAggregatesFilter<"Mistake"> | string
+  topic?: Prisma.StringWithAggregatesFilter<"Mistake"> | string
+  confidence?: Prisma.FloatNullableWithAggregatesFilter<"Mistake"> | number | null
   status?: Prisma.EnumMistakeStatusWithAggregatesFilter<"Mistake"> | $Enums.MistakeStatus
-  contextFlags?: Prisma.JsonNullableWithAggregatesFilter<"Mistake">
-  userNote?: Prisma.StringNullableWithAggregatesFilter<"Mistake"> | string | null
-  rootCause?: Prisma.StringNullableWithAggregatesFilter<"Mistake"> | string | null
-  fixPlan?: Prisma.StringNullableWithAggregatesFilter<"Mistake"> | string | null
-  retryDueAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Mistake"> | Date | string | null
-  lastRetriedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Mistake"> | Date | string | null
-  masteredAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Mistake"> | Date | string | null
-  questionAttemptId?: Prisma.StringWithAggregatesFilter<"Mistake"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"Mistake"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Mistake"> | Date | string
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Mistake"> | Date | string
 }
 
 export type MistakeCreateInput = {
   id?: string
-  title?: string | null
-  type?: $Enums.MistakeType
+  type: $Enums.MistakeType
+  description: string
+  topic: string
+  confidence?: number | null
   status?: $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: string | null
-  rootCause?: string | null
-  fixPlan?: string | null
-  retryDueAt?: Date | string | null
-  lastRetriedAt?: Date | string | null
-  masteredAt?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
-  questionAttempt: Prisma.QuestionAttemptCreateNestedOneWithoutMistakeInput
-  user: Prisma.UserCreateNestedOneWithoutMistakesInput
-  attachments?: Prisma.MistakeAttachmentCreateNestedManyWithoutMistakeInput
-  retries?: Prisma.MistakeRetryCreateNestedManyWithoutMistakeInput
+  analysisRun: Prisma.AnalysisRunCreateNestedOneWithoutMistakesInput
 }
 
 export type MistakeUncheckedCreateInput = {
   id?: string
-  title?: string | null
-  type?: $Enums.MistakeType
+  analysisRunId: string
+  type: $Enums.MistakeType
+  description: string
+  topic: string
+  confidence?: number | null
   status?: $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: string | null
-  rootCause?: string | null
-  fixPlan?: string | null
-  retryDueAt?: Date | string | null
-  lastRetriedAt?: Date | string | null
-  masteredAt?: Date | string | null
-  questionAttemptId: string
-  userId: string
   createdAt?: Date | string
-  updatedAt?: Date | string
-  attachments?: Prisma.MistakeAttachmentUncheckedCreateNestedManyWithoutMistakeInput
-  retries?: Prisma.MistakeRetryUncheckedCreateNestedManyWithoutMistakeInput
 }
 
 export type MistakeUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumMistakeTypeFieldUpdateOperationsInput | $Enums.MistakeType
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  confidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumMistakeStatusFieldUpdateOperationsInput | $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fixPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  retryDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastRetriedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  masteredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  questionAttempt?: Prisma.QuestionAttemptUpdateOneRequiredWithoutMistakeNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutMistakesNestedInput
-  attachments?: Prisma.MistakeAttachmentUpdateManyWithoutMistakeNestedInput
-  retries?: Prisma.MistakeRetryUpdateManyWithoutMistakeNestedInput
+  analysisRun?: Prisma.AnalysisRunUpdateOneRequiredWithoutMistakesNestedInput
 }
 
 export type MistakeUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisRunId?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumMistakeTypeFieldUpdateOperationsInput | $Enums.MistakeType
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  confidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumMistakeStatusFieldUpdateOperationsInput | $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fixPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  retryDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastRetriedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  masteredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  questionAttemptId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  attachments?: Prisma.MistakeAttachmentUncheckedUpdateManyWithoutMistakeNestedInput
-  retries?: Prisma.MistakeRetryUncheckedUpdateManyWithoutMistakeNestedInput
 }
 
 export type MistakeCreateManyInput = {
   id?: string
-  title?: string | null
-  type?: $Enums.MistakeType
+  analysisRunId: string
+  type: $Enums.MistakeType
+  description: string
+  topic: string
+  confidence?: number | null
   status?: $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: string | null
-  rootCause?: string | null
-  fixPlan?: string | null
-  retryDueAt?: Date | string | null
-  lastRetriedAt?: Date | string | null
-  masteredAt?: Date | string | null
-  questionAttemptId: string
-  userId: string
   createdAt?: Date | string
-  updatedAt?: Date | string
 }
 
 export type MistakeUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumMistakeTypeFieldUpdateOperationsInput | $Enums.MistakeType
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  confidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumMistakeStatusFieldUpdateOperationsInput | $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fixPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  retryDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastRetriedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  masteredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type MistakeUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisRunId?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumMistakeTypeFieldUpdateOperationsInput | $Enums.MistakeType
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  confidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumMistakeStatusFieldUpdateOperationsInput | $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fixPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  retryDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastRetriedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  masteredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  questionAttemptId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type MistakeListRelationFilter = {
@@ -495,242 +386,149 @@ export type MistakeOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type MistakeNullableScalarRelationFilter = {
-  is?: Prisma.MistakeWhereInput | null
-  isNot?: Prisma.MistakeWhereInput | null
-}
-
 export type MistakeCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  analysisRunId?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  topic?: Prisma.SortOrder
+  confidence?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  contextFlags?: Prisma.SortOrder
-  userNote?: Prisma.SortOrder
-  rootCause?: Prisma.SortOrder
-  fixPlan?: Prisma.SortOrder
-  retryDueAt?: Prisma.SortOrder
-  lastRetriedAt?: Prisma.SortOrder
-  masteredAt?: Prisma.SortOrder
-  questionAttemptId?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+}
+
+export type MistakeAvgOrderByAggregateInput = {
+  confidence?: Prisma.SortOrder
 }
 
 export type MistakeMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  analysisRunId?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  topic?: Prisma.SortOrder
+  confidence?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  userNote?: Prisma.SortOrder
-  rootCause?: Prisma.SortOrder
-  fixPlan?: Prisma.SortOrder
-  retryDueAt?: Prisma.SortOrder
-  lastRetriedAt?: Prisma.SortOrder
-  masteredAt?: Prisma.SortOrder
-  questionAttemptId?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
 }
 
 export type MistakeMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  analysisRunId?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  topic?: Prisma.SortOrder
+  confidence?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  userNote?: Prisma.SortOrder
-  rootCause?: Prisma.SortOrder
-  fixPlan?: Prisma.SortOrder
-  retryDueAt?: Prisma.SortOrder
-  lastRetriedAt?: Prisma.SortOrder
-  masteredAt?: Prisma.SortOrder
-  questionAttemptId?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
 }
 
-export type MistakeScalarRelationFilter = {
-  is?: Prisma.MistakeWhereInput
-  isNot?: Prisma.MistakeWhereInput
+export type MistakeSumOrderByAggregateInput = {
+  confidence?: Prisma.SortOrder
 }
 
-export type MistakeCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.MistakeCreateWithoutUserInput, Prisma.MistakeUncheckedCreateWithoutUserInput> | Prisma.MistakeCreateWithoutUserInput[] | Prisma.MistakeUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.MistakeCreateOrConnectWithoutUserInput | Prisma.MistakeCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.MistakeCreateManyUserInputEnvelope
+export type MistakeCreateNestedManyWithoutAnalysisRunInput = {
+  create?: Prisma.XOR<Prisma.MistakeCreateWithoutAnalysisRunInput, Prisma.MistakeUncheckedCreateWithoutAnalysisRunInput> | Prisma.MistakeCreateWithoutAnalysisRunInput[] | Prisma.MistakeUncheckedCreateWithoutAnalysisRunInput[]
+  connectOrCreate?: Prisma.MistakeCreateOrConnectWithoutAnalysisRunInput | Prisma.MistakeCreateOrConnectWithoutAnalysisRunInput[]
+  createMany?: Prisma.MistakeCreateManyAnalysisRunInputEnvelope
   connect?: Prisma.MistakeWhereUniqueInput | Prisma.MistakeWhereUniqueInput[]
 }
 
-export type MistakeUncheckedCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.MistakeCreateWithoutUserInput, Prisma.MistakeUncheckedCreateWithoutUserInput> | Prisma.MistakeCreateWithoutUserInput[] | Prisma.MistakeUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.MistakeCreateOrConnectWithoutUserInput | Prisma.MistakeCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.MistakeCreateManyUserInputEnvelope
+export type MistakeUncheckedCreateNestedManyWithoutAnalysisRunInput = {
+  create?: Prisma.XOR<Prisma.MistakeCreateWithoutAnalysisRunInput, Prisma.MistakeUncheckedCreateWithoutAnalysisRunInput> | Prisma.MistakeCreateWithoutAnalysisRunInput[] | Prisma.MistakeUncheckedCreateWithoutAnalysisRunInput[]
+  connectOrCreate?: Prisma.MistakeCreateOrConnectWithoutAnalysisRunInput | Prisma.MistakeCreateOrConnectWithoutAnalysisRunInput[]
+  createMany?: Prisma.MistakeCreateManyAnalysisRunInputEnvelope
   connect?: Prisma.MistakeWhereUniqueInput | Prisma.MistakeWhereUniqueInput[]
 }
 
-export type MistakeUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.MistakeCreateWithoutUserInput, Prisma.MistakeUncheckedCreateWithoutUserInput> | Prisma.MistakeCreateWithoutUserInput[] | Prisma.MistakeUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.MistakeCreateOrConnectWithoutUserInput | Prisma.MistakeCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.MistakeUpsertWithWhereUniqueWithoutUserInput | Prisma.MistakeUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.MistakeCreateManyUserInputEnvelope
+export type MistakeUpdateManyWithoutAnalysisRunNestedInput = {
+  create?: Prisma.XOR<Prisma.MistakeCreateWithoutAnalysisRunInput, Prisma.MistakeUncheckedCreateWithoutAnalysisRunInput> | Prisma.MistakeCreateWithoutAnalysisRunInput[] | Prisma.MistakeUncheckedCreateWithoutAnalysisRunInput[]
+  connectOrCreate?: Prisma.MistakeCreateOrConnectWithoutAnalysisRunInput | Prisma.MistakeCreateOrConnectWithoutAnalysisRunInput[]
+  upsert?: Prisma.MistakeUpsertWithWhereUniqueWithoutAnalysisRunInput | Prisma.MistakeUpsertWithWhereUniqueWithoutAnalysisRunInput[]
+  createMany?: Prisma.MistakeCreateManyAnalysisRunInputEnvelope
   set?: Prisma.MistakeWhereUniqueInput | Prisma.MistakeWhereUniqueInput[]
   disconnect?: Prisma.MistakeWhereUniqueInput | Prisma.MistakeWhereUniqueInput[]
   delete?: Prisma.MistakeWhereUniqueInput | Prisma.MistakeWhereUniqueInput[]
   connect?: Prisma.MistakeWhereUniqueInput | Prisma.MistakeWhereUniqueInput[]
-  update?: Prisma.MistakeUpdateWithWhereUniqueWithoutUserInput | Prisma.MistakeUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.MistakeUpdateManyWithWhereWithoutUserInput | Prisma.MistakeUpdateManyWithWhereWithoutUserInput[]
+  update?: Prisma.MistakeUpdateWithWhereUniqueWithoutAnalysisRunInput | Prisma.MistakeUpdateWithWhereUniqueWithoutAnalysisRunInput[]
+  updateMany?: Prisma.MistakeUpdateManyWithWhereWithoutAnalysisRunInput | Prisma.MistakeUpdateManyWithWhereWithoutAnalysisRunInput[]
   deleteMany?: Prisma.MistakeScalarWhereInput | Prisma.MistakeScalarWhereInput[]
 }
 
-export type MistakeUncheckedUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.MistakeCreateWithoutUserInput, Prisma.MistakeUncheckedCreateWithoutUserInput> | Prisma.MistakeCreateWithoutUserInput[] | Prisma.MistakeUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.MistakeCreateOrConnectWithoutUserInput | Prisma.MistakeCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.MistakeUpsertWithWhereUniqueWithoutUserInput | Prisma.MistakeUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.MistakeCreateManyUserInputEnvelope
+export type MistakeUncheckedUpdateManyWithoutAnalysisRunNestedInput = {
+  create?: Prisma.XOR<Prisma.MistakeCreateWithoutAnalysisRunInput, Prisma.MistakeUncheckedCreateWithoutAnalysisRunInput> | Prisma.MistakeCreateWithoutAnalysisRunInput[] | Prisma.MistakeUncheckedCreateWithoutAnalysisRunInput[]
+  connectOrCreate?: Prisma.MistakeCreateOrConnectWithoutAnalysisRunInput | Prisma.MistakeCreateOrConnectWithoutAnalysisRunInput[]
+  upsert?: Prisma.MistakeUpsertWithWhereUniqueWithoutAnalysisRunInput | Prisma.MistakeUpsertWithWhereUniqueWithoutAnalysisRunInput[]
+  createMany?: Prisma.MistakeCreateManyAnalysisRunInputEnvelope
   set?: Prisma.MistakeWhereUniqueInput | Prisma.MistakeWhereUniqueInput[]
   disconnect?: Prisma.MistakeWhereUniqueInput | Prisma.MistakeWhereUniqueInput[]
   delete?: Prisma.MistakeWhereUniqueInput | Prisma.MistakeWhereUniqueInput[]
   connect?: Prisma.MistakeWhereUniqueInput | Prisma.MistakeWhereUniqueInput[]
-  update?: Prisma.MistakeUpdateWithWhereUniqueWithoutUserInput | Prisma.MistakeUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.MistakeUpdateManyWithWhereWithoutUserInput | Prisma.MistakeUpdateManyWithWhereWithoutUserInput[]
+  update?: Prisma.MistakeUpdateWithWhereUniqueWithoutAnalysisRunInput | Prisma.MistakeUpdateWithWhereUniqueWithoutAnalysisRunInput[]
+  updateMany?: Prisma.MistakeUpdateManyWithWhereWithoutAnalysisRunInput | Prisma.MistakeUpdateManyWithWhereWithoutAnalysisRunInput[]
   deleteMany?: Prisma.MistakeScalarWhereInput | Prisma.MistakeScalarWhereInput[]
-}
-
-export type MistakeCreateNestedOneWithoutQuestionAttemptInput = {
-  create?: Prisma.XOR<Prisma.MistakeCreateWithoutQuestionAttemptInput, Prisma.MistakeUncheckedCreateWithoutQuestionAttemptInput>
-  connectOrCreate?: Prisma.MistakeCreateOrConnectWithoutQuestionAttemptInput
-  connect?: Prisma.MistakeWhereUniqueInput
-}
-
-export type MistakeUncheckedCreateNestedOneWithoutQuestionAttemptInput = {
-  create?: Prisma.XOR<Prisma.MistakeCreateWithoutQuestionAttemptInput, Prisma.MistakeUncheckedCreateWithoutQuestionAttemptInput>
-  connectOrCreate?: Prisma.MistakeCreateOrConnectWithoutQuestionAttemptInput
-  connect?: Prisma.MistakeWhereUniqueInput
-}
-
-export type MistakeUpdateOneWithoutQuestionAttemptNestedInput = {
-  create?: Prisma.XOR<Prisma.MistakeCreateWithoutQuestionAttemptInput, Prisma.MistakeUncheckedCreateWithoutQuestionAttemptInput>
-  connectOrCreate?: Prisma.MistakeCreateOrConnectWithoutQuestionAttemptInput
-  upsert?: Prisma.MistakeUpsertWithoutQuestionAttemptInput
-  disconnect?: Prisma.MistakeWhereInput | boolean
-  delete?: Prisma.MistakeWhereInput | boolean
-  connect?: Prisma.MistakeWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.MistakeUpdateToOneWithWhereWithoutQuestionAttemptInput, Prisma.MistakeUpdateWithoutQuestionAttemptInput>, Prisma.MistakeUncheckedUpdateWithoutQuestionAttemptInput>
-}
-
-export type MistakeUncheckedUpdateOneWithoutQuestionAttemptNestedInput = {
-  create?: Prisma.XOR<Prisma.MistakeCreateWithoutQuestionAttemptInput, Prisma.MistakeUncheckedCreateWithoutQuestionAttemptInput>
-  connectOrCreate?: Prisma.MistakeCreateOrConnectWithoutQuestionAttemptInput
-  upsert?: Prisma.MistakeUpsertWithoutQuestionAttemptInput
-  disconnect?: Prisma.MistakeWhereInput | boolean
-  delete?: Prisma.MistakeWhereInput | boolean
-  connect?: Prisma.MistakeWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.MistakeUpdateToOneWithWhereWithoutQuestionAttemptInput, Prisma.MistakeUpdateWithoutQuestionAttemptInput>, Prisma.MistakeUncheckedUpdateWithoutQuestionAttemptInput>
 }
 
 export type EnumMistakeTypeFieldUpdateOperationsInput = {
   set?: $Enums.MistakeType
 }
 
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type EnumMistakeStatusFieldUpdateOperationsInput = {
   set?: $Enums.MistakeStatus
 }
 
-export type MistakeCreateNestedOneWithoutAttachmentsInput = {
-  create?: Prisma.XOR<Prisma.MistakeCreateWithoutAttachmentsInput, Prisma.MistakeUncheckedCreateWithoutAttachmentsInput>
-  connectOrCreate?: Prisma.MistakeCreateOrConnectWithoutAttachmentsInput
-  connect?: Prisma.MistakeWhereUniqueInput
-}
-
-export type MistakeUpdateOneWithoutAttachmentsNestedInput = {
-  create?: Prisma.XOR<Prisma.MistakeCreateWithoutAttachmentsInput, Prisma.MistakeUncheckedCreateWithoutAttachmentsInput>
-  connectOrCreate?: Prisma.MistakeCreateOrConnectWithoutAttachmentsInput
-  upsert?: Prisma.MistakeUpsertWithoutAttachmentsInput
-  disconnect?: Prisma.MistakeWhereInput | boolean
-  delete?: Prisma.MistakeWhereInput | boolean
-  connect?: Prisma.MistakeWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.MistakeUpdateToOneWithWhereWithoutAttachmentsInput, Prisma.MistakeUpdateWithoutAttachmentsInput>, Prisma.MistakeUncheckedUpdateWithoutAttachmentsInput>
-}
-
-export type MistakeCreateNestedOneWithoutRetriesInput = {
-  create?: Prisma.XOR<Prisma.MistakeCreateWithoutRetriesInput, Prisma.MistakeUncheckedCreateWithoutRetriesInput>
-  connectOrCreate?: Prisma.MistakeCreateOrConnectWithoutRetriesInput
-  connect?: Prisma.MistakeWhereUniqueInput
-}
-
-export type MistakeUpdateOneRequiredWithoutRetriesNestedInput = {
-  create?: Prisma.XOR<Prisma.MistakeCreateWithoutRetriesInput, Prisma.MistakeUncheckedCreateWithoutRetriesInput>
-  connectOrCreate?: Prisma.MistakeCreateOrConnectWithoutRetriesInput
-  upsert?: Prisma.MistakeUpsertWithoutRetriesInput
-  connect?: Prisma.MistakeWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.MistakeUpdateToOneWithWhereWithoutRetriesInput, Prisma.MistakeUpdateWithoutRetriesInput>, Prisma.MistakeUncheckedUpdateWithoutRetriesInput>
-}
-
-export type MistakeCreateWithoutUserInput = {
+export type MistakeCreateWithoutAnalysisRunInput = {
   id?: string
-  title?: string | null
-  type?: $Enums.MistakeType
+  type: $Enums.MistakeType
+  description: string
+  topic: string
+  confidence?: number | null
   status?: $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: string | null
-  rootCause?: string | null
-  fixPlan?: string | null
-  retryDueAt?: Date | string | null
-  lastRetriedAt?: Date | string | null
-  masteredAt?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
-  questionAttempt: Prisma.QuestionAttemptCreateNestedOneWithoutMistakeInput
-  attachments?: Prisma.MistakeAttachmentCreateNestedManyWithoutMistakeInput
-  retries?: Prisma.MistakeRetryCreateNestedManyWithoutMistakeInput
 }
 
-export type MistakeUncheckedCreateWithoutUserInput = {
+export type MistakeUncheckedCreateWithoutAnalysisRunInput = {
   id?: string
-  title?: string | null
-  type?: $Enums.MistakeType
+  type: $Enums.MistakeType
+  description: string
+  topic: string
+  confidence?: number | null
   status?: $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: string | null
-  rootCause?: string | null
-  fixPlan?: string | null
-  retryDueAt?: Date | string | null
-  lastRetriedAt?: Date | string | null
-  masteredAt?: Date | string | null
-  questionAttemptId: string
   createdAt?: Date | string
-  updatedAt?: Date | string
-  attachments?: Prisma.MistakeAttachmentUncheckedCreateNestedManyWithoutMistakeInput
-  retries?: Prisma.MistakeRetryUncheckedCreateNestedManyWithoutMistakeInput
 }
 
-export type MistakeCreateOrConnectWithoutUserInput = {
+export type MistakeCreateOrConnectWithoutAnalysisRunInput = {
   where: Prisma.MistakeWhereUniqueInput
-  create: Prisma.XOR<Prisma.MistakeCreateWithoutUserInput, Prisma.MistakeUncheckedCreateWithoutUserInput>
+  create: Prisma.XOR<Prisma.MistakeCreateWithoutAnalysisRunInput, Prisma.MistakeUncheckedCreateWithoutAnalysisRunInput>
 }
 
-export type MistakeCreateManyUserInputEnvelope = {
-  data: Prisma.MistakeCreateManyUserInput | Prisma.MistakeCreateManyUserInput[]
+export type MistakeCreateManyAnalysisRunInputEnvelope = {
+  data: Prisma.MistakeCreateManyAnalysisRunInput | Prisma.MistakeCreateManyAnalysisRunInput[]
   skipDuplicates?: boolean
 }
 
-export type MistakeUpsertWithWhereUniqueWithoutUserInput = {
+export type MistakeUpsertWithWhereUniqueWithoutAnalysisRunInput = {
   where: Prisma.MistakeWhereUniqueInput
-  update: Prisma.XOR<Prisma.MistakeUpdateWithoutUserInput, Prisma.MistakeUncheckedUpdateWithoutUserInput>
-  create: Prisma.XOR<Prisma.MistakeCreateWithoutUserInput, Prisma.MistakeUncheckedCreateWithoutUserInput>
+  update: Prisma.XOR<Prisma.MistakeUpdateWithoutAnalysisRunInput, Prisma.MistakeUncheckedUpdateWithoutAnalysisRunInput>
+  create: Prisma.XOR<Prisma.MistakeCreateWithoutAnalysisRunInput, Prisma.MistakeUncheckedCreateWithoutAnalysisRunInput>
 }
 
-export type MistakeUpdateWithWhereUniqueWithoutUserInput = {
+export type MistakeUpdateWithWhereUniqueWithoutAnalysisRunInput = {
   where: Prisma.MistakeWhereUniqueInput
-  data: Prisma.XOR<Prisma.MistakeUpdateWithoutUserInput, Prisma.MistakeUncheckedUpdateWithoutUserInput>
+  data: Prisma.XOR<Prisma.MistakeUpdateWithoutAnalysisRunInput, Prisma.MistakeUncheckedUpdateWithoutAnalysisRunInput>
 }
 
-export type MistakeUpdateManyWithWhereWithoutUserInput = {
+export type MistakeUpdateManyWithWhereWithoutAnalysisRunInput = {
   where: Prisma.MistakeScalarWhereInput
-  data: Prisma.XOR<Prisma.MistakeUpdateManyMutationInput, Prisma.MistakeUncheckedUpdateManyWithoutUserInput>
+  data: Prisma.XOR<Prisma.MistakeUpdateManyMutationInput, Prisma.MistakeUncheckedUpdateManyWithoutAnalysisRunInput>
 }
 
 export type MistakeScalarWhereInput = {
@@ -738,532 +536,129 @@ export type MistakeScalarWhereInput = {
   OR?: Prisma.MistakeScalarWhereInput[]
   NOT?: Prisma.MistakeScalarWhereInput | Prisma.MistakeScalarWhereInput[]
   id?: Prisma.StringFilter<"Mistake"> | string
-  title?: Prisma.StringNullableFilter<"Mistake"> | string | null
+  analysisRunId?: Prisma.StringFilter<"Mistake"> | string
   type?: Prisma.EnumMistakeTypeFilter<"Mistake"> | $Enums.MistakeType
+  description?: Prisma.StringFilter<"Mistake"> | string
+  topic?: Prisma.StringFilter<"Mistake"> | string
+  confidence?: Prisma.FloatNullableFilter<"Mistake"> | number | null
   status?: Prisma.EnumMistakeStatusFilter<"Mistake"> | $Enums.MistakeStatus
-  contextFlags?: Prisma.JsonNullableFilter<"Mistake">
-  userNote?: Prisma.StringNullableFilter<"Mistake"> | string | null
-  rootCause?: Prisma.StringNullableFilter<"Mistake"> | string | null
-  fixPlan?: Prisma.StringNullableFilter<"Mistake"> | string | null
-  retryDueAt?: Prisma.DateTimeNullableFilter<"Mistake"> | Date | string | null
-  lastRetriedAt?: Prisma.DateTimeNullableFilter<"Mistake"> | Date | string | null
-  masteredAt?: Prisma.DateTimeNullableFilter<"Mistake"> | Date | string | null
-  questionAttemptId?: Prisma.StringFilter<"Mistake"> | string
-  userId?: Prisma.StringFilter<"Mistake"> | string
   createdAt?: Prisma.DateTimeFilter<"Mistake"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Mistake"> | Date | string
 }
 
-export type MistakeCreateWithoutQuestionAttemptInput = {
+export type MistakeCreateManyAnalysisRunInput = {
   id?: string
-  title?: string | null
-  type?: $Enums.MistakeType
+  type: $Enums.MistakeType
+  description: string
+  topic: string
+  confidence?: number | null
   status?: $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: string | null
-  rootCause?: string | null
-  fixPlan?: string | null
-  retryDueAt?: Date | string | null
-  lastRetriedAt?: Date | string | null
-  masteredAt?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutMistakesInput
-  attachments?: Prisma.MistakeAttachmentCreateNestedManyWithoutMistakeInput
-  retries?: Prisma.MistakeRetryCreateNestedManyWithoutMistakeInput
 }
 
-export type MistakeUncheckedCreateWithoutQuestionAttemptInput = {
-  id?: string
-  title?: string | null
-  type?: $Enums.MistakeType
-  status?: $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: string | null
-  rootCause?: string | null
-  fixPlan?: string | null
-  retryDueAt?: Date | string | null
-  lastRetriedAt?: Date | string | null
-  masteredAt?: Date | string | null
-  userId: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  attachments?: Prisma.MistakeAttachmentUncheckedCreateNestedManyWithoutMistakeInput
-  retries?: Prisma.MistakeRetryUncheckedCreateNestedManyWithoutMistakeInput
-}
-
-export type MistakeCreateOrConnectWithoutQuestionAttemptInput = {
-  where: Prisma.MistakeWhereUniqueInput
-  create: Prisma.XOR<Prisma.MistakeCreateWithoutQuestionAttemptInput, Prisma.MistakeUncheckedCreateWithoutQuestionAttemptInput>
-}
-
-export type MistakeUpsertWithoutQuestionAttemptInput = {
-  update: Prisma.XOR<Prisma.MistakeUpdateWithoutQuestionAttemptInput, Prisma.MistakeUncheckedUpdateWithoutQuestionAttemptInput>
-  create: Prisma.XOR<Prisma.MistakeCreateWithoutQuestionAttemptInput, Prisma.MistakeUncheckedCreateWithoutQuestionAttemptInput>
-  where?: Prisma.MistakeWhereInput
-}
-
-export type MistakeUpdateToOneWithWhereWithoutQuestionAttemptInput = {
-  where?: Prisma.MistakeWhereInput
-  data: Prisma.XOR<Prisma.MistakeUpdateWithoutQuestionAttemptInput, Prisma.MistakeUncheckedUpdateWithoutQuestionAttemptInput>
-}
-
-export type MistakeUpdateWithoutQuestionAttemptInput = {
+export type MistakeUpdateWithoutAnalysisRunInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumMistakeTypeFieldUpdateOperationsInput | $Enums.MistakeType
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  confidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumMistakeStatusFieldUpdateOperationsInput | $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fixPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  retryDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastRetriedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  masteredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutMistakesNestedInput
-  attachments?: Prisma.MistakeAttachmentUpdateManyWithoutMistakeNestedInput
-  retries?: Prisma.MistakeRetryUpdateManyWithoutMistakeNestedInput
 }
 
-export type MistakeUncheckedUpdateWithoutQuestionAttemptInput = {
+export type MistakeUncheckedUpdateWithoutAnalysisRunInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumMistakeTypeFieldUpdateOperationsInput | $Enums.MistakeType
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  confidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumMistakeStatusFieldUpdateOperationsInput | $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fixPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  retryDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastRetriedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  masteredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  attachments?: Prisma.MistakeAttachmentUncheckedUpdateManyWithoutMistakeNestedInput
-  retries?: Prisma.MistakeRetryUncheckedUpdateManyWithoutMistakeNestedInput
 }
 
-export type MistakeCreateWithoutAttachmentsInput = {
-  id?: string
-  title?: string | null
-  type?: $Enums.MistakeType
-  status?: $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: string | null
-  rootCause?: string | null
-  fixPlan?: string | null
-  retryDueAt?: Date | string | null
-  lastRetriedAt?: Date | string | null
-  masteredAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  questionAttempt: Prisma.QuestionAttemptCreateNestedOneWithoutMistakeInput
-  user: Prisma.UserCreateNestedOneWithoutMistakesInput
-  retries?: Prisma.MistakeRetryCreateNestedManyWithoutMistakeInput
-}
-
-export type MistakeUncheckedCreateWithoutAttachmentsInput = {
-  id?: string
-  title?: string | null
-  type?: $Enums.MistakeType
-  status?: $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: string | null
-  rootCause?: string | null
-  fixPlan?: string | null
-  retryDueAt?: Date | string | null
-  lastRetriedAt?: Date | string | null
-  masteredAt?: Date | string | null
-  questionAttemptId: string
-  userId: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  retries?: Prisma.MistakeRetryUncheckedCreateNestedManyWithoutMistakeInput
-}
-
-export type MistakeCreateOrConnectWithoutAttachmentsInput = {
-  where: Prisma.MistakeWhereUniqueInput
-  create: Prisma.XOR<Prisma.MistakeCreateWithoutAttachmentsInput, Prisma.MistakeUncheckedCreateWithoutAttachmentsInput>
-}
-
-export type MistakeUpsertWithoutAttachmentsInput = {
-  update: Prisma.XOR<Prisma.MistakeUpdateWithoutAttachmentsInput, Prisma.MistakeUncheckedUpdateWithoutAttachmentsInput>
-  create: Prisma.XOR<Prisma.MistakeCreateWithoutAttachmentsInput, Prisma.MistakeUncheckedCreateWithoutAttachmentsInput>
-  where?: Prisma.MistakeWhereInput
-}
-
-export type MistakeUpdateToOneWithWhereWithoutAttachmentsInput = {
-  where?: Prisma.MistakeWhereInput
-  data: Prisma.XOR<Prisma.MistakeUpdateWithoutAttachmentsInput, Prisma.MistakeUncheckedUpdateWithoutAttachmentsInput>
-}
-
-export type MistakeUpdateWithoutAttachmentsInput = {
+export type MistakeUncheckedUpdateManyWithoutAnalysisRunInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumMistakeTypeFieldUpdateOperationsInput | $Enums.MistakeType
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  topic?: Prisma.StringFieldUpdateOperationsInput | string
+  confidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumMistakeStatusFieldUpdateOperationsInput | $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fixPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  retryDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastRetriedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  masteredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  questionAttempt?: Prisma.QuestionAttemptUpdateOneRequiredWithoutMistakeNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutMistakesNestedInput
-  retries?: Prisma.MistakeRetryUpdateManyWithoutMistakeNestedInput
 }
 
-export type MistakeUncheckedUpdateWithoutAttachmentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  type?: Prisma.EnumMistakeTypeFieldUpdateOperationsInput | $Enums.MistakeType
-  status?: Prisma.EnumMistakeStatusFieldUpdateOperationsInput | $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fixPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  retryDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastRetriedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  masteredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  questionAttemptId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  retries?: Prisma.MistakeRetryUncheckedUpdateManyWithoutMistakeNestedInput
-}
-
-export type MistakeCreateWithoutRetriesInput = {
-  id?: string
-  title?: string | null
-  type?: $Enums.MistakeType
-  status?: $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: string | null
-  rootCause?: string | null
-  fixPlan?: string | null
-  retryDueAt?: Date | string | null
-  lastRetriedAt?: Date | string | null
-  masteredAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  questionAttempt: Prisma.QuestionAttemptCreateNestedOneWithoutMistakeInput
-  user: Prisma.UserCreateNestedOneWithoutMistakesInput
-  attachments?: Prisma.MistakeAttachmentCreateNestedManyWithoutMistakeInput
-}
-
-export type MistakeUncheckedCreateWithoutRetriesInput = {
-  id?: string
-  title?: string | null
-  type?: $Enums.MistakeType
-  status?: $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: string | null
-  rootCause?: string | null
-  fixPlan?: string | null
-  retryDueAt?: Date | string | null
-  lastRetriedAt?: Date | string | null
-  masteredAt?: Date | string | null
-  questionAttemptId: string
-  userId: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  attachments?: Prisma.MistakeAttachmentUncheckedCreateNestedManyWithoutMistakeInput
-}
-
-export type MistakeCreateOrConnectWithoutRetriesInput = {
-  where: Prisma.MistakeWhereUniqueInput
-  create: Prisma.XOR<Prisma.MistakeCreateWithoutRetriesInput, Prisma.MistakeUncheckedCreateWithoutRetriesInput>
-}
-
-export type MistakeUpsertWithoutRetriesInput = {
-  update: Prisma.XOR<Prisma.MistakeUpdateWithoutRetriesInput, Prisma.MistakeUncheckedUpdateWithoutRetriesInput>
-  create: Prisma.XOR<Prisma.MistakeCreateWithoutRetriesInput, Prisma.MistakeUncheckedCreateWithoutRetriesInput>
-  where?: Prisma.MistakeWhereInput
-}
-
-export type MistakeUpdateToOneWithWhereWithoutRetriesInput = {
-  where?: Prisma.MistakeWhereInput
-  data: Prisma.XOR<Prisma.MistakeUpdateWithoutRetriesInput, Prisma.MistakeUncheckedUpdateWithoutRetriesInput>
-}
-
-export type MistakeUpdateWithoutRetriesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  type?: Prisma.EnumMistakeTypeFieldUpdateOperationsInput | $Enums.MistakeType
-  status?: Prisma.EnumMistakeStatusFieldUpdateOperationsInput | $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fixPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  retryDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastRetriedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  masteredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  questionAttempt?: Prisma.QuestionAttemptUpdateOneRequiredWithoutMistakeNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutMistakesNestedInput
-  attachments?: Prisma.MistakeAttachmentUpdateManyWithoutMistakeNestedInput
-}
-
-export type MistakeUncheckedUpdateWithoutRetriesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  type?: Prisma.EnumMistakeTypeFieldUpdateOperationsInput | $Enums.MistakeType
-  status?: Prisma.EnumMistakeStatusFieldUpdateOperationsInput | $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fixPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  retryDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastRetriedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  masteredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  questionAttemptId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  attachments?: Prisma.MistakeAttachmentUncheckedUpdateManyWithoutMistakeNestedInput
-}
-
-export type MistakeCreateManyUserInput = {
-  id?: string
-  title?: string | null
-  type?: $Enums.MistakeType
-  status?: $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: string | null
-  rootCause?: string | null
-  fixPlan?: string | null
-  retryDueAt?: Date | string | null
-  lastRetriedAt?: Date | string | null
-  masteredAt?: Date | string | null
-  questionAttemptId: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type MistakeUpdateWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  type?: Prisma.EnumMistakeTypeFieldUpdateOperationsInput | $Enums.MistakeType
-  status?: Prisma.EnumMistakeStatusFieldUpdateOperationsInput | $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fixPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  retryDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastRetriedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  masteredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  questionAttempt?: Prisma.QuestionAttemptUpdateOneRequiredWithoutMistakeNestedInput
-  attachments?: Prisma.MistakeAttachmentUpdateManyWithoutMistakeNestedInput
-  retries?: Prisma.MistakeRetryUpdateManyWithoutMistakeNestedInput
-}
-
-export type MistakeUncheckedUpdateWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  type?: Prisma.EnumMistakeTypeFieldUpdateOperationsInput | $Enums.MistakeType
-  status?: Prisma.EnumMistakeStatusFieldUpdateOperationsInput | $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fixPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  retryDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastRetriedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  masteredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  questionAttemptId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  attachments?: Prisma.MistakeAttachmentUncheckedUpdateManyWithoutMistakeNestedInput
-  retries?: Prisma.MistakeRetryUncheckedUpdateManyWithoutMistakeNestedInput
-}
-
-export type MistakeUncheckedUpdateManyWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  type?: Prisma.EnumMistakeTypeFieldUpdateOperationsInput | $Enums.MistakeType
-  status?: Prisma.EnumMistakeStatusFieldUpdateOperationsInput | $Enums.MistakeStatus
-  contextFlags?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  userNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fixPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  retryDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastRetriedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  masteredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  questionAttemptId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-
-/**
- * Count Type MistakeCountOutputType
- */
-
-export type MistakeCountOutputType = {
-  attachments: number
-  retries: number
-}
-
-export type MistakeCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  attachments?: boolean | MistakeCountOutputTypeCountAttachmentsArgs
-  retries?: boolean | MistakeCountOutputTypeCountRetriesArgs
-}
-
-/**
- * MistakeCountOutputType without action
- */
-export type MistakeCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the MistakeCountOutputType
-   */
-  select?: Prisma.MistakeCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * MistakeCountOutputType without action
- */
-export type MistakeCountOutputTypeCountAttachmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.MistakeAttachmentWhereInput
-}
-
-/**
- * MistakeCountOutputType without action
- */
-export type MistakeCountOutputTypeCountRetriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.MistakeRetryWhereInput
-}
 
 
 export type MistakeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  title?: boolean
+  analysisRunId?: boolean
   type?: boolean
+  description?: boolean
+  topic?: boolean
+  confidence?: boolean
   status?: boolean
-  contextFlags?: boolean
-  userNote?: boolean
-  rootCause?: boolean
-  fixPlan?: boolean
-  retryDueAt?: boolean
-  lastRetriedAt?: boolean
-  masteredAt?: boolean
-  questionAttemptId?: boolean
-  userId?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
-  questionAttempt?: boolean | Prisma.QuestionAttemptDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  attachments?: boolean | Prisma.Mistake$attachmentsArgs<ExtArgs>
-  retries?: boolean | Prisma.Mistake$retriesArgs<ExtArgs>
-  _count?: boolean | Prisma.MistakeCountOutputTypeDefaultArgs<ExtArgs>
+  analysisRun?: boolean | Prisma.AnalysisRunDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["mistake"]>
 
 export type MistakeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  title?: boolean
+  analysisRunId?: boolean
   type?: boolean
+  description?: boolean
+  topic?: boolean
+  confidence?: boolean
   status?: boolean
-  contextFlags?: boolean
-  userNote?: boolean
-  rootCause?: boolean
-  fixPlan?: boolean
-  retryDueAt?: boolean
-  lastRetriedAt?: boolean
-  masteredAt?: boolean
-  questionAttemptId?: boolean
-  userId?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
-  questionAttempt?: boolean | Prisma.QuestionAttemptDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  analysisRun?: boolean | Prisma.AnalysisRunDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["mistake"]>
 
 export type MistakeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  title?: boolean
+  analysisRunId?: boolean
   type?: boolean
+  description?: boolean
+  topic?: boolean
+  confidence?: boolean
   status?: boolean
-  contextFlags?: boolean
-  userNote?: boolean
-  rootCause?: boolean
-  fixPlan?: boolean
-  retryDueAt?: boolean
-  lastRetriedAt?: boolean
-  masteredAt?: boolean
-  questionAttemptId?: boolean
-  userId?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
-  questionAttempt?: boolean | Prisma.QuestionAttemptDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  analysisRun?: boolean | Prisma.AnalysisRunDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["mistake"]>
 
 export type MistakeSelectScalar = {
   id?: boolean
-  title?: boolean
+  analysisRunId?: boolean
   type?: boolean
+  description?: boolean
+  topic?: boolean
+  confidence?: boolean
   status?: boolean
-  contextFlags?: boolean
-  userNote?: boolean
-  rootCause?: boolean
-  fixPlan?: boolean
-  retryDueAt?: boolean
-  lastRetriedAt?: boolean
-  masteredAt?: boolean
-  questionAttemptId?: boolean
-  userId?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
 }
 
-export type MistakeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "type" | "status" | "contextFlags" | "userNote" | "rootCause" | "fixPlan" | "retryDueAt" | "lastRetriedAt" | "masteredAt" | "questionAttemptId" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["mistake"]>
+export type MistakeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "analysisRunId" | "type" | "description" | "topic" | "confidence" | "status" | "createdAt", ExtArgs["result"]["mistake"]>
 export type MistakeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  questionAttempt?: boolean | Prisma.QuestionAttemptDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  attachments?: boolean | Prisma.Mistake$attachmentsArgs<ExtArgs>
-  retries?: boolean | Prisma.Mistake$retriesArgs<ExtArgs>
-  _count?: boolean | Prisma.MistakeCountOutputTypeDefaultArgs<ExtArgs>
+  analysisRun?: boolean | Prisma.AnalysisRunDefaultArgs<ExtArgs>
 }
 export type MistakeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  questionAttempt?: boolean | Prisma.QuestionAttemptDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  analysisRun?: boolean | Prisma.AnalysisRunDefaultArgs<ExtArgs>
 }
 export type MistakeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  questionAttempt?: boolean | Prisma.QuestionAttemptDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  analysisRun?: boolean | Prisma.AnalysisRunDefaultArgs<ExtArgs>
 }
 
 export type $MistakePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Mistake"
   objects: {
-    questionAttempt: Prisma.$QuestionAttemptPayload<ExtArgs>
-    user: Prisma.$UserPayload<ExtArgs>
-    attachments: Prisma.$MistakeAttachmentPayload<ExtArgs>[]
-    retries: Prisma.$MistakeRetryPayload<ExtArgs>[]
+    analysisRun: Prisma.$AnalysisRunPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    title: string | null
+    analysisRunId: string
     type: $Enums.MistakeType
+    description: string
+    topic: string
+    confidence: number | null
     status: $Enums.MistakeStatus
-    contextFlags: runtime.JsonValue | null
-    userNote: string | null
-    rootCause: string | null
-    fixPlan: string | null
-    retryDueAt: Date | null
-    lastRetriedAt: Date | null
-    masteredAt: Date | null
-    questionAttemptId: string
-    userId: string
     createdAt: Date
-    updatedAt: Date
   }, ExtArgs["result"]["mistake"]>
   composites: {}
 }
@@ -1658,10 +1053,7 @@ readonly fields: MistakeFieldRefs;
  */
 export interface Prisma__MistakeClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  questionAttempt<T extends Prisma.QuestionAttemptDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.QuestionAttemptDefaultArgs<ExtArgs>>): Prisma.Prisma__QuestionAttemptClient<runtime.Types.Result.GetResult<Prisma.$QuestionAttemptPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  attachments<T extends Prisma.Mistake$attachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Mistake$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MistakeAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  retries<T extends Prisma.Mistake$retriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Mistake$retriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MistakeRetryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  analysisRun<T extends Prisma.AnalysisRunDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AnalysisRunDefaultArgs<ExtArgs>>): Prisma.Prisma__AnalysisRunClient<runtime.Types.Result.GetResult<Prisma.$AnalysisRunPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1692,20 +1084,13 @@ export interface Prisma__MistakeClient<T, Null = never, ExtArgs extends runtime.
  */
 export interface MistakeFieldRefs {
   readonly id: Prisma.FieldRef<"Mistake", 'String'>
-  readonly title: Prisma.FieldRef<"Mistake", 'String'>
+  readonly analysisRunId: Prisma.FieldRef<"Mistake", 'String'>
   readonly type: Prisma.FieldRef<"Mistake", 'MistakeType'>
+  readonly description: Prisma.FieldRef<"Mistake", 'String'>
+  readonly topic: Prisma.FieldRef<"Mistake", 'String'>
+  readonly confidence: Prisma.FieldRef<"Mistake", 'Float'>
   readonly status: Prisma.FieldRef<"Mistake", 'MistakeStatus'>
-  readonly contextFlags: Prisma.FieldRef<"Mistake", 'Json'>
-  readonly userNote: Prisma.FieldRef<"Mistake", 'String'>
-  readonly rootCause: Prisma.FieldRef<"Mistake", 'String'>
-  readonly fixPlan: Prisma.FieldRef<"Mistake", 'String'>
-  readonly retryDueAt: Prisma.FieldRef<"Mistake", 'DateTime'>
-  readonly lastRetriedAt: Prisma.FieldRef<"Mistake", 'DateTime'>
-  readonly masteredAt: Prisma.FieldRef<"Mistake", 'DateTime'>
-  readonly questionAttemptId: Prisma.FieldRef<"Mistake", 'String'>
-  readonly userId: Prisma.FieldRef<"Mistake", 'String'>
   readonly createdAt: Prisma.FieldRef<"Mistake", 'DateTime'>
-  readonly updatedAt: Prisma.FieldRef<"Mistake", 'DateTime'>
 }
     
 
@@ -2104,54 +1489,6 @@ export type MistakeDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Mistakes to delete.
    */
   limit?: number
-}
-
-/**
- * Mistake.attachments
- */
-export type Mistake$attachmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the MistakeAttachment
-   */
-  select?: Prisma.MistakeAttachmentSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the MistakeAttachment
-   */
-  omit?: Prisma.MistakeAttachmentOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.MistakeAttachmentInclude<ExtArgs> | null
-  where?: Prisma.MistakeAttachmentWhereInput
-  orderBy?: Prisma.MistakeAttachmentOrderByWithRelationInput | Prisma.MistakeAttachmentOrderByWithRelationInput[]
-  cursor?: Prisma.MistakeAttachmentWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.MistakeAttachmentScalarFieldEnum | Prisma.MistakeAttachmentScalarFieldEnum[]
-}
-
-/**
- * Mistake.retries
- */
-export type Mistake$retriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the MistakeRetry
-   */
-  select?: Prisma.MistakeRetrySelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the MistakeRetry
-   */
-  omit?: Prisma.MistakeRetryOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.MistakeRetryInclude<ExtArgs> | null
-  where?: Prisma.MistakeRetryWhereInput
-  orderBy?: Prisma.MistakeRetryOrderByWithRelationInput | Prisma.MistakeRetryOrderByWithRelationInput[]
-  cursor?: Prisma.MistakeRetryWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.MistakeRetryScalarFieldEnum | Prisma.MistakeRetryScalarFieldEnum[]
 }
 
 /**

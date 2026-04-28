@@ -1,8 +1,11 @@
-import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "@/generated/prisma/client";
+import {
+  MISTAKE_DEFAULT_PAGE_SIZE,
+  MISTAKE_MAX_PAGE_SIZE,
+  MISTAKE_VIEW_SELECT,
+} from "@/configs/const/mistake";
 
 import { authedProcedure, createTRPCRouter } from "../init";
 
@@ -16,127 +19,61 @@ const mistakeTypeSchema = z.enum([
 
 const mistakeStatusSchema = z.enum(["NEW", "REVIEWING", "MASTERED", "ARCHIVED"]);
 
-const mistakeUpsertInputSchema = z.object({
-  questionAttemptId: z.string().min(1),
-  attachmentIds: z.array(z.string().min(1)).max(10).optional().default([]),
-  title: z.string().trim().max(255).nullable().optional(),
+const mistakeViewInputSchema = z.object({
+  limit: z
+    .number()
+    .int()
+    .min(1)
+    .max(MISTAKE_MAX_PAGE_SIZE)
+    .default(MISTAKE_DEFAULT_PAGE_SIZE),
+  cursor: z.string().min(1).optional(),
   type: mistakeTypeSchema.optional(),
   status: mistakeStatusSchema.optional(),
-  contextFlags: z.record(z.string(), z.unknown()).optional(),
-  userNote: z.string().trim().max(5000).nullable().optional(),
-  rootCause: z.string().trim().max(5000).nullable().optional(),
-  fixPlan: z.string().trim().max(5000).nullable().optional(),
-  retryDueAt: z.coerce.date().nullable().optional(),
+  search: z.string().trim().max(255).optional(),
 });
 
 export const mistakeRouter = createTRPCRouter({
-  upsertForQuestion: authedProcedure
-    .input(mistakeUpsertInputSchema)
-    .mutation(async ({ ctx, input }) => {
-      const attachmentIds = Array.from(new Set(input.attachmentIds));
+  view: authedProcedure
+    .input(mistakeViewInputSchema)
+    .query(async ({ ctx, input }) => {
+      const limit = input.limit;
+      const search = input.search?.trim();
 
-      return prisma.$transaction(async (tx) => {
-        const questionAttempt = await tx.questionAttempt.findFirst({
-          where: {
-            id: input.questionAttemptId,
-            userId: ctx.user.id,
+      const mistakes = await prisma.mistake.findMany({
+        where: {
+          // Ownership derived through AnalysisRun -> Attachment -> User
+          analysisRun: {
+            attachment: {
+              userId: ctx.user.id,
+            },
           },
-          select: { id: true },
-        });
-
-        if (!questionAttempt) {
-          throw new TRPCError({
-            code: "NOT_FOUND",
-            message: "Question attempt not found.",
-          });
-        }
-
-        const mistakeData = {
-          title: input.title,
           type: input.type,
           status: input.status,
-          contextFlags: input.contextFlags as Prisma.InputJsonValue | undefined,
-          userNote: input.userNote,
-          rootCause: input.rootCause,
-          fixPlan: input.fixPlan,
-          retryDueAt: input.retryDueAt,
-        };
-
-        const mistake = await tx.mistake.upsert({
-          where: {
-            questionAttemptId: input.questionAttemptId,
-          },
-          create: {
-            ...mistakeData,
-            questionAttemptId: input.questionAttemptId,
-            userId: ctx.user.id,
-          },
-          update: mistakeData,
-          select: { id: true },
-        });
-
-        if (attachmentIds.length > 0) {
-          const attachments = await tx.mistakeAttachment.findMany({
-            where: {
-              id: { in: attachmentIds },
-              userId: ctx.user.id,
-            },
-            select: {
-              id: true,
-              uploadStatus: true,
-              mistakeId: true,
-            },
-          });
-
-          if (attachments.length !== attachmentIds.length) {
-            throw new TRPCError({
-              code: "NOT_FOUND",
-              message: "One or more attachments were not found.",
-            });
-          }
-
-          const invalidAttachment = attachments.find(
-            (attachment) =>
-              attachment.uploadStatus !== "UPLOADED" ||
-              attachment.mistakeId !== null,
-          );
-
-          if (invalidAttachment) {
-            throw new TRPCError({
-              code: "BAD_REQUEST",
-              message: "Only uploaded, unattached files can be added to a mistake.",
-            });
-          }
-
-          const attachResult = await tx.mistakeAttachment.updateMany({
-            where: {
-              id: { in: attachmentIds },
-              userId: ctx.user.id,
-              uploadStatus: "UPLOADED",
-              mistakeId: null,
-            },
-            data: {
-              mistakeId: mistake.id,
-              uploadStatus: "ATTACHED",
-            },
-          });
-
-          if (attachResult.count !== attachmentIds.length) {
-            throw new TRPCError({
-              code: "CONFLICT",
-              message: "One or more attachments could not be attached.",
-            });
-          }
-        }
-
-        return tx.mistake.findUniqueOrThrow({
-          where: { id: mistake.id },
-          include: {
-            attachments: {
-              orderBy: { createdAt: "asc" },
-            },
-          },
-        });
+          ...(search
+            ? {
+                OR: [
+                  { description: { contains: search, mode: "insensitive" } },
+                  { topic: { contains: search, mode: "insensitive" } },
+                ],
+              }
+            : {}),
+        },
+        orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+        cursor: input.cursor ? { id: input.cursor } : undefined,
+        skip: input.cursor ? 1 : 0,
+        take: limit + 1,
+        select: MISTAKE_VIEW_SELECT,
       });
+
+      let nextCursor: string | undefined;
+      if (mistakes.length > limit) {
+        const nextItem = mistakes.pop();
+        nextCursor = nextItem?.id;
+      }
+
+      return {
+        items: mistakes,
+        nextCursor,
+      };
     }),
 });

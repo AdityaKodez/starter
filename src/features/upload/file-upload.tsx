@@ -12,20 +12,20 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@/components/ui/card";
-import {
-  Field,
-  FieldError,
-  FieldGroup
-} from "@/components/ui/field";
+import { Field, FieldError, FieldGroup } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
+import {
+  MAX_UPLOAD_SIZE_BYTES,
+  MAX_UPLOADS_PER_REQUEST,
+} from "@/configs/const/mistake";
 import { useTRPC } from "@/trpc/client";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
-import { toast } from "sonner";
 import { BsArrowDownCircleFill, BsArrowUpCircleFill } from "react-icons/bs";
+import { toast } from "sonner";
 
 type PresignedUpload = {
   attachmentId: string;
@@ -63,17 +63,19 @@ function createUploadItem(file: File): UploadItem {
     file,
     progress: 0,
     status: "pending",
-    previewUrl: file.type.startsWith("image/") ? URL.createObjectURL(file) : null,
+    previewUrl: file.type.startsWith("image/")
+      ? URL.createObjectURL(file)
+      : null,
   };
 }
 
 export function FileUpload({ onUploaded }: FileUploadProps = {}) {
   const trpc = useTRPC();
   const prepareUploadsMutation = useMutation(
-    trpc.attachment.prepareUploads.mutationOptions()
+    trpc.attachment.prepareUploads.mutationOptions(),
   );
   const markUploadedMutation = useMutation(
-    trpc.attachment.markUploaded.mutationOptions()
+    trpc.attachment.markUploaded.mutationOptions(),
   );
   const inputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -92,6 +94,17 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
   }
 
   function updateSelectedFiles(files: File[]) {
+    if (files.length > MAX_UPLOADS_PER_REQUEST) {
+      setError("You can only upload 10 files at a time.");
+      return;
+    }
+    console.log(files);
+    const totalFileSize = files.reduce((acc, file) => acc + file.size, 0);
+    if (totalFileSize > MAX_UPLOAD_SIZE_BYTES) {
+      setError("You can only upload files up to 25MB.");
+
+      return;
+    }
     setUploads((currentUploads) => {
       const existingIds = new Set(currentUploads.map((upload) => upload.id));
       const nextUploads = [...currentUploads];
@@ -112,8 +125,8 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
   function updateUpload(id: string, nextUpload: Partial<UploadItem>) {
     setUploads((currentUploads) =>
       currentUploads.map((upload) =>
-        upload.id === id ? { ...upload, ...nextUpload } : upload
-      )
+        upload.id === id ? { ...upload, ...nextUpload } : upload,
+      ),
     );
   }
 
@@ -136,17 +149,22 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
           reject(new Error("Upload failed. Please try again."));
         }
       };
-      request.onerror = () => reject(new Error("Upload failed. Please try again."));
+      request.onerror = () =>
+        reject(new Error("Upload failed. Please try again."));
       request.open("PUT", uploadUrl);
       request.setRequestHeader(
         "Content-Type",
-        file.type || "application/octet-stream"
+        file.type || "application/octet-stream",
       );
       request.send(file);
     });
   }
 
-  async function uploadFile(file: File, id: string, presignedUpload: PresignedUpload) {
+  async function uploadFile(
+    file: File,
+    id: string,
+    presignedUpload: PresignedUpload,
+  ) {
     updateUpload(id, { status: "uploading", progress: 0 });
 
     try {
@@ -167,7 +185,7 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
         status: "failed",
         error: message,
       });
-   
+
       return { ok: false, message };
     }
   }
@@ -176,7 +194,7 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
     event.preventDefault();
 
     const uploadsList = uploads.filter(
-      (upload) => upload.status === "pending" || upload.status === "failed"
+      (upload) => upload.status === "pending" || upload.status === "failed",
     );
 
     if (uploadsList.length === 0) {
@@ -198,14 +216,14 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
 
       const results = await Promise.all(
         uploadsList.map((upload, index) =>
-          uploadFile(upload.file, upload.id, preparedUploads[index])
-        )
+          uploadFile(upload.file, upload.id, preparedUploads[index]),
+        ),
       );
 
       const uploadedAttachmentIds = results
         .filter(
           (result): result is { ok: true; attachmentId: string } =>
-            result.ok === true
+            result.ok === true,
         )
         .map((result) => result.attachmentId);
 
@@ -231,7 +249,7 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
         toast.success(
           `${uploadsList.length} ${
             uploadsList.length === 1 ? "file" : "files"
-          } uploaded`
+          } uploaded`,
         );
       }
     } catch (uploadError) {
@@ -300,13 +318,15 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
       return nextUploads;
     });
   }
-  const completedUploads = uploads.filter((upload) => upload.status === "complete");
+  const completedUploads = uploads.filter(
+    (upload) => upload.status === "complete",
+  );
   const hasCompletedUploads = completedUploads.length > 0;
   const uploadProgress =
     uploads.length > 0
       ? Math.round(
           uploads.reduce((total, upload) => total + upload.progress, 0) /
-            uploads.length
+            uploads.length,
         )
       : 0;
 
@@ -316,10 +336,10 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
         <CardTitle className="text-lg font-semibold tracking-tight">
           Upload Files
         </CardTitle>
-       <CardDescription>
-          Choose one or more files to upload. Supported formats include PNG, JPG,
-          PDF and more.
-       </CardDescription>
+        <CardDescription>
+          Choose one or more files to upload. Supported formats include PNG,
+          JPG, PDF and more.
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form className="flex w-full flex-col gap-4" onSubmit={handleSubmit}>
@@ -329,7 +349,7 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
                 type="button"
                 className={`flex h-50 w-full cursor-pointer flex-col items-center justify-center rounded-md border border-dashed p-4 text-center transition-colors ${
                   isDragging
-                      ? "border-primary bg-primary/10"
+                    ? "border-primary bg-primary/10"
                     : "border-muted bg-muted/50 hover:bg-muted/70"
                 }`}
                 onClick={() => inputRef.current?.click()}
@@ -339,13 +359,16 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
                 disabled={isUploading}
                 aria-label="Choose files to upload or drop files here"
               >
-                
-                <IconFolderOpenFilled className={`size-12 ${isDragging ? "fill-primary animate-bounce" : "fill-primary"}`} />
+                <IconFolderOpenFilled
+                  className={`size-12 ${isDragging ? "fill-primary animate-bounce" : "fill-primary"}`}
+                />
                 <p className="mt-2 text-sm font-semibold font-heading text-foreground">
                   {isDragging ? "Drop files here" : "Click to choose files"}
                 </p>
                 <p className="text-xs text-muted-foreground ">
-                  {isDragging ? "Release to add files" : "PNG, JPG, PDF and other supported files"}
+                  {isDragging
+                    ? "Release to add files"
+                    : "PNG, JPG, PDF and other supported files (Max file size 25MB )"}
                 </p>
               </button>
 
@@ -372,7 +395,10 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
 
           {uploads.length > 0 && (
             <div className="flex flex-col gap-2">
-              {(showAll ? uploads : uploads.slice(0, INITIAL_DISPLAY_COUNT)).map((upload) => (
+              {(showAll
+                ? uploads
+                : uploads.slice(0, INITIAL_DISPLAY_COUNT)
+              ).map((upload) => (
                 <div
                   className="flex items-center justify-between gap-3 rounded-lg border bg-card px-3 py-2 text-sm"
                   key={upload.id}
@@ -458,7 +484,7 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
                       </Link>
                     ) : (
                       <span key={upload.id}>{upload.upload?.attachmentId}</span>
-                    )
+                    ),
                   )}
                 </div>
               </AlertDescription>

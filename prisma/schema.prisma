@@ -1,26 +1,27 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider        = "prisma-client"
+  previewFeatures = ["postgresqlExtensions"]
+  output          = "../src/generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider   = "postgresql"
 }
 
 model User {
-  id                 String              @id
-  name               String
-  email              String
-  emailVerified      Boolean             @default(false)
-  image              String?
-  createdAt          DateTime            @default(now())
-  updatedAt          DateTime            @updatedAt
-  sessions           Session[]
-  accounts           Account[]
-  testAttempts       TestAttempt[]
-  questionAttempts   QuestionAttempt[]
-  mistakes           Mistake[]
-  mistakeAttachments MistakeAttachment[]
+  id               String            @id
+  name             String
+  email            String
+  emailVerified    Boolean           @default(false)
+  image            String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  sessions         Session[]
+  accounts         Account[]
+  testAttempts     TestAttempt[]
+  questionAttempts QuestionAttempt[]
+  uploads          UploadBatch[]
+  attachments      Attachment[]
 
   @@unique([email])
   @@map("user")
@@ -132,6 +133,63 @@ enum AttachmentUploadStatus {
   FAILED
 }
 
+model UploadBatch {
+  id            String       @id @default(cuid())
+  userId        String
+  testAttemptId String?
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  testAttempt   TestAttempt? @relation(fields: [testAttemptId], references: [id], onDelete: Cascade)
+  createdAt     DateTime     @default(now())
+
+  attachments Attachment[]
+}
+
+model AnalysisRun {
+  id           String @id @default(cuid())
+  attachmentId String
+  modelVersion String
+  status       String // processing | completed | failed
+
+  createdAt DateTime @default(now())
+
+  attachment Attachment @relation(fields: [attachmentId], references: [id], onDelete: Cascade)
+  mistakes   Mistake[]
+}
+
+model Mistake {
+  id            String @id @default(cuid())
+  analysisRunId String
+  type        MistakeType
+  description String
+  topic       String
+  confidence  Float?
+  status      MistakeStatus                @default(NEW)
+  createdAt DateTime @default(now())
+
+  analysisRun AnalysisRun @relation(fields: [analysisRunId], references: [id], onDelete: Cascade)
+}
+
+model Attachment {
+  id      String @id @default(cuid())
+  batchId String
+  userId  String
+
+  storageKey String
+  publicUrl  String?
+  mimeType   String
+  sizeBytes  Int?
+
+  status AttachmentUploadStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  batch UploadBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  analysisRuns AnalysisRun[]
+}
+
 model TestAttempt {
   id              String            @id @default(cuid())
   title           String
@@ -152,6 +210,7 @@ model TestAttempt {
   userId          String
   user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   questions       QuestionAttempt[]
+  uploads         UploadBatch[]
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
 
@@ -178,7 +237,6 @@ model QuestionAttempt {
   testAttempt    TestAttempt    @relation(fields: [testAttemptId], references: [id], onDelete: Cascade)
   userId         String
   user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  mistake        Mistake?
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
 
@@ -187,73 +245,4 @@ model QuestionAttempt {
   @@index([userId, result])
   @@index([userId, subject, topic])
   @@map("question_attempt")
-}
-
-model Mistake {
-  id                String              @id @default(cuid())
-  title             String?
-  type              MistakeType         @default(UNKNOWN)
-  status            MistakeStatus       @default(NEW)
-  contextFlags      Json?
-  userNote          String?
-  rootCause         String?
-  fixPlan           String?
-  retryDueAt        DateTime?
-  lastRetriedAt     DateTime?
-  masteredAt        DateTime?
-  questionAttemptId String              @unique
-  questionAttempt   QuestionAttempt     @relation(fields: [questionAttemptId], references: [id], onDelete: Cascade)
-  userId            String
-  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  attachments       MistakeAttachment[]
-  retries           MistakeRetry[]
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-
-  @@index([userId, status])
-  @@index([userId, type])
-  @@index([userId, retryDueAt])
-  @@map("mistake")
-}
-
-model MistakeAttachment {
-  id           String                 @id @default(cuid())
-  type         AttachmentType
-  uploadStatus AttachmentUploadStatus @default(PENDING)
-  storageKey   String
-  fileName     String?
-  mimeType     String
-  sizeBytes    Int?
-  publicUrl    String?
-  ocrStatus    OcrStatus              @default(NOT_STARTED)
-  ocrText      String?
-  ocrJson      Json?
-  ocrError     String?
-  mistakeId    String?
-  mistake      Mistake?               @relation(fields: [mistakeId], references: [id], onDelete: Cascade)
-  userId       String
-  user         User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt    DateTime               @default(now())
-  updatedAt    DateTime               @updatedAt
-
-  @@unique([storageKey])
-  @@index([mistakeId])
-  @@index([userId, uploadStatus])
-  @@index([ocrStatus])
-  @@map("mistake_attachment")
-}
-
-model MistakeRetry {
-  id          String   @id @default(cuid())
-  answer      String?
-  isCorrect   Boolean
-  note        String?
-  attemptedAt DateTime @default(now())
-  mistakeId   String
-  mistake     Mistake  @relation(fields: [mistakeId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@index([mistakeId, attemptedAt])
-  @@map("mistake_retry")
 }

@@ -388,11 +388,12 @@ export const ModelName = {
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
-  TestAttempt: 'TestAttempt',
-  QuestionAttempt: 'QuestionAttempt',
+  UploadBatch: 'UploadBatch',
+  AnalysisRun: 'AnalysisRun',
   Mistake: 'Mistake',
-  MistakeAttachment: 'MistakeAttachment',
-  MistakeRetry: 'MistakeRetry'
+  Attachment: 'Attachment',
+  TestAttempt: 'TestAttempt',
+  QuestionAttempt: 'QuestionAttempt'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -408,7 +409,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification" | "testAttempt" | "questionAttempt" | "mistake" | "mistakeAttachment" | "mistakeRetry"
+    modelProps: "user" | "session" | "account" | "verification" | "uploadBatch" | "analysisRun" | "mistake" | "attachment" | "testAttempt" | "questionAttempt"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -708,6 +709,302 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    UploadBatch: {
+      payload: Prisma.$UploadBatchPayload<ExtArgs>
+      fields: Prisma.UploadBatchFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UploadBatchFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadBatchPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UploadBatchFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadBatchPayload>
+        }
+        findFirst: {
+          args: Prisma.UploadBatchFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadBatchPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UploadBatchFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadBatchPayload>
+        }
+        findMany: {
+          args: Prisma.UploadBatchFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadBatchPayload>[]
+        }
+        create: {
+          args: Prisma.UploadBatchCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadBatchPayload>
+        }
+        createMany: {
+          args: Prisma.UploadBatchCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UploadBatchCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadBatchPayload>[]
+        }
+        delete: {
+          args: Prisma.UploadBatchDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadBatchPayload>
+        }
+        update: {
+          args: Prisma.UploadBatchUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadBatchPayload>
+        }
+        deleteMany: {
+          args: Prisma.UploadBatchDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UploadBatchUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UploadBatchUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadBatchPayload>[]
+        }
+        upsert: {
+          args: Prisma.UploadBatchUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadBatchPayload>
+        }
+        aggregate: {
+          args: Prisma.UploadBatchAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUploadBatch>
+        }
+        groupBy: {
+          args: Prisma.UploadBatchGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UploadBatchGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UploadBatchCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UploadBatchCountAggregateOutputType> | number
+        }
+      }
+    }
+    AnalysisRun: {
+      payload: Prisma.$AnalysisRunPayload<ExtArgs>
+      fields: Prisma.AnalysisRunFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AnalysisRunFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisRunPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AnalysisRunFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisRunPayload>
+        }
+        findFirst: {
+          args: Prisma.AnalysisRunFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisRunPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AnalysisRunFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisRunPayload>
+        }
+        findMany: {
+          args: Prisma.AnalysisRunFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisRunPayload>[]
+        }
+        create: {
+          args: Prisma.AnalysisRunCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisRunPayload>
+        }
+        createMany: {
+          args: Prisma.AnalysisRunCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AnalysisRunCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisRunPayload>[]
+        }
+        delete: {
+          args: Prisma.AnalysisRunDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisRunPayload>
+        }
+        update: {
+          args: Prisma.AnalysisRunUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisRunPayload>
+        }
+        deleteMany: {
+          args: Prisma.AnalysisRunDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AnalysisRunUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AnalysisRunUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisRunPayload>[]
+        }
+        upsert: {
+          args: Prisma.AnalysisRunUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisRunPayload>
+        }
+        aggregate: {
+          args: Prisma.AnalysisRunAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAnalysisRun>
+        }
+        groupBy: {
+          args: Prisma.AnalysisRunGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AnalysisRunGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AnalysisRunCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AnalysisRunCountAggregateOutputType> | number
+        }
+      }
+    }
+    Mistake: {
+      payload: Prisma.$MistakePayload<ExtArgs>
+      fields: Prisma.MistakeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MistakeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MistakeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>
+        }
+        findFirst: {
+          args: Prisma.MistakeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MistakeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>
+        }
+        findMany: {
+          args: Prisma.MistakeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>[]
+        }
+        create: {
+          args: Prisma.MistakeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>
+        }
+        createMany: {
+          args: Prisma.MistakeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MistakeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>[]
+        }
+        delete: {
+          args: Prisma.MistakeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>
+        }
+        update: {
+          args: Prisma.MistakeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>
+        }
+        deleteMany: {
+          args: Prisma.MistakeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MistakeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MistakeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>[]
+        }
+        upsert: {
+          args: Prisma.MistakeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>
+        }
+        aggregate: {
+          args: Prisma.MistakeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMistake>
+        }
+        groupBy: {
+          args: Prisma.MistakeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MistakeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MistakeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MistakeCountAggregateOutputType> | number
+        }
+      }
+    }
+    Attachment: {
+      payload: Prisma.$AttachmentPayload<ExtArgs>
+      fields: Prisma.AttachmentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AttachmentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttachmentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AttachmentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttachmentPayload>
+        }
+        findFirst: {
+          args: Prisma.AttachmentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttachmentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AttachmentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttachmentPayload>
+        }
+        findMany: {
+          args: Prisma.AttachmentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttachmentPayload>[]
+        }
+        create: {
+          args: Prisma.AttachmentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttachmentPayload>
+        }
+        createMany: {
+          args: Prisma.AttachmentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AttachmentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttachmentPayload>[]
+        }
+        delete: {
+          args: Prisma.AttachmentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttachmentPayload>
+        }
+        update: {
+          args: Prisma.AttachmentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttachmentPayload>
+        }
+        deleteMany: {
+          args: Prisma.AttachmentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AttachmentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AttachmentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttachmentPayload>[]
+        }
+        upsert: {
+          args: Prisma.AttachmentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttachmentPayload>
+        }
+        aggregate: {
+          args: Prisma.AttachmentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAttachment>
+        }
+        groupBy: {
+          args: Prisma.AttachmentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AttachmentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AttachmentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AttachmentCountAggregateOutputType> | number
+        }
+      }
+    }
     TestAttempt: {
       payload: Prisma.$TestAttemptPayload<ExtArgs>
       fields: Prisma.TestAttemptFieldRefs
@@ -856,228 +1153,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Mistake: {
-      payload: Prisma.$MistakePayload<ExtArgs>
-      fields: Prisma.MistakeFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.MistakeFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.MistakeFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>
-        }
-        findFirst: {
-          args: Prisma.MistakeFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.MistakeFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>
-        }
-        findMany: {
-          args: Prisma.MistakeFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>[]
-        }
-        create: {
-          args: Prisma.MistakeCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>
-        }
-        createMany: {
-          args: Prisma.MistakeCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.MistakeCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>[]
-        }
-        delete: {
-          args: Prisma.MistakeDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>
-        }
-        update: {
-          args: Prisma.MistakeUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>
-        }
-        deleteMany: {
-          args: Prisma.MistakeDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.MistakeUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.MistakeUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>[]
-        }
-        upsert: {
-          args: Prisma.MistakeUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakePayload>
-        }
-        aggregate: {
-          args: Prisma.MistakeAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateMistake>
-        }
-        groupBy: {
-          args: Prisma.MistakeGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.MistakeGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.MistakeCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.MistakeCountAggregateOutputType> | number
-        }
-      }
-    }
-    MistakeAttachment: {
-      payload: Prisma.$MistakeAttachmentPayload<ExtArgs>
-      fields: Prisma.MistakeAttachmentFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.MistakeAttachmentFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.MistakeAttachmentFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload>
-        }
-        findFirst: {
-          args: Prisma.MistakeAttachmentFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.MistakeAttachmentFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload>
-        }
-        findMany: {
-          args: Prisma.MistakeAttachmentFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload>[]
-        }
-        create: {
-          args: Prisma.MistakeAttachmentCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload>
-        }
-        createMany: {
-          args: Prisma.MistakeAttachmentCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.MistakeAttachmentCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload>[]
-        }
-        delete: {
-          args: Prisma.MistakeAttachmentDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload>
-        }
-        update: {
-          args: Prisma.MistakeAttachmentUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload>
-        }
-        deleteMany: {
-          args: Prisma.MistakeAttachmentDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.MistakeAttachmentUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.MistakeAttachmentUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload>[]
-        }
-        upsert: {
-          args: Prisma.MistakeAttachmentUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeAttachmentPayload>
-        }
-        aggregate: {
-          args: Prisma.MistakeAttachmentAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateMistakeAttachment>
-        }
-        groupBy: {
-          args: Prisma.MistakeAttachmentGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.MistakeAttachmentGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.MistakeAttachmentCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.MistakeAttachmentCountAggregateOutputType> | number
-        }
-      }
-    }
-    MistakeRetry: {
-      payload: Prisma.$MistakeRetryPayload<ExtArgs>
-      fields: Prisma.MistakeRetryFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.MistakeRetryFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.MistakeRetryFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload>
-        }
-        findFirst: {
-          args: Prisma.MistakeRetryFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.MistakeRetryFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload>
-        }
-        findMany: {
-          args: Prisma.MistakeRetryFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload>[]
-        }
-        create: {
-          args: Prisma.MistakeRetryCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload>
-        }
-        createMany: {
-          args: Prisma.MistakeRetryCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.MistakeRetryCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload>[]
-        }
-        delete: {
-          args: Prisma.MistakeRetryDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload>
-        }
-        update: {
-          args: Prisma.MistakeRetryUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload>
-        }
-        deleteMany: {
-          args: Prisma.MistakeRetryDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.MistakeRetryUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.MistakeRetryUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload>[]
-        }
-        upsert: {
-          args: Prisma.MistakeRetryUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MistakeRetryPayload>
-        }
-        aggregate: {
-          args: Prisma.MistakeRetryAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateMistakeRetry>
-        }
-        groupBy: {
-          args: Prisma.MistakeRetryGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.MistakeRetryGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.MistakeRetryCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.MistakeRetryCountAggregateOutputType> | number
-        }
-      }
-    }
   }
 } & {
   other: {
@@ -1175,6 +1250,57 @@ export const VerificationScalarFieldEnum = {
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
+export const UploadBatchScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  testAttemptId: 'testAttemptId',
+  createdAt: 'createdAt'
+} as const
+
+export type UploadBatchScalarFieldEnum = (typeof UploadBatchScalarFieldEnum)[keyof typeof UploadBatchScalarFieldEnum]
+
+
+export const AnalysisRunScalarFieldEnum = {
+  id: 'id',
+  attachmentId: 'attachmentId',
+  modelVersion: 'modelVersion',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type AnalysisRunScalarFieldEnum = (typeof AnalysisRunScalarFieldEnum)[keyof typeof AnalysisRunScalarFieldEnum]
+
+
+export const MistakeScalarFieldEnum = {
+  id: 'id',
+  analysisRunId: 'analysisRunId',
+  type: 'type',
+  description: 'description',
+  topic: 'topic',
+  confidence: 'confidence',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type MistakeScalarFieldEnum = (typeof MistakeScalarFieldEnum)[keyof typeof MistakeScalarFieldEnum]
+
+
+export const AttachmentScalarFieldEnum = {
+  id: 'id',
+  batchId: 'batchId',
+  userId: 'userId',
+  storageKey: 'storageKey',
+  publicUrl: 'publicUrl',
+  mimeType: 'mimeType',
+  sizeBytes: 'sizeBytes',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AttachmentScalarFieldEnum = (typeof AttachmentScalarFieldEnum)[keyof typeof AttachmentScalarFieldEnum]
+
+
 export const TestAttemptScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -1221,63 +1347,6 @@ export const QuestionAttemptScalarFieldEnum = {
 } as const
 
 export type QuestionAttemptScalarFieldEnum = (typeof QuestionAttemptScalarFieldEnum)[keyof typeof QuestionAttemptScalarFieldEnum]
-
-
-export const MistakeScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  type: 'type',
-  status: 'status',
-  contextFlags: 'contextFlags',
-  userNote: 'userNote',
-  rootCause: 'rootCause',
-  fixPlan: 'fixPlan',
-  retryDueAt: 'retryDueAt',
-  lastRetriedAt: 'lastRetriedAt',
-  masteredAt: 'masteredAt',
-  questionAttemptId: 'questionAttemptId',
-  userId: 'userId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type MistakeScalarFieldEnum = (typeof MistakeScalarFieldEnum)[keyof typeof MistakeScalarFieldEnum]
-
-
-export const MistakeAttachmentScalarFieldEnum = {
-  id: 'id',
-  type: 'type',
-  uploadStatus: 'uploadStatus',
-  storageKey: 'storageKey',
-  fileName: 'fileName',
-  mimeType: 'mimeType',
-  sizeBytes: 'sizeBytes',
-  publicUrl: 'publicUrl',
-  ocrStatus: 'ocrStatus',
-  ocrText: 'ocrText',
-  ocrJson: 'ocrJson',
-  ocrError: 'ocrError',
-  mistakeId: 'mistakeId',
-  userId: 'userId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type MistakeAttachmentScalarFieldEnum = (typeof MistakeAttachmentScalarFieldEnum)[keyof typeof MistakeAttachmentScalarFieldEnum]
-
-
-export const MistakeRetryScalarFieldEnum = {
-  id: 'id',
-  answer: 'answer',
-  isCorrect: 'isCorrect',
-  note: 'note',
-  attemptedAt: 'attemptedAt',
-  mistakeId: 'mistakeId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type MistakeRetryScalarFieldEnum = (typeof MistakeRetryScalarFieldEnum)[keyof typeof MistakeRetryScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1363,6 +1432,48 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'MistakeType'
+ */
+export type EnumMistakeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MistakeType'>
+    
+
+
+/**
+ * Reference to a field of type 'MistakeType[]'
+ */
+export type ListEnumMistakeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MistakeType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'MistakeStatus'
+ */
+export type EnumMistakeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MistakeStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'MistakeStatus[]'
+ */
+export type ListEnumMistakeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MistakeStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -1373,6 +1484,20 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'AttachmentUploadStatus'
+ */
+export type EnumAttachmentUploadStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttachmentUploadStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'AttachmentUploadStatus[]'
+ */
+export type ListEnumAttachmentUploadStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttachmentUploadStatus[]'>
     
 
 
@@ -1405,20 +1530,6 @@ export type ListEnumTestAttemptStatusFieldRefInput<$PrismaModel> = FieldRefInput
 
 
 /**
- * Reference to a field of type 'Float'
- */
-export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-/**
- * Reference to a field of type 'Float[]'
- */
-export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-/**
  * Reference to a field of type 'Json'
  */
 export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -1443,76 +1554,6 @@ export type EnumQuestionResultFieldRefInput<$PrismaModel> = FieldRefInputType<$P
  * Reference to a field of type 'QuestionResult[]'
  */
 export type ListEnumQuestionResultFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuestionResult[]'>
-    
-
-
-/**
- * Reference to a field of type 'MistakeType'
- */
-export type EnumMistakeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MistakeType'>
-    
-
-
-/**
- * Reference to a field of type 'MistakeType[]'
- */
-export type ListEnumMistakeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MistakeType[]'>
-    
-
-
-/**
- * Reference to a field of type 'MistakeStatus'
- */
-export type EnumMistakeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MistakeStatus'>
-    
-
-
-/**
- * Reference to a field of type 'MistakeStatus[]'
- */
-export type ListEnumMistakeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MistakeStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'AttachmentType'
- */
-export type EnumAttachmentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttachmentType'>
-    
-
-
-/**
- * Reference to a field of type 'AttachmentType[]'
- */
-export type ListEnumAttachmentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttachmentType[]'>
-    
-
-
-/**
- * Reference to a field of type 'AttachmentUploadStatus'
- */
-export type EnumAttachmentUploadStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttachmentUploadStatus'>
-    
-
-
-/**
- * Reference to a field of type 'AttachmentUploadStatus[]'
- */
-export type ListEnumAttachmentUploadStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttachmentUploadStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'OcrStatus'
- */
-export type EnumOcrStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OcrStatus'>
-    
-
-
-/**
- * Reference to a field of type 'OcrStatus[]'
- */
-export type ListEnumOcrStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OcrStatus[]'>
     
 
 /**
@@ -1614,11 +1655,12 @@ export type GlobalOmitConfig = {
   session?: Prisma.SessionOmit
   account?: Prisma.AccountOmit
   verification?: Prisma.VerificationOmit
+  uploadBatch?: Prisma.UploadBatchOmit
+  analysisRun?: Prisma.AnalysisRunOmit
+  mistake?: Prisma.MistakeOmit
+  attachment?: Prisma.AttachmentOmit
   testAttempt?: Prisma.TestAttemptOmit
   questionAttempt?: Prisma.QuestionAttemptOmit
-  mistake?: Prisma.MistakeOmit
-  mistakeAttachment?: Prisma.MistakeAttachmentOmit
-  mistakeRetry?: Prisma.MistakeRetryOmit
 }
 
 /* Types for Logging */

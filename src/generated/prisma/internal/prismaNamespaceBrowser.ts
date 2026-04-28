@@ -55,11 +55,12 @@ export const ModelName = {
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
-  TestAttempt: 'TestAttempt',
-  QuestionAttempt: 'QuestionAttempt',
+  UploadBatch: 'UploadBatch',
+  AnalysisRun: 'AnalysisRun',
   Mistake: 'Mistake',
-  MistakeAttachment: 'MistakeAttachment',
-  MistakeRetry: 'MistakeRetry'
+  Attachment: 'Attachment',
+  TestAttempt: 'TestAttempt',
+  QuestionAttempt: 'QuestionAttempt'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -136,6 +137,57 @@ export const VerificationScalarFieldEnum = {
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
+export const UploadBatchScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  testAttemptId: 'testAttemptId',
+  createdAt: 'createdAt'
+} as const
+
+export type UploadBatchScalarFieldEnum = (typeof UploadBatchScalarFieldEnum)[keyof typeof UploadBatchScalarFieldEnum]
+
+
+export const AnalysisRunScalarFieldEnum = {
+  id: 'id',
+  attachmentId: 'attachmentId',
+  modelVersion: 'modelVersion',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type AnalysisRunScalarFieldEnum = (typeof AnalysisRunScalarFieldEnum)[keyof typeof AnalysisRunScalarFieldEnum]
+
+
+export const MistakeScalarFieldEnum = {
+  id: 'id',
+  analysisRunId: 'analysisRunId',
+  type: 'type',
+  description: 'description',
+  topic: 'topic',
+  confidence: 'confidence',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type MistakeScalarFieldEnum = (typeof MistakeScalarFieldEnum)[keyof typeof MistakeScalarFieldEnum]
+
+
+export const AttachmentScalarFieldEnum = {
+  id: 'id',
+  batchId: 'batchId',
+  userId: 'userId',
+  storageKey: 'storageKey',
+  publicUrl: 'publicUrl',
+  mimeType: 'mimeType',
+  sizeBytes: 'sizeBytes',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AttachmentScalarFieldEnum = (typeof AttachmentScalarFieldEnum)[keyof typeof AttachmentScalarFieldEnum]
+
+
 export const TestAttemptScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -182,63 +234,6 @@ export const QuestionAttemptScalarFieldEnum = {
 } as const
 
 export type QuestionAttemptScalarFieldEnum = (typeof QuestionAttemptScalarFieldEnum)[keyof typeof QuestionAttemptScalarFieldEnum]
-
-
-export const MistakeScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  type: 'type',
-  status: 'status',
-  contextFlags: 'contextFlags',
-  userNote: 'userNote',
-  rootCause: 'rootCause',
-  fixPlan: 'fixPlan',
-  retryDueAt: 'retryDueAt',
-  lastRetriedAt: 'lastRetriedAt',
-  masteredAt: 'masteredAt',
-  questionAttemptId: 'questionAttemptId',
-  userId: 'userId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type MistakeScalarFieldEnum = (typeof MistakeScalarFieldEnum)[keyof typeof MistakeScalarFieldEnum]
-
-
-export const MistakeAttachmentScalarFieldEnum = {
-  id: 'id',
-  type: 'type',
-  uploadStatus: 'uploadStatus',
-  storageKey: 'storageKey',
-  fileName: 'fileName',
-  mimeType: 'mimeType',
-  sizeBytes: 'sizeBytes',
-  publicUrl: 'publicUrl',
-  ocrStatus: 'ocrStatus',
-  ocrText: 'ocrText',
-  ocrJson: 'ocrJson',
-  ocrError: 'ocrError',
-  mistakeId: 'mistakeId',
-  userId: 'userId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type MistakeAttachmentScalarFieldEnum = (typeof MistakeAttachmentScalarFieldEnum)[keyof typeof MistakeAttachmentScalarFieldEnum]
-
-
-export const MistakeRetryScalarFieldEnum = {
-  id: 'id',
-  answer: 'answer',
-  isCorrect: 'isCorrect',
-  note: 'note',
-  attemptedAt: 'attemptedAt',
-  mistakeId: 'mistakeId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type MistakeRetryScalarFieldEnum = (typeof MistakeRetryScalarFieldEnum)[keyof typeof MistakeRetryScalarFieldEnum]
 
 
 export const SortOrder = {

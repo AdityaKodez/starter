@@ -11,30 +11,16 @@ import {
 import { prisma } from "@/lib/prisma";
 
 import { authedProcedure, createTRPCRouter } from "../init";
-
-const MAX_UPLOADS_PER_REQUEST = 10;
-const MAX_UPLOAD_SIZE_BYTES = 25 * 1024 * 1024;
+import {
+  MAX_UPLOADS_PER_REQUEST,
+  MAX_UPLOAD_SIZE_BYTES,
+} from "@/configs/const/mistake";
 
 const uploadFileInputSchema = z.object({
   fileName: z.string().trim().min(1).max(255),
   mimeType: z.string().trim().min(1).max(255),
   sizeBytes: z.number().int().min(1).max(MAX_UPLOAD_SIZE_BYTES).optional(),
 });
-
-function getAttachmentType(mimeType: string) {
-  if (mimeType.startsWith("image/")) {
-    return "IMAGE" as const;
-  }
-
-  if (mimeType === "application/pdf") {
-    return "PDF" as const;
-  }
-
-  throw new TRPCError({
-    code: "BAD_REQUEST",
-    message: "Only image and PDF attachments are supported.",
-  });
-}
 
 export const attachementRouter = createTRPCRouter({
   prepareUploads: authedProcedure
@@ -53,6 +39,13 @@ export const attachementRouter = createTRPCRouter({
           message: "Missing S3 bucket configuration.",
         });
       }
+
+      // Create an UploadBatch to group these attachments
+      const batch = await prisma.uploadBatch.create({
+        data: {
+          userId: ctx.user.id,
+        },
+      });
 
       const uploads = await Promise.all(
         input.files.map(async (file) => {
@@ -74,22 +67,21 @@ export const attachementRouter = createTRPCRouter({
             publicUrl,
             storageKey,
             file,
-            type: getAttachmentType(file.mimeType),
+            batchId: batch.id,
           };
         }),
       );
 
-      await prisma.mistakeAttachment.createMany({
+      await prisma.attachment.createMany({
         data: uploads.map((upload) => ({
           id: upload.attachmentId,
-          type: upload.type,
-          uploadStatus: "PENDING",
+          batchId: upload.batchId,
+          userId: ctx.user.id,
           storageKey: upload.storageKey,
-          fileName: upload.file.fileName,
+          publicUrl: upload.publicUrl,
           mimeType: upload.file.mimeType,
           sizeBytes: upload.file.sizeBytes,
-          publicUrl: upload.publicUrl,
-          userId: ctx.user.id,
+          status: "PENDING" as const,
         })),
       });
 
@@ -103,20 +95,22 @@ export const attachementRouter = createTRPCRouter({
   markUploaded: authedProcedure
     .input(
       z.object({
-        attachmentIds: z.array(z.string().min(1)).min(1).max(MAX_UPLOADS_PER_REQUEST),
+        attachmentIds: z
+          .array(z.string().min(1))
+          .min(1)
+          .max(MAX_UPLOADS_PER_REQUEST),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       const attachmentIds = Array.from(new Set(input.attachmentIds));
-      const attachments = await prisma.mistakeAttachment.findMany({
+      const attachments = await prisma.attachment.findMany({
         where: {
           id: { in: attachmentIds },
           userId: ctx.user.id,
         },
         select: {
           id: true,
-          uploadStatus: true,
-          mistakeId: true,
+          status: true,
         },
       });
 
@@ -128,30 +122,28 @@ export const attachementRouter = createTRPCRouter({
       }
 
       const invalidAttachment = attachments.find(
-        (attachment) =>
-          attachment.uploadStatus !== "PENDING" || attachment.mistakeId !== null,
+        (attachment) => attachment.status !== "PENDING",
       );
 
       if (invalidAttachment) {
         throw new TRPCError({
           code: "BAD_REQUEST",
-          message: "Only pending, unattached uploads can be marked uploaded.",
+          message: "Only pending uploads can be marked as uploaded.",
         });
       }
 
-      await prisma.mistakeAttachment.updateMany({
+      await prisma.attachment.updateMany({
         where: {
           id: { in: attachmentIds },
           userId: ctx.user.id,
-          uploadStatus: "PENDING",
-          mistakeId: null,
+          status: "PENDING",
         },
         data: {
-          uploadStatus: "UPLOADED",
+          status: "UPLOADED",
         },
       });
 
-      return prisma.mistakeAttachment.findMany({
+      return prisma.attachment.findMany({
         where: {
           id: { in: attachmentIds },
           userId: ctx.user.id,

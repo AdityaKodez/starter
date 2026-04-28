@@ -23,7 +23,7 @@ export default async function Home() {
       description={page.description}
     />
       <HydrateClient>
-        <div className="grid grid-cols-1 md:grid-cols-3 w-full py-6 md:gap-x-4 gap-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 w-full py-6 md:gap-x-4 gap-y-4 items-start">
           <FileUpload />
           <Suspense fallback={<TestAttemptViewerSkeleton />}>
             <TestAttemptViewer />

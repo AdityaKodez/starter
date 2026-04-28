@@ -1,23 +1,26 @@
-import { EmptyState } from "@/components/empty-state";
 import { EntityHeader } from "@/components/entity-state";
+import { MistakeViewerSkeleton } from "@/features/mistake/mistake-skeleton";
+import { MistakeViewer } from "@/features/mistake/mistake-viewer";
 import { getHomeNavItem } from "@/lib/home-navigation";
-import { IconXFilled } from "@tabler/icons-react";
+import { HydrateClient } from "@/trpc/server";
+import { prefetchMistakes } from "@/utils/prefetch";
+import { Suspense } from "react";
 
-export default function MistakesPage() {
+export default async function MistakesPage() {
+  await prefetchMistakes();
+
   const page = getHomeNavItem("/home/mistakes");
 
   return (
-    <>
-    <EntityHeader
-      title={page.label}
-      description={page.description}
-    />
-    <EmptyState
-     icon={IconXFilled}
-      title={page.label}
-      description={page.description}
-      
-    />
-    </>
+    <section className="px-4 sm:px-6 lg:px-8">
+      <EntityHeader title={page.label} description={page.description} />
+      <HydrateClient>
+        <div className="py-6">
+          <Suspense fallback={<MistakeViewerSkeleton />}>
+            <MistakeViewer />
+          </Suspense>
+        </div>
+      </HydrateClient>
+    </section>
   );
 }

@@ -38,6 +38,26 @@ export type Account = Prisma.AccountModel
  */
 export type Verification = Prisma.VerificationModel
 /**
+ * Model UploadBatch
+ * 
+ */
+export type UploadBatch = Prisma.UploadBatchModel
+/**
+ * Model AnalysisRun
+ * 
+ */
+export type AnalysisRun = Prisma.AnalysisRunModel
+/**
+ * Model Mistake
+ * 
+ */
+export type Mistake = Prisma.MistakeModel
+/**
+ * Model Attachment
+ * 
+ */
+export type Attachment = Prisma.AttachmentModel
+/**
  * Model TestAttempt
  * 
  */
@@ -47,18 +67,3 @@ export type TestAttempt = Prisma.TestAttemptModel
  * 
  */
 export type QuestionAttempt = Prisma.QuestionAttemptModel
-/**
- * Model Mistake
- * 
- */
-export type Mistake = Prisma.MistakeModel
-/**
- * Model MistakeAttachment
- * 
- */
-export type MistakeAttachment = Prisma.MistakeAttachmentModel
-/**
- * Model MistakeRetry
- * 
- */
-export type MistakeRetry = Prisma.MistakeRetryModel

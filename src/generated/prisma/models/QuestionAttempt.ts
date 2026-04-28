@@ -318,7 +318,6 @@ export type QuestionAttemptWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"QuestionAttempt"> | Date | string
   testAttempt?: Prisma.XOR<Prisma.TestAttemptScalarRelationFilter, Prisma.TestAttemptWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  mistake?: Prisma.XOR<Prisma.MistakeNullableScalarRelationFilter, Prisma.MistakeWhereInput> | null
 }
 
 export type QuestionAttemptOrderByWithRelationInput = {
@@ -341,7 +340,6 @@ export type QuestionAttemptOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   testAttempt?: Prisma.TestAttemptOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
-  mistake?: Prisma.MistakeOrderByWithRelationInput
 }
 
 export type QuestionAttemptWhereUniqueInput = Prisma.AtLeast<{
@@ -368,7 +366,6 @@ export type QuestionAttemptWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"QuestionAttempt"> | Date | string
   testAttempt?: Prisma.XOR<Prisma.TestAttemptScalarRelationFilter, Prisma.TestAttemptWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  mistake?: Prisma.XOR<Prisma.MistakeNullableScalarRelationFilter, Prisma.MistakeWhereInput> | null
 }, "id" | "testAttemptId_questionNumber">
 
 export type QuestionAttemptOrderByWithAggregationInput = {
@@ -437,7 +434,6 @@ export type QuestionAttemptCreateInput = {
   updatedAt?: Date | string
   testAttempt: Prisma.TestAttemptCreateNestedOneWithoutQuestionsInput
   user: Prisma.UserCreateNestedOneWithoutQuestionAttemptsInput
-  mistake?: Prisma.MistakeCreateNestedOneWithoutQuestionAttemptInput
 }
 
 export type QuestionAttemptUncheckedCreateInput = {
@@ -458,7 +454,6 @@ export type QuestionAttemptUncheckedCreateInput = {
   userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  mistake?: Prisma.MistakeUncheckedCreateNestedOneWithoutQuestionAttemptInput
 }
 
 export type QuestionAttemptUpdateInput = {
@@ -479,7 +474,6 @@ export type QuestionAttemptUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   testAttempt?: Prisma.TestAttemptUpdateOneRequiredWithoutQuestionsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutQuestionAttemptsNestedInput
-  mistake?: Prisma.MistakeUpdateOneWithoutQuestionAttemptNestedInput
 }
 
 export type QuestionAttemptUncheckedUpdateInput = {
@@ -500,7 +494,6 @@ export type QuestionAttemptUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  mistake?: Prisma.MistakeUncheckedUpdateOneWithoutQuestionAttemptNestedInput
 }
 
 export type QuestionAttemptCreateManyInput = {
@@ -646,11 +639,6 @@ export type QuestionAttemptSumOrderByAggregateInput = {
   maxMarks?: Prisma.SortOrder
 }
 
-export type QuestionAttemptScalarRelationFilter = {
-  is?: Prisma.QuestionAttemptWhereInput
-  isNot?: Prisma.QuestionAttemptWhereInput
-}
-
 export type QuestionAttemptCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.QuestionAttemptCreateWithoutUserInput, Prisma.QuestionAttemptUncheckedCreateWithoutUserInput> | Prisma.QuestionAttemptCreateWithoutUserInput[] | Prisma.QuestionAttemptUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.QuestionAttemptCreateOrConnectWithoutUserInput | Prisma.QuestionAttemptCreateOrConnectWithoutUserInput[]
@@ -739,20 +727,6 @@ export type EnumQuestionResultFieldUpdateOperationsInput = {
   set?: $Enums.QuestionResult
 }
 
-export type QuestionAttemptCreateNestedOneWithoutMistakeInput = {
-  create?: Prisma.XOR<Prisma.QuestionAttemptCreateWithoutMistakeInput, Prisma.QuestionAttemptUncheckedCreateWithoutMistakeInput>
-  connectOrCreate?: Prisma.QuestionAttemptCreateOrConnectWithoutMistakeInput
-  connect?: Prisma.QuestionAttemptWhereUniqueInput
-}
-
-export type QuestionAttemptUpdateOneRequiredWithoutMistakeNestedInput = {
-  create?: Prisma.XOR<Prisma.QuestionAttemptCreateWithoutMistakeInput, Prisma.QuestionAttemptUncheckedCreateWithoutMistakeInput>
-  connectOrCreate?: Prisma.QuestionAttemptCreateOrConnectWithoutMistakeInput
-  upsert?: Prisma.QuestionAttemptUpsertWithoutMistakeInput
-  connect?: Prisma.QuestionAttemptWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.QuestionAttemptUpdateToOneWithWhereWithoutMistakeInput, Prisma.QuestionAttemptUpdateWithoutMistakeInput>, Prisma.QuestionAttemptUncheckedUpdateWithoutMistakeInput>
-}
-
 export type QuestionAttemptCreateWithoutUserInput = {
   id?: string
   questionNumber?: number | null
@@ -770,7 +744,6 @@ export type QuestionAttemptCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   testAttempt: Prisma.TestAttemptCreateNestedOneWithoutQuestionsInput
-  mistake?: Prisma.MistakeCreateNestedOneWithoutQuestionAttemptInput
 }
 
 export type QuestionAttemptUncheckedCreateWithoutUserInput = {
@@ -790,7 +763,6 @@ export type QuestionAttemptUncheckedCreateWithoutUserInput = {
   testAttemptId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  mistake?: Prisma.MistakeUncheckedCreateNestedOneWithoutQuestionAttemptInput
 }
 
 export type QuestionAttemptCreateOrConnectWithoutUserInput = {
@@ -859,7 +831,6 @@ export type QuestionAttemptCreateWithoutTestAttemptInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutQuestionAttemptsInput
-  mistake?: Prisma.MistakeCreateNestedOneWithoutQuestionAttemptInput
 }
 
 export type QuestionAttemptUncheckedCreateWithoutTestAttemptInput = {
@@ -879,7 +850,6 @@ export type QuestionAttemptUncheckedCreateWithoutTestAttemptInput = {
   userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  mistake?: Prisma.MistakeUncheckedCreateNestedOneWithoutQuestionAttemptInput
 }
 
 export type QuestionAttemptCreateOrConnectWithoutTestAttemptInput = {
@@ -906,102 +876,6 @@ export type QuestionAttemptUpdateWithWhereUniqueWithoutTestAttemptInput = {
 export type QuestionAttemptUpdateManyWithWhereWithoutTestAttemptInput = {
   where: Prisma.QuestionAttemptScalarWhereInput
   data: Prisma.XOR<Prisma.QuestionAttemptUpdateManyMutationInput, Prisma.QuestionAttemptUncheckedUpdateManyWithoutTestAttemptInput>
-}
-
-export type QuestionAttemptCreateWithoutMistakeInput = {
-  id?: string
-  questionNumber?: number | null
-  questionText?: string | null
-  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  correctAnswer?: string | null
-  userAnswer?: string | null
-  result?: $Enums.QuestionResult
-  subject?: string | null
-  topic?: string | null
-  subtopic?: string | null
-  difficulty?: string | null
-  marksAwarded?: number | null
-  maxMarks?: number | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  testAttempt: Prisma.TestAttemptCreateNestedOneWithoutQuestionsInput
-  user: Prisma.UserCreateNestedOneWithoutQuestionAttemptsInput
-}
-
-export type QuestionAttemptUncheckedCreateWithoutMistakeInput = {
-  id?: string
-  questionNumber?: number | null
-  questionText?: string | null
-  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  correctAnswer?: string | null
-  userAnswer?: string | null
-  result?: $Enums.QuestionResult
-  subject?: string | null
-  topic?: string | null
-  subtopic?: string | null
-  difficulty?: string | null
-  marksAwarded?: number | null
-  maxMarks?: number | null
-  testAttemptId: string
-  userId: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type QuestionAttemptCreateOrConnectWithoutMistakeInput = {
-  where: Prisma.QuestionAttemptWhereUniqueInput
-  create: Prisma.XOR<Prisma.QuestionAttemptCreateWithoutMistakeInput, Prisma.QuestionAttemptUncheckedCreateWithoutMistakeInput>
-}
-
-export type QuestionAttemptUpsertWithoutMistakeInput = {
-  update: Prisma.XOR<Prisma.QuestionAttemptUpdateWithoutMistakeInput, Prisma.QuestionAttemptUncheckedUpdateWithoutMistakeInput>
-  create: Prisma.XOR<Prisma.QuestionAttemptCreateWithoutMistakeInput, Prisma.QuestionAttemptUncheckedCreateWithoutMistakeInput>
-  where?: Prisma.QuestionAttemptWhereInput
-}
-
-export type QuestionAttemptUpdateToOneWithWhereWithoutMistakeInput = {
-  where?: Prisma.QuestionAttemptWhereInput
-  data: Prisma.XOR<Prisma.QuestionAttemptUpdateWithoutMistakeInput, Prisma.QuestionAttemptUncheckedUpdateWithoutMistakeInput>
-}
-
-export type QuestionAttemptUpdateWithoutMistakeInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  questionNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  questionText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  correctAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  userAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  result?: Prisma.EnumQuestionResultFieldUpdateOperationsInput | $Enums.QuestionResult
-  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  topic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subtopic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marksAwarded?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxMarks?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  testAttempt?: Prisma.TestAttemptUpdateOneRequiredWithoutQuestionsNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutQuestionAttemptsNestedInput
-}
-
-export type QuestionAttemptUncheckedUpdateWithoutMistakeInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  questionNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  questionText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  correctAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  userAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  result?: Prisma.EnumQuestionResultFieldUpdateOperationsInput | $Enums.QuestionResult
-  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  topic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subtopic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marksAwarded?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  maxMarks?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  testAttemptId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type QuestionAttemptCreateManyUserInput = {
@@ -1040,7 +914,6 @@ export type QuestionAttemptUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   testAttempt?: Prisma.TestAttemptUpdateOneRequiredWithoutQuestionsNestedInput
-  mistake?: Prisma.MistakeUpdateOneWithoutQuestionAttemptNestedInput
 }
 
 export type QuestionAttemptUncheckedUpdateWithoutUserInput = {
@@ -1060,7 +933,6 @@ export type QuestionAttemptUncheckedUpdateWithoutUserInput = {
   testAttemptId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  mistake?: Prisma.MistakeUncheckedUpdateOneWithoutQuestionAttemptNestedInput
 }
 
 export type QuestionAttemptUncheckedUpdateManyWithoutUserInput = {
@@ -1118,7 +990,6 @@ export type QuestionAttemptUpdateWithoutTestAttemptInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutQuestionAttemptsNestedInput
-  mistake?: Prisma.MistakeUpdateOneWithoutQuestionAttemptNestedInput
 }
 
 export type QuestionAttemptUncheckedUpdateWithoutTestAttemptInput = {
@@ -1138,7 +1009,6 @@ export type QuestionAttemptUncheckedUpdateWithoutTestAttemptInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  mistake?: Prisma.MistakeUncheckedUpdateOneWithoutQuestionAttemptNestedInput
 }
 
 export type QuestionAttemptUncheckedUpdateManyWithoutTestAttemptInput = {
@@ -1182,7 +1052,6 @@ export type QuestionAttemptSelect<ExtArgs extends runtime.Types.Extensions.Inter
   updatedAt?: boolean
   testAttempt?: boolean | Prisma.TestAttemptDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  mistake?: boolean | Prisma.QuestionAttempt$mistakeArgs<ExtArgs>
 }, ExtArgs["result"]["questionAttempt"]>
 
 export type QuestionAttemptSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1253,7 +1122,6 @@ export type QuestionAttemptOmit<ExtArgs extends runtime.Types.Extensions.Interna
 export type QuestionAttemptInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   testAttempt?: boolean | Prisma.TestAttemptDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  mistake?: boolean | Prisma.QuestionAttempt$mistakeArgs<ExtArgs>
 }
 export type QuestionAttemptIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   testAttempt?: boolean | Prisma.TestAttemptDefaultArgs<ExtArgs>
@@ -1269,7 +1137,6 @@ export type $QuestionAttemptPayload<ExtArgs extends runtime.Types.Extensions.Int
   objects: {
     testAttempt: Prisma.$TestAttemptPayload<ExtArgs>
     user: Prisma.$UserPayload<ExtArgs>
-    mistake: Prisma.$MistakePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1685,7 +1552,6 @@ export interface Prisma__QuestionAttemptClient<T, Null = never, ExtArgs extends 
   readonly [Symbol.toStringTag]: "PrismaPromise"
   testAttempt<T extends Prisma.TestAttemptDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TestAttemptDefaultArgs<ExtArgs>>): Prisma.Prisma__TestAttemptClient<runtime.Types.Result.GetResult<Prisma.$TestAttemptPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  mistake<T extends Prisma.QuestionAttempt$mistakeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.QuestionAttempt$mistakeArgs<ExtArgs>>): Prisma.Prisma__MistakeClient<runtime.Types.Result.GetResult<Prisma.$MistakePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2130,25 +1996,6 @@ export type QuestionAttemptDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many QuestionAttempts to delete.
    */
   limit?: number
-}
-
-/**
- * QuestionAttempt.mistake
- */
-export type QuestionAttempt$mistakeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Mistake
-   */
-  select?: Prisma.MistakeSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Mistake
-   */
-  omit?: Prisma.MistakeOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.MistakeInclude<ExtArgs> | null
-  where?: Prisma.MistakeWhereInput
 }
 
 /**

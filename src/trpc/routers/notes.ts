@@ -4,7 +4,7 @@
 // import { z } from "zod";
 // import { authedProcedure, createTRPCRouter } from "../init";
 
-// export const notesRouter = createTRPCRouter({
+// export const bookmarkRouter = createTRPCRouter({
 //   getVideoNotes: authedProcedure
 //     .input( z.object({
 //         playlistvideoId: z.string(),

@@ -358,6 +358,7 @@ export type TestAttemptWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"TestAttempt"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   questions?: Prisma.QuestionAttemptListRelationFilter
+  uploads?: Prisma.UploadBatchListRelationFilter
 }
 
 export type TestAttemptOrderByWithRelationInput = {
@@ -382,6 +383,7 @@ export type TestAttemptOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   questions?: Prisma.QuestionAttemptOrderByRelationAggregateInput
+  uploads?: Prisma.UploadBatchOrderByRelationAggregateInput
 }
 
 export type TestAttemptWhereUniqueInput = Prisma.AtLeast<{
@@ -409,6 +411,7 @@ export type TestAttemptWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"TestAttempt"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   questions?: Prisma.QuestionAttemptListRelationFilter
+  uploads?: Prisma.UploadBatchListRelationFilter
 }, "id">
 
 export type TestAttemptOrderByWithAggregationInput = {
@@ -484,6 +487,7 @@ export type TestAttemptCreateInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTestAttemptsInput
   questions?: Prisma.QuestionAttemptCreateNestedManyWithoutTestAttemptInput
+  uploads?: Prisma.UploadBatchCreateNestedManyWithoutTestAttemptInput
 }
 
 export type TestAttemptUncheckedCreateInput = {
@@ -507,6 +511,7 @@ export type TestAttemptUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   questions?: Prisma.QuestionAttemptUncheckedCreateNestedManyWithoutTestAttemptInput
+  uploads?: Prisma.UploadBatchUncheckedCreateNestedManyWithoutTestAttemptInput
 }
 
 export type TestAttemptUpdateInput = {
@@ -530,6 +535,7 @@ export type TestAttemptUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTestAttemptsNestedInput
   questions?: Prisma.QuestionAttemptUpdateManyWithoutTestAttemptNestedInput
+  uploads?: Prisma.UploadBatchUpdateManyWithoutTestAttemptNestedInput
 }
 
 export type TestAttemptUncheckedUpdateInput = {
@@ -553,6 +559,7 @@ export type TestAttemptUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   questions?: Prisma.QuestionAttemptUncheckedUpdateManyWithoutTestAttemptNestedInput
+  uploads?: Prisma.UploadBatchUncheckedUpdateManyWithoutTestAttemptNestedInput
 }
 
 export type TestAttemptCreateManyInput = {
@@ -628,6 +635,11 @@ export type TestAttemptListRelationFilter = {
 
 export type TestAttemptOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type TestAttemptNullableScalarRelationFilter = {
+  is?: Prisma.TestAttemptWhereInput | null
+  isNot?: Prisma.TestAttemptWhereInput | null
 }
 
 export type TestAttemptCountOrderByAggregateInput = {
@@ -765,12 +777,20 @@ export type TestAttemptUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.TestAttemptScalarWhereInput | Prisma.TestAttemptScalarWhereInput[]
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type TestAttemptCreateNestedOneWithoutUploadsInput = {
+  create?: Prisma.XOR<Prisma.TestAttemptCreateWithoutUploadsInput, Prisma.TestAttemptUncheckedCreateWithoutUploadsInput>
+  connectOrCreate?: Prisma.TestAttemptCreateOrConnectWithoutUploadsInput
+  connect?: Prisma.TestAttemptWhereUniqueInput
+}
+
+export type TestAttemptUpdateOneWithoutUploadsNestedInput = {
+  create?: Prisma.XOR<Prisma.TestAttemptCreateWithoutUploadsInput, Prisma.TestAttemptUncheckedCreateWithoutUploadsInput>
+  connectOrCreate?: Prisma.TestAttemptCreateOrConnectWithoutUploadsInput
+  upsert?: Prisma.TestAttemptUpsertWithoutUploadsInput
+  disconnect?: Prisma.TestAttemptWhereInput | boolean
+  delete?: Prisma.TestAttemptWhereInput | boolean
+  connect?: Prisma.TestAttemptWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TestAttemptUpdateToOneWithWhereWithoutUploadsInput, Prisma.TestAttemptUpdateWithoutUploadsInput>, Prisma.TestAttemptUncheckedUpdateWithoutUploadsInput>
 }
 
 export type EnumTestAttemptTypeFieldUpdateOperationsInput = {
@@ -779,14 +799,6 @@ export type EnumTestAttemptTypeFieldUpdateOperationsInput = {
 
 export type EnumTestAttemptStatusFieldUpdateOperationsInput = {
   set?: $Enums.TestAttemptStatus
-}
-
-export type NullableFloatFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
 }
 
 export type TestAttemptCreateNestedOneWithoutQuestionsInput = {
@@ -823,6 +835,7 @@ export type TestAttemptCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   questions?: Prisma.QuestionAttemptCreateNestedManyWithoutTestAttemptInput
+  uploads?: Prisma.UploadBatchCreateNestedManyWithoutTestAttemptInput
 }
 
 export type TestAttemptUncheckedCreateWithoutUserInput = {
@@ -845,6 +858,7 @@ export type TestAttemptUncheckedCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   questions?: Prisma.QuestionAttemptUncheckedCreateNestedManyWithoutTestAttemptInput
+  uploads?: Prisma.UploadBatchUncheckedCreateNestedManyWithoutTestAttemptInput
 }
 
 export type TestAttemptCreateOrConnectWithoutUserInput = {
@@ -898,6 +912,114 @@ export type TestAttemptScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"TestAttempt"> | Date | string
 }
 
+export type TestAttemptCreateWithoutUploadsInput = {
+  id?: string
+  title: string
+  examName?: string | null
+  sourceName?: string | null
+  sourceYear?: number | null
+  type?: $Enums.TestAttemptType
+  status?: $Enums.TestAttemptStatus
+  attemptedAt?: Date | string
+  durationSeconds?: number | null
+  totalQuestions?: number | null
+  correctCount?: number | null
+  incorrectCount?: number | null
+  skippedCount?: number | null
+  score?: number | null
+  maxScore?: number | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTestAttemptsInput
+  questions?: Prisma.QuestionAttemptCreateNestedManyWithoutTestAttemptInput
+}
+
+export type TestAttemptUncheckedCreateWithoutUploadsInput = {
+  id?: string
+  title: string
+  examName?: string | null
+  sourceName?: string | null
+  sourceYear?: number | null
+  type?: $Enums.TestAttemptType
+  status?: $Enums.TestAttemptStatus
+  attemptedAt?: Date | string
+  durationSeconds?: number | null
+  totalQuestions?: number | null
+  correctCount?: number | null
+  incorrectCount?: number | null
+  skippedCount?: number | null
+  score?: number | null
+  maxScore?: number | null
+  notes?: string | null
+  userId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  questions?: Prisma.QuestionAttemptUncheckedCreateNestedManyWithoutTestAttemptInput
+}
+
+export type TestAttemptCreateOrConnectWithoutUploadsInput = {
+  where: Prisma.TestAttemptWhereUniqueInput
+  create: Prisma.XOR<Prisma.TestAttemptCreateWithoutUploadsInput, Prisma.TestAttemptUncheckedCreateWithoutUploadsInput>
+}
+
+export type TestAttemptUpsertWithoutUploadsInput = {
+  update: Prisma.XOR<Prisma.TestAttemptUpdateWithoutUploadsInput, Prisma.TestAttemptUncheckedUpdateWithoutUploadsInput>
+  create: Prisma.XOR<Prisma.TestAttemptCreateWithoutUploadsInput, Prisma.TestAttemptUncheckedCreateWithoutUploadsInput>
+  where?: Prisma.TestAttemptWhereInput
+}
+
+export type TestAttemptUpdateToOneWithWhereWithoutUploadsInput = {
+  where?: Prisma.TestAttemptWhereInput
+  data: Prisma.XOR<Prisma.TestAttemptUpdateWithoutUploadsInput, Prisma.TestAttemptUncheckedUpdateWithoutUploadsInput>
+}
+
+export type TestAttemptUpdateWithoutUploadsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  examName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  type?: Prisma.EnumTestAttemptTypeFieldUpdateOperationsInput | $Enums.TestAttemptType
+  status?: Prisma.EnumTestAttemptStatusFieldUpdateOperationsInput | $Enums.TestAttemptStatus
+  attemptedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalQuestions?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  correctCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  incorrectCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  skippedCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  maxScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTestAttemptsNestedInput
+  questions?: Prisma.QuestionAttemptUpdateManyWithoutTestAttemptNestedInput
+}
+
+export type TestAttemptUncheckedUpdateWithoutUploadsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  examName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  type?: Prisma.EnumTestAttemptTypeFieldUpdateOperationsInput | $Enums.TestAttemptType
+  status?: Prisma.EnumTestAttemptStatusFieldUpdateOperationsInput | $Enums.TestAttemptStatus
+  attemptedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalQuestions?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  correctCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  incorrectCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  skippedCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  maxScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  questions?: Prisma.QuestionAttemptUncheckedUpdateManyWithoutTestAttemptNestedInput
+}
+
 export type TestAttemptCreateWithoutQuestionsInput = {
   id?: string
   title: string
@@ -918,6 +1040,7 @@ export type TestAttemptCreateWithoutQuestionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTestAttemptsInput
+  uploads?: Prisma.UploadBatchCreateNestedManyWithoutTestAttemptInput
 }
 
 export type TestAttemptUncheckedCreateWithoutQuestionsInput = {
@@ -940,6 +1063,7 @@ export type TestAttemptUncheckedCreateWithoutQuestionsInput = {
   userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  uploads?: Prisma.UploadBatchUncheckedCreateNestedManyWithoutTestAttemptInput
 }
 
 export type TestAttemptCreateOrConnectWithoutQuestionsInput = {
@@ -978,6 +1102,7 @@ export type TestAttemptUpdateWithoutQuestionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTestAttemptsNestedInput
+  uploads?: Prisma.UploadBatchUpdateManyWithoutTestAttemptNestedInput
 }
 
 export type TestAttemptUncheckedUpdateWithoutQuestionsInput = {
@@ -1000,6 +1125,7 @@ export type TestAttemptUncheckedUpdateWithoutQuestionsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  uploads?: Prisma.UploadBatchUncheckedUpdateManyWithoutTestAttemptNestedInput
 }
 
 export type TestAttemptCreateManyUserInput = {
@@ -1043,6 +1169,7 @@ export type TestAttemptUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   questions?: Prisma.QuestionAttemptUpdateManyWithoutTestAttemptNestedInput
+  uploads?: Prisma.UploadBatchUpdateManyWithoutTestAttemptNestedInput
 }
 
 export type TestAttemptUncheckedUpdateWithoutUserInput = {
@@ -1065,6 +1192,7 @@ export type TestAttemptUncheckedUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   questions?: Prisma.QuestionAttemptUncheckedUpdateManyWithoutTestAttemptNestedInput
+  uploads?: Prisma.UploadBatchUncheckedUpdateManyWithoutTestAttemptNestedInput
 }
 
 export type TestAttemptUncheckedUpdateManyWithoutUserInput = {
@@ -1095,10 +1223,12 @@ export type TestAttemptUncheckedUpdateManyWithoutUserInput = {
 
 export type TestAttemptCountOutputType = {
   questions: number
+  uploads: number
 }
 
 export type TestAttemptCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   questions?: boolean | TestAttemptCountOutputTypeCountQuestionsArgs
+  uploads?: boolean | TestAttemptCountOutputTypeCountUploadsArgs
 }
 
 /**
@@ -1116,6 +1246,13 @@ export type TestAttemptCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.
  */
 export type TestAttemptCountOutputTypeCountQuestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.QuestionAttemptWhereInput
+}
+
+/**
+ * TestAttemptCountOutputType without action
+ */
+export type TestAttemptCountOutputTypeCountUploadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UploadBatchWhereInput
 }
 
 
@@ -1141,6 +1278,7 @@ export type TestAttemptSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   questions?: boolean | Prisma.TestAttempt$questionsArgs<ExtArgs>
+  uploads?: boolean | Prisma.TestAttempt$uploadsArgs<ExtArgs>
   _count?: boolean | Prisma.TestAttemptCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["testAttempt"]>
 
@@ -1216,6 +1354,7 @@ export type TestAttemptOmit<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type TestAttemptInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   questions?: boolean | Prisma.TestAttempt$questionsArgs<ExtArgs>
+  uploads?: boolean | Prisma.TestAttempt$uploadsArgs<ExtArgs>
   _count?: boolean | Prisma.TestAttemptCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TestAttemptIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1230,6 +1369,7 @@ export type $TestAttemptPayload<ExtArgs extends runtime.Types.Extensions.Interna
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     questions: Prisma.$QuestionAttemptPayload<ExtArgs>[]
+    uploads: Prisma.$UploadBatchPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1647,6 +1787,7 @@ export interface Prisma__TestAttemptClient<T, Null = never, ExtArgs extends runt
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   questions<T extends Prisma.TestAttempt$questionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TestAttempt$questionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuestionAttemptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  uploads<T extends Prisma.TestAttempt$uploadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TestAttempt$uploadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UploadBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2117,6 +2258,30 @@ export type TestAttempt$questionsArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.QuestionAttemptScalarFieldEnum | Prisma.QuestionAttemptScalarFieldEnum[]
+}
+
+/**
+ * TestAttempt.uploads
+ */
+export type TestAttempt$uploadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UploadBatch
+   */
+  select?: Prisma.UploadBatchSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UploadBatch
+   */
+  omit?: Prisma.UploadBatchOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UploadBatchInclude<ExtArgs> | null
+  where?: Prisma.UploadBatchWhereInput
+  orderBy?: Prisma.UploadBatchOrderByWithRelationInput | Prisma.UploadBatchOrderByWithRelationInput[]
+  cursor?: Prisma.UploadBatchWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UploadBatchScalarFieldEnum | Prisma.UploadBatchScalarFieldEnum[]
 }
 
 /**
