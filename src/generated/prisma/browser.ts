@@ -48,6 +48,11 @@ export type UploadBatch = Prisma.UploadBatchModel
  */
 export type AnalysisRun = Prisma.AnalysisRunModel
 /**
+ * Model DocumentChunk
+ * 
+ */
+export type DocumentChunk = Prisma.DocumentChunkModel
+/**
  * Model Mistake
  * 
  */

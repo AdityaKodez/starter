@@ -390,6 +390,7 @@ export const ModelName = {
   Verification: 'Verification',
   UploadBatch: 'UploadBatch',
   AnalysisRun: 'AnalysisRun',
+  DocumentChunk: 'DocumentChunk',
   Mistake: 'Mistake',
   Attachment: 'Attachment',
   TestAttempt: 'TestAttempt',
@@ -409,7 +410,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification" | "uploadBatch" | "analysisRun" | "mistake" | "attachment" | "testAttempt" | "questionAttempt"
+    modelProps: "user" | "session" | "account" | "verification" | "uploadBatch" | "analysisRun" | "documentChunk" | "mistake" | "attachment" | "testAttempt" | "questionAttempt"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -857,6 +858,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    DocumentChunk: {
+      payload: Prisma.$DocumentChunkPayload<ExtArgs>
+      fields: Prisma.DocumentChunkFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DocumentChunkFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DocumentChunkFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkPayload>
+        }
+        findFirst: {
+          args: Prisma.DocumentChunkFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DocumentChunkFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkPayload>
+        }
+        findMany: {
+          args: Prisma.DocumentChunkFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkPayload>[]
+        }
+        create: {
+          args: Prisma.DocumentChunkCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkPayload>
+        }
+        createMany: {
+          args: Prisma.DocumentChunkCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DocumentChunkCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkPayload>[]
+        }
+        delete: {
+          args: Prisma.DocumentChunkDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkPayload>
+        }
+        update: {
+          args: Prisma.DocumentChunkUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkPayload>
+        }
+        deleteMany: {
+          args: Prisma.DocumentChunkDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DocumentChunkUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DocumentChunkUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkPayload>[]
+        }
+        upsert: {
+          args: Prisma.DocumentChunkUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentChunkPayload>
+        }
+        aggregate: {
+          args: Prisma.DocumentChunkAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDocumentChunk>
+        }
+        groupBy: {
+          args: Prisma.DocumentChunkGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DocumentChunkGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DocumentChunkCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DocumentChunkCountAggregateOutputType> | number
+        }
+      }
+    }
     Mistake: {
       payload: Prisma.$MistakePayload<ExtArgs>
       fields: Prisma.MistakeFieldRefs
@@ -1265,10 +1340,35 @@ export const AnalysisRunScalarFieldEnum = {
   attachmentId: 'attachmentId',
   modelVersion: 'modelVersion',
   status: 'status',
-  createdAt: 'createdAt'
+  rawOcr: 'rawOcr',
+  fullText: 'fullText',
+  pageCount: 'pageCount',
+  textractJobId: 'textractJobId',
+  errorMessage: 'errorMessage',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type AnalysisRunScalarFieldEnum = (typeof AnalysisRunScalarFieldEnum)[keyof typeof AnalysisRunScalarFieldEnum]
+
+
+export const DocumentChunkScalarFieldEnum = {
+  id: 'id',
+  attachmentId: 'attachmentId',
+  analysisRunId: 'analysisRunId',
+  pageStart: 'pageStart',
+  pageEnd: 'pageEnd',
+  chunkIndex: 'chunkIndex',
+  text: 'text',
+  sourceBlockIds: 'sourceBlockIds',
+  confidence: 'confidence',
+  needsVision: 'needsVision',
+  createdAt: 'createdAt'
+} as const
+
+export type DocumentChunkScalarFieldEnum = (typeof DocumentChunkScalarFieldEnum)[keyof typeof DocumentChunkScalarFieldEnum]
 
 
 export const MistakeScalarFieldEnum = {
@@ -1365,6 +1465,13 @@ export const NullableJsonNullValueInput = {
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -1432,16 +1539,44 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
- * Reference to a field of type 'MistakeType'
+ * Reference to a field of type 'AnalysisStatus'
  */
-export type EnumMistakeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MistakeType'>
+export type EnumAnalysisStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AnalysisStatus'>
     
 
 
 /**
- * Reference to a field of type 'MistakeType[]'
+ * Reference to a field of type 'AnalysisStatus[]'
  */
-export type ListEnumMistakeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MistakeType[]'>
+export type ListEnumAnalysisStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AnalysisStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+/**
+ * Reference to a field of type 'Int[]'
+ */
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -1460,6 +1595,20 @@ export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMode
 
 
 /**
+ * Reference to a field of type 'MistakeType'
+ */
+export type EnumMistakeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MistakeType'>
+    
+
+
+/**
+ * Reference to a field of type 'MistakeType[]'
+ */
+export type ListEnumMistakeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MistakeType[]'>
+    
+
+
+/**
  * Reference to a field of type 'MistakeStatus'
  */
 export type EnumMistakeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MistakeStatus'>
@@ -1470,20 +1619,6 @@ export type EnumMistakeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'MistakeStatus[]'
  */
 export type ListEnumMistakeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MistakeStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'Int'
- */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-/**
- * Reference to a field of type 'Int[]'
- */
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -1526,20 +1661,6 @@ export type EnumTestAttemptStatusFieldRefInput<$PrismaModel> = FieldRefInputType
  * Reference to a field of type 'TestAttemptStatus[]'
  */
 export type ListEnumTestAttemptStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TestAttemptStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'Json'
- */
-export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-/**
- * Reference to a field of type 'QueryMode'
- */
-export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -1657,6 +1778,7 @@ export type GlobalOmitConfig = {
   verification?: Prisma.VerificationOmit
   uploadBatch?: Prisma.UploadBatchOmit
   analysisRun?: Prisma.AnalysisRunOmit
+  documentChunk?: Prisma.DocumentChunkOmit
   mistake?: Prisma.MistakeOmit
   attachment?: Prisma.AttachmentOmit
   testAttempt?: Prisma.TestAttemptOmit

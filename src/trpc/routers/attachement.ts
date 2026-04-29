@@ -15,6 +15,7 @@ import {
   MAX_UPLOADS_PER_REQUEST,
   MAX_UPLOAD_SIZE_BYTES,
 } from "@/configs/const/mistake";
+import { inngest } from "@/lib/inngest";
 
 const uploadFileInputSchema = z.object({
   fileName: z.string().trim().min(1).max(255),
@@ -73,6 +74,7 @@ export const attachementRouter = createTRPCRouter({
       );
 
       await prisma.attachment.createMany({
+        skipDuplicates: true,
         data: uploads.map((upload) => ({
           id: upload.attachmentId,
           batchId: upload.batchId,
@@ -140,6 +142,14 @@ export const attachementRouter = createTRPCRouter({
         },
         data: {
           status: "UPLOADED",
+        },
+      });
+
+      await inngest.send({
+        name: "attachment/processing.requested",
+        data: {
+          attachmentIds,
+          userId: ctx.user.id,
         },
       });
 

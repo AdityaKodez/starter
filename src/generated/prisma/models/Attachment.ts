@@ -259,6 +259,7 @@ export type AttachmentWhereInput = {
   batch?: Prisma.XOR<Prisma.UploadBatchScalarRelationFilter, Prisma.UploadBatchWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   analysisRuns?: Prisma.AnalysisRunListRelationFilter
+  chunks?: Prisma.DocumentChunkListRelationFilter
 }
 
 export type AttachmentOrderByWithRelationInput = {
@@ -275,6 +276,7 @@ export type AttachmentOrderByWithRelationInput = {
   batch?: Prisma.UploadBatchOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
   analysisRuns?: Prisma.AnalysisRunOrderByRelationAggregateInput
+  chunks?: Prisma.DocumentChunkOrderByRelationAggregateInput
 }
 
 export type AttachmentWhereUniqueInput = Prisma.AtLeast<{
@@ -294,6 +296,7 @@ export type AttachmentWhereUniqueInput = Prisma.AtLeast<{
   batch?: Prisma.XOR<Prisma.UploadBatchScalarRelationFilter, Prisma.UploadBatchWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   analysisRuns?: Prisma.AnalysisRunListRelationFilter
+  chunks?: Prisma.DocumentChunkListRelationFilter
 }, "id">
 
 export type AttachmentOrderByWithAggregationInput = {
@@ -342,6 +345,7 @@ export type AttachmentCreateInput = {
   batch: Prisma.UploadBatchCreateNestedOneWithoutAttachmentsInput
   user: Prisma.UserCreateNestedOneWithoutAttachmentsInput
   analysisRuns?: Prisma.AnalysisRunCreateNestedManyWithoutAttachmentInput
+  chunks?: Prisma.DocumentChunkCreateNestedManyWithoutAttachmentInput
 }
 
 export type AttachmentUncheckedCreateInput = {
@@ -356,6 +360,7 @@ export type AttachmentUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   analysisRuns?: Prisma.AnalysisRunUncheckedCreateNestedManyWithoutAttachmentInput
+  chunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutAttachmentInput
 }
 
 export type AttachmentUpdateInput = {
@@ -370,6 +375,7 @@ export type AttachmentUpdateInput = {
   batch?: Prisma.UploadBatchUpdateOneRequiredWithoutAttachmentsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutAttachmentsNestedInput
   analysisRuns?: Prisma.AnalysisRunUpdateManyWithoutAttachmentNestedInput
+  chunks?: Prisma.DocumentChunkUpdateManyWithoutAttachmentNestedInput
 }
 
 export type AttachmentUncheckedUpdateInput = {
@@ -384,6 +390,7 @@ export type AttachmentUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   analysisRuns?: Prisma.AnalysisRunUncheckedUpdateManyWithoutAttachmentNestedInput
+  chunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutAttachmentNestedInput
 }
 
 export type AttachmentCreateManyInput = {
@@ -583,12 +590,18 @@ export type AttachmentUpdateOneRequiredWithoutAnalysisRunsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AttachmentUpdateToOneWithWhereWithoutAnalysisRunsInput, Prisma.AttachmentUpdateWithoutAnalysisRunsInput>, Prisma.AttachmentUncheckedUpdateWithoutAnalysisRunsInput>
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type AttachmentCreateNestedOneWithoutChunksInput = {
+  create?: Prisma.XOR<Prisma.AttachmentCreateWithoutChunksInput, Prisma.AttachmentUncheckedCreateWithoutChunksInput>
+  connectOrCreate?: Prisma.AttachmentCreateOrConnectWithoutChunksInput
+  connect?: Prisma.AttachmentWhereUniqueInput
+}
+
+export type AttachmentUpdateOneRequiredWithoutChunksNestedInput = {
+  create?: Prisma.XOR<Prisma.AttachmentCreateWithoutChunksInput, Prisma.AttachmentUncheckedCreateWithoutChunksInput>
+  connectOrCreate?: Prisma.AttachmentCreateOrConnectWithoutChunksInput
+  upsert?: Prisma.AttachmentUpsertWithoutChunksInput
+  connect?: Prisma.AttachmentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AttachmentUpdateToOneWithWhereWithoutChunksInput, Prisma.AttachmentUpdateWithoutChunksInput>, Prisma.AttachmentUncheckedUpdateWithoutChunksInput>
 }
 
 export type EnumAttachmentUploadStatusFieldUpdateOperationsInput = {
@@ -606,6 +619,7 @@ export type AttachmentCreateWithoutUserInput = {
   updatedAt?: Date | string
   batch: Prisma.UploadBatchCreateNestedOneWithoutAttachmentsInput
   analysisRuns?: Prisma.AnalysisRunCreateNestedManyWithoutAttachmentInput
+  chunks?: Prisma.DocumentChunkCreateNestedManyWithoutAttachmentInput
 }
 
 export type AttachmentUncheckedCreateWithoutUserInput = {
@@ -619,6 +633,7 @@ export type AttachmentUncheckedCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   analysisRuns?: Prisma.AnalysisRunUncheckedCreateNestedManyWithoutAttachmentInput
+  chunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutAttachmentInput
 }
 
 export type AttachmentCreateOrConnectWithoutUserInput = {
@@ -674,6 +689,7 @@ export type AttachmentCreateWithoutBatchInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutAttachmentsInput
   analysisRuns?: Prisma.AnalysisRunCreateNestedManyWithoutAttachmentInput
+  chunks?: Prisma.DocumentChunkCreateNestedManyWithoutAttachmentInput
 }
 
 export type AttachmentUncheckedCreateWithoutBatchInput = {
@@ -687,6 +703,7 @@ export type AttachmentUncheckedCreateWithoutBatchInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   analysisRuns?: Prisma.AnalysisRunUncheckedCreateNestedManyWithoutAttachmentInput
+  chunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutAttachmentInput
 }
 
 export type AttachmentCreateOrConnectWithoutBatchInput = {
@@ -726,6 +743,7 @@ export type AttachmentCreateWithoutAnalysisRunsInput = {
   updatedAt?: Date | string
   batch: Prisma.UploadBatchCreateNestedOneWithoutAttachmentsInput
   user: Prisma.UserCreateNestedOneWithoutAttachmentsInput
+  chunks?: Prisma.DocumentChunkCreateNestedManyWithoutAttachmentInput
 }
 
 export type AttachmentUncheckedCreateWithoutAnalysisRunsInput = {
@@ -739,6 +757,7 @@ export type AttachmentUncheckedCreateWithoutAnalysisRunsInput = {
   status?: $Enums.AttachmentUploadStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  chunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutAttachmentInput
 }
 
 export type AttachmentCreateOrConnectWithoutAnalysisRunsInput = {
@@ -768,6 +787,7 @@ export type AttachmentUpdateWithoutAnalysisRunsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batch?: Prisma.UploadBatchUpdateOneRequiredWithoutAttachmentsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutAttachmentsNestedInput
+  chunks?: Prisma.DocumentChunkUpdateManyWithoutAttachmentNestedInput
 }
 
 export type AttachmentUncheckedUpdateWithoutAnalysisRunsInput = {
@@ -781,6 +801,79 @@ export type AttachmentUncheckedUpdateWithoutAnalysisRunsInput = {
   status?: Prisma.EnumAttachmentUploadStatusFieldUpdateOperationsInput | $Enums.AttachmentUploadStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutAttachmentNestedInput
+}
+
+export type AttachmentCreateWithoutChunksInput = {
+  id?: string
+  storageKey: string
+  publicUrl?: string | null
+  mimeType: string
+  sizeBytes?: number | null
+  status?: $Enums.AttachmentUploadStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  batch: Prisma.UploadBatchCreateNestedOneWithoutAttachmentsInput
+  user: Prisma.UserCreateNestedOneWithoutAttachmentsInput
+  analysisRuns?: Prisma.AnalysisRunCreateNestedManyWithoutAttachmentInput
+}
+
+export type AttachmentUncheckedCreateWithoutChunksInput = {
+  id?: string
+  batchId: string
+  userId: string
+  storageKey: string
+  publicUrl?: string | null
+  mimeType: string
+  sizeBytes?: number | null
+  status?: $Enums.AttachmentUploadStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  analysisRuns?: Prisma.AnalysisRunUncheckedCreateNestedManyWithoutAttachmentInput
+}
+
+export type AttachmentCreateOrConnectWithoutChunksInput = {
+  where: Prisma.AttachmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.AttachmentCreateWithoutChunksInput, Prisma.AttachmentUncheckedCreateWithoutChunksInput>
+}
+
+export type AttachmentUpsertWithoutChunksInput = {
+  update: Prisma.XOR<Prisma.AttachmentUpdateWithoutChunksInput, Prisma.AttachmentUncheckedUpdateWithoutChunksInput>
+  create: Prisma.XOR<Prisma.AttachmentCreateWithoutChunksInput, Prisma.AttachmentUncheckedCreateWithoutChunksInput>
+  where?: Prisma.AttachmentWhereInput
+}
+
+export type AttachmentUpdateToOneWithWhereWithoutChunksInput = {
+  where?: Prisma.AttachmentWhereInput
+  data: Prisma.XOR<Prisma.AttachmentUpdateWithoutChunksInput, Prisma.AttachmentUncheckedUpdateWithoutChunksInput>
+}
+
+export type AttachmentUpdateWithoutChunksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  publicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  sizeBytes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.EnumAttachmentUploadStatusFieldUpdateOperationsInput | $Enums.AttachmentUploadStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  batch?: Prisma.UploadBatchUpdateOneRequiredWithoutAttachmentsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutAttachmentsNestedInput
+  analysisRuns?: Prisma.AnalysisRunUpdateManyWithoutAttachmentNestedInput
+}
+
+export type AttachmentUncheckedUpdateWithoutChunksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  batchId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  publicUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  sizeBytes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.EnumAttachmentUploadStatusFieldUpdateOperationsInput | $Enums.AttachmentUploadStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  analysisRuns?: Prisma.AnalysisRunUncheckedUpdateManyWithoutAttachmentNestedInput
 }
 
 export type AttachmentCreateManyUserInput = {
@@ -806,6 +899,7 @@ export type AttachmentUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batch?: Prisma.UploadBatchUpdateOneRequiredWithoutAttachmentsNestedInput
   analysisRuns?: Prisma.AnalysisRunUpdateManyWithoutAttachmentNestedInput
+  chunks?: Prisma.DocumentChunkUpdateManyWithoutAttachmentNestedInput
 }
 
 export type AttachmentUncheckedUpdateWithoutUserInput = {
@@ -819,6 +913,7 @@ export type AttachmentUncheckedUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   analysisRuns?: Prisma.AnalysisRunUncheckedUpdateManyWithoutAttachmentNestedInput
+  chunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutAttachmentNestedInput
 }
 
 export type AttachmentUncheckedUpdateManyWithoutUserInput = {
@@ -856,6 +951,7 @@ export type AttachmentUpdateWithoutBatchInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutAttachmentsNestedInput
   analysisRuns?: Prisma.AnalysisRunUpdateManyWithoutAttachmentNestedInput
+  chunks?: Prisma.DocumentChunkUpdateManyWithoutAttachmentNestedInput
 }
 
 export type AttachmentUncheckedUpdateWithoutBatchInput = {
@@ -869,6 +965,7 @@ export type AttachmentUncheckedUpdateWithoutBatchInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   analysisRuns?: Prisma.AnalysisRunUncheckedUpdateManyWithoutAttachmentNestedInput
+  chunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutAttachmentNestedInput
 }
 
 export type AttachmentUncheckedUpdateManyWithoutBatchInput = {
@@ -890,10 +987,12 @@ export type AttachmentUncheckedUpdateManyWithoutBatchInput = {
 
 export type AttachmentCountOutputType = {
   analysisRuns: number
+  chunks: number
 }
 
 export type AttachmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   analysisRuns?: boolean | AttachmentCountOutputTypeCountAnalysisRunsArgs
+  chunks?: boolean | AttachmentCountOutputTypeCountChunksArgs
 }
 
 /**
@@ -913,6 +1012,13 @@ export type AttachmentCountOutputTypeCountAnalysisRunsArgs<ExtArgs extends runti
   where?: Prisma.AnalysisRunWhereInput
 }
 
+/**
+ * AttachmentCountOutputType without action
+ */
+export type AttachmentCountOutputTypeCountChunksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DocumentChunkWhereInput
+}
+
 
 export type AttachmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -928,6 +1034,7 @@ export type AttachmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   batch?: boolean | Prisma.UploadBatchDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   analysisRuns?: boolean | Prisma.Attachment$analysisRunsArgs<ExtArgs>
+  chunks?: boolean | Prisma.Attachment$chunksArgs<ExtArgs>
   _count?: boolean | Prisma.AttachmentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["attachment"]>
 
@@ -979,6 +1086,7 @@ export type AttachmentInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   batch?: boolean | Prisma.UploadBatchDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   analysisRuns?: boolean | Prisma.Attachment$analysisRunsArgs<ExtArgs>
+  chunks?: boolean | Prisma.Attachment$chunksArgs<ExtArgs>
   _count?: boolean | Prisma.AttachmentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AttachmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -996,6 +1104,7 @@ export type $AttachmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
     batch: Prisma.$UploadBatchPayload<ExtArgs>
     user: Prisma.$UserPayload<ExtArgs>
     analysisRuns: Prisma.$AnalysisRunPayload<ExtArgs>[]
+    chunks: Prisma.$DocumentChunkPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1405,6 +1514,7 @@ export interface Prisma__AttachmentClient<T, Null = never, ExtArgs extends runti
   batch<T extends Prisma.UploadBatchDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UploadBatchDefaultArgs<ExtArgs>>): Prisma.Prisma__UploadBatchClient<runtime.Types.Result.GetResult<Prisma.$UploadBatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   analysisRuns<T extends Prisma.Attachment$analysisRunsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Attachment$analysisRunsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnalysisRunPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chunks<T extends Prisma.Attachment$chunksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Attachment$chunksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentChunkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1866,6 +1976,30 @@ export type Attachment$analysisRunsArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.AnalysisRunScalarFieldEnum | Prisma.AnalysisRunScalarFieldEnum[]
+}
+
+/**
+ * Attachment.chunks
+ */
+export type Attachment$chunksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DocumentChunk
+   */
+  select?: Prisma.DocumentChunkSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DocumentChunk
+   */
+  omit?: Prisma.DocumentChunkOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentChunkInclude<ExtArgs> | null
+  where?: Prisma.DocumentChunkWhereInput
+  orderBy?: Prisma.DocumentChunkOrderByWithRelationInput | Prisma.DocumentChunkOrderByWithRelationInput[]
+  cursor?: Prisma.DocumentChunkWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DocumentChunkScalarFieldEnum | Prisma.DocumentChunkScalarFieldEnum[]
 }
 
 /**

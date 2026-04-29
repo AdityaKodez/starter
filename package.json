@@ -6,11 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "inngest": "npx inngest-cli@latest dev"
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.62",
     "@aws-sdk/client-s3": "^3.1037.0",
+    "@aws-sdk/client-textract": "^3.1038.0",
     "@aws-sdk/s3-request-presigner": "^3.1037.0",
     "@base-ui/react": "^1.4.1",
     "@paralleldrive/cuid2": "^3.3.0",
@@ -21,7 +23,7 @@
     "@trpc/client": "^11.13.0",
     "@trpc/server": "^11.13.0",
     "@trpc/tanstack-react-query": "^11.13.0",
-    "ai": "^6.0.158",
+    "ai": "^6.0.169",
     "avvvatars-react": "^0.4.2",
     "babel-plugin-react-compiler": "^1.0.0",
     "better-auth": "^1.6.0",
@@ -32,6 +34,7 @@
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
+    "inngest": "^4.2.5",
     "input-otp": "^1.4.2",
     "next": "^16.2.4",
     "next-themes": "^0.4.6",

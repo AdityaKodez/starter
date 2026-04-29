@@ -57,6 +57,7 @@ export const ModelName = {
   Verification: 'Verification',
   UploadBatch: 'UploadBatch',
   AnalysisRun: 'AnalysisRun',
+  DocumentChunk: 'DocumentChunk',
   Mistake: 'Mistake',
   Attachment: 'Attachment',
   TestAttempt: 'TestAttempt',
@@ -152,10 +153,35 @@ export const AnalysisRunScalarFieldEnum = {
   attachmentId: 'attachmentId',
   modelVersion: 'modelVersion',
   status: 'status',
-  createdAt: 'createdAt'
+  rawOcr: 'rawOcr',
+  fullText: 'fullText',
+  pageCount: 'pageCount',
+  textractJobId: 'textractJobId',
+  errorMessage: 'errorMessage',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type AnalysisRunScalarFieldEnum = (typeof AnalysisRunScalarFieldEnum)[keyof typeof AnalysisRunScalarFieldEnum]
+
+
+export const DocumentChunkScalarFieldEnum = {
+  id: 'id',
+  attachmentId: 'attachmentId',
+  analysisRunId: 'analysisRunId',
+  pageStart: 'pageStart',
+  pageEnd: 'pageEnd',
+  chunkIndex: 'chunkIndex',
+  text: 'text',
+  sourceBlockIds: 'sourceBlockIds',
+  confidence: 'confidence',
+  needsVision: 'needsVision',
+  createdAt: 'createdAt'
+} as const
+
+export type DocumentChunkScalarFieldEnum = (typeof DocumentChunkScalarFieldEnum)[keyof typeof DocumentChunkScalarFieldEnum]
 
 
 export const MistakeScalarFieldEnum = {
@@ -250,6 +276,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {

@@ -1,11 +1,11 @@
 "use client";
 
-import { IconFolderOpenFilled, IconUpload, IconX } from "@tabler/icons-react";
-import Image from "next/image";
-import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { type ChangeEvent, type FormEvent, useRef, useState } from "react";
+import { toast } from "sonner";
+import { IconFolderOpenFilled, IconUpload } from "@tabler/icons-react";
+import { BsArrowDownCircleFill, BsArrowUpCircleFill } from "react-icons/bs";
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,39 +17,14 @@ import {
 import { Field, FieldError, FieldGroup } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
+
 import {
   MAX_UPLOAD_SIZE_BYTES,
   MAX_UPLOADS_PER_REQUEST,
 } from "@/configs/const/mistake";
 import { useTRPC } from "@/trpc/client";
-import { useMutation } from "@tanstack/react-query";
-import Link from "next/link";
-import { BsArrowDownCircleFill, BsArrowUpCircleFill } from "react-icons/bs";
-import { toast } from "sonner";
-
-type PresignedUpload = {
-  attachmentId: string;
-  uploadUrl: string;
-  publicUrl: string | null;
-};
-
-type UploadStatus = "pending" | "uploading" | "complete" | "failed";
-
-type UploadItem = {
-  id: string;
-  name: string;
-  type: string;
-  file: File;
-  progress: number;
-  status: UploadStatus;
-  error?: string;
-  previewUrl: string | null;
-  upload?: PresignedUpload;
-};
-
-type FileUploadProps = {
-  onUploaded?: (attachmentIds: string[]) => void;
-};
+import { type PresignedUpload, type UploadItem, type FileUploadProps } from "./types";
+import { UploadItemCard } from "./upload-item-card";
 
 function getUploadId(file: File) {
   return `${file.name}-${file.lastModified}-${file.size}`;
@@ -69,6 +44,8 @@ function createUploadItem(file: File): UploadItem {
   };
 }
 
+const INITIAL_DISPLAY_COUNT = 3;
+
 export function FileUpload({ onUploaded }: FileUploadProps = {}) {
   const trpc = useTRPC();
   const prepareUploadsMutation = useMutation(
@@ -84,7 +61,6 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
   const [uploads, setUploads] = useState<UploadItem[]>([]);
   const [showAll, setShowAll] = useState(false);
 
-  const INITIAL_DISPLAY_COUNT = 3;
   function revokePreviewUrls(currentUploads: UploadItem[]) {
     currentUploads.forEach((upload) => {
       if (upload.previewUrl?.startsWith("blob:")) {
@@ -95,14 +71,12 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
 
   function updateSelectedFiles(files: File[]) {
     if (files.length > MAX_UPLOADS_PER_REQUEST) {
-      setError("You can only upload 10 files at a time.");
+      setError(`You can only upload ${MAX_UPLOADS_PER_REQUEST} files at a time.`);
       return;
     }
-    console.log(files);
     const totalFileSize = files.reduce((acc, file) => acc + file.size, 0);
     if (totalFileSize > MAX_UPLOAD_SIZE_BYTES) {
       setError("You can only upload files up to 25MB.");
-
       return;
     }
     setUploads((currentUploads) => {
@@ -318,10 +292,7 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
       return nextUploads;
     });
   }
-  const completedUploads = uploads.filter(
-    (upload) => upload.status === "complete",
-  );
-  const hasCompletedUploads = completedUploads.length > 0;
+
   const uploadProgress =
     uploads.length > 0
       ? Math.round(
@@ -382,7 +353,7 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
                 aria-invalid={Boolean(error)}
                 disabled={isUploading}
               />
-              <FieldError>{error}</FieldError>
+              <FieldError className="text-xs text-center">{error}</FieldError>
             </Field>
           </FieldGroup>
 
@@ -399,48 +370,12 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
                 ? uploads
                 : uploads.slice(0, INITIAL_DISPLAY_COUNT)
               ).map((upload) => (
-                <div
-                  className="flex items-center justify-between gap-3 rounded-lg border bg-card px-3 py-2 text-sm"
+                <UploadItemCard
                   key={upload.id}
-                >
-                  <div className="size-8 shrink-0 overflow-hidden rounded-md border bg-muted">
-                    {upload.previewUrl ? (
-                      <Image
-                        src={upload.previewUrl}
-                        alt={upload.name}
-                        width={32}
-                        height={32}
-                        className="h-full w-full object-cover"
-                      />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center text-[10px] font-medium uppercase text-muted-foreground">
-                        {upload.name.split(".").pop()?.slice(0, 3) ?? "file"}
-                      </div>
-                    )}
-                  </div>
-
-                  <span className="min-w-0 flex-1 truncate">{upload.name}</span>
-
-                  {!isUploading && (
-                    <Button
-                      variant="outline"
-                      size="icon-xs"
-                      type="button"
-                      onClick={() => handleRemoveUpload(upload.id)}
-                      aria-label={`Remove ${upload.name} from upload list`}
-                    >
-                      <IconX />
-                    </Button>
-                  )}
-
-                  {upload.status === "uploading" && (
-                    <Badge variant="secondary">{upload.progress}%</Badge>
-                  )}
-
-                  {upload.status === "failed" && (
-                    <Badge variant="destructive">failed</Badge>
-                  )}
-                </div>
+                  upload={upload}
+                  isUploading={isUploading}
+                  onRemove={handleRemoveUpload}
+                />
               ))}
 
               {uploads.length > INITIAL_DISPLAY_COUNT && (
@@ -465,30 +400,6 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
                 </Button>
               )}
             </div>
-          )}
-
-          {hasCompletedUploads && (
-            <Alert>
-              <AlertTitle>Upload complete</AlertTitle>
-              <AlertDescription>
-                <div className="flex flex-col gap-1">
-                  {completedUploads.map((upload) =>
-                    upload.upload?.publicUrl ? (
-                      <Link
-                        href={upload.upload.publicUrl}
-                        key={upload.id}
-                        rel="noreferrer"
-                        target="_blank"
-                      >
-                        {upload.name}
-                      </Link>
-                    ) : (
-                      <span key={upload.id}>{upload.upload?.attachmentId}</span>
-                    ),
-                  )}
-                </div>
-              </AlertDescription>
-            </Alert>
           )}
         </form>
       </CardContent>

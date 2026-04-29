@@ -144,16 +144,56 @@ model UploadBatch {
   attachments Attachment[]
 }
 
-model AnalysisRun {
-  id           String @id @default(cuid())
-  attachmentId String
-  modelVersion String
-  status       String // processing | completed | failed
+enum AnalysisStatus {
+  QUEUED
+  OCR_PROCESSING
+  OCR_COMPLETED
+  CHUNKING
+  ANALYZING
+  COMPLETED
+  FAILED
+}
 
-  createdAt DateTime @default(now())
+model AnalysisRun {
+  id            String         @id @default(cuid())
+  attachmentId  String
+  modelVersion  String
+  status        AnalysisStatus @default(QUEUED)
+  rawOcr        Json?
+  fullText      String?
+  pageCount     Int?
+  textractJobId String?
+  errorMessage  String?
+  startedAt     DateTime?
+  completedAt   DateTime?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 
   attachment Attachment @relation(fields: [attachmentId], references: [id], onDelete: Cascade)
+  chunks     DocumentChunk[]
   mistakes   Mistake[]
+
+  @@index([attachmentId, status])
+}
+
+model DocumentChunk {
+  id             String  @id @default(cuid())
+  attachmentId   String
+  analysisRunId  String
+  pageStart      Int
+  pageEnd        Int
+  chunkIndex     Int
+  text           String
+  sourceBlockIds Json
+  confidence     Float?
+  needsVision    Boolean @default(false)
+  createdAt      DateTime @default(now())
+
+  attachment  Attachment  @relation(fields: [attachmentId], references: [id], onDelete: Cascade)
+  analysisRun AnalysisRun @relation(fields: [analysisRunId], references: [id], onDelete: Cascade)
+
+  @@unique([analysisRunId, chunkIndex])
+  @@index([attachmentId])
 }
 
 model Mistake {
@@ -188,6 +228,7 @@ model Attachment {
   user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   analysisRuns AnalysisRun[]
+  chunks       DocumentChunk[]
 }
 
 model TestAttempt {

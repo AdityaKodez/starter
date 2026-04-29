@@ -20,24 +20,48 @@ export type AnalysisRunModel = runtime.Types.Result.DefaultSelection<Prisma.$Ana
 
 export type AggregateAnalysisRun = {
   _count: AnalysisRunCountAggregateOutputType | null
+  _avg: AnalysisRunAvgAggregateOutputType | null
+  _sum: AnalysisRunSumAggregateOutputType | null
   _min: AnalysisRunMinAggregateOutputType | null
   _max: AnalysisRunMaxAggregateOutputType | null
+}
+
+export type AnalysisRunAvgAggregateOutputType = {
+  pageCount: number | null
+}
+
+export type AnalysisRunSumAggregateOutputType = {
+  pageCount: number | null
 }
 
 export type AnalysisRunMinAggregateOutputType = {
   id: string | null
   attachmentId: string | null
   modelVersion: string | null
-  status: string | null
+  status: $Enums.AnalysisStatus | null
+  fullText: string | null
+  pageCount: number | null
+  textractJobId: string | null
+  errorMessage: string | null
+  startedAt: Date | null
+  completedAt: Date | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type AnalysisRunMaxAggregateOutputType = {
   id: string | null
   attachmentId: string | null
   modelVersion: string | null
-  status: string | null
+  status: $Enums.AnalysisStatus | null
+  fullText: string | null
+  pageCount: number | null
+  textractJobId: string | null
+  errorMessage: string | null
+  startedAt: Date | null
+  completedAt: Date | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type AnalysisRunCountAggregateOutputType = {
@@ -45,17 +69,40 @@ export type AnalysisRunCountAggregateOutputType = {
   attachmentId: number
   modelVersion: number
   status: number
+  rawOcr: number
+  fullText: number
+  pageCount: number
+  textractJobId: number
+  errorMessage: number
+  startedAt: number
+  completedAt: number
   createdAt: number
+  updatedAt: number
   _all: number
 }
 
+
+export type AnalysisRunAvgAggregateInputType = {
+  pageCount?: true
+}
+
+export type AnalysisRunSumAggregateInputType = {
+  pageCount?: true
+}
 
 export type AnalysisRunMinAggregateInputType = {
   id?: true
   attachmentId?: true
   modelVersion?: true
   status?: true
+  fullText?: true
+  pageCount?: true
+  textractJobId?: true
+  errorMessage?: true
+  startedAt?: true
+  completedAt?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type AnalysisRunMaxAggregateInputType = {
@@ -63,7 +110,14 @@ export type AnalysisRunMaxAggregateInputType = {
   attachmentId?: true
   modelVersion?: true
   status?: true
+  fullText?: true
+  pageCount?: true
+  textractJobId?: true
+  errorMessage?: true
+  startedAt?: true
+  completedAt?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type AnalysisRunCountAggregateInputType = {
@@ -71,7 +125,15 @@ export type AnalysisRunCountAggregateInputType = {
   attachmentId?: true
   modelVersion?: true
   status?: true
+  rawOcr?: true
+  fullText?: true
+  pageCount?: true
+  textractJobId?: true
+  errorMessage?: true
+  startedAt?: true
+  completedAt?: true
   createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -113,6 +175,18 @@ export type AnalysisRunAggregateArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: AnalysisRunAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: AnalysisRunSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: AnalysisRunMinAggregateInputType
@@ -143,6 +217,8 @@ export type AnalysisRunGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   _count?: AnalysisRunCountAggregateInputType | true
+  _avg?: AnalysisRunAvgAggregateInputType
+  _sum?: AnalysisRunSumAggregateInputType
   _min?: AnalysisRunMinAggregateInputType
   _max?: AnalysisRunMaxAggregateInputType
 }
@@ -151,9 +227,19 @@ export type AnalysisRunGroupByOutputType = {
   id: string
   attachmentId: string
   modelVersion: string
-  status: string
+  status: $Enums.AnalysisStatus
+  rawOcr: runtime.JsonValue | null
+  fullText: string | null
+  pageCount: number | null
+  textractJobId: string | null
+  errorMessage: string | null
+  startedAt: Date | null
+  completedAt: Date | null
   createdAt: Date
+  updatedAt: Date
   _count: AnalysisRunCountAggregateOutputType | null
+  _avg: AnalysisRunAvgAggregateOutputType | null
+  _sum: AnalysisRunSumAggregateOutputType | null
   _min: AnalysisRunMinAggregateOutputType | null
   _max: AnalysisRunMaxAggregateOutputType | null
 }
@@ -180,9 +266,18 @@ export type AnalysisRunWhereInput = {
   id?: Prisma.StringFilter<"AnalysisRun"> | string
   attachmentId?: Prisma.StringFilter<"AnalysisRun"> | string
   modelVersion?: Prisma.StringFilter<"AnalysisRun"> | string
-  status?: Prisma.StringFilter<"AnalysisRun"> | string
+  status?: Prisma.EnumAnalysisStatusFilter<"AnalysisRun"> | $Enums.AnalysisStatus
+  rawOcr?: Prisma.JsonNullableFilter<"AnalysisRun">
+  fullText?: Prisma.StringNullableFilter<"AnalysisRun"> | string | null
+  pageCount?: Prisma.IntNullableFilter<"AnalysisRun"> | number | null
+  textractJobId?: Prisma.StringNullableFilter<"AnalysisRun"> | string | null
+  errorMessage?: Prisma.StringNullableFilter<"AnalysisRun"> | string | null
+  startedAt?: Prisma.DateTimeNullableFilter<"AnalysisRun"> | Date | string | null
+  completedAt?: Prisma.DateTimeNullableFilter<"AnalysisRun"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"AnalysisRun"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"AnalysisRun"> | Date | string
   attachment?: Prisma.XOR<Prisma.AttachmentScalarRelationFilter, Prisma.AttachmentWhereInput>
+  chunks?: Prisma.DocumentChunkListRelationFilter
   mistakes?: Prisma.MistakeListRelationFilter
 }
 
@@ -191,8 +286,17 @@ export type AnalysisRunOrderByWithRelationInput = {
   attachmentId?: Prisma.SortOrder
   modelVersion?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  rawOcr?: Prisma.SortOrderInput | Prisma.SortOrder
+  fullText?: Prisma.SortOrderInput | Prisma.SortOrder
+  pageCount?: Prisma.SortOrderInput | Prisma.SortOrder
+  textractJobId?: Prisma.SortOrderInput | Prisma.SortOrder
+  errorMessage?: Prisma.SortOrderInput | Prisma.SortOrder
+  startedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   attachment?: Prisma.AttachmentOrderByWithRelationInput
+  chunks?: Prisma.DocumentChunkOrderByRelationAggregateInput
   mistakes?: Prisma.MistakeOrderByRelationAggregateInput
 }
 
@@ -203,9 +307,18 @@ export type AnalysisRunWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.AnalysisRunWhereInput | Prisma.AnalysisRunWhereInput[]
   attachmentId?: Prisma.StringFilter<"AnalysisRun"> | string
   modelVersion?: Prisma.StringFilter<"AnalysisRun"> | string
-  status?: Prisma.StringFilter<"AnalysisRun"> | string
+  status?: Prisma.EnumAnalysisStatusFilter<"AnalysisRun"> | $Enums.AnalysisStatus
+  rawOcr?: Prisma.JsonNullableFilter<"AnalysisRun">
+  fullText?: Prisma.StringNullableFilter<"AnalysisRun"> | string | null
+  pageCount?: Prisma.IntNullableFilter<"AnalysisRun"> | number | null
+  textractJobId?: Prisma.StringNullableFilter<"AnalysisRun"> | string | null
+  errorMessage?: Prisma.StringNullableFilter<"AnalysisRun"> | string | null
+  startedAt?: Prisma.DateTimeNullableFilter<"AnalysisRun"> | Date | string | null
+  completedAt?: Prisma.DateTimeNullableFilter<"AnalysisRun"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"AnalysisRun"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"AnalysisRun"> | Date | string
   attachment?: Prisma.XOR<Prisma.AttachmentScalarRelationFilter, Prisma.AttachmentWhereInput>
+  chunks?: Prisma.DocumentChunkListRelationFilter
   mistakes?: Prisma.MistakeListRelationFilter
 }, "id">
 
@@ -214,10 +327,20 @@ export type AnalysisRunOrderByWithAggregationInput = {
   attachmentId?: Prisma.SortOrder
   modelVersion?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  rawOcr?: Prisma.SortOrderInput | Prisma.SortOrder
+  fullText?: Prisma.SortOrderInput | Prisma.SortOrder
+  pageCount?: Prisma.SortOrderInput | Prisma.SortOrder
+  textractJobId?: Prisma.SortOrderInput | Prisma.SortOrder
+  errorMessage?: Prisma.SortOrderInput | Prisma.SortOrder
+  startedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.AnalysisRunCountOrderByAggregateInput
+  _avg?: Prisma.AnalysisRunAvgOrderByAggregateInput
   _max?: Prisma.AnalysisRunMaxOrderByAggregateInput
   _min?: Prisma.AnalysisRunMinOrderByAggregateInput
+  _sum?: Prisma.AnalysisRunSumOrderByAggregateInput
 }
 
 export type AnalysisRunScalarWhereWithAggregatesInput = {
@@ -227,16 +350,33 @@ export type AnalysisRunScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"AnalysisRun"> | string
   attachmentId?: Prisma.StringWithAggregatesFilter<"AnalysisRun"> | string
   modelVersion?: Prisma.StringWithAggregatesFilter<"AnalysisRun"> | string
-  status?: Prisma.StringWithAggregatesFilter<"AnalysisRun"> | string
+  status?: Prisma.EnumAnalysisStatusWithAggregatesFilter<"AnalysisRun"> | $Enums.AnalysisStatus
+  rawOcr?: Prisma.JsonNullableWithAggregatesFilter<"AnalysisRun">
+  fullText?: Prisma.StringNullableWithAggregatesFilter<"AnalysisRun"> | string | null
+  pageCount?: Prisma.IntNullableWithAggregatesFilter<"AnalysisRun"> | number | null
+  textractJobId?: Prisma.StringNullableWithAggregatesFilter<"AnalysisRun"> | string | null
+  errorMessage?: Prisma.StringNullableWithAggregatesFilter<"AnalysisRun"> | string | null
+  startedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AnalysisRun"> | Date | string | null
+  completedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AnalysisRun"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"AnalysisRun"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"AnalysisRun"> | Date | string
 }
 
 export type AnalysisRunCreateInput = {
   id?: string
   modelVersion: string
-  status: string
+  status?: $Enums.AnalysisStatus
+  rawOcr?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fullText?: string | null
+  pageCount?: number | null
+  textractJobId?: string | null
+  errorMessage?: string | null
+  startedAt?: Date | string | null
+  completedAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   attachment: Prisma.AttachmentCreateNestedOneWithoutAnalysisRunsInput
+  chunks?: Prisma.DocumentChunkCreateNestedManyWithoutAnalysisRunInput
   mistakes?: Prisma.MistakeCreateNestedManyWithoutAnalysisRunInput
 }
 
@@ -244,17 +384,35 @@ export type AnalysisRunUncheckedCreateInput = {
   id?: string
   attachmentId: string
   modelVersion: string
-  status: string
+  status?: $Enums.AnalysisStatus
+  rawOcr?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fullText?: string | null
+  pageCount?: number | null
+  textractJobId?: string | null
+  errorMessage?: string | null
+  startedAt?: Date | string | null
+  completedAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
+  chunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutAnalysisRunInput
   mistakes?: Prisma.MistakeUncheckedCreateNestedManyWithoutAnalysisRunInput
 }
 
 export type AnalysisRunUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   modelVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
+  rawOcr?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fullText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pageCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  textractJobId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   attachment?: Prisma.AttachmentUpdateOneRequiredWithoutAnalysisRunsNestedInput
+  chunks?: Prisma.DocumentChunkUpdateManyWithoutAnalysisRunNestedInput
   mistakes?: Prisma.MistakeUpdateManyWithoutAnalysisRunNestedInput
 }
 
@@ -262,8 +420,17 @@ export type AnalysisRunUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   attachmentId?: Prisma.StringFieldUpdateOperationsInput | string
   modelVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
+  rawOcr?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fullText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pageCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  textractJobId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutAnalysisRunNestedInput
   mistakes?: Prisma.MistakeUncheckedUpdateManyWithoutAnalysisRunNestedInput
 }
 
@@ -271,23 +438,47 @@ export type AnalysisRunCreateManyInput = {
   id?: string
   attachmentId: string
   modelVersion: string
-  status: string
+  status?: $Enums.AnalysisStatus
+  rawOcr?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fullText?: string | null
+  pageCount?: number | null
+  textractJobId?: string | null
+  errorMessage?: string | null
+  startedAt?: Date | string | null
+  completedAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type AnalysisRunUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   modelVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
+  rawOcr?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fullText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pageCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  textractJobId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type AnalysisRunUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   attachmentId?: Prisma.StringFieldUpdateOperationsInput | string
   modelVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
+  rawOcr?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fullText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pageCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  textractJobId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type AnalysisRunCountOrderByAggregateInput = {
@@ -295,7 +486,19 @@ export type AnalysisRunCountOrderByAggregateInput = {
   attachmentId?: Prisma.SortOrder
   modelVersion?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  rawOcr?: Prisma.SortOrder
+  fullText?: Prisma.SortOrder
+  pageCount?: Prisma.SortOrder
+  textractJobId?: Prisma.SortOrder
+  errorMessage?: Prisma.SortOrder
+  startedAt?: Prisma.SortOrder
+  completedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+}
+
+export type AnalysisRunAvgOrderByAggregateInput = {
+  pageCount?: Prisma.SortOrder
 }
 
 export type AnalysisRunMaxOrderByAggregateInput = {
@@ -303,7 +506,14 @@ export type AnalysisRunMaxOrderByAggregateInput = {
   attachmentId?: Prisma.SortOrder
   modelVersion?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  fullText?: Prisma.SortOrder
+  pageCount?: Prisma.SortOrder
+  textractJobId?: Prisma.SortOrder
+  errorMessage?: Prisma.SortOrder
+  startedAt?: Prisma.SortOrder
+  completedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type AnalysisRunMinOrderByAggregateInput = {
@@ -311,7 +521,18 @@ export type AnalysisRunMinOrderByAggregateInput = {
   attachmentId?: Prisma.SortOrder
   modelVersion?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  fullText?: Prisma.SortOrder
+  pageCount?: Prisma.SortOrder
+  textractJobId?: Prisma.SortOrder
+  errorMessage?: Prisma.SortOrder
+  startedAt?: Prisma.SortOrder
+  completedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+}
+
+export type AnalysisRunSumOrderByAggregateInput = {
+  pageCount?: Prisma.SortOrder
 }
 
 export type AnalysisRunScalarRelationFilter = {
@@ -327,6 +548,32 @@ export type AnalysisRunListRelationFilter = {
 
 export type AnalysisRunOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type EnumAnalysisStatusFieldUpdateOperationsInput = {
+  set?: $Enums.AnalysisStatus
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type AnalysisRunCreateNestedOneWithoutChunksInput = {
+  create?: Prisma.XOR<Prisma.AnalysisRunCreateWithoutChunksInput, Prisma.AnalysisRunUncheckedCreateWithoutChunksInput>
+  connectOrCreate?: Prisma.AnalysisRunCreateOrConnectWithoutChunksInput
+  connect?: Prisma.AnalysisRunWhereUniqueInput
+}
+
+export type AnalysisRunUpdateOneRequiredWithoutChunksNestedInput = {
+  create?: Prisma.XOR<Prisma.AnalysisRunCreateWithoutChunksInput, Prisma.AnalysisRunUncheckedCreateWithoutChunksInput>
+  connectOrCreate?: Prisma.AnalysisRunCreateOrConnectWithoutChunksInput
+  upsert?: Prisma.AnalysisRunUpsertWithoutChunksInput
+  connect?: Prisma.AnalysisRunWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AnalysisRunUpdateToOneWithWhereWithoutChunksInput, Prisma.AnalysisRunUpdateWithoutChunksInput>, Prisma.AnalysisRunUncheckedUpdateWithoutChunksInput>
 }
 
 export type AnalysisRunCreateNestedOneWithoutMistakesInput = {
@@ -385,20 +632,122 @@ export type AnalysisRunUncheckedUpdateManyWithoutAttachmentNestedInput = {
   deleteMany?: Prisma.AnalysisRunScalarWhereInput | Prisma.AnalysisRunScalarWhereInput[]
 }
 
+export type AnalysisRunCreateWithoutChunksInput = {
+  id?: string
+  modelVersion: string
+  status?: $Enums.AnalysisStatus
+  rawOcr?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fullText?: string | null
+  pageCount?: number | null
+  textractJobId?: string | null
+  errorMessage?: string | null
+  startedAt?: Date | string | null
+  completedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  attachment: Prisma.AttachmentCreateNestedOneWithoutAnalysisRunsInput
+  mistakes?: Prisma.MistakeCreateNestedManyWithoutAnalysisRunInput
+}
+
+export type AnalysisRunUncheckedCreateWithoutChunksInput = {
+  id?: string
+  attachmentId: string
+  modelVersion: string
+  status?: $Enums.AnalysisStatus
+  rawOcr?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fullText?: string | null
+  pageCount?: number | null
+  textractJobId?: string | null
+  errorMessage?: string | null
+  startedAt?: Date | string | null
+  completedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  mistakes?: Prisma.MistakeUncheckedCreateNestedManyWithoutAnalysisRunInput
+}
+
+export type AnalysisRunCreateOrConnectWithoutChunksInput = {
+  where: Prisma.AnalysisRunWhereUniqueInput
+  create: Prisma.XOR<Prisma.AnalysisRunCreateWithoutChunksInput, Prisma.AnalysisRunUncheckedCreateWithoutChunksInput>
+}
+
+export type AnalysisRunUpsertWithoutChunksInput = {
+  update: Prisma.XOR<Prisma.AnalysisRunUpdateWithoutChunksInput, Prisma.AnalysisRunUncheckedUpdateWithoutChunksInput>
+  create: Prisma.XOR<Prisma.AnalysisRunCreateWithoutChunksInput, Prisma.AnalysisRunUncheckedCreateWithoutChunksInput>
+  where?: Prisma.AnalysisRunWhereInput
+}
+
+export type AnalysisRunUpdateToOneWithWhereWithoutChunksInput = {
+  where?: Prisma.AnalysisRunWhereInput
+  data: Prisma.XOR<Prisma.AnalysisRunUpdateWithoutChunksInput, Prisma.AnalysisRunUncheckedUpdateWithoutChunksInput>
+}
+
+export type AnalysisRunUpdateWithoutChunksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  modelVersion?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
+  rawOcr?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fullText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pageCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  textractJobId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  attachment?: Prisma.AttachmentUpdateOneRequiredWithoutAnalysisRunsNestedInput
+  mistakes?: Prisma.MistakeUpdateManyWithoutAnalysisRunNestedInput
+}
+
+export type AnalysisRunUncheckedUpdateWithoutChunksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  attachmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  modelVersion?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
+  rawOcr?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fullText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pageCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  textractJobId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  mistakes?: Prisma.MistakeUncheckedUpdateManyWithoutAnalysisRunNestedInput
+}
+
 export type AnalysisRunCreateWithoutMistakesInput = {
   id?: string
   modelVersion: string
-  status: string
+  status?: $Enums.AnalysisStatus
+  rawOcr?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fullText?: string | null
+  pageCount?: number | null
+  textractJobId?: string | null
+  errorMessage?: string | null
+  startedAt?: Date | string | null
+  completedAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   attachment: Prisma.AttachmentCreateNestedOneWithoutAnalysisRunsInput
+  chunks?: Prisma.DocumentChunkCreateNestedManyWithoutAnalysisRunInput
 }
 
 export type AnalysisRunUncheckedCreateWithoutMistakesInput = {
   id?: string
   attachmentId: string
   modelVersion: string
-  status: string
+  status?: $Enums.AnalysisStatus
+  rawOcr?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fullText?: string | null
+  pageCount?: number | null
+  textractJobId?: string | null
+  errorMessage?: string | null
+  startedAt?: Date | string | null
+  completedAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
+  chunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutAnalysisRunInput
 }
 
 export type AnalysisRunCreateOrConnectWithoutMistakesInput = {
@@ -420,32 +769,68 @@ export type AnalysisRunUpdateToOneWithWhereWithoutMistakesInput = {
 export type AnalysisRunUpdateWithoutMistakesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   modelVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
+  rawOcr?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fullText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pageCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  textractJobId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   attachment?: Prisma.AttachmentUpdateOneRequiredWithoutAnalysisRunsNestedInput
+  chunks?: Prisma.DocumentChunkUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunUncheckedUpdateWithoutMistakesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   attachmentId?: Prisma.StringFieldUpdateOperationsInput | string
   modelVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
+  rawOcr?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fullText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pageCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  textractJobId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunCreateWithoutAttachmentInput = {
   id?: string
   modelVersion: string
-  status: string
+  status?: $Enums.AnalysisStatus
+  rawOcr?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fullText?: string | null
+  pageCount?: number | null
+  textractJobId?: string | null
+  errorMessage?: string | null
+  startedAt?: Date | string | null
+  completedAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
+  chunks?: Prisma.DocumentChunkCreateNestedManyWithoutAnalysisRunInput
   mistakes?: Prisma.MistakeCreateNestedManyWithoutAnalysisRunInput
 }
 
 export type AnalysisRunUncheckedCreateWithoutAttachmentInput = {
   id?: string
   modelVersion: string
-  status: string
+  status?: $Enums.AnalysisStatus
+  rawOcr?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fullText?: string | null
+  pageCount?: number | null
+  textractJobId?: string | null
+  errorMessage?: string | null
+  startedAt?: Date | string | null
+  completedAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
+  chunks?: Prisma.DocumentChunkUncheckedCreateNestedManyWithoutAnalysisRunInput
   mistakes?: Prisma.MistakeUncheckedCreateNestedManyWithoutAnalysisRunInput
 }
 
@@ -482,38 +867,80 @@ export type AnalysisRunScalarWhereInput = {
   id?: Prisma.StringFilter<"AnalysisRun"> | string
   attachmentId?: Prisma.StringFilter<"AnalysisRun"> | string
   modelVersion?: Prisma.StringFilter<"AnalysisRun"> | string
-  status?: Prisma.StringFilter<"AnalysisRun"> | string
+  status?: Prisma.EnumAnalysisStatusFilter<"AnalysisRun"> | $Enums.AnalysisStatus
+  rawOcr?: Prisma.JsonNullableFilter<"AnalysisRun">
+  fullText?: Prisma.StringNullableFilter<"AnalysisRun"> | string | null
+  pageCount?: Prisma.IntNullableFilter<"AnalysisRun"> | number | null
+  textractJobId?: Prisma.StringNullableFilter<"AnalysisRun"> | string | null
+  errorMessage?: Prisma.StringNullableFilter<"AnalysisRun"> | string | null
+  startedAt?: Prisma.DateTimeNullableFilter<"AnalysisRun"> | Date | string | null
+  completedAt?: Prisma.DateTimeNullableFilter<"AnalysisRun"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"AnalysisRun"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"AnalysisRun"> | Date | string
 }
 
 export type AnalysisRunCreateManyAttachmentInput = {
   id?: string
   modelVersion: string
-  status: string
+  status?: $Enums.AnalysisStatus
+  rawOcr?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fullText?: string | null
+  pageCount?: number | null
+  textractJobId?: string | null
+  errorMessage?: string | null
+  startedAt?: Date | string | null
+  completedAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type AnalysisRunUpdateWithoutAttachmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   modelVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
+  rawOcr?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fullText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pageCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  textractJobId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chunks?: Prisma.DocumentChunkUpdateManyWithoutAnalysisRunNestedInput
   mistakes?: Prisma.MistakeUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunUncheckedUpdateWithoutAttachmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   modelVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
+  rawOcr?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fullText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pageCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  textractJobId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chunks?: Prisma.DocumentChunkUncheckedUpdateManyWithoutAnalysisRunNestedInput
   mistakes?: Prisma.MistakeUncheckedUpdateManyWithoutAnalysisRunNestedInput
 }
 
 export type AnalysisRunUncheckedUpdateManyWithoutAttachmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   modelVersion?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnalysisStatusFieldUpdateOperationsInput | $Enums.AnalysisStatus
+  rawOcr?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  fullText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pageCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  textractJobId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -522,10 +949,12 @@ export type AnalysisRunUncheckedUpdateManyWithoutAttachmentInput = {
  */
 
 export type AnalysisRunCountOutputType = {
+  chunks: number
   mistakes: number
 }
 
 export type AnalysisRunCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  chunks?: boolean | AnalysisRunCountOutputTypeCountChunksArgs
   mistakes?: boolean | AnalysisRunCountOutputTypeCountMistakesArgs
 }
 
@@ -542,6 +971,13 @@ export type AnalysisRunCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.
 /**
  * AnalysisRunCountOutputType without action
  */
+export type AnalysisRunCountOutputTypeCountChunksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DocumentChunkWhereInput
+}
+
+/**
+ * AnalysisRunCountOutputType without action
+ */
 export type AnalysisRunCountOutputTypeCountMistakesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.MistakeWhereInput
 }
@@ -552,8 +988,17 @@ export type AnalysisRunSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   attachmentId?: boolean
   modelVersion?: boolean
   status?: boolean
+  rawOcr?: boolean
+  fullText?: boolean
+  pageCount?: boolean
+  textractJobId?: boolean
+  errorMessage?: boolean
+  startedAt?: boolean
+  completedAt?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   attachment?: boolean | Prisma.AttachmentDefaultArgs<ExtArgs>
+  chunks?: boolean | Prisma.AnalysisRun$chunksArgs<ExtArgs>
   mistakes?: boolean | Prisma.AnalysisRun$mistakesArgs<ExtArgs>
   _count?: boolean | Prisma.AnalysisRunCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["analysisRun"]>
@@ -563,7 +1008,15 @@ export type AnalysisRunSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   attachmentId?: boolean
   modelVersion?: boolean
   status?: boolean
+  rawOcr?: boolean
+  fullText?: boolean
+  pageCount?: boolean
+  textractJobId?: boolean
+  errorMessage?: boolean
+  startedAt?: boolean
+  completedAt?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   attachment?: boolean | Prisma.AttachmentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["analysisRun"]>
 
@@ -572,7 +1025,15 @@ export type AnalysisRunSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   attachmentId?: boolean
   modelVersion?: boolean
   status?: boolean
+  rawOcr?: boolean
+  fullText?: boolean
+  pageCount?: boolean
+  textractJobId?: boolean
+  errorMessage?: boolean
+  startedAt?: boolean
+  completedAt?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   attachment?: boolean | Prisma.AttachmentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["analysisRun"]>
 
@@ -581,12 +1042,21 @@ export type AnalysisRunSelectScalar = {
   attachmentId?: boolean
   modelVersion?: boolean
   status?: boolean
+  rawOcr?: boolean
+  fullText?: boolean
+  pageCount?: boolean
+  textractJobId?: boolean
+  errorMessage?: boolean
+  startedAt?: boolean
+  completedAt?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type AnalysisRunOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "attachmentId" | "modelVersion" | "status" | "createdAt", ExtArgs["result"]["analysisRun"]>
+export type AnalysisRunOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "attachmentId" | "modelVersion" | "status" | "rawOcr" | "fullText" | "pageCount" | "textractJobId" | "errorMessage" | "startedAt" | "completedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["analysisRun"]>
 export type AnalysisRunInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   attachment?: boolean | Prisma.AttachmentDefaultArgs<ExtArgs>
+  chunks?: boolean | Prisma.AnalysisRun$chunksArgs<ExtArgs>
   mistakes?: boolean | Prisma.AnalysisRun$mistakesArgs<ExtArgs>
   _count?: boolean | Prisma.AnalysisRunCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -601,14 +1071,23 @@ export type $AnalysisRunPayload<ExtArgs extends runtime.Types.Extensions.Interna
   name: "AnalysisRun"
   objects: {
     attachment: Prisma.$AttachmentPayload<ExtArgs>
+    chunks: Prisma.$DocumentChunkPayload<ExtArgs>[]
     mistakes: Prisma.$MistakePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     attachmentId: string
     modelVersion: string
-    status: string
+    status: $Enums.AnalysisStatus
+    rawOcr: runtime.JsonValue | null
+    fullText: string | null
+    pageCount: number | null
+    textractJobId: string | null
+    errorMessage: string | null
+    startedAt: Date | null
+    completedAt: Date | null
     createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["analysisRun"]>
   composites: {}
 }
@@ -1004,6 +1483,7 @@ readonly fields: AnalysisRunFieldRefs;
 export interface Prisma__AnalysisRunClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   attachment<T extends Prisma.AttachmentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AttachmentDefaultArgs<ExtArgs>>): Prisma.Prisma__AttachmentClient<runtime.Types.Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  chunks<T extends Prisma.AnalysisRun$chunksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AnalysisRun$chunksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentChunkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   mistakes<T extends Prisma.AnalysisRun$mistakesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AnalysisRun$mistakesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MistakePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1037,8 +1517,16 @@ export interface AnalysisRunFieldRefs {
   readonly id: Prisma.FieldRef<"AnalysisRun", 'String'>
   readonly attachmentId: Prisma.FieldRef<"AnalysisRun", 'String'>
   readonly modelVersion: Prisma.FieldRef<"AnalysisRun", 'String'>
-  readonly status: Prisma.FieldRef<"AnalysisRun", 'String'>
+  readonly status: Prisma.FieldRef<"AnalysisRun", 'AnalysisStatus'>
+  readonly rawOcr: Prisma.FieldRef<"AnalysisRun", 'Json'>
+  readonly fullText: Prisma.FieldRef<"AnalysisRun", 'String'>
+  readonly pageCount: Prisma.FieldRef<"AnalysisRun", 'Int'>
+  readonly textractJobId: Prisma.FieldRef<"AnalysisRun", 'String'>
+  readonly errorMessage: Prisma.FieldRef<"AnalysisRun", 'String'>
+  readonly startedAt: Prisma.FieldRef<"AnalysisRun", 'DateTime'>
+  readonly completedAt: Prisma.FieldRef<"AnalysisRun", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"AnalysisRun", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"AnalysisRun", 'DateTime'>
 }
     
 
@@ -1437,6 +1925,30 @@ export type AnalysisRunDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many AnalysisRuns to delete.
    */
   limit?: number
+}
+
+/**
+ * AnalysisRun.chunks
+ */
+export type AnalysisRun$chunksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DocumentChunk
+   */
+  select?: Prisma.DocumentChunkSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DocumentChunk
+   */
+  omit?: Prisma.DocumentChunkOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentChunkInclude<ExtArgs> | null
+  where?: Prisma.DocumentChunkWhereInput
+  orderBy?: Prisma.DocumentChunkOrderByWithRelationInput | Prisma.DocumentChunkOrderByWithRelationInput[]
+  cursor?: Prisma.DocumentChunkWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DocumentChunkScalarFieldEnum | Prisma.DocumentChunkScalarFieldEnum[]
 }
 
 /**

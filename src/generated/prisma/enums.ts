@@ -89,3 +89,16 @@ export const AttachmentUploadStatus = {
 } as const
 
 export type AttachmentUploadStatus = (typeof AttachmentUploadStatus)[keyof typeof AttachmentUploadStatus]
+
+
+export const AnalysisStatus = {
+  QUEUED: 'QUEUED',
+  OCR_PROCESSING: 'OCR_PROCESSING',
+  OCR_COMPLETED: 'OCR_COMPLETED',
+  CHUNKING: 'CHUNKING',
+  ANALYZING: 'ANALYZING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+} as const
+
+export type AnalysisStatus = (typeof AnalysisStatus)[keyof typeof AnalysisStatus]
