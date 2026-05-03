@@ -1,50 +1,21 @@
-import type { Block } from "@aws-sdk/client-textract";
-import type { Prisma } from "@/generated/prisma/client";
-import type { Realtime } from "inngest/realtime";
+import { GetObjectCommand } from "@aws-sdk/client-s3";
+import { NonRetriableError, type GetStepTools } from "inngest";
 
+import { GOOGLE_MODEL } from "@/lib/ai";
 import { attachmentProcessingChannel } from "@/lib/attachment-processing-realtime";
 import { getAttachmentBucket } from "@/lib/attachment-upload";
 import { inngest } from "@/lib/inngest";
 import { prisma } from "@/lib/prisma";
-import { buildDocumentChunks } from "@/utils/document-chunking";
-import {
-  detectImageText,
-  getDocumentTextDetectionPage,
-  getFullText,
-  getPageCount,
-  isPdfMimeType,
-  isSupportedImageMimeType,
-  startDocumentTextDetection,
-} from "@/utils/text-extraction";
+import { s3 } from "@/lib/s3";
+import { analyseDocumentNatively } from "@/services/analyse-chunks";
 
-const MODEL_VERSION = "textract-detect-document-text-v1";
-const TEXTRACT_POLL_INTERVAL = "15s";
-const MAX_TEXTRACT_POLLS = 80;
+type Step = GetStepTools<typeof inngest>;
 
-type InngestStep = {
-  run: <T>(id: string, handler: () => Promise<T> | T) => Promise<unknown>;
-  sleep: (id: string, duration: string) => Promise<void>;
-  realtime: {
-    publish: <TData>(
-      id: string,
-      topicRef: Realtime.TopicRef<TData>,
-      data: TData,
-    ) => Promise<TData>;
-  };
-};
+const MODEL_VERSION = `${GOOGLE_MODEL}+textract-v1`;
 
-async function runStep<T>(
-  step: InngestStep,
-  id: string,
-  handler: () => Promise<T> | T,
-) {
-  return (await step.run(id, handler)) as T;
-}
-
-function toJson(value: unknown) {
-  return JSON.parse(JSON.stringify(value)) as Prisma.InputJsonValue;
-}
-
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
 function getProcessingErrorMessage(error: unknown) {
   if (error instanceof Error && error.message.trim()) {
     return error.message;
@@ -53,8 +24,8 @@ function getProcessingErrorMessage(error: unknown) {
   return "Attachment processing failed.";
 }
 
-async function publishAttachmentStatus(
-  step: InngestStep,
+async function publishStatus(
+  step: Step,
   input: {
     attachmentId: string;
     status:
@@ -76,27 +47,20 @@ async function publishAttachmentStatus(
     attachmentId: input.attachmentId,
   });
 
-  await step.realtime.publish(
-    `attachment-${input.attachmentId}-${input.stepName}`,
-    channel.status,
-    {
-      attachmentId: input.attachmentId,
-      status: input.status,
-      message: input.message,
-      step: input.stepName,
-      chunkCount: input.chunkCount,
-      pageCount: input.pageCount,
-      errorMessage: input.errorMessage,
-    },
-  );
-}
-
-async function publishAttachmentStatusSafely(
-  step: InngestStep,
-  input: Parameters<typeof publishAttachmentStatus>[1],
-) {
   try {
-    await publishAttachmentStatus(step, input);
+    await step.realtime.publish(
+      `attachment-${input.attachmentId}-${input.stepName}`,
+      channel.status,
+      {
+        attachmentId: input.attachmentId,
+        status: input.status,
+        message: input.message,
+        step: input.stepName,
+        chunkCount: input.chunkCount,
+        pageCount: input.pageCount,
+        errorMessage: input.errorMessage,
+      },
+    );
   } catch (error) {
     console.error("Failed to publish attachment processing status", {
       attachmentId: input.attachmentId,
@@ -106,15 +70,15 @@ async function publishAttachmentStatusSafely(
   }
 }
 
-async function markAttachmentProcessingFailed(input: {
+async function markFailed(input: {
   attachmentId: string;
   userId: string;
-  step: InngestStep;
+  step: Step;
   error: unknown;
 }) {
   const message = getProcessingErrorMessage(input.error);
 
-  await runStep(input.step, `mark-failed-${input.attachmentId}`, async () => {
+  await input.step.run(`mark-failed-${input.attachmentId}`, async () => {
     const run =
       (await prisma.analysisRun.findFirst({
         where: {
@@ -148,7 +112,7 @@ async function markAttachmentProcessingFailed(input: {
     });
   });
 
-  await publishAttachmentStatusSafely(input.step, {
+  await publishStatus(input.step, {
     attachmentId: input.attachmentId,
     status: "FAILED",
     message: "Processing failed",
@@ -164,11 +128,15 @@ async function markAttachmentProcessingFailed(input: {
   };
 }
 
+// ---------------------------------------------------------------------------
+// Main Inngest function
+// ---------------------------------------------------------------------------
+
 export const processAttachment = inngest.createFunction(
   {
     id: "process-attachment",
     retries: 2,
-    triggers: { event: "attachment/processing.requested" },
+    triggers: [{ event: "attachment/processing.requested" }],
   },
   async ({ event, step }) => {
     const attachmentIds = Array.from(
@@ -183,36 +151,71 @@ export const processAttachment = inngest.createFunction(
     const results = [];
 
     for (const attachmentId of attachmentIds) {
+      let result: Record<string, unknown> | undefined;
+
       try {
-        const result = await processOneAttachment({
-          attachmentId,
-          userId,
-          step,
+        result = await step.invoke(`process-attachment-${attachmentId}`, {
+          function: processOneAttachmentFn,
+          data: { attachmentId, userId },
+          timeout: "5m",
         });
-        results.push(result);
       } catch (error) {
-        const result = await markAttachmentProcessingFailed({
-          attachmentId,
-          userId,
-          step,
-          error,
-        });
-        results.push(result);
+        if (error instanceof NonRetriableError) {
+          result = {
+            skipped: true,
+            failed: true,
+            attachmentId,
+            errorMessage: error.message,
+          };
+        } else {
+          result = {
+            skipped: false,
+            failed: true,
+            attachmentId,
+            errorMessage:
+              error instanceof Error ? error.message : "Unknown error",
+          };
+        }
       }
+
+      results.push(result);
     }
 
     return { processed: results.length, results };
   },
 );
 
+// ---------------------------------------------------------------------------
+// Per-attachment pipeline (separate Inngest function for step.invoke)
+// ---------------------------------------------------------------------------
+
+export const processOneAttachmentFn = inngest.createFunction(
+  {
+    id: "process-one-attachment",
+    retries: 2,
+    triggers: [{ event: "attachment/single.processing.requested" }],
+  },
+  async ({ event, step }) => {
+    const attachmentId = event.data.attachmentId as string;
+    const userId = event.data.userId as string;
+
+    try {
+      return await processOneAttachment({ attachmentId, userId, step });
+    } catch (error) {
+      return markFailed({ attachmentId, userId, step, error });
+    }
+  },
+);
+
 async function processOneAttachment(input: {
   attachmentId: string;
   userId: string;
-  step: InngestStep;
+  step: Step;
 }) {
   const { attachmentId, userId, step } = input;
 
-  const setup = await runStep(step, `prepare-run-${attachmentId}`, async () => {
+  // ── Step 1: Prepare the AnalysisRun ──────────────────────────────────
+  const setup = await step.run(`prepare-run-${attachmentId}`, async () => {
     const attachment = await prisma.attachment.findFirst({
       where: {
         id: attachmentId,
@@ -222,7 +225,10 @@ async function processOneAttachment(input: {
     });
 
     if (!attachment) {
-      return { skipped: true as const, reason: "attachment-not-found-or-not-uploaded" };
+      return {
+        skipped: true as const,
+        reason: "attachment-not-found-or-not-uploaded",
+      };
     }
 
     const completedRun = await prisma.analysisRun.findFirst({
@@ -273,11 +279,12 @@ async function processOneAttachment(input: {
     return setup;
   }
 
-  await publishAttachmentStatusSafely(step, {
+  // ── Step 2: Download file from S3 ─────────────────────────────────────────
+  await publishStatus(step, {
     attachmentId,
-    status: "OCR_PROCESSING",
-    message: "Reading text with Textract",
-    stepName: "ocr-processing",
+    status: "ANALYZING",
+    message: "Downloading file",
+    stepName: "downloading",
   });
 
   const bucket = getAttachmentBucket();
@@ -286,93 +293,57 @@ async function processOneAttachment(input: {
     throw new Error("Missing S3 bucket configuration.");
   }
 
-  const blocks = await runTextractForAttachment({
-    attachmentId,
-    bucket,
-    key: setup.attachment.storageKey,
-    mimeType: setup.attachment.mimeType,
-    analysisRunId: setup.analysisRunId,
-    step,
+  const base64File = await step.run(`download-${attachmentId}`, async () => {
+    const { Body } = await s3.send(
+      new GetObjectCommand({
+        Bucket: bucket,
+        Key: setup.attachment.storageKey,
+      })
+    );
+    if (!Body) throw new Error("No body from S3");
+    const arr = await Body.transformToByteArray();
+    return Buffer.from(arr).toString("base64");
   });
 
-  const ocrSummary = await runStep(step, `store-ocr-${attachmentId}`, async () => {
-    const pageCount = getPageCount(blocks);
-
-    return prisma.analysisRun.update({
-      where: { id: setup.analysisRunId },
-      data: {
-        status: "OCR_COMPLETED",
-        rawOcr: toJson(blocks),
-        fullText: getFullText(blocks),
-        pageCount,
-      },
-      select: {
-        pageCount: true,
-      },
-    });
-  });
-
-  await publishAttachmentStatusSafely(step, {
-    attachmentId,
-    status: "OCR_COMPLETED",
-    message: "OCR text extracted",
-    stepName: "ocr-completed",
-    pageCount: ocrSummary.pageCount ?? undefined,
-  });
-
-  await publishAttachmentStatusSafely(step, {
-    attachmentId,
-    status: "CHUNKING",
-    message: "Preparing OCR text chunks",
-    stepName: "chunking",
-    pageCount: ocrSummary.pageCount ?? undefined,
-  });
-
-  const chunks = await runStep(step, `chunk-ocr-${attachmentId}`, async () => {
-    await prisma.analysisRun.update({
-      where: { id: setup.analysisRunId },
-      data: { status: "CHUNKING" },
-    });
-
-    const documentChunks = buildDocumentChunks({
-      attachmentId,
-      analysisRunId: setup.analysisRunId,
-      blocks,
-    });
-
-    await prisma.documentChunk.deleteMany({
-      where: { analysisRunId: setup.analysisRunId },
-    });
-
-    if (documentChunks.length > 0) {
-      await prisma.documentChunk.createMany({
-        data: documentChunks.map((chunk) => ({
-          attachmentId: chunk.attachmentId,
-          analysisRunId: chunk.analysisRunId,
-          chunkIndex: chunk.chunkIndex,
-          pageStart: chunk.pageStart,
-          pageEnd: chunk.pageEnd,
-          text: chunk.text,
-          sourceBlockIds: chunk.sourceBlockIds,
-          confidence: chunk.confidence,
-          needsVision: chunk.needsVision,
-        })),
-      });
-    }
-
-    return documentChunks.length;
-  });
-
-  await publishAttachmentStatusSafely(step, {
+  // ── Step 3: AI analysis natively ───────────────
+  await publishStatus(step, {
     attachmentId,
     status: "ANALYZING",
-    message: "Ready for model analysis",
+    message: "Analyzing document with Gemini",
     stepName: "analyzing",
-    chunkCount: chunks,
-    pageCount: ocrSummary.pageCount ?? undefined,
   });
 
-  await runStep(step, `complete-analysis-${attachmentId}`, async () => {
+  const mistakeCount = await step.run(
+    `analyse-natively-${attachmentId}`,
+    async () => {
+      await prisma.analysisRun.update({
+        where: { id: setup.analysisRunId },
+        data: { status: "ANALYZING" },
+      });
+
+      const mistakes = await analyseDocumentNatively({
+        buffer: Buffer.from(base64File, "base64"),
+        mimeType: setup.attachment.mimeType,
+      });
+
+      if (mistakes.length > 0) {
+        await prisma.mistake.createMany({
+          data: mistakes.map((mistake) => ({
+            analysisRunId: setup.analysisRunId,
+            type: mistake.type,
+            description: mistake.description,
+            topic: mistake.topic,
+            confidence: mistake.confidence,
+          })),
+        });
+      }
+
+      return mistakes.length;
+    },
+  );
+
+  // ── Step 4: Mark complete ────────────────────────────────────────────
+  await step.run(`complete-analysis-${attachmentId}`, async () => {
     return prisma.analysisRun.update({
       where: { id: setup.analysisRunId },
       data: {
@@ -382,100 +353,22 @@ async function processOneAttachment(input: {
     });
   });
 
-  await publishAttachmentStatusSafely(step, {
+  await publishStatus(step, {
     attachmentId,
     status: "COMPLETED",
     message: "Processing complete",
     stepName: "completed",
-    chunkCount: chunks,
-    pageCount: ocrSummary.pageCount ?? undefined,
+    chunkCount: 1,
+    pageCount: 1,
   });
 
   return {
     skipped: false as const,
     attachmentId,
     analysisRunId: setup.analysisRunId,
-    chunks,
+    chunkCount: 1,
+    mistakeCount,
   };
 }
 
-async function runTextractForAttachment(input: {
-  attachmentId: string;
-  bucket: string;
-  key: string;
-  mimeType: string;
-  analysisRunId: string;
-  step: InngestStep;
-}) {
-  if (isSupportedImageMimeType(input.mimeType)) {
-    return runStep(input.step, `detect-image-text-${input.attachmentId}`, async () => {
-      return detectImageText({
-        bucket: input.bucket,
-        key: input.key,
-      });
-    });
-  }
 
-  if (!isPdfMimeType(input.mimeType)) {
-    throw new Error(`Unsupported attachment MIME type: ${input.mimeType}`);
-  }
-
-  const jobId = await runStep(
-    input.step,
-    `start-pdf-text-detection-${input.attachmentId}`,
-    async () => {
-      const textractJobId = await startDocumentTextDetection({
-        bucket: input.bucket,
-        key: input.key,
-      });
-
-      await prisma.analysisRun.update({
-        where: { id: input.analysisRunId },
-        data: { textractJobId },
-      });
-
-      return textractJobId;
-    },
-  );
-
-  for (let attempt = 1; attempt <= MAX_TEXTRACT_POLLS; attempt += 1) {
-    await input.step.sleep(
-      `wait-for-textract-${input.attachmentId}-${attempt}`,
-      TEXTRACT_POLL_INTERVAL,
-    );
-
-    const status = await runStep(
-      input.step,
-      `poll-textract-${input.attachmentId}-${attempt}`,
-      async () => {
-        const page = await getDocumentTextDetectionPage({ jobId });
-        return page.jobStatus;
-      },
-    );
-
-    if (status === "SUCCEEDED") {
-      return runStep(input.step, `fetch-textract-results-${input.attachmentId}`, async () => {
-        const blocks: Block[] = [];
-        let nextToken: string | undefined;
-
-        do {
-          const page = await getDocumentTextDetectionPage({
-            jobId,
-            nextToken,
-          });
-
-          blocks.push(...page.blocks);
-          nextToken = page.nextToken;
-        } while (nextToken);
-
-        return blocks;
-      });
-    }
-
-    if (status === "FAILED" || status === "PARTIAL_SUCCESS") {
-      throw new Error(`Textract text detection ended with status: ${status}.`);
-    }
-  }
-
-  throw new Error("Timed out waiting for Textract text detection.");
-}

@@ -23,8 +23,13 @@ import {
   MAX_UPLOADS_PER_REQUEST,
 } from "@/configs/const/mistake";
 import { useTRPC } from "@/trpc/client";
-import { type PresignedUpload, type UploadItem, type FileUploadProps } from "./types";
+import {
+  type PresignedUpload,
+  type UploadItem,
+  type FileUploadProps,
+} from "./types";
 import { UploadItemCard } from "./upload-item-card";
+import { Spinner } from "@/components/ui/spinner";
 
 function getUploadId(file: File) {
   return `${file.name}-${file.lastModified}-${file.size}`;
@@ -71,7 +76,9 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
 
   function updateSelectedFiles(files: File[]) {
     if (files.length > MAX_UPLOADS_PER_REQUEST) {
-      setError(`You can only upload ${MAX_UPLOADS_PER_REQUEST} files at a time.`);
+      setError(
+        `You can only upload ${MAX_UPLOADS_PER_REQUEST} files at a time.`,
+      );
       return;
     }
     const totalFileSize = files.reduce((acc, file) => acc + file.size, 0);
@@ -360,8 +367,19 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
           {isUploading && <Progress value={uploadProgress} />}
 
           <Button type="submit" disabled={isUploading}>
-            <IconUpload data-icon="inline-start" />
-            {isUploading ? "Uploading" : "Upload files"}
+            {/* <IconUpload data-icon="inline-start" /> */}
+
+            {isUploading ? (
+              <>
+                <Spinner />
+                <p>Uploading...</p>
+              </>
+            ) : (
+              <>
+                <IconUpload />
+                <p>Upload files</p>
+              </>
+            )}
           </Button>
 
           {uploads.length > 0 && (
@@ -388,12 +406,12 @@ export function FileUpload({ onUploaded }: FileUploadProps = {}) {
                 >
                   {showAll ? (
                     <>
-                      <BsArrowUpCircleFill className="size-4" />
+                      <BsArrowUpCircleFill />
                       Show less
                     </>
                   ) : (
                     <>
-                      <BsArrowDownCircleFill className="size-4" />
+                      <BsArrowDownCircleFill />
                       Show {uploads.length - INITIAL_DISPLAY_COUNT} more
                     </>
                   )}
