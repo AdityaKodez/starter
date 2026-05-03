@@ -54,14 +54,7 @@ export const ModelName = {
   User: 'User',
   Session: 'Session',
   Account: 'Account',
-  Verification: 'Verification',
-  UploadBatch: 'UploadBatch',
-  AnalysisRun: 'AnalysisRun',
-  DocumentChunk: 'DocumentChunk',
-  Mistake: 'Mistake',
-  Attachment: 'Attachment',
-  TestAttempt: 'TestAttempt',
-  QuestionAttempt: 'QuestionAttempt'
+  Verification: 'Verification'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -138,151 +131,12 @@ export const VerificationScalarFieldEnum = {
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
-export const UploadBatchScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  testAttemptId: 'testAttemptId',
-  createdAt: 'createdAt'
-} as const
-
-export type UploadBatchScalarFieldEnum = (typeof UploadBatchScalarFieldEnum)[keyof typeof UploadBatchScalarFieldEnum]
-
-
-export const AnalysisRunScalarFieldEnum = {
-  id: 'id',
-  attachmentId: 'attachmentId',
-  modelVersion: 'modelVersion',
-  status: 'status',
-  rawOcr: 'rawOcr',
-  fullText: 'fullText',
-  pageCount: 'pageCount',
-  textractJobId: 'textractJobId',
-  errorMessage: 'errorMessage',
-  startedAt: 'startedAt',
-  completedAt: 'completedAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type AnalysisRunScalarFieldEnum = (typeof AnalysisRunScalarFieldEnum)[keyof typeof AnalysisRunScalarFieldEnum]
-
-
-export const DocumentChunkScalarFieldEnum = {
-  id: 'id',
-  attachmentId: 'attachmentId',
-  analysisRunId: 'analysisRunId',
-  pageStart: 'pageStart',
-  pageEnd: 'pageEnd',
-  chunkIndex: 'chunkIndex',
-  text: 'text',
-  sourceBlockIds: 'sourceBlockIds',
-  confidence: 'confidence',
-  needsVision: 'needsVision',
-  createdAt: 'createdAt'
-} as const
-
-export type DocumentChunkScalarFieldEnum = (typeof DocumentChunkScalarFieldEnum)[keyof typeof DocumentChunkScalarFieldEnum]
-
-
-export const MistakeScalarFieldEnum = {
-  id: 'id',
-  analysisRunId: 'analysisRunId',
-  type: 'type',
-  description: 'description',
-  topic: 'topic',
-  confidence: 'confidence',
-  status: 'status',
-  createdAt: 'createdAt'
-} as const
-
-export type MistakeScalarFieldEnum = (typeof MistakeScalarFieldEnum)[keyof typeof MistakeScalarFieldEnum]
-
-
-export const AttachmentScalarFieldEnum = {
-  id: 'id',
-  batchId: 'batchId',
-  userId: 'userId',
-  storageKey: 'storageKey',
-  publicUrl: 'publicUrl',
-  mimeType: 'mimeType',
-  sizeBytes: 'sizeBytes',
-  status: 'status',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type AttachmentScalarFieldEnum = (typeof AttachmentScalarFieldEnum)[keyof typeof AttachmentScalarFieldEnum]
-
-
-export const TestAttemptScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  examName: 'examName',
-  sourceName: 'sourceName',
-  sourceYear: 'sourceYear',
-  type: 'type',
-  status: 'status',
-  attemptedAt: 'attemptedAt',
-  durationSeconds: 'durationSeconds',
-  totalQuestions: 'totalQuestions',
-  correctCount: 'correctCount',
-  incorrectCount: 'incorrectCount',
-  skippedCount: 'skippedCount',
-  score: 'score',
-  maxScore: 'maxScore',
-  notes: 'notes',
-  userId: 'userId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type TestAttemptScalarFieldEnum = (typeof TestAttemptScalarFieldEnum)[keyof typeof TestAttemptScalarFieldEnum]
-
-
-export const QuestionAttemptScalarFieldEnum = {
-  id: 'id',
-  questionNumber: 'questionNumber',
-  questionText: 'questionText',
-  options: 'options',
-  correctAnswer: 'correctAnswer',
-  userAnswer: 'userAnswer',
-  result: 'result',
-  subject: 'subject',
-  topic: 'topic',
-  subtopic: 'subtopic',
-  difficulty: 'difficulty',
-  marksAwarded: 'marksAwarded',
-  maxMarks: 'maxMarks',
-  testAttemptId: 'testAttemptId',
-  userId: 'userId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type QuestionAttemptScalarFieldEnum = (typeof QuestionAttemptScalarFieldEnum)[keyof typeof QuestionAttemptScalarFieldEnum]
-
-
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
-
-
-export const NullableJsonNullValueInput = {
-  DbNull: DbNull,
-  JsonNull: JsonNull
-} as const
-
-export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
-
-
-export const JsonNullValueInput = {
-  JsonNull: JsonNull
-} as const
-
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -299,13 +153,4 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
-export const JsonNullValueFilter = {
-  DbNull: DbNull,
-  JsonNull: JsonNull,
-  AnyNull: AnyNull
-} as const
-
-export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

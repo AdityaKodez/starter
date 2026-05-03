@@ -1,1 +1,0 @@
-import { generateText } from 'ai'; import { google } from '@ai-sdk/google'; async function run() { try { await generateText({ model: google('gemini-1.5-flash'), messages: [{ role: 'user', content: [{ type: 'image', image: Buffer.from('abc'), mimeType: 'image/png' }] }] }); console.log('success'); } catch (e) { console.log(e); } } run();

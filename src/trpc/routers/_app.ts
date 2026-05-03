@@ -1,14 +1,8 @@
-
 // src/trpc/routers/_app.ts
-import { createTRPCRouter } from "../init";
-import { attachementRouter } from "./attachement";
-import { mistakeRouter } from "./mistake";
-import { testAttemptRouter } from "./test-attempt";
+import { baseProcedure, createTRPCRouter } from "../init";
 
 export const appRouter = createTRPCRouter({
-	testAttempt: testAttemptRouter,
-	attachment : attachementRouter,
-	mistake: mistakeRouter,
+	hello: baseProcedure.query(() => "Hello World from tRPC!"),
 });
 
 export type AppRouter = typeof appRouter;
