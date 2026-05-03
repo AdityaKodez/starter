@@ -7,9 +7,9 @@ import { TRPCReactProvider } from "@/trpc/client";
 import type { Metadata } from "next";
 import { Figtree, Geist, Geist_Mono, DM_Sans } from "next/font/google";
 import "./globals.css";
-const noto = DM_Sans({subsets:['latin'],variable:'--font-heading'});
+const noto = DM_Sans({ subsets: ["latin"], variable: "--font-heading" });
 
-const figtree = Figtree({subsets:['latin'],variable:'--font-sans'});
+const figtree = Figtree({ subsets: ["latin"], variable: "--font-sans" });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,7 +24,6 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Revind",
   description: "Turn any YouTube playlist into a structured course.",
-
 };
 
 export default function RootLayout({
@@ -37,7 +36,7 @@ export default function RootLayout({
       lang="en"
       suppressHydrationWarning
       className={cn(
-        "h-full",
+        "h-full light",
         "antialiased",
         geistSans.variable,
         geistMono.variable,
@@ -50,9 +49,7 @@ export default function RootLayout({
         <ThemeProvider>
           <WarningDialogProvider>
             <TooltipProvider>
-              <TRPCReactProvider>
-                {children}
-              </TRPCReactProvider>
+              <TRPCReactProvider>{children}</TRPCReactProvider>
             </TooltipProvider>
           </WarningDialogProvider>
           <Toaster position="top-right" closeButton />
