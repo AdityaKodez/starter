@@ -57,9 +57,9 @@ export const onboardingRouter = createTRPCRouter({
         onboardingDone: true,
       },
     });
-    if (!onboarding?.onboardingDone) {
-      return false;
-    }
-    return onboarding.onboardingDone;
+    return {
+      success: true,
+      data: onboarding?.onboardingDone,
+    };
   }),
 });

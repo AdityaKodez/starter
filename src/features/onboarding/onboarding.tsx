@@ -10,22 +10,21 @@ import {
   MessageContent,
   MessageResponse,
 } from "@/components/ai-elements/message";
-
+import { Shimmer } from "@/components/ai-elements/shimmer";
 import { Button } from "@/components/ui/button";
+import { Subject } from "@/generated/prisma/enums";
 import { useTRPC } from "@/trpc/client";
 import { useMutation } from "@tanstack/react-query";
 import { Loader2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Fragment, useCallback, useMemo, useState } from "react";
+import { toast } from "sonner";
 import { AssistantLogo } from "./component/assistant-logo";
 import { AttemptTypeStep } from "./component/attempt-type-step";
 import { CoachingTimingStep } from "./component/coaching-timing-step";
 import { DailyStudyMinuteUI } from "./component/daily-study-minute";
 import { ExamYearStep } from "./component/exam-year-step";
 import { WeakestSubjectStep } from "./component/weakest-subject-step";
-import { Shimmer } from "@/components/ai-elements/shimmer";
-import { toast } from "sonner";
-import { Subject } from "@/generated/prisma/enums";
 // --- Types ---
 
 interface OnboardingData {
@@ -269,7 +268,7 @@ const OnboardingChat = () => {
   ]);
 
   return (
-    <div className="max-w-4xl mx-auto pt-8 md:pt-18 relative size-full no-scrollbar">
+    <div className="max-w-4xl mx-auto pt-8  md:pt-18 relative size-full no-scrollbar">
       <div className="flex flex-col h-full">
         <Conversation>
           <ConversationContent>
