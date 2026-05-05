@@ -1,8 +1,10 @@
 // src/trpc/routers/_app.ts
-import { baseProcedure, createTRPCRouter } from "../init";
+import { createCallerFactory, createTRPCRouter } from "../init";
+import { onboardingRouter } from "./onboarding";
 
 export const appRouter = createTRPCRouter({
-	hello: baseProcedure.query(() => "Hello World from tRPC!"),
+  onboarding: onboardingRouter,
 });
 
 export type AppRouter = typeof appRouter;
+export const createCaller = createCallerFactory(appRouter);

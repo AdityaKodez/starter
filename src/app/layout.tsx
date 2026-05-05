@@ -1,15 +1,15 @@
-import { WarningDialogProvider } from "@/components/providers/warning-dialog-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { WarningDialogProvider } from "@/components/providers/warning-dialog-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { TRPCReactProvider } from "@/trpc/client";
 import type { Metadata } from "next";
-import { Figtree, Geist, Geist_Mono, DM_Sans } from "next/font/google";
+import { DM_Sans, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 const noto = DM_Sans({ subsets: ["latin"], variable: "--font-heading" });
 
-const figtree = Figtree({ subsets: ["latin"], variable: "--font-sans" });
+const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-sans" });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,7 +41,7 @@ export default function RootLayout({
         geistSans.variable,
         geistMono.variable,
         "font-sans",
-        figtree.variable,
+        dmSans.variable,
         noto.variable,
       )}
     >

@@ -9,7 +9,10 @@
 * 🟢 You can import this file directly.
 */
 
+export const Subject = {
+  physics: 'physics',
+  chemistry: 'chemistry',
+  maths: 'maths'
+} as const
 
-
-// This file is empty because there are no enums in the schema.
-export {}
+export type Subject = (typeof Subject)[keyof typeof Subject]

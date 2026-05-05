@@ -5,22 +5,46 @@ generator client {
 }
 
 datasource db {
-  provider   = "postgresql"
+  provider = "postgresql"
 }
 
 model User {
-  id               String            @id
-  name             String
-  email            String
-  emailVerified    Boolean           @default(false)
-  image            String?
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
-  sessions         Session[]
-  accounts         Account[]
+  id             String      @id
+  name           String
+  email          String
+  emailVerified  Boolean     @default(false)
+  image          String?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  sessions       Session[]
+  accounts       Account[]
+  onboardingDone Boolean     @default(false)
+  onboarding     Onboarding?
 
   @@unique([email])
   @@map("user")
+}
+
+model Onboarding {
+  id                String   @id @default(cuid())
+  examYear          Int
+  attemptNumber     Int?
+  dailyStudyMinutes Int?
+  coachingStart     Int?
+  rankAim           Int?
+  coachingEnd       Int?
+  weakestSubject    Subject?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum Subject {
+  physics
+  chemistry
+  maths
 }
 
 model Session {
@@ -70,5 +94,3 @@ model Verification {
   @@index([identifier])
   @@map("verification")
 }
-
-

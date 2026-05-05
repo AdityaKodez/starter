@@ -12,7 +12,7 @@
   },
   "iconLibrary": "tabler",
   "rtl": false,
-  "menuColor": "inverted-translucent",
+  "menuColor": "default-translucent",
   "menuAccent": "subtle",
   "aliases": {
     "components": "@/components",

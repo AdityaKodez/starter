@@ -1,9 +1,11 @@
 "use client"
 
+import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { Slot } from "radix-ui"
-import * as React from "react"
 
+import { useIsMobile } from "@/hooks/use-mobile"
+import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
@@ -20,16 +22,12 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { useIsMobile } from "@/hooks/use-mobile"
-import { cn } from "@/lib/utils"
-import { IconMoon, IconSun } from "@tabler/icons-react"
-import { useTheme } from "next-themes"
-import { BsLayoutSidebarReverse } from "react-icons/bs";
+import { IconLayoutSidebar } from "@tabler/icons-react"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
-const SIDEBAR_WIDTH = "18rem"
-const SIDEBAR_WIDTH_MOBILE = "14rem"
+const SIDEBAR_WIDTH = "16rem"
+const SIDEBAR_WIDTH_MOBILE = "18rem"
 const SIDEBAR_WIDTH_ICON = "3rem"
 const SIDEBAR_KEYBOARD_SHORTCUT = "b"
 
@@ -272,46 +270,9 @@ function SidebarTrigger({
       }}
       {...props}
     >
-      <BsLayoutSidebarReverse className="size-3 shrink-0" />
+      <IconLayoutSidebar />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
-  )
-}
-
-function SidebarThemeToggle({ className, onClick, ...props }: React.ComponentProps<typeof Button>) {
-  const { resolvedTheme, setTheme } = useTheme()
-  const [mounted, setMounted] = React.useState(false)
-
-  React.useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  const isDark = mounted ? resolvedTheme === "dark" : true
-  const label = isDark ? "Switch to light mode" : "Switch to dark mode"
-
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Button
-          aria-label={label}
-          data-sidebar="theme-toggle"
-          data-slot="sidebar-theme-toggle"
-          variant="ghost"
-          size="icon-sm"
-          className={cn("text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground", className)}
-          onClick={(event) => {
-            onClick?.(event)
-            if (!event.defaultPrevented) {
-              setTheme(isDark ? "light" : "dark")
-            }
-          }}
-          {...props}
-        >
-          {isDark ? <IconSun className="size-4" /> : <IconMoon className="size-4" />}
-        </Button>
-      </TooltipTrigger>
-      <TooltipContent side="top">{label}</TooltipContent>
-    </Tooltip>
   )
 }
 
@@ -739,7 +700,6 @@ export {
   SidebarProvider,
   SidebarRail,
   SidebarSeparator,
-  SidebarThemeToggle,
   SidebarTrigger,
-  useSidebar
+  useSidebar,
 }
