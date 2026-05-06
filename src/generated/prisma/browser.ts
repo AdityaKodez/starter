@@ -42,3 +42,28 @@ export type Account = Prisma.AccountModel
  * 
  */
 export type Verification = Prisma.VerificationModel
+/**
+ * Model StudyPlan
+ * 
+ */
+export type StudyPlan = Prisma.StudyPlanModel
+/**
+ * Model StudyPlanTask
+ * 
+ */
+export type StudyPlanTask = Prisma.StudyPlanTaskModel
+/**
+ * Model StudyChapter
+ * 
+ */
+export type StudyChapter = Prisma.StudyChapterModel
+/**
+ * Model StudyTopic
+ * 
+ */
+export type StudyTopic = Prisma.StudyTopicModel
+/**
+ * Model UserTopicProgress
+ * 
+ */
+export type UserTopicProgress = Prisma.UserTopicProgressModel

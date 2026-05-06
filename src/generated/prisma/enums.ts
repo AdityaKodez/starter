@@ -16,3 +16,50 @@ export const Subject = {
 } as const
 
 export type Subject = (typeof Subject)[keyof typeof Subject]
+
+
+export const PlanStatus = {
+  active: 'active',
+  completed: 'completed',
+  reset: 'reset'
+} as const
+
+export type PlanStatus = (typeof PlanStatus)[keyof typeof PlanStatus]
+
+
+export const TaskStatus = {
+  pending: 'pending',
+  done: 'done',
+  skipped: 'skipped',
+  partial: 'partial'
+} as const
+
+export type TaskStatus = (typeof TaskStatus)[keyof typeof TaskStatus]
+
+
+export const TopicDifficulty = {
+  easy: 'easy',
+  medium: 'medium',
+  hard: 'hard',
+  advanced: 'advanced'
+} as const
+
+export type TopicDifficulty = (typeof TopicDifficulty)[keyof typeof TopicDifficulty]
+
+
+export const TopicImportance = {
+  primary: 'primary',
+  secondary: 'secondary',
+  optional: 'optional'
+} as const
+
+export type TopicImportance = (typeof TopicImportance)[keyof typeof TopicImportance]
+
+
+export const TopicStatus = {
+  not_started: 'not_started',
+  in_progress: 'in_progress',
+  completed: 'completed'
+} as const
+
+export type TopicStatus = (typeof TopicStatus)[keyof typeof TopicStatus]

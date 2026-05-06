@@ -55,7 +55,12 @@ export const ModelName = {
   Onboarding: 'Onboarding',
   Session: 'Session',
   Account: 'Account',
-  Verification: 'Verification'
+  Verification: 'Verification',
+  StudyPlan: 'StudyPlan',
+  StudyPlanTask: 'StudyPlanTask',
+  StudyChapter: 'StudyChapter',
+  StudyTopic: 'StudyTopic',
+  UserTopicProgress: 'UserTopicProgress'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -148,6 +153,70 @@ export const VerificationScalarFieldEnum = {
 } as const
 
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
+
+
+export const StudyPlanScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  date: 'date',
+  totalMinutes: 'totalMinutes',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StudyPlanScalarFieldEnum = (typeof StudyPlanScalarFieldEnum)[keyof typeof StudyPlanScalarFieldEnum]
+
+
+export const StudyPlanTaskScalarFieldEnum = {
+  id: 'id',
+  planId: 'planId',
+  subject: 'subject',
+  title: 'title',
+  durationMinutes: 'durationMinutes',
+  reason: 'reason',
+  status: 'status',
+  order: 'order'
+} as const
+
+export type StudyPlanTaskScalarFieldEnum = (typeof StudyPlanTaskScalarFieldEnum)[keyof typeof StudyPlanTaskScalarFieldEnum]
+
+
+export const StudyChapterScalarFieldEnum = {
+  id: 'id',
+  subject: 'subject',
+  name: 'name',
+  order: 'order'
+} as const
+
+export type StudyChapterScalarFieldEnum = (typeof StudyChapterScalarFieldEnum)[keyof typeof StudyChapterScalarFieldEnum]
+
+
+export const StudyTopicScalarFieldEnum = {
+  id: 'id',
+  chapterId: 'chapterId',
+  name: 'name',
+  difficulty: 'difficulty',
+  importance: 'importance',
+  estimatedMinutes: 'estimatedMinutes',
+  order: 'order'
+} as const
+
+export type StudyTopicScalarFieldEnum = (typeof StudyTopicScalarFieldEnum)[keyof typeof StudyTopicScalarFieldEnum]
+
+
+export const UserTopicProgressScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  topicId: 'topicId',
+  status: 'status',
+  confidence: 'confidence',
+  lastStudiedAt: 'lastStudiedAt',
+  lastRevisedAt: 'lastRevisedAt',
+  mistakesCount: 'mistakesCount'
+} as const
+
+export type UserTopicProgressScalarFieldEnum = (typeof UserTopicProgressScalarFieldEnum)[keyof typeof UserTopicProgressScalarFieldEnum]
 
 
 export const SortOrder = {
