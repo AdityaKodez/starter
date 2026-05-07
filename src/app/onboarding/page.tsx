@@ -9,10 +9,10 @@ function OnboardingSkeleton() {
       <div className="flex flex-col gap-8">
         {/* Assistant avatar + message skeleton */}
         <div className="flex flex-col gap-2 max-w-[95%]">
-          <div className="size-[30px] rounded-full bg-muted/40 animate-pulse" />
+          <div className="size-7.5 rounded-full bg-muted/40 animate-pulse" />
           <div className="flex flex-col gap-2">
-            <div className="h-4 w-[280px] rounded-md bg-muted/30 animate-pulse" />
-            <div className="h-4 w-[220px] rounded-md bg-muted/30 animate-pulse delay-75" />
+            <div className="h-4 w-70 rounded-md bg-muted/30 animate-pulse" />
+            <div className="h-4 w-55 rounded-md bg-muted/30 animate-pulse delay-75" />
           </div>
         </div>
 

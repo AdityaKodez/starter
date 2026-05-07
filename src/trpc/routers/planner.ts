@@ -1,30 +1,30 @@
-import { authedProcedure } from "../init";
-import { z } from "zod";
-import { prisma } from "@/lib/prisma";
-import { createTRPCRouter } from "../init";
 import { TRPCError } from "@trpc/server";
 import { startOfDay } from "date-fns";
+import { Subject } from "@/generated/prisma/enums";
+import { prisma } from "@/lib/prisma";
+import { authedProcedure, createTRPCRouter } from "../init";
+import { buildPlanTasks } from "@/utils/planner-utils/tasks";
+import { buildTopicsForPlanning } from "@/utils/planner-utils/topics";
+import { generateStudyPlan } from "@/utils/planner-utils/generate-plan";
 
 export const plannerRouter = createTRPCRouter({
   today: authedProcedure.query(async ({ ctx }) => {
+    const today = startOfDay(new Date());
     const planner = await prisma.studyPlan.findFirst({
       where: {
-        date: new Date(),
+        date: today,
         userId: ctx.user.id,
+      },
+      include: {
+        tasks: {
+          orderBy: { order: "asc" },
+        },
       },
     });
     if (!planner) {
       return { tasks: [], totalMinutes: 0 };
     }
-    const tasks = await prisma.studyPlanTask.findMany({
-      where: {
-        planId: planner.id,
-      },
-      orderBy: {
-        order: "asc",
-      },
-    });
-    return { tasks, totalMinutes: planner.totalMinutes };
+    return { tasks: planner.tasks, totalMinutes: planner.totalMinutes };
   }),
   generateToday: authedProcedure.mutation(async ({ ctx }) => {
     const userId = ctx.user.id;
@@ -56,6 +56,91 @@ export const plannerRouter = createTRPCRouter({
     if (existingPlan) return existingPlan;
 
     const dailyMinutes = onboarding.dailyStudyMinutes ?? 180;
-    const weakestSubject = onboarding.weakestSubject ?? "maths";
+    const weakestSubject = onboarding.weakestSubject ?? Subject.maths;
+    const chaptersWithTopics = await prisma.studyChapter.findMany({
+      where: {
+        subject: { in: [Subject.physics, Subject.chemistry, Subject.maths] },
+      },
+      select: {
+        id: true,
+        subject: true,
+        name: true,
+        order: true,
+        topics: {
+          select: {
+            id: true,
+            name: true,
+            difficulty: true,
+            importance: true,
+            estimatedMinutes: true,
+            order: true,
+            userProgress: {
+              where: { userId },
+              select: {
+                status: true,
+                confidence: true,
+                mistakesCount: true,
+                lastStudiedAt: true,
+                lastRevisedAt: true,
+              },
+              take: 1,
+            },
+          },
+          orderBy: { order: "asc" },
+        },
+      },
+      orderBy: { order: "asc" },
+    });
+
+    const topicsForPlanning = buildTopicsForPlanning(chaptersWithTopics);
+
+    if (topicsForPlanning.length === 0) {
+      throw new TRPCError({
+        code: "PRECONDITION_FAILED",
+        message: "No study topics are available to generate a plan",
+      });
+    }
+
+    if (!process.env.GOOGLE_AI_API_KEY) {
+      throw new TRPCError({
+        code: "PRECONDITION_FAILED",
+        message: "GOOGLE_AI_API_KEY is required to generate a study plan",
+      });
+    }
+
+    const generatedPlan = await generateStudyPlan({
+      dailyMinutes,
+      weakestSubject,
+      onboarding: {
+        examYear: onboarding.examYear,
+        attemptNumber: onboarding.attemptNumber,
+        coachingStart: onboarding.coachingStart,
+        coachingEnd: onboarding.coachingEnd,
+        rankAim: onboarding.rankAim,
+      },
+      topics: topicsForPlanning,
+    });
+
+    const { tasks, totalMinutes } = buildPlanTasks({
+      generatedPlan,
+      topicsForPlanning,
+      dailyMinutes,
+    });
+
+    return prisma.studyPlan.create({
+      data: {
+        userId,
+        date: today,
+        totalMinutes,
+        tasks: {
+          create: tasks,
+        },
+      },
+      include: {
+        tasks: {
+          orderBy: { order: "asc" },
+        },
+      },
+    });
   }),
 });
