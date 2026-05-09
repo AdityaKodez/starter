@@ -1,11 +1,12 @@
 import { TRPCError } from "@trpc/server";
 import { startOfDay } from "date-fns";
-import { Subject } from "@/generated/prisma/enums";
+import { Subject, TaskStatus } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
 import { authedProcedure, createTRPCRouter } from "../init";
 import { buildPlanTasks } from "@/utils/planner-utils/tasks";
 import { buildTopicsForPlanning } from "@/utils/planner-utils/topics";
 import { generateStudyPlan } from "@/utils/planner-utils/generate-plan";
+import { z } from "zod";
 
 export const plannerRouter = createTRPCRouter({
   today: authedProcedure.query(async ({ ctx }) => {
@@ -26,7 +27,7 @@ export const plannerRouter = createTRPCRouter({
     }
     return { tasks: planner.tasks, totalMinutes: planner.totalMinutes };
   }),
-  generateToday: authedProcedure.mutation(async ({ ctx }) => {
+  generateToday: authedProcedure.query(async ({ ctx }) => {
     const userId = ctx.user.id;
     const today = startOfDay(new Date());
 
@@ -143,4 +144,31 @@ export const plannerRouter = createTRPCRouter({
       },
     });
   }),
+  updateTaskStatus: authedProcedure
+    .input(
+      z.object({
+        taskId: z.string().min(1),
+        status: z.nativeEnum(TaskStatus),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const updated = await prisma.studyPlanTask.updateMany({
+        where: {
+          id: input.taskId,
+          plan: { userId: ctx.user.id },
+        },
+        data: {
+          status: input.status,
+        },
+      });
+
+      if (updated.count === 0) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Task not found",
+        });
+      }
+
+      return { id: input.taskId, status: input.status };
+    }),
 });
