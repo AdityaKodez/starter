@@ -115,6 +115,8 @@ model StudyPlan {
 model StudyPlanTask {
   id              String     @id @default(cuid())
   planId          String
+  topicId         String?
+  type            StudyPlanTaskType @default(study)
   subject         Subject
   title           String
   durationMinutes Int
@@ -123,6 +125,7 @@ model StudyPlanTask {
   order           Int
 
   plan StudyPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  topic StudyTopic? @relation(fields: [topicId], references: [id], onDelete: SetNull)
 }
 
 enum PlanStatus {
@@ -136,6 +139,12 @@ enum TaskStatus {
   done
   skipped
   partial
+}
+
+enum StudyPlanTaskType {
+  study
+  revision
+  test
 }
 
 model StudyChapter {
@@ -159,6 +168,7 @@ model StudyTopic {
 
   chapter      StudyChapter       @relation(fields: [chapterId], references: [id])
   userProgress UserTopicProgress[]
+  planTasks    StudyPlanTask[]
 
   @@unique([chapterId, name])
 }

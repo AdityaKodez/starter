@@ -37,6 +37,15 @@ export const TaskStatus = {
 export type TaskStatus = (typeof TaskStatus)[keyof typeof TaskStatus]
 
 
+export const StudyPlanTaskType = {
+  study: 'study',
+  revision: 'revision',
+  test: 'test'
+} as const
+
+export type StudyPlanTaskType = (typeof StudyPlanTaskType)[keyof typeof StudyPlanTaskType]
+
+
 export const TopicDifficulty = {
   easy: 'easy',
   medium: 'medium',

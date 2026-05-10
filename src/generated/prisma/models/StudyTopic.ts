@@ -238,6 +238,7 @@ export type StudyTopicWhereInput = {
   order?: Prisma.IntFilter<"StudyTopic"> | number
   chapter?: Prisma.XOR<Prisma.StudyChapterScalarRelationFilter, Prisma.StudyChapterWhereInput>
   userProgress?: Prisma.UserTopicProgressListRelationFilter
+  planTasks?: Prisma.StudyPlanTaskListRelationFilter
 }
 
 export type StudyTopicOrderByWithRelationInput = {
@@ -250,6 +251,7 @@ export type StudyTopicOrderByWithRelationInput = {
   order?: Prisma.SortOrder
   chapter?: Prisma.StudyChapterOrderByWithRelationInput
   userProgress?: Prisma.UserTopicProgressOrderByRelationAggregateInput
+  planTasks?: Prisma.StudyPlanTaskOrderByRelationAggregateInput
 }
 
 export type StudyTopicWhereUniqueInput = Prisma.AtLeast<{
@@ -266,6 +268,7 @@ export type StudyTopicWhereUniqueInput = Prisma.AtLeast<{
   order?: Prisma.IntFilter<"StudyTopic"> | number
   chapter?: Prisma.XOR<Prisma.StudyChapterScalarRelationFilter, Prisma.StudyChapterWhereInput>
   userProgress?: Prisma.UserTopicProgressListRelationFilter
+  planTasks?: Prisma.StudyPlanTaskListRelationFilter
 }, "id" | "chapterId_name">
 
 export type StudyTopicOrderByWithAggregationInput = {
@@ -305,6 +308,7 @@ export type StudyTopicCreateInput = {
   order: number
   chapter: Prisma.StudyChapterCreateNestedOneWithoutTopicsInput
   userProgress?: Prisma.UserTopicProgressCreateNestedManyWithoutTopicInput
+  planTasks?: Prisma.StudyPlanTaskCreateNestedManyWithoutTopicInput
 }
 
 export type StudyTopicUncheckedCreateInput = {
@@ -316,6 +320,7 @@ export type StudyTopicUncheckedCreateInput = {
   estimatedMinutes: number
   order: number
   userProgress?: Prisma.UserTopicProgressUncheckedCreateNestedManyWithoutTopicInput
+  planTasks?: Prisma.StudyPlanTaskUncheckedCreateNestedManyWithoutTopicInput
 }
 
 export type StudyTopicUpdateInput = {
@@ -327,6 +332,7 @@ export type StudyTopicUpdateInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
   chapter?: Prisma.StudyChapterUpdateOneRequiredWithoutTopicsNestedInput
   userProgress?: Prisma.UserTopicProgressUpdateManyWithoutTopicNestedInput
+  planTasks?: Prisma.StudyPlanTaskUpdateManyWithoutTopicNestedInput
 }
 
 export type StudyTopicUncheckedUpdateInput = {
@@ -338,6 +344,7 @@ export type StudyTopicUncheckedUpdateInput = {
   estimatedMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   userProgress?: Prisma.UserTopicProgressUncheckedUpdateManyWithoutTopicNestedInput
+  planTasks?: Prisma.StudyPlanTaskUncheckedUpdateManyWithoutTopicNestedInput
 }
 
 export type StudyTopicCreateManyInput = {
@@ -367,6 +374,11 @@ export type StudyTopicUncheckedUpdateManyInput = {
   importance?: Prisma.EnumTopicImportanceFieldUpdateOperationsInput | $Enums.TopicImportance
   estimatedMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
+export type StudyTopicNullableScalarRelationFilter = {
+  is?: Prisma.StudyTopicWhereInput | null
+  isNot?: Prisma.StudyTopicWhereInput | null
 }
 
 export type StudyTopicListRelationFilter = {
@@ -427,6 +439,22 @@ export type StudyTopicSumOrderByAggregateInput = {
 export type StudyTopicScalarRelationFilter = {
   is?: Prisma.StudyTopicWhereInput
   isNot?: Prisma.StudyTopicWhereInput
+}
+
+export type StudyTopicCreateNestedOneWithoutPlanTasksInput = {
+  create?: Prisma.XOR<Prisma.StudyTopicCreateWithoutPlanTasksInput, Prisma.StudyTopicUncheckedCreateWithoutPlanTasksInput>
+  connectOrCreate?: Prisma.StudyTopicCreateOrConnectWithoutPlanTasksInput
+  connect?: Prisma.StudyTopicWhereUniqueInput
+}
+
+export type StudyTopicUpdateOneWithoutPlanTasksNestedInput = {
+  create?: Prisma.XOR<Prisma.StudyTopicCreateWithoutPlanTasksInput, Prisma.StudyTopicUncheckedCreateWithoutPlanTasksInput>
+  connectOrCreate?: Prisma.StudyTopicCreateOrConnectWithoutPlanTasksInput
+  upsert?: Prisma.StudyTopicUpsertWithoutPlanTasksInput
+  disconnect?: Prisma.StudyTopicWhereInput | boolean
+  delete?: Prisma.StudyTopicWhereInput | boolean
+  connect?: Prisma.StudyTopicWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StudyTopicUpdateToOneWithWhereWithoutPlanTasksInput, Prisma.StudyTopicUpdateWithoutPlanTasksInput>, Prisma.StudyTopicUncheckedUpdateWithoutPlanTasksInput>
 }
 
 export type StudyTopicCreateNestedManyWithoutChapterInput = {
@@ -493,6 +521,66 @@ export type StudyTopicUpdateOneRequiredWithoutUserProgressNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StudyTopicUpdateToOneWithWhereWithoutUserProgressInput, Prisma.StudyTopicUpdateWithoutUserProgressInput>, Prisma.StudyTopicUncheckedUpdateWithoutUserProgressInput>
 }
 
+export type StudyTopicCreateWithoutPlanTasksInput = {
+  id?: string
+  name: string
+  difficulty: $Enums.TopicDifficulty
+  importance: $Enums.TopicImportance
+  estimatedMinutes: number
+  order: number
+  chapter: Prisma.StudyChapterCreateNestedOneWithoutTopicsInput
+  userProgress?: Prisma.UserTopicProgressCreateNestedManyWithoutTopicInput
+}
+
+export type StudyTopicUncheckedCreateWithoutPlanTasksInput = {
+  id?: string
+  chapterId: string
+  name: string
+  difficulty: $Enums.TopicDifficulty
+  importance: $Enums.TopicImportance
+  estimatedMinutes: number
+  order: number
+  userProgress?: Prisma.UserTopicProgressUncheckedCreateNestedManyWithoutTopicInput
+}
+
+export type StudyTopicCreateOrConnectWithoutPlanTasksInput = {
+  where: Prisma.StudyTopicWhereUniqueInput
+  create: Prisma.XOR<Prisma.StudyTopicCreateWithoutPlanTasksInput, Prisma.StudyTopicUncheckedCreateWithoutPlanTasksInput>
+}
+
+export type StudyTopicUpsertWithoutPlanTasksInput = {
+  update: Prisma.XOR<Prisma.StudyTopicUpdateWithoutPlanTasksInput, Prisma.StudyTopicUncheckedUpdateWithoutPlanTasksInput>
+  create: Prisma.XOR<Prisma.StudyTopicCreateWithoutPlanTasksInput, Prisma.StudyTopicUncheckedCreateWithoutPlanTasksInput>
+  where?: Prisma.StudyTopicWhereInput
+}
+
+export type StudyTopicUpdateToOneWithWhereWithoutPlanTasksInput = {
+  where?: Prisma.StudyTopicWhereInput
+  data: Prisma.XOR<Prisma.StudyTopicUpdateWithoutPlanTasksInput, Prisma.StudyTopicUncheckedUpdateWithoutPlanTasksInput>
+}
+
+export type StudyTopicUpdateWithoutPlanTasksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  difficulty?: Prisma.EnumTopicDifficultyFieldUpdateOperationsInput | $Enums.TopicDifficulty
+  importance?: Prisma.EnumTopicImportanceFieldUpdateOperationsInput | $Enums.TopicImportance
+  estimatedMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  chapter?: Prisma.StudyChapterUpdateOneRequiredWithoutTopicsNestedInput
+  userProgress?: Prisma.UserTopicProgressUpdateManyWithoutTopicNestedInput
+}
+
+export type StudyTopicUncheckedUpdateWithoutPlanTasksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  chapterId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  difficulty?: Prisma.EnumTopicDifficultyFieldUpdateOperationsInput | $Enums.TopicDifficulty
+  importance?: Prisma.EnumTopicImportanceFieldUpdateOperationsInput | $Enums.TopicImportance
+  estimatedMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  userProgress?: Prisma.UserTopicProgressUncheckedUpdateManyWithoutTopicNestedInput
+}
+
 export type StudyTopicCreateWithoutChapterInput = {
   id?: string
   name: string
@@ -501,6 +589,7 @@ export type StudyTopicCreateWithoutChapterInput = {
   estimatedMinutes: number
   order: number
   userProgress?: Prisma.UserTopicProgressCreateNestedManyWithoutTopicInput
+  planTasks?: Prisma.StudyPlanTaskCreateNestedManyWithoutTopicInput
 }
 
 export type StudyTopicUncheckedCreateWithoutChapterInput = {
@@ -511,6 +600,7 @@ export type StudyTopicUncheckedCreateWithoutChapterInput = {
   estimatedMinutes: number
   order: number
   userProgress?: Prisma.UserTopicProgressUncheckedCreateNestedManyWithoutTopicInput
+  planTasks?: Prisma.StudyPlanTaskUncheckedCreateNestedManyWithoutTopicInput
 }
 
 export type StudyTopicCreateOrConnectWithoutChapterInput = {
@@ -560,6 +650,7 @@ export type StudyTopicCreateWithoutUserProgressInput = {
   estimatedMinutes: number
   order: number
   chapter: Prisma.StudyChapterCreateNestedOneWithoutTopicsInput
+  planTasks?: Prisma.StudyPlanTaskCreateNestedManyWithoutTopicInput
 }
 
 export type StudyTopicUncheckedCreateWithoutUserProgressInput = {
@@ -570,6 +661,7 @@ export type StudyTopicUncheckedCreateWithoutUserProgressInput = {
   importance: $Enums.TopicImportance
   estimatedMinutes: number
   order: number
+  planTasks?: Prisma.StudyPlanTaskUncheckedCreateNestedManyWithoutTopicInput
 }
 
 export type StudyTopicCreateOrConnectWithoutUserProgressInput = {
@@ -596,6 +688,7 @@ export type StudyTopicUpdateWithoutUserProgressInput = {
   estimatedMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   chapter?: Prisma.StudyChapterUpdateOneRequiredWithoutTopicsNestedInput
+  planTasks?: Prisma.StudyPlanTaskUpdateManyWithoutTopicNestedInput
 }
 
 export type StudyTopicUncheckedUpdateWithoutUserProgressInput = {
@@ -606,6 +699,7 @@ export type StudyTopicUncheckedUpdateWithoutUserProgressInput = {
   importance?: Prisma.EnumTopicImportanceFieldUpdateOperationsInput | $Enums.TopicImportance
   estimatedMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
+  planTasks?: Prisma.StudyPlanTaskUncheckedUpdateManyWithoutTopicNestedInput
 }
 
 export type StudyTopicCreateManyChapterInput = {
@@ -625,6 +719,7 @@ export type StudyTopicUpdateWithoutChapterInput = {
   estimatedMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   userProgress?: Prisma.UserTopicProgressUpdateManyWithoutTopicNestedInput
+  planTasks?: Prisma.StudyPlanTaskUpdateManyWithoutTopicNestedInput
 }
 
 export type StudyTopicUncheckedUpdateWithoutChapterInput = {
@@ -635,6 +730,7 @@ export type StudyTopicUncheckedUpdateWithoutChapterInput = {
   estimatedMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   userProgress?: Prisma.UserTopicProgressUncheckedUpdateManyWithoutTopicNestedInput
+  planTasks?: Prisma.StudyPlanTaskUncheckedUpdateManyWithoutTopicNestedInput
 }
 
 export type StudyTopicUncheckedUpdateManyWithoutChapterInput = {
@@ -653,10 +749,12 @@ export type StudyTopicUncheckedUpdateManyWithoutChapterInput = {
 
 export type StudyTopicCountOutputType = {
   userProgress: number
+  planTasks: number
 }
 
 export type StudyTopicCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   userProgress?: boolean | StudyTopicCountOutputTypeCountUserProgressArgs
+  planTasks?: boolean | StudyTopicCountOutputTypeCountPlanTasksArgs
 }
 
 /**
@@ -676,6 +774,13 @@ export type StudyTopicCountOutputTypeCountUserProgressArgs<ExtArgs extends runti
   where?: Prisma.UserTopicProgressWhereInput
 }
 
+/**
+ * StudyTopicCountOutputType without action
+ */
+export type StudyTopicCountOutputTypeCountPlanTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudyPlanTaskWhereInput
+}
+
 
 export type StudyTopicSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -687,6 +792,7 @@ export type StudyTopicSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   order?: boolean
   chapter?: boolean | Prisma.StudyChapterDefaultArgs<ExtArgs>
   userProgress?: boolean | Prisma.StudyTopic$userProgressArgs<ExtArgs>
+  planTasks?: boolean | Prisma.StudyTopic$planTasksArgs<ExtArgs>
   _count?: boolean | Prisma.StudyTopicCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studyTopic"]>
 
@@ -726,6 +832,7 @@ export type StudyTopicOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type StudyTopicInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   chapter?: boolean | Prisma.StudyChapterDefaultArgs<ExtArgs>
   userProgress?: boolean | Prisma.StudyTopic$userProgressArgs<ExtArgs>
+  planTasks?: boolean | Prisma.StudyTopic$planTasksArgs<ExtArgs>
   _count?: boolean | Prisma.StudyTopicCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type StudyTopicIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -740,6 +847,7 @@ export type $StudyTopicPayload<ExtArgs extends runtime.Types.Extensions.Internal
   objects: {
     chapter: Prisma.$StudyChapterPayload<ExtArgs>
     userProgress: Prisma.$UserTopicProgressPayload<ExtArgs>[]
+    planTasks: Prisma.$StudyPlanTaskPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1145,6 +1253,7 @@ export interface Prisma__StudyTopicClient<T, Null = never, ExtArgs extends runti
   readonly [Symbol.toStringTag]: "PrismaPromise"
   chapter<T extends Prisma.StudyChapterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudyChapterDefaultArgs<ExtArgs>>): Prisma.Prisma__StudyChapterClient<runtime.Types.Result.GetResult<Prisma.$StudyChapterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   userProgress<T extends Prisma.StudyTopic$userProgressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudyTopic$userProgressArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserTopicProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  planTasks<T extends Prisma.StudyTopic$planTasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudyTopic$planTasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudyPlanTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1603,6 +1712,30 @@ export type StudyTopic$userProgressArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.UserTopicProgressScalarFieldEnum | Prisma.UserTopicProgressScalarFieldEnum[]
+}
+
+/**
+ * StudyTopic.planTasks
+ */
+export type StudyTopic$planTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudyPlanTask
+   */
+  select?: Prisma.StudyPlanTaskSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudyPlanTask
+   */
+  omit?: Prisma.StudyPlanTaskOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudyPlanTaskInclude<ExtArgs> | null
+  where?: Prisma.StudyPlanTaskWhereInput
+  orderBy?: Prisma.StudyPlanTaskOrderByWithRelationInput | Prisma.StudyPlanTaskOrderByWithRelationInput[]
+  cursor?: Prisma.StudyPlanTaskWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudyPlanTaskScalarFieldEnum | Prisma.StudyPlanTaskScalarFieldEnum[]
 }
 
 /**

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Subject } from "@/generated/prisma/enums";
+import { StudyPlanTaskType, Subject } from "@/generated/prisma/enums";
 
 export const subjectSchema = z.enum([
   Subject.physics,
@@ -7,10 +7,17 @@ export const subjectSchema = z.enum([
   Subject.maths,
 ]);
 
+export const planTaskTypeSchema = z.enum([
+  StudyPlanTaskType.study,
+  StudyPlanTaskType.revision,
+  StudyPlanTaskType.test,
+]);
+
 export const generatedPlanSchema = z.object({
   tasks: z
     .array(
       z.object({
+        type: planTaskTypeSchema,
         topicId: z.string().min(1),
         durationMinutes: z.number().int().min(15).max(180),
         reason: z.string().min(10).max(240),

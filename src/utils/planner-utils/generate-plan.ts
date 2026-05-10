@@ -23,10 +23,10 @@ export async function generateStudyPlan(
       output: Output.object({
         schema: generatedPlanSchema,
         name: "study_plan",
-        description: "A topic-id based study plan for today",
+        description: "A typed topic-id based study plan for today",
       }),
       system:
-        "You are a JEE study planner. Return only a valid structured plan grounded in the supplied fixed syllabus and onboarding data.",
+        "You are a conservative JEE study planner. Return only a valid structured plan grounded in the supplied fixed syllabus, onboarding data, and topic progress. Do not overuse revision or test tasks.",
       prompt: buildPlannerPrompt(input),
     });
 

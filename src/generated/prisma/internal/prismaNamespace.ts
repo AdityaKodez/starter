@@ -1284,6 +1284,8 @@ export type StudyPlanScalarFieldEnum = (typeof StudyPlanScalarFieldEnum)[keyof t
 export const StudyPlanTaskScalarFieldEnum = {
   id: 'id',
   planId: 'planId',
+  topicId: 'topicId',
+  type: 'type',
   subject: 'subject',
   title: 'title',
   durationMinutes: 'durationMinutes',
@@ -1436,6 +1438,20 @@ export type EnumPlanStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Prism
  * Reference to a field of type 'PlanStatus[]'
  */
 export type ListEnumPlanStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PlanStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'StudyPlanTaskType'
+ */
+export type EnumStudyPlanTaskTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StudyPlanTaskType'>
+    
+
+
+/**
+ * Reference to a field of type 'StudyPlanTaskType[]'
+ */
+export type ListEnumStudyPlanTaskTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StudyPlanTaskType[]'>
     
 
 

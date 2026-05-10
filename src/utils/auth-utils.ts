@@ -20,6 +20,6 @@ export const requireUnauth = cache(async () => {
   });
 
   if (session) {
-    redirect("/home");
+    redirect("/dashboard");
   }
 });

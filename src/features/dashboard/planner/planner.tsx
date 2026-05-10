@@ -6,12 +6,43 @@ import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle }
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { useTRPC } from "@/trpc/client";
-import { IconChevronLeft, IconChevronRight, IconClock12, IconPencil } from "@tabler/icons-react";
+import {
+  IconBook2,
+  IconChevronLeft,
+  IconChevronRight,
+  IconClipboardCheck,
+  IconClock12,
+  IconRefresh,
+} from "@tabler/icons-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ClockIcon } from "lucide-react";
 import { useFetchPlanner, usePlannerQueryOptions } from "./hooks/use-planner";
 
 type PlannerData = NonNullable<ReturnType<typeof useFetchPlanner>["data"]>;
+
+function getTaskTypeMeta(type: PlannerData["tasks"][number]["type"]) {
+  if (type === "revision") {
+    return {
+      label: "Revision",
+      icon: IconRefresh,
+     
+    };
+  }
+
+  if (type === "test") {
+    return {
+      label: "Test",
+      icon: IconClipboardCheck,
+     
+    };
+  }
+
+  return {
+    label: "Study",
+    icon: IconBook2,
+    
+  };
+}
 
 export const Planner = () => {
   const trpc = useTRPC();
@@ -91,15 +122,9 @@ export const Planner = () => {
             <Badge variant="secondary" className=" flex items-center gap-1">
                 <IconClock12 className="h-3 w-3" />
                 {totalMinutes} min</Badge>
-          </CardDescription>
+      </CardDescription>
 
       <CardAction className=" flex gap-2">  
-        
-        {/* Button of editing the Plan */}
-        <Button variant="outline" size="icon-sm" disabled>
-         <IconPencil className="h-4 w-4" />
-        </Button>
-        {/* Future: Add "Back and Forth" button here */}
        
           <Button variant="outline" size="icon-sm" disabled>
             <IconChevronLeft className="h-4 w-4" />
@@ -117,6 +142,8 @@ export const Planner = () => {
           <ul className="divide-y divide-border/60">
             {planner.tasks.map((task) => {
               const isDone = task.status === "done";
+              const taskType = getTaskTypeMeta(task.type);
+              const TaskTypeIcon = taskType.icon;
               return (
               <li key={task.id} className="flex items-start gap-3 py-3">
                 <Checkbox
@@ -133,18 +160,27 @@ export const Planner = () => {
                   }}
                 />
                 <div className="min-w-0 flex-1">
-                  <p
-                    className={cn(
-                      "text-sm font-medium text-foreground",
-                      isDone && "text-muted-foreground line-through",
-                    )}
-                  >
-                    {task.title}
-                  </p>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Badge
+                      variant="ghost"
+                      className={cn("gap-1 text-[11px]")}
+                    >
+                      <TaskTypeIcon className="h-3 w-3" />
+                      
+                    </Badge>
+                    <p
+                      className={cn(
+                        "text-sm font-medium text-foreground",
+                        isDone && "text-muted-foreground line-through",
+                      )}
+                    >
+                      {task.title}
+                    </p>
+                  </div>
                   {task.reason && (
                     <p
                       className={cn(
-                        "text-xs text-muted-foreground",
+                        "mt-1 text-xs text-muted-foreground",
                         isDone && "line-through",
                       )}
                     >

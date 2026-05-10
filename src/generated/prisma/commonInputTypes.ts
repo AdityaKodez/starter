@@ -236,6 +236,13 @@ export type EnumPlanStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumPlanStatusFilter<$PrismaModel>
 }
 
+export type EnumStudyPlanTaskTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.StudyPlanTaskType | Prisma.EnumStudyPlanTaskTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.StudyPlanTaskType[] | Prisma.ListEnumStudyPlanTaskTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StudyPlanTaskType[] | Prisma.ListEnumStudyPlanTaskTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStudyPlanTaskTypeFilter<$PrismaModel> | $Enums.StudyPlanTaskType
+}
+
 export type EnumSubjectFilter<$PrismaModel = never> = {
   equals?: $Enums.Subject | Prisma.EnumSubjectFieldRefInput<$PrismaModel>
   in?: $Enums.Subject[] | Prisma.ListEnumSubjectFieldRefInput<$PrismaModel>
@@ -248,6 +255,16 @@ export type EnumTaskStatusFilter<$PrismaModel = never> = {
   in?: $Enums.TaskStatus[] | Prisma.ListEnumTaskStatusFieldRefInput<$PrismaModel>
   notIn?: $Enums.TaskStatus[] | Prisma.ListEnumTaskStatusFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumTaskStatusFilter<$PrismaModel> | $Enums.TaskStatus
+}
+
+export type EnumStudyPlanTaskTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.StudyPlanTaskType | Prisma.EnumStudyPlanTaskTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.StudyPlanTaskType[] | Prisma.ListEnumStudyPlanTaskTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StudyPlanTaskType[] | Prisma.ListEnumStudyPlanTaskTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStudyPlanTaskTypeWithAggregatesFilter<$PrismaModel> | $Enums.StudyPlanTaskType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumStudyPlanTaskTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumStudyPlanTaskTypeFilter<$PrismaModel>
 }
 
 export type EnumSubjectWithAggregatesFilter<$PrismaModel = never> = {
@@ -556,6 +573,13 @@ export type NestedEnumPlanStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumPlanStatusFilter<$PrismaModel>
 }
 
+export type NestedEnumStudyPlanTaskTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.StudyPlanTaskType | Prisma.EnumStudyPlanTaskTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.StudyPlanTaskType[] | Prisma.ListEnumStudyPlanTaskTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StudyPlanTaskType[] | Prisma.ListEnumStudyPlanTaskTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStudyPlanTaskTypeFilter<$PrismaModel> | $Enums.StudyPlanTaskType
+}
+
 export type NestedEnumSubjectFilter<$PrismaModel = never> = {
   equals?: $Enums.Subject | Prisma.EnumSubjectFieldRefInput<$PrismaModel>
   in?: $Enums.Subject[] | Prisma.ListEnumSubjectFieldRefInput<$PrismaModel>
@@ -568,6 +592,16 @@ export type NestedEnumTaskStatusFilter<$PrismaModel = never> = {
   in?: $Enums.TaskStatus[] | Prisma.ListEnumTaskStatusFieldRefInput<$PrismaModel>
   notIn?: $Enums.TaskStatus[] | Prisma.ListEnumTaskStatusFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumTaskStatusFilter<$PrismaModel> | $Enums.TaskStatus
+}
+
+export type NestedEnumStudyPlanTaskTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.StudyPlanTaskType | Prisma.EnumStudyPlanTaskTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.StudyPlanTaskType[] | Prisma.ListEnumStudyPlanTaskTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StudyPlanTaskType[] | Prisma.ListEnumStudyPlanTaskTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStudyPlanTaskTypeWithAggregatesFilter<$PrismaModel> | $Enums.StudyPlanTaskType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumStudyPlanTaskTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumStudyPlanTaskTypeFilter<$PrismaModel>
 }
 
 export type NestedEnumSubjectWithAggregatesFilter<$PrismaModel = never> = {
