@@ -119,6 +119,7 @@ model StudyPlanTask {
   type            StudyPlanTaskType @default(study)
   subject         Subject
   title           String
+  testResult      String? 
   durationMinutes Int
   reason          String
   status          TaskStatus @default(pending)

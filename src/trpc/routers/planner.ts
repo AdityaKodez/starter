@@ -1,10 +1,13 @@
 import { TRPCError } from "@trpc/server";
 import { startOfDay } from "date-fns";
-import { Subject, TaskStatus } from "@/generated/prisma/enums";
+import { StudyPlanTaskType, Subject, TaskStatus } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
 import { authedProcedure, createTRPCRouter } from "../init";
 import { buildPlanTasks } from "@/utils/planner-utils/tasks";
-import { buildTopicsForPlanning } from "@/utils/planner-utils/topics";
+import {
+  buildRankedTopicCandidates,
+  buildTopicsForPlanning,
+} from "@/utils/planner-utils/topics";
 import { generateStudyPlan } from "@/utils/planner-utils/generate-plan";
 import { z } from "zod";
 
@@ -109,6 +112,12 @@ export const plannerRouter = createTRPCRouter({
       });
     }
 
+    const topicCandidates = buildRankedTopicCandidates({
+      topics: topicsForPlanning,
+      weakestSubject,
+      now: today,
+    });
+
     const generatedPlan = await generateStudyPlan({
       dailyMinutes,
       weakestSubject,
@@ -119,12 +128,12 @@ export const plannerRouter = createTRPCRouter({
         coachingEnd: onboarding.coachingEnd,
         rankAim: onboarding.rankAim,
       },
-      topics: topicsForPlanning,
+      topics: topicCandidates,
     });
 
     const { tasks, totalMinutes } = buildPlanTasks({
       generatedPlan,
-      topicsForPlanning,
+      topicsForPlanning: topicCandidates,
       dailyMinutes,
     });
 
@@ -170,5 +179,34 @@ export const plannerRouter = createTRPCRouter({
       }
 
       return { id: input.taskId, status: input.status };
+    }),
+  updateTestResult: authedProcedure
+    .input(
+      z.object({
+        taskId: z.string().min(1),
+        testResult: z.string().trim().max(200).nullable(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const nextResult = input.testResult?.trim() ?? null;
+      const updated = await prisma.studyPlanTask.updateMany({
+        where: {
+          id: input.taskId,
+          type: StudyPlanTaskType.test,
+          plan: { userId: ctx.user.id },
+        },
+        data: {
+          testResult: nextResult,
+        },
+      });
+
+      if (updated.count === 0) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Test task not found",
+        });
+      }
+
+      return { id: input.taskId, testResult: nextResult };
     }),
 });

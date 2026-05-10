@@ -175,6 +175,7 @@ export const StudyPlanTaskScalarFieldEnum = {
   type: 'type',
   subject: 'subject',
   title: 'title',
+  testResult: 'testResult',
   durationMinutes: 'durationMinutes',
   reason: 'reason',
   status: 'status',

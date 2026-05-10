@@ -6,6 +6,8 @@ import {
   type TopicForPlanning,
 } from "./schemas";
 
+const REVISION_URGENCY_DAYS = 2;
+
 type PlannerTask = {
   topicId: string;
   type: StudyPlanTaskType;
@@ -43,12 +45,13 @@ export function buildPlanTasks(
     const seenTypes = seenTopicTypes.get(task.topicId) ?? new Set();
     const isAllowedStudyThenTestDuplicate =
       task.type === StudyPlanTaskType.test &&
-      seenTypes.has(StudyPlanTaskType.study);
+      (seenTypes.has(StudyPlanTaskType.study) ||
+        seenTypes.has(StudyPlanTaskType.revision));
 
     if (seenTypes.size > 0 && !isAllowedStudyThenTestDuplicate) {
       throw new TRPCError({
         code: "BAD_GATEWAY",
-        message: `AI returned duplicate topic id without a valid study/test sequence: ${task.topicId}`,
+        message: `AI returned duplicate topic id without a valid study/revision then test sequence: ${task.topicId}`,
       });
     }
 
@@ -101,6 +104,8 @@ export function buildPlanTasks(
     });
   }
 
+  validateCognitiveLoad(tasks, topicById);
+
   return { tasks, totalMinutes };
 }
 
@@ -134,7 +139,7 @@ function hasStrongRevisionEvidence(
         topic.progressStatus === "completed" ||
         (topic.confidence !== null && topic.confidence <= 2) ||
         topic.mistakesCount >= 2 ||
-        topic.lastRevisedAt !== null
+        getRevisionGapDays(topic) > REVISION_URGENCY_DAYS
       );
     });
 }
@@ -148,7 +153,7 @@ function validateRevisionTask(
     topic.progressStatus === "completed" ||
     (topic.confidence !== null && topic.confidence <= 2) ||
     topic.mistakesCount > 0 ||
-    topic.lastRevisedAt !== null ||
+    getRevisionGapDays(topic) > REVISION_URGENCY_DAYS ||
     topic.lastStudiedAt !== null;
 
   const mentionsPrerequisiteReview =
@@ -161,4 +166,42 @@ function validateRevisionTask(
         "AI generated a revision task without progress evidence or prerequisite context",
     });
   }
+}
+
+function validateCognitiveLoad(
+  tasks: PlannerTask[],
+  topicById: Map<string, TopicForPlanning>,
+) {
+  let consecutiveHeavyTasks = 0;
+
+  for (const task of tasks) {
+    const topic = topicById.get(task.topicId);
+    const isHeavy =
+      topic?.difficulty === "hard" || topic?.difficulty === "advanced";
+
+    consecutiveHeavyTasks = isHeavy ? consecutiveHeavyTasks + 1 : 0;
+
+    if (consecutiveHeavyTasks > 2) {
+      throw new TRPCError({
+        code: "BAD_GATEWAY",
+        message:
+          "AI generated too many cognitively heavy topics consecutively",
+      });
+    }
+  }
+}
+
+function getRevisionGapDays(topic: TopicForPlanning) {
+  if (!topic.lastRevisedAt) return 0;
+
+  const lastRevisedAt = new Date(topic.lastRevisedAt);
+
+  if (Number.isNaN(lastRevisedAt.getTime())) return 0;
+
+  const dayInMs = 24 * 60 * 60 * 1000;
+
+  return Math.max(
+    0,
+    Math.floor((Date.now() - lastRevisedAt.getTime()) / dayInMs),
+  );
 }

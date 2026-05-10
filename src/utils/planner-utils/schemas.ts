@@ -44,6 +44,13 @@ export type TopicForPlanning = {
   lastRevisedAt: string | null;
 };
 
+export type TopicCandidateForPlanning = TopicForPlanning & {
+  priorityScore: number;
+  priorityReasons: string[];
+  revisionGapDays: number | null;
+  isCognitivelyHeavy: boolean;
+};
+
 export type PlannerOnboarding = {
   examYear: number;
   attemptNumber: number | null;
@@ -56,5 +63,5 @@ export type PlannerPromptInput = {
   dailyMinutes: number;
   weakestSubject: Subject;
   onboarding: PlannerOnboarding;
-  topics: TopicForPlanning[];
+  topics: TopicCandidateForPlanning[];
 };

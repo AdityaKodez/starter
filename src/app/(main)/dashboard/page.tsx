@@ -17,7 +17,7 @@ export default  async function DashboardPage() {
   });
   void prefetchPlanner();
     return (
-        <div className="flex flex-col items-start justify-center p-4 no-scrollbar max-w-4xl w-full mx-auto py-4  gap-8 sm:py-8">
+        <div className="flex flex-col items-start justify-center p-4 no-scrollbar max-w-6xl w-full mx-auto py-4  gap-8 sm:py-8">
           <EntityHeader
             title={`Welcome back, ${user?.user?.name?.toLowerCase()}`}
             description="This is where you can see your study plans, track your progress, and access your resources."

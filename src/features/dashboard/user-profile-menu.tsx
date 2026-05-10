@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { signOut } from "@/lib/auth-client";
 import { LogOut, Settings } from "lucide-react";
 
@@ -50,6 +51,7 @@ export const UserProfileMenu = ({ name, email, image }: UserProfileMenuProps) =>
             {name ?? "Account"}
           </span>
         </Button>
+        
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>
@@ -62,6 +64,13 @@ export const UserProfileMenu = ({ name, email, image }: UserProfileMenuProps) =>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
+          <DropdownMenuItem
+            className="justify-between"
+            onSelect={(event) => event.preventDefault()}
+          >
+            <span>Theme</span>
+            <ThemeToggle size="icon-xs" className="size-6" />
+          </DropdownMenuItem>
           <DropdownMenuItem onSelect={(event) => event.preventDefault()}>
             <Settings />
             <span>Settings</span>
@@ -75,6 +84,7 @@ export const UserProfileMenu = ({ name, email, image }: UserProfileMenuProps) =>
             <LogOut />
             <span>Logout</span>
           </DropdownMenuItem>
+
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

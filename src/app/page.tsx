@@ -30,12 +30,10 @@ import { Input } from "@/components/ui/input";
 import {
   IconChevronDownFilled,
   IconChevronRight,
-  IconMoon2,
-  IconSun,
   IconTrendingUp2,
 } from "@tabler/icons-react";
 import {  useSession } from "@/lib/auth-client";
-import { useTheme } from "next-themes";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 const contacts = [
   { id: 1, initials: "AR" },
@@ -63,7 +61,6 @@ const chartConfig = {
 } satisfies ChartConfig;
 export default function Home() {
   const {data} = useSession();
-  const { theme, setTheme } = useTheme();
   return (
     <main className="px-6 py-16 flex flex-col gap-4 max-w-md mx-auto">
       <div className="flex w-full items-end justify-between">
@@ -71,17 +68,7 @@ export default function Home() {
           Aura
         </h1>
         <div className="flex items-center gap-2">
-          <Button
-            variant={"ghost"}
-            size="icon"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="relative"
-          >
-            <IconSun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-
-            {/* Moon Icon (positioned absolutely on top) */}
-            <IconMoon2 className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          </Button>
+          <ThemeToggle />
           {
             data?.user ? (
               <Button variant={"default"}>Logout</Button>
@@ -223,7 +210,7 @@ export default function Home() {
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
-      <div className="flex w-full max-w-[420px] items-center gap-2">
+      <div className="flex w-full max-w-105 items-center gap-2">
         <Input type="email" placeholder="Email" />
         <Button type="submit">Subscribe</Button>
       </div>

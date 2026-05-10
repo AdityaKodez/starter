@@ -26,7 +26,7 @@ export async function generateStudyPlan(
         description: "A typed topic-id based study plan for today",
       }),
       system:
-        "You are a conservative JEE study planner. Return only a valid structured plan grounded in the supplied fixed syllabus, onboarding data, and topic progress. Do not overuse revision or test tasks.",
+        "You are a conservative JEE study planner. Return only a valid structured plan grounded in the supplied fixed syllabus, onboarding data, and topic progress. Do not overuse revision or test tasks. **The plan MUST begin at the current date and time** ",
       prompt: buildPlannerPrompt(input),
     });
 
