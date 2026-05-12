@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils"
 
 export const EntityHeader = ({ title, description, action }: { title: React.ReactNode; description: string; action?: React.ReactNode }) => {
   return (
-    <div className="w-full py-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+    <div className="w-full flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
       <div className="flex flex-col w-full items-start gap-2">
         <h1 className="font-display text-xl sm:text-2xl font-semibold tracking-tighter leading-tight">
           {title}

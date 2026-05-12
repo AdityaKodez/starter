@@ -8,7 +8,7 @@ import { requireAuth } from "@/utils/auth-utils";
 import { headers } from "next/headers";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { prefetchPlanner } from "@/lib/prefetch";
+import { prefetchPlanner, prefetchStudyStats } from "@/lib/prefetch";
 import { AlertTriangleIcon } from "lucide-react";
 export default  async function DashboardPage() {
   await requireAuth();
@@ -16,6 +16,7 @@ export default  async function DashboardPage() {
     headers : await headers(),
   });
   void prefetchPlanner();
+  void prefetchStudyStats();
     return (
         <div className="flex flex-col items-start justify-center p-4 no-scrollbar max-w-6xl w-full mx-auto py-4  gap-8 sm:py-8">
           <EntityHeader

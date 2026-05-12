@@ -19,7 +19,7 @@ export const requireUnauth = cache(async () => {
     headers: await headers(),
   });
 
-  if (session) {
+  if (session?.user) {
     redirect("/dashboard");
   }
 });

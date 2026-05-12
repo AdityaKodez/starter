@@ -287,6 +287,40 @@ export type EnumTaskStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumTaskStatusFilter<$PrismaModel>
 }
 
+export type EnumReflectionTaskFeelFilter<$PrismaModel = never> = {
+  equals?: $Enums.ReflectionTaskFeel | Prisma.EnumReflectionTaskFeelFieldRefInput<$PrismaModel>
+  in?: $Enums.ReflectionTaskFeel[] | Prisma.ListEnumReflectionTaskFeelFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ReflectionTaskFeel[] | Prisma.ListEnumReflectionTaskFeelFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumReflectionTaskFeelFilter<$PrismaModel> | $Enums.ReflectionTaskFeel
+}
+
+export type EnumReflectionMoodFilter<$PrismaModel = never> = {
+  equals?: $Enums.ReflectionMood | Prisma.EnumReflectionMoodFieldRefInput<$PrismaModel>
+  in?: $Enums.ReflectionMood[] | Prisma.ListEnumReflectionMoodFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ReflectionMood[] | Prisma.ListEnumReflectionMoodFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumReflectionMoodFilter<$PrismaModel> | $Enums.ReflectionMood
+}
+
+export type EnumReflectionTaskFeelWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ReflectionTaskFeel | Prisma.EnumReflectionTaskFeelFieldRefInput<$PrismaModel>
+  in?: $Enums.ReflectionTaskFeel[] | Prisma.ListEnumReflectionTaskFeelFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ReflectionTaskFeel[] | Prisma.ListEnumReflectionTaskFeelFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumReflectionTaskFeelWithAggregatesFilter<$PrismaModel> | $Enums.ReflectionTaskFeel
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumReflectionTaskFeelFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumReflectionTaskFeelFilter<$PrismaModel>
+}
+
+export type EnumReflectionMoodWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ReflectionMood | Prisma.EnumReflectionMoodFieldRefInput<$PrismaModel>
+  in?: $Enums.ReflectionMood[] | Prisma.ListEnumReflectionMoodFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ReflectionMood[] | Prisma.ListEnumReflectionMoodFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumReflectionMoodWithAggregatesFilter<$PrismaModel> | $Enums.ReflectionMood
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumReflectionMoodFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumReflectionMoodFilter<$PrismaModel>
+}
+
 export type EnumTopicDifficultyFilter<$PrismaModel = never> = {
   equals?: $Enums.TopicDifficulty | Prisma.EnumTopicDifficultyFieldRefInput<$PrismaModel>
   in?: $Enums.TopicDifficulty[] | Prisma.ListEnumTopicDifficultyFieldRefInput<$PrismaModel>
@@ -622,6 +656,40 @@ export type NestedEnumTaskStatusWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumTaskStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumTaskStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumReflectionTaskFeelFilter<$PrismaModel = never> = {
+  equals?: $Enums.ReflectionTaskFeel | Prisma.EnumReflectionTaskFeelFieldRefInput<$PrismaModel>
+  in?: $Enums.ReflectionTaskFeel[] | Prisma.ListEnumReflectionTaskFeelFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ReflectionTaskFeel[] | Prisma.ListEnumReflectionTaskFeelFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumReflectionTaskFeelFilter<$PrismaModel> | $Enums.ReflectionTaskFeel
+}
+
+export type NestedEnumReflectionMoodFilter<$PrismaModel = never> = {
+  equals?: $Enums.ReflectionMood | Prisma.EnumReflectionMoodFieldRefInput<$PrismaModel>
+  in?: $Enums.ReflectionMood[] | Prisma.ListEnumReflectionMoodFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ReflectionMood[] | Prisma.ListEnumReflectionMoodFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumReflectionMoodFilter<$PrismaModel> | $Enums.ReflectionMood
+}
+
+export type NestedEnumReflectionTaskFeelWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ReflectionTaskFeel | Prisma.EnumReflectionTaskFeelFieldRefInput<$PrismaModel>
+  in?: $Enums.ReflectionTaskFeel[] | Prisma.ListEnumReflectionTaskFeelFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ReflectionTaskFeel[] | Prisma.ListEnumReflectionTaskFeelFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumReflectionTaskFeelWithAggregatesFilter<$PrismaModel> | $Enums.ReflectionTaskFeel
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumReflectionTaskFeelFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumReflectionTaskFeelFilter<$PrismaModel>
+}
+
+export type NestedEnumReflectionMoodWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ReflectionMood | Prisma.EnumReflectionMoodFieldRefInput<$PrismaModel>
+  in?: $Enums.ReflectionMood[] | Prisma.ListEnumReflectionMoodFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ReflectionMood[] | Prisma.ListEnumReflectionMoodFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumReflectionMoodWithAggregatesFilter<$PrismaModel> | $Enums.ReflectionMood
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumReflectionMoodFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumReflectionMoodFilter<$PrismaModel>
 }
 
 export type NestedEnumTopicDifficultyFilter<$PrismaModel = never> = {

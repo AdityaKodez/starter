@@ -77,6 +77,16 @@ export type StudyPlan = Prisma.StudyPlanModel
  */
 export type StudyPlanTask = Prisma.StudyPlanTaskModel
 /**
+ * Model StudyPlanReflection
+ * 
+ */
+export type StudyPlanReflection = Prisma.StudyPlanReflectionModel
+/**
+ * Model UserTestResult
+ * 
+ */
+export type UserTestResult = Prisma.UserTestResultModel
+/**
  * Model StudyChapter
  * 
  */

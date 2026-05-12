@@ -2,21 +2,22 @@
 import { EmptyState } from "@/components/entity-component";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { useTRPC } from "@/trpc/client";
 import {
+  IconArrowRight,
   IconBook2,
-  IconChevronLeft,
-  IconChevronRight,
   IconClipboardCheck,
   IconClock12,
-  IconRefresh,
+  IconRefresh
 } from "@tabler/icons-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ClockIcon } from "lucide-react";
 import { useState } from "react";
+import { PlanReflectionDialog } from "./component/plan-reflection-dialog";
+import { SkipReasonDialog } from "./component/skip-reason-dialog";
 import { TestResultDialog } from "./component/test-result-dialog";
 import { useFetchPlanner, usePlannerQueryOptions } from "./hooks/use-planner";
 
@@ -53,6 +54,10 @@ export const Planner = () => {
   const [resultDialogOpen, setResultDialogOpen] = useState(false);
   const [resultDialogIntent, setResultDialogIntent] = useState<"complete" | "edit">("edit");
   const [resultTask, setResultTask] = useState<PlannerData["tasks"][number] | null>(null);
+  const [skipDialogOpen, setSkipDialogOpen] = useState(false);
+  const [skipTask, setSkipTask] = useState<PlannerData["tasks"][number] | null>(null);
+  const [dismissedReflectionPlanId, setDismissedReflectionPlanId] =
+    useState<string | null>(null);
   const updateTaskMutation = useMutation(
     trpc.planner.updateTaskStatus.mutationOptions({
       onMutate: async (input) => {
@@ -72,7 +77,14 @@ export const Planner = () => {
               ...old,
               tasks: old.tasks.map((task) =>
                 task.id === input.taskId
-                  ? { ...task, status: input.status }
+                  ? {
+                      ...task,
+                      status: input.status,
+                      skipReason:
+                        input.status === "skipped"
+                          ? input.skipReason ?? task.skipReason ?? null
+                          : null,
+                    }
                   : task,
               ),
             };
@@ -98,7 +110,11 @@ export const Planner = () => {
               ...old,
               tasks: old.tasks.map((task) =>
                 task.id === data.id
-                  ? { ...task, status: data.status }
+                  ? {
+                      ...task,
+                      status: data.status,
+                      skipReason: data.skipReason ?? null,
+                    }
                   : task,
               ),
             };
@@ -161,12 +177,51 @@ export const Planner = () => {
       },
     }),
   );
+  const savePlanReflectionMutation = useMutation(
+    trpc.planner.savePlanReflection.mutationOptions({
+      onSuccess: (data) => {
+        queryClient.setQueryData<PlannerData>(
+          plannerQueryOptions.queryKey,
+          (old) => {
+            if (!old) return old;
+            return { ...old, reflection: data };
+          },
+        );
+      },
+    }),
+  );
 
-  const plannerQuery = useFetchPlanner();
-  const planner = plannerQuery.data;
+  const { data: planner } = useFetchPlanner();
+  const plannerCategorisedBySubject = planner.tasks.reduce((acc, task) => {
+    const subject = task.subject ?? "other";
+    if (!acc[subject]) {
+      acc[subject] = [];
+    }
+    acc[subject].push(task);
+    return acc;
+  }, {} as Record<string, PlannerData["tasks"]>);
+  const subjectEntries = Object.entries(plannerCategorisedBySubject).sort(
+    ([subjectA], [subjectB]) => {
+      if (subjectA === "other") return 1;
+      if (subjectB === "other") return -1;
+      return subjectA.localeCompare(subjectB);
+    },
+  );
   const taskCount = planner.tasks.filter((task) => task.status === "pending").length;
   const totalMinutes = planner.totalMinutes ?? planner.tasks.reduce((sum, task) => sum + task.durationMinutes, 0);
   const isSavingResult = updateTestResultMutation.isPending || updateTaskMutation.isPending;
+  const isSavingReflection = savePlanReflectionMutation.isPending;
+  const isPlanComplete =
+    planner.tasks.length > 0 &&
+    planner.tasks.every(
+      (task) => task.status === "done" || task.status === "skipped",
+    );
+  const hasReflection = Boolean(planner.reflection);
+  const shouldPromptReflection =
+    Boolean(planner.id) &&
+    isPlanComplete &&
+    !hasReflection &&
+    planner.id !== dismissedReflectionPlanId;
 
   function getDurationColor(minutes: number) {
     if (minutes < 30) return "text-green-600";
@@ -208,8 +263,55 @@ export const Planner = () => {
     }
     closeResultDialog();
   }
+
+  function openSkipDialog(task: PlannerData["tasks"][number]) {
+    setSkipTask(task);
+    setSkipDialogOpen(true);
+  }
+
+  function closeSkipDialog() {
+    setSkipDialogOpen(false);
+    setSkipTask(null);
+  }
+
+  function handleSkipDialogChange(open: boolean) {
+    if (!open) {
+      closeSkipDialog();
+      return;
+    }
+    setSkipDialogOpen(true);
+  }
+
+  function handleSkipReasonSelect(reason: string) {
+    if (!skipTask) return;
+    updateTaskMutation.mutate({
+      taskId: skipTask.id,
+      status: "skipped",
+      skipReason: reason,
+    });
+    closeSkipDialog();
+  }
+
+  function handleReflectionDialogChange(open: boolean) {
+    if (!open && planner.id) {
+      setDismissedReflectionPlanId(planner.id);
+    }
+  }
+
+  function handleReflectionSubmit(values: {
+    taskFeeling: "too_easy" | "right_level" | "too_hard";
+    mood: "low" | "okay" | "good";
+  }) {
+    if (!planner.id) return;
+    savePlanReflectionMutation.mutate({
+      planId: planner.id,
+      taskFeeling: values.taskFeeling,
+      mood: values.mood,
+    });
+    setDismissedReflectionPlanId(planner.id);
+  }
   return (
-    <Card className="w-full">
+    <Card className="w-full shadow-none border-none ring-0">
       <CardHeader className="space-y-2">
           <CardTitle className="text-base sm:text-lg">Today&apos;s Study Plan</CardTitle>
           <CardDescription className="flex items-center gap-2">
@@ -218,121 +320,160 @@ export const Planner = () => {
                 <IconClock12 className="h-3 w-3" />
                 {totalMinutes} min</Badge>
       </CardDescription>
-
-      <CardAction className=" flex gap-2">  
-       
-          <Button variant="outline" size="icon-sm" disabled>
-            <IconChevronLeft className="h-4 w-4" />
-          </Button>
-          <Button variant="outline" size="icon-sm" disabled>
-            <IconChevronRight className="h-4 w-4" />
-          </Button>
-     
-      </CardAction>
       </CardHeader>
       <CardContent>
         {planner.tasks.length === 0 ? (
           <EmptyState icon={ClockIcon} title="No tasks for today" description="You have no tasks scheduled for today. Enjoy your free time or add some tasks to your planner!" />
+        ) : isPlanComplete ? (
+          <EmptyState
+            icon={IconClipboardCheck}
+            title="All tasks completed"
+            description="Nice work! You&apos;re done for today. Take a break or reflect on how it felt."
+          />
         ) : (
-          <ul className="divide-y divide-border/60">
-            {planner.tasks.map((task) => {
-              const isDone = task.status === "done";
-              const isSkipped = task.status === "skipped";
-              const isInactive = isDone || isSkipped;
-              const taskType = getTaskTypeMeta(task.type);
-              const TaskTypeIcon = taskType.icon;
+      
+          <ul className="space-y-4">
+            {subjectEntries.map(([subject, tasks]) => {
+              const subjectLabel =
+                subject === "other"
+                  ? "Other"
+                  : subject.charAt(0).toUpperCase() + subject.slice(1);
               return (
-              <li key={task.id} className="flex items-start gap-2 py-3">
-                {task.type === "test" ? (
-                  <div className="mt-0.5 size-4" aria-hidden="true" />
-                ) : (
-                  <Checkbox
-                    className="mt-0.5 cursor-pointer"
-                    checked={isDone}
-                    aria-label={`Mark ${task.title} as ${isDone ? "not done" : "done"}`}
-                    onCheckedChange={(checked) => {
-                      const nextStatus = checked === true ? "done" : "pending";
-                      if (task.status === nextStatus) return;
-                      updateTaskMutation.mutate({
-                        taskId: task.id,
-                        status: nextStatus,
-                      });
-                    }}
-                  />
-                )}
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                      <TaskTypeIcon className="h-3 w-3" />
-                    <p
-                      className={cn(
-                        "text-sm font-medium text-foreground",
-                        isInactive && "text-muted-foreground line-through",
-                      )}
-                    >
-                      {task.title}
-                    </p>
-                    {isSkipped && (
-                      <span className="text-[11px] text-muted-foreground">Skipped</span>
-                    )}
+                <li key={subject} className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Badge variant="secondary">{subjectLabel}</Badge>
+                    <span className="text-xs text-muted-foreground">
+                      {tasks.length} tasks
+                    </span>
                   </div>
-                  {task.reason && (
-                    <p
-                      className={cn(
-                        "mt-1 text-xs text-muted-foreground",
-                        isInactive && "line-through",
-                      )}
-                    >
-                      {task.reason}
-                    </p>
-                  )}
-                  {task.type === "test" && (
-                    <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-                      <span className={cn(isInactive && "line-through")}>
-                        {task.testResult ? `Result: ${task.testResult}` : "Result: not added"}
-                      </span>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className="h-6 px-2"
-                        onClick={() => openResultDialog(task, "edit")}
-                      >
-                        {task.testResult ? "Edit result" : "Add result"}
-                      </Button>
-                    </div>
-                  )}
-                </div>
-                <div className="flex items-center gap-2 whitespace-nowrap">
-                  <span
-                    className={cn(
-                      "text-xs",
-                      getDurationColor(task.durationMinutes),
-                      isInactive && "text-muted-foreground",
-                    )}
-                  >
-                    {task.durationMinutes} min
-                  </span>
-                  {!isDone && (
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="xs"
-                      className="h-6 px-2"
-                      onClick={() => {
-                        updateTaskMutation.mutate({
-                          taskId: task.id,
-                          status: isSkipped ? "pending" : "skipped",
-                        });
-                      }}
-                      disabled={updateTaskMutation.isPending}
-                    >
-                      {isSkipped ? "Undo" : "Skip"}
-                    </Button>
-                  )}
-                </div>
-              </li>
-            );
-          })}
+                  <ul className="divide-y divide-border/60 rounded-lg border border-border/60">
+                    {tasks.map((task) => {
+                      const isDone = task.status === "done";
+                      const isSkipped = task.status === "skipped";
+                      const isInactive = isDone || isSkipped;
+                      const showCheckbox = task.type !== "test" && !isSkipped;
+                      const taskType = getTaskTypeMeta(task.type);
+                      const TaskTypeIcon = taskType.icon;
+                      return (
+                        <li key={task.id} className="flex items-start gap-2 px-2 py-2 flex-col">
+                          {showCheckbox && (
+                            <Checkbox
+                              className="mt-0.5 cursor-pointer"
+                              checked={isDone}
+                              aria-label={`Mark ${task.title} as ${
+                                isDone ? "not done" : "done"
+                              }`}
+                              onCheckedChange={(checked) => {
+                                const nextStatus =
+                                  checked === true ? "done" : "pending";
+                                if (task.status === nextStatus) return;
+                                updateTaskMutation.mutate({
+                                  taskId: task.id,
+                                  status: nextStatus,
+                                });
+                              }}
+                            />
+                          )
+                          }
+                          <div className="min-w-0 flex-1">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <TaskTypeIcon className="h-3 w-3 hidden sm:block" />
+                              <p
+                                className={cn(
+                                  "text-sm font-medium text-foreground",
+                                  isInactive &&
+                                    "text-muted-foreground line-through",
+                                )}
+                              >
+                                {task.title}
+                              </p>
+                              {isSkipped && (
+                                <span className="text-[11px] text-muted-foreground">
+                                  Skipped
+                                </span>
+                              )}
+                            </div>
+                            {task.reason && (
+                              <p
+                                className={cn(
+                                  "mt-1 text-xs text-muted-foreground",
+                                  isInactive && "line-through",
+                                )}
+                              >
+                                {task.reason}
+                              </p>
+                            )}
+                            {isSkipped && (
+                              <p className="mt-1 text-xs text-muted-foreground">
+                                {task.skipReason
+                                  ? `Skipped: ${task.skipReason}`
+                                  : "Skipped"}
+                              </p>
+                            )}
+                            {task.type === "test" && (
+                              <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                                <span className={cn(isInactive && "line-through")}>
+                                  {task.testResult
+                                    ? `Result: ${task.testResult}`
+                                    : "Result: not added"}
+                                </span>
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  className="h-6 px-2"
+                                  onClick={() => openResultDialog(task, "edit")}
+                                >
+                                  {task.testResult ? "Edit result" : "Add result"}
+                                </Button>
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-2 whitespace-nowrap justify-between w-full">
+                            <span
+                              className={cn(
+                                "text-xs",
+                                getDurationColor(task.durationMinutes),
+                                isInactive && "text-muted-foreground",
+                              )}
+                            >
+                              {task.durationMinutes} min 
+                                 
+                            </span>
+                         
+                            {!isDone && (
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="xs"
+                                className="h-6 px-2"
+                                onClick={() => {
+                                  if (isSkipped) {
+                                    updateTaskMutation.mutate({
+                                      taskId: task.id,
+                                      status: "pending",
+                                    });
+                                    return;
+                                  }
+                                  openSkipDialog(task);
+                                }}
+                                disabled={updateTaskMutation.isPending}
+                              >
+                                   {isSkipped ? (
+                               <span className="text-muted-foreground">Undo skip</span>
+                                   ) : (
+                                    <IconArrowRight className="h-3 w-3" />
+                                   )}
+                              </Button>
+                            )}
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </li>
+              );
+            })}
           </ul>
         )}
       </CardContent>
@@ -345,6 +486,26 @@ export const Planner = () => {
         onOpenChange={handleResultDialogChange}
         onCancel={closeResultDialog}
         onSave={handleSaveResult}
+      />
+      <SkipReasonDialog
+        open={skipDialogOpen}
+        taskTitle={skipTask?.title}
+        isSaving={updateTaskMutation.isPending}
+        onOpenChange={handleSkipDialogChange}
+        onCancel={closeSkipDialog}
+        onSelect={handleSkipReasonSelect}
+      />
+      <PlanReflectionDialog
+        key={planner.id ?? "reflection"}
+        open={shouldPromptReflection}
+        isSaving={isSavingReflection}
+        onOpenChange={handleReflectionDialogChange}
+        onCancel={() => {
+          if (planner.id) {
+            setDismissedReflectionPlanId(planner.id);
+          }
+        }}
+        onSubmit={handleReflectionSubmit}
       />
     </Card>
   );

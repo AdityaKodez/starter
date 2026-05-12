@@ -234,6 +234,7 @@ export type StudyPlanWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"StudyPlan"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   tasks?: Prisma.StudyPlanTaskListRelationFilter
+  reflection?: Prisma.XOR<Prisma.StudyPlanReflectionNullableScalarRelationFilter, Prisma.StudyPlanReflectionWhereInput> | null
 }
 
 export type StudyPlanOrderByWithRelationInput = {
@@ -246,6 +247,7 @@ export type StudyPlanOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   tasks?: Prisma.StudyPlanTaskOrderByRelationAggregateInput
+  reflection?: Prisma.StudyPlanReflectionOrderByWithRelationInput
 }
 
 export type StudyPlanWhereUniqueInput = Prisma.AtLeast<{
@@ -262,6 +264,7 @@ export type StudyPlanWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"StudyPlan"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   tasks?: Prisma.StudyPlanTaskListRelationFilter
+  reflection?: Prisma.XOR<Prisma.StudyPlanReflectionNullableScalarRelationFilter, Prisma.StudyPlanReflectionWhereInput> | null
 }, "id" | "userId_date">
 
 export type StudyPlanOrderByWithAggregationInput = {
@@ -301,6 +304,7 @@ export type StudyPlanCreateInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutStudyPlansInput
   tasks?: Prisma.StudyPlanTaskCreateNestedManyWithoutPlanInput
+  reflection?: Prisma.StudyPlanReflectionCreateNestedOneWithoutPlanInput
 }
 
 export type StudyPlanUncheckedCreateInput = {
@@ -312,6 +316,7 @@ export type StudyPlanUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   tasks?: Prisma.StudyPlanTaskUncheckedCreateNestedManyWithoutPlanInput
+  reflection?: Prisma.StudyPlanReflectionUncheckedCreateNestedOneWithoutPlanInput
 }
 
 export type StudyPlanUpdateInput = {
@@ -323,6 +328,7 @@ export type StudyPlanUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutStudyPlansNestedInput
   tasks?: Prisma.StudyPlanTaskUpdateManyWithoutPlanNestedInput
+  reflection?: Prisma.StudyPlanReflectionUpdateOneWithoutPlanNestedInput
 }
 
 export type StudyPlanUncheckedUpdateInput = {
@@ -334,6 +340,7 @@ export type StudyPlanUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tasks?: Prisma.StudyPlanTaskUncheckedUpdateManyWithoutPlanNestedInput
+  reflection?: Prisma.StudyPlanReflectionUncheckedUpdateOneWithoutPlanNestedInput
 }
 
 export type StudyPlanCreateManyInput = {
@@ -483,6 +490,20 @@ export type StudyPlanUpdateOneRequiredWithoutTasksNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StudyPlanUpdateToOneWithWhereWithoutTasksInput, Prisma.StudyPlanUpdateWithoutTasksInput>, Prisma.StudyPlanUncheckedUpdateWithoutTasksInput>
 }
 
+export type StudyPlanCreateNestedOneWithoutReflectionInput = {
+  create?: Prisma.XOR<Prisma.StudyPlanCreateWithoutReflectionInput, Prisma.StudyPlanUncheckedCreateWithoutReflectionInput>
+  connectOrCreate?: Prisma.StudyPlanCreateOrConnectWithoutReflectionInput
+  connect?: Prisma.StudyPlanWhereUniqueInput
+}
+
+export type StudyPlanUpdateOneRequiredWithoutReflectionNestedInput = {
+  create?: Prisma.XOR<Prisma.StudyPlanCreateWithoutReflectionInput, Prisma.StudyPlanUncheckedCreateWithoutReflectionInput>
+  connectOrCreate?: Prisma.StudyPlanCreateOrConnectWithoutReflectionInput
+  upsert?: Prisma.StudyPlanUpsertWithoutReflectionInput
+  connect?: Prisma.StudyPlanWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StudyPlanUpdateToOneWithWhereWithoutReflectionInput, Prisma.StudyPlanUpdateWithoutReflectionInput>, Prisma.StudyPlanUncheckedUpdateWithoutReflectionInput>
+}
+
 export type StudyPlanCreateWithoutUserInput = {
   id?: string
   date: Date | string
@@ -491,6 +512,7 @@ export type StudyPlanCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   tasks?: Prisma.StudyPlanTaskCreateNestedManyWithoutPlanInput
+  reflection?: Prisma.StudyPlanReflectionCreateNestedOneWithoutPlanInput
 }
 
 export type StudyPlanUncheckedCreateWithoutUserInput = {
@@ -501,6 +523,7 @@ export type StudyPlanUncheckedCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   tasks?: Prisma.StudyPlanTaskUncheckedCreateNestedManyWithoutPlanInput
+  reflection?: Prisma.StudyPlanReflectionUncheckedCreateNestedOneWithoutPlanInput
 }
 
 export type StudyPlanCreateOrConnectWithoutUserInput = {
@@ -550,6 +573,7 @@ export type StudyPlanCreateWithoutTasksInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutStudyPlansInput
+  reflection?: Prisma.StudyPlanReflectionCreateNestedOneWithoutPlanInput
 }
 
 export type StudyPlanUncheckedCreateWithoutTasksInput = {
@@ -560,6 +584,7 @@ export type StudyPlanUncheckedCreateWithoutTasksInput = {
   status?: $Enums.PlanStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  reflection?: Prisma.StudyPlanReflectionUncheckedCreateNestedOneWithoutPlanInput
 }
 
 export type StudyPlanCreateOrConnectWithoutTasksInput = {
@@ -586,6 +611,7 @@ export type StudyPlanUpdateWithoutTasksInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutStudyPlansNestedInput
+  reflection?: Prisma.StudyPlanReflectionUpdateOneWithoutPlanNestedInput
 }
 
 export type StudyPlanUncheckedUpdateWithoutTasksInput = {
@@ -596,6 +622,67 @@ export type StudyPlanUncheckedUpdateWithoutTasksInput = {
   status?: Prisma.EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reflection?: Prisma.StudyPlanReflectionUncheckedUpdateOneWithoutPlanNestedInput
+}
+
+export type StudyPlanCreateWithoutReflectionInput = {
+  id?: string
+  date: Date | string
+  totalMinutes: number
+  status?: $Enums.PlanStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutStudyPlansInput
+  tasks?: Prisma.StudyPlanTaskCreateNestedManyWithoutPlanInput
+}
+
+export type StudyPlanUncheckedCreateWithoutReflectionInput = {
+  id?: string
+  userId: string
+  date: Date | string
+  totalMinutes: number
+  status?: $Enums.PlanStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tasks?: Prisma.StudyPlanTaskUncheckedCreateNestedManyWithoutPlanInput
+}
+
+export type StudyPlanCreateOrConnectWithoutReflectionInput = {
+  where: Prisma.StudyPlanWhereUniqueInput
+  create: Prisma.XOR<Prisma.StudyPlanCreateWithoutReflectionInput, Prisma.StudyPlanUncheckedCreateWithoutReflectionInput>
+}
+
+export type StudyPlanUpsertWithoutReflectionInput = {
+  update: Prisma.XOR<Prisma.StudyPlanUpdateWithoutReflectionInput, Prisma.StudyPlanUncheckedUpdateWithoutReflectionInput>
+  create: Prisma.XOR<Prisma.StudyPlanCreateWithoutReflectionInput, Prisma.StudyPlanUncheckedCreateWithoutReflectionInput>
+  where?: Prisma.StudyPlanWhereInput
+}
+
+export type StudyPlanUpdateToOneWithWhereWithoutReflectionInput = {
+  where?: Prisma.StudyPlanWhereInput
+  data: Prisma.XOR<Prisma.StudyPlanUpdateWithoutReflectionInput, Prisma.StudyPlanUncheckedUpdateWithoutReflectionInput>
+}
+
+export type StudyPlanUpdateWithoutReflectionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  totalMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutStudyPlansNestedInput
+  tasks?: Prisma.StudyPlanTaskUpdateManyWithoutPlanNestedInput
+}
+
+export type StudyPlanUncheckedUpdateWithoutReflectionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  totalMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tasks?: Prisma.StudyPlanTaskUncheckedUpdateManyWithoutPlanNestedInput
 }
 
 export type StudyPlanCreateManyUserInput = {
@@ -615,6 +702,7 @@ export type StudyPlanUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tasks?: Prisma.StudyPlanTaskUpdateManyWithoutPlanNestedInput
+  reflection?: Prisma.StudyPlanReflectionUpdateOneWithoutPlanNestedInput
 }
 
 export type StudyPlanUncheckedUpdateWithoutUserInput = {
@@ -625,6 +713,7 @@ export type StudyPlanUncheckedUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tasks?: Prisma.StudyPlanTaskUncheckedUpdateManyWithoutPlanNestedInput
+  reflection?: Prisma.StudyPlanReflectionUncheckedUpdateOneWithoutPlanNestedInput
 }
 
 export type StudyPlanUncheckedUpdateManyWithoutUserInput = {
@@ -677,6 +766,7 @@ export type StudyPlanSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   tasks?: boolean | Prisma.StudyPlan$tasksArgs<ExtArgs>
+  reflection?: boolean | Prisma.StudyPlan$reflectionArgs<ExtArgs>
   _count?: boolean | Prisma.StudyPlanCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studyPlan"]>
 
@@ -716,6 +806,7 @@ export type StudyPlanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type StudyPlanInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   tasks?: boolean | Prisma.StudyPlan$tasksArgs<ExtArgs>
+  reflection?: boolean | Prisma.StudyPlan$reflectionArgs<ExtArgs>
   _count?: boolean | Prisma.StudyPlanCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type StudyPlanIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -730,6 +821,7 @@ export type $StudyPlanPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     tasks: Prisma.$StudyPlanTaskPayload<ExtArgs>[]
+    reflection: Prisma.$StudyPlanReflectionPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1135,6 +1227,7 @@ export interface Prisma__StudyPlanClient<T, Null = never, ExtArgs extends runtim
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   tasks<T extends Prisma.StudyPlan$tasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudyPlan$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudyPlanTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reflection<T extends Prisma.StudyPlan$reflectionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudyPlan$reflectionArgs<ExtArgs>>): Prisma.Prisma__StudyPlanReflectionClient<runtime.Types.Result.GetResult<Prisma.$StudyPlanReflectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1593,6 +1686,25 @@ export type StudyPlan$tasksArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.StudyPlanTaskScalarFieldEnum | Prisma.StudyPlanTaskScalarFieldEnum[]
+}
+
+/**
+ * StudyPlan.reflection
+ */
+export type StudyPlan$reflectionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudyPlanReflection
+   */
+  select?: Prisma.StudyPlanReflectionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudyPlanReflection
+   */
+  omit?: Prisma.StudyPlanReflectionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudyPlanReflectionInclude<ExtArgs> | null
+  where?: Prisma.StudyPlanReflectionWhereInput
 }
 
 /**

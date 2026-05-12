@@ -46,6 +46,24 @@ export const StudyPlanTaskType = {
 export type StudyPlanTaskType = (typeof StudyPlanTaskType)[keyof typeof StudyPlanTaskType]
 
 
+export const ReflectionTaskFeel = {
+  too_easy: 'too_easy',
+  right_level: 'right_level',
+  too_hard: 'too_hard'
+} as const
+
+export type ReflectionTaskFeel = (typeof ReflectionTaskFeel)[keyof typeof ReflectionTaskFeel]
+
+
+export const ReflectionMood = {
+  low: 'low',
+  okay: 'okay',
+  good: 'good'
+} as const
+
+export type ReflectionMood = (typeof ReflectionMood)[keyof typeof ReflectionMood]
+
+
 export const TopicDifficulty = {
   easy: 'easy',
   medium: 'medium',

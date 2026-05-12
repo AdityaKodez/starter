@@ -44,6 +44,7 @@ export type StudyPlanTaskMinAggregateOutputType = {
   subject: $Enums.Subject | null
   title: string | null
   testResult: string | null
+  skipReason: string | null
   durationMinutes: number | null
   reason: string | null
   status: $Enums.TaskStatus | null
@@ -58,6 +59,7 @@ export type StudyPlanTaskMaxAggregateOutputType = {
   subject: $Enums.Subject | null
   title: string | null
   testResult: string | null
+  skipReason: string | null
   durationMinutes: number | null
   reason: string | null
   status: $Enums.TaskStatus | null
@@ -72,6 +74,7 @@ export type StudyPlanTaskCountAggregateOutputType = {
   subject: number
   title: number
   testResult: number
+  skipReason: number
   durationMinutes: number
   reason: number
   status: number
@@ -98,6 +101,7 @@ export type StudyPlanTaskMinAggregateInputType = {
   subject?: true
   title?: true
   testResult?: true
+  skipReason?: true
   durationMinutes?: true
   reason?: true
   status?: true
@@ -112,6 +116,7 @@ export type StudyPlanTaskMaxAggregateInputType = {
   subject?: true
   title?: true
   testResult?: true
+  skipReason?: true
   durationMinutes?: true
   reason?: true
   status?: true
@@ -126,6 +131,7 @@ export type StudyPlanTaskCountAggregateInputType = {
   subject?: true
   title?: true
   testResult?: true
+  skipReason?: true
   durationMinutes?: true
   reason?: true
   status?: true
@@ -227,6 +233,7 @@ export type StudyPlanTaskGroupByOutputType = {
   subject: $Enums.Subject
   title: string
   testResult: string | null
+  skipReason: string | null
   durationMinutes: number
   reason: string
   status: $Enums.TaskStatus
@@ -264,6 +271,7 @@ export type StudyPlanTaskWhereInput = {
   subject?: Prisma.EnumSubjectFilter<"StudyPlanTask"> | $Enums.Subject
   title?: Prisma.StringFilter<"StudyPlanTask"> | string
   testResult?: Prisma.StringNullableFilter<"StudyPlanTask"> | string | null
+  skipReason?: Prisma.StringNullableFilter<"StudyPlanTask"> | string | null
   durationMinutes?: Prisma.IntFilter<"StudyPlanTask"> | number
   reason?: Prisma.StringFilter<"StudyPlanTask"> | string
   status?: Prisma.EnumTaskStatusFilter<"StudyPlanTask"> | $Enums.TaskStatus
@@ -280,6 +288,7 @@ export type StudyPlanTaskOrderByWithRelationInput = {
   subject?: Prisma.SortOrder
   title?: Prisma.SortOrder
   testResult?: Prisma.SortOrderInput | Prisma.SortOrder
+  skipReason?: Prisma.SortOrderInput | Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -299,6 +308,7 @@ export type StudyPlanTaskWhereUniqueInput = Prisma.AtLeast<{
   subject?: Prisma.EnumSubjectFilter<"StudyPlanTask"> | $Enums.Subject
   title?: Prisma.StringFilter<"StudyPlanTask"> | string
   testResult?: Prisma.StringNullableFilter<"StudyPlanTask"> | string | null
+  skipReason?: Prisma.StringNullableFilter<"StudyPlanTask"> | string | null
   durationMinutes?: Prisma.IntFilter<"StudyPlanTask"> | number
   reason?: Prisma.StringFilter<"StudyPlanTask"> | string
   status?: Prisma.EnumTaskStatusFilter<"StudyPlanTask"> | $Enums.TaskStatus
@@ -315,6 +325,7 @@ export type StudyPlanTaskOrderByWithAggregationInput = {
   subject?: Prisma.SortOrder
   title?: Prisma.SortOrder
   testResult?: Prisma.SortOrderInput | Prisma.SortOrder
+  skipReason?: Prisma.SortOrderInput | Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -337,6 +348,7 @@ export type StudyPlanTaskScalarWhereWithAggregatesInput = {
   subject?: Prisma.EnumSubjectWithAggregatesFilter<"StudyPlanTask"> | $Enums.Subject
   title?: Prisma.StringWithAggregatesFilter<"StudyPlanTask"> | string
   testResult?: Prisma.StringNullableWithAggregatesFilter<"StudyPlanTask"> | string | null
+  skipReason?: Prisma.StringNullableWithAggregatesFilter<"StudyPlanTask"> | string | null
   durationMinutes?: Prisma.IntWithAggregatesFilter<"StudyPlanTask"> | number
   reason?: Prisma.StringWithAggregatesFilter<"StudyPlanTask"> | string
   status?: Prisma.EnumTaskStatusWithAggregatesFilter<"StudyPlanTask"> | $Enums.TaskStatus
@@ -349,6 +361,7 @@ export type StudyPlanTaskCreateInput = {
   subject: $Enums.Subject
   title: string
   testResult?: string | null
+  skipReason?: string | null
   durationMinutes: number
   reason: string
   status?: $Enums.TaskStatus
@@ -365,6 +378,7 @@ export type StudyPlanTaskUncheckedCreateInput = {
   subject: $Enums.Subject
   title: string
   testResult?: string | null
+  skipReason?: string | null
   durationMinutes: number
   reason: string
   status?: $Enums.TaskStatus
@@ -377,6 +391,7 @@ export type StudyPlanTaskUpdateInput = {
   subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   title?: Prisma.StringFieldUpdateOperationsInput | string
   testResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skipReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
@@ -393,6 +408,7 @@ export type StudyPlanTaskUncheckedUpdateInput = {
   subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   title?: Prisma.StringFieldUpdateOperationsInput | string
   testResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skipReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
@@ -407,6 +423,7 @@ export type StudyPlanTaskCreateManyInput = {
   subject: $Enums.Subject
   title: string
   testResult?: string | null
+  skipReason?: string | null
   durationMinutes: number
   reason: string
   status?: $Enums.TaskStatus
@@ -419,6 +436,7 @@ export type StudyPlanTaskUpdateManyMutationInput = {
   subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   title?: Prisma.StringFieldUpdateOperationsInput | string
   testResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skipReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
@@ -433,6 +451,7 @@ export type StudyPlanTaskUncheckedUpdateManyInput = {
   subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   title?: Prisma.StringFieldUpdateOperationsInput | string
   testResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skipReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
@@ -457,6 +476,7 @@ export type StudyPlanTaskCountOrderByAggregateInput = {
   subject?: Prisma.SortOrder
   title?: Prisma.SortOrder
   testResult?: Prisma.SortOrder
+  skipReason?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -476,6 +496,7 @@ export type StudyPlanTaskMaxOrderByAggregateInput = {
   subject?: Prisma.SortOrder
   title?: Prisma.SortOrder
   testResult?: Prisma.SortOrder
+  skipReason?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -490,6 +511,7 @@ export type StudyPlanTaskMinOrderByAggregateInput = {
   subject?: Prisma.SortOrder
   title?: Prisma.SortOrder
   testResult?: Prisma.SortOrder
+  skipReason?: Prisma.SortOrder
   durationMinutes?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -603,6 +625,7 @@ export type StudyPlanTaskCreateWithoutPlanInput = {
   subject: $Enums.Subject
   title: string
   testResult?: string | null
+  skipReason?: string | null
   durationMinutes: number
   reason: string
   status?: $Enums.TaskStatus
@@ -617,6 +640,7 @@ export type StudyPlanTaskUncheckedCreateWithoutPlanInput = {
   subject: $Enums.Subject
   title: string
   testResult?: string | null
+  skipReason?: string | null
   durationMinutes: number
   reason: string
   status?: $Enums.TaskStatus
@@ -660,6 +684,7 @@ export type StudyPlanTaskScalarWhereInput = {
   subject?: Prisma.EnumSubjectFilter<"StudyPlanTask"> | $Enums.Subject
   title?: Prisma.StringFilter<"StudyPlanTask"> | string
   testResult?: Prisma.StringNullableFilter<"StudyPlanTask"> | string | null
+  skipReason?: Prisma.StringNullableFilter<"StudyPlanTask"> | string | null
   durationMinutes?: Prisma.IntFilter<"StudyPlanTask"> | number
   reason?: Prisma.StringFilter<"StudyPlanTask"> | string
   status?: Prisma.EnumTaskStatusFilter<"StudyPlanTask"> | $Enums.TaskStatus
@@ -672,6 +697,7 @@ export type StudyPlanTaskCreateWithoutTopicInput = {
   subject: $Enums.Subject
   title: string
   testResult?: string | null
+  skipReason?: string | null
   durationMinutes: number
   reason: string
   status?: $Enums.TaskStatus
@@ -686,6 +712,7 @@ export type StudyPlanTaskUncheckedCreateWithoutTopicInput = {
   subject: $Enums.Subject
   title: string
   testResult?: string | null
+  skipReason?: string | null
   durationMinutes: number
   reason: string
   status?: $Enums.TaskStatus
@@ -725,6 +752,7 @@ export type StudyPlanTaskCreateManyPlanInput = {
   subject: $Enums.Subject
   title: string
   testResult?: string | null
+  skipReason?: string | null
   durationMinutes: number
   reason: string
   status?: $Enums.TaskStatus
@@ -737,6 +765,7 @@ export type StudyPlanTaskUpdateWithoutPlanInput = {
   subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   title?: Prisma.StringFieldUpdateOperationsInput | string
   testResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skipReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
@@ -751,6 +780,7 @@ export type StudyPlanTaskUncheckedUpdateWithoutPlanInput = {
   subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   title?: Prisma.StringFieldUpdateOperationsInput | string
   testResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skipReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
@@ -764,6 +794,7 @@ export type StudyPlanTaskUncheckedUpdateManyWithoutPlanInput = {
   subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   title?: Prisma.StringFieldUpdateOperationsInput | string
   testResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skipReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
@@ -777,6 +808,7 @@ export type StudyPlanTaskCreateManyTopicInput = {
   subject: $Enums.Subject
   title: string
   testResult?: string | null
+  skipReason?: string | null
   durationMinutes: number
   reason: string
   status?: $Enums.TaskStatus
@@ -789,6 +821,7 @@ export type StudyPlanTaskUpdateWithoutTopicInput = {
   subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   title?: Prisma.StringFieldUpdateOperationsInput | string
   testResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skipReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
@@ -803,6 +836,7 @@ export type StudyPlanTaskUncheckedUpdateWithoutTopicInput = {
   subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   title?: Prisma.StringFieldUpdateOperationsInput | string
   testResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skipReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
@@ -816,6 +850,7 @@ export type StudyPlanTaskUncheckedUpdateManyWithoutTopicInput = {
   subject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   title?: Prisma.StringFieldUpdateOperationsInput | string
   testResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skipReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
@@ -832,6 +867,7 @@ export type StudyPlanTaskSelect<ExtArgs extends runtime.Types.Extensions.Interna
   subject?: boolean
   title?: boolean
   testResult?: boolean
+  skipReason?: boolean
   durationMinutes?: boolean
   reason?: boolean
   status?: boolean
@@ -848,6 +884,7 @@ export type StudyPlanTaskSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   subject?: boolean
   title?: boolean
   testResult?: boolean
+  skipReason?: boolean
   durationMinutes?: boolean
   reason?: boolean
   status?: boolean
@@ -864,6 +901,7 @@ export type StudyPlanTaskSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   subject?: boolean
   title?: boolean
   testResult?: boolean
+  skipReason?: boolean
   durationMinutes?: boolean
   reason?: boolean
   status?: boolean
@@ -880,13 +918,14 @@ export type StudyPlanTaskSelectScalar = {
   subject?: boolean
   title?: boolean
   testResult?: boolean
+  skipReason?: boolean
   durationMinutes?: boolean
   reason?: boolean
   status?: boolean
   order?: boolean
 }
 
-export type StudyPlanTaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "planId" | "topicId" | "type" | "subject" | "title" | "testResult" | "durationMinutes" | "reason" | "status" | "order", ExtArgs["result"]["studyPlanTask"]>
+export type StudyPlanTaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "planId" | "topicId" | "type" | "subject" | "title" | "testResult" | "skipReason" | "durationMinutes" | "reason" | "status" | "order", ExtArgs["result"]["studyPlanTask"]>
 export type StudyPlanTaskInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   plan?: boolean | Prisma.StudyPlanDefaultArgs<ExtArgs>
   topic?: boolean | Prisma.StudyPlanTask$topicArgs<ExtArgs>
@@ -914,6 +953,7 @@ export type $StudyPlanTaskPayload<ExtArgs extends runtime.Types.Extensions.Inter
     subject: $Enums.Subject
     title: string
     testResult: string | null
+    skipReason: string | null
     durationMinutes: number
     reason: string
     status: $Enums.TaskStatus
@@ -1350,6 +1390,7 @@ export interface StudyPlanTaskFieldRefs {
   readonly subject: Prisma.FieldRef<"StudyPlanTask", 'Subject'>
   readonly title: Prisma.FieldRef<"StudyPlanTask", 'String'>
   readonly testResult: Prisma.FieldRef<"StudyPlanTask", 'String'>
+  readonly skipReason: Prisma.FieldRef<"StudyPlanTask", 'String'>
   readonly durationMinutes: Prisma.FieldRef<"StudyPlanTask", 'Int'>
   readonly reason: Prisma.FieldRef<"StudyPlanTask", 'String'>
   readonly status: Prisma.FieldRef<"StudyPlanTask", 'TaskStatus'>

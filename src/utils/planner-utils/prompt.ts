@@ -21,6 +21,7 @@ export function buildPlannerPrompt(input: PlannerPromptInput) {
         "Every task must reference a valid existing topicId.",
         "Allowed task types are only: study, revision, test.",
         "Do not exceed dailyMinutes.",
+        "Include atleast 2 different subjects if available time allows.",
         "Target 90% to 100% utilization of dailyMinutes.",
         "Prefer 2 to 5 tasks unless available time is very small.",
         "Avoid duplicate tasks for the same topic unless a test follows study/revision.",
@@ -47,6 +48,14 @@ export function buildPlannerPrompt(input: PlannerPromptInput) {
         "Use test only after related study/revision tasks or when enough time exists for meaningful practice.",
 
         "Prefer placing tests near the end of the plan.",
+      ],
+
+      durationRules: [
+        "Set durationMinutes using estimatedMinutes as the baseline.",
+        "Increase time for hard or advanced topics, low confidence, high mistakesCount, or large revisionGapDays.",
+        "Reduce time for completed or high-confidence topics, and keep revision slightly shorter than study when possible.",
+        "Apply a small fatigue effect: later tasks should be slightly shorter than early tasks.",
+        "Use 5-minute increments, keep each task between 15 and 180 minutes.",
       ],
 
       reasoningRules: [
