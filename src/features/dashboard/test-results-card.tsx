@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { EmptyState } from "@/components/entity-component";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
     ChartConfig,
     ChartContainer,
@@ -11,9 +13,10 @@ import {
     ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useTRPC } from "@/trpc/client";
-import { IconBook } from "@tabler/icons-react";
+import { IconBook, IconPlus } from "@tabler/icons-react";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { Bar, BarChart, CartesianGrid, Pie, PieChart, XAxis, YAxis } from "recharts";
+import { AddTestResultDialog } from "./add-test-result-dialog";
 
 const averageChartConfig = {
   average: {
@@ -47,6 +50,7 @@ export function TestResultsCard() {
   const statsQuery = useSuspenseQuery(
     trpc.planner.testResultStats.queryOptions(),
   );
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const AddResult = () => {
     return useMutation(
       trpc.planner.addManualTestResult.mutationOptions({
@@ -57,7 +61,7 @@ export function TestResultsCard() {
     );
 
   };
-const {mutateAsync  , error } = AddResult();
+const {mutateAsync, isPending } = AddResult();
   const data = statsQuery.data;
   const hasAny = data.totalResults > 0;
   const hasParsed = data.parsedResults > 0;
@@ -87,10 +91,15 @@ const {mutateAsync  , error } = AddResult();
   ];
 
   return (
+    <>
     <Card className="w-full">
       <CardHeader className="space-y-1">
         <CardTitle>Test results</CardTitle>
-       
+        <CardAction>
+          <Button size="icon-sm" variant="ghost" onClick={() => setIsAddDialogOpen(true)}>
+            <IconPlus />
+          </Button>
+        </CardAction>
       </CardHeader>
       <CardContent>
         {!hasAny ? (
@@ -101,9 +110,7 @@ const {mutateAsync  , error } = AddResult();
             action={{
             label:"Add Result",
         variant:"default",
-        onClick:()=>{
-          
-        }
+        onClick:() => setIsAddDialogOpen(true)
             }}
             bordered
           />
@@ -187,5 +194,15 @@ const {mutateAsync  , error } = AddResult();
         )}
       </CardContent>
     </Card>
+    <AddTestResultDialog
+      open={isAddDialogOpen}
+      onOpenChange={setIsAddDialogOpen}
+      isSaving={isPending}
+      onSave={async (values) => {
+        await mutateAsync(values);
+        setIsAddDialogOpen(false);
+      }}
+    />
+    </>
   );
 }
