@@ -1,7 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { EmptyState } from "@/components/entity-component";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { IconBook, IconPlus } from "@tabler/icons-react";
+import { ManualTestResultDialog } from "./components/manual-test-result-dialog";
 import {
     ChartConfig,
     ChartContainer,
@@ -11,8 +15,7 @@ import {
     ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useTRPC } from "@/trpc/client";
-import { IconBook } from "@tabler/icons-react";
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Bar, BarChart, CartesianGrid, Pie, PieChart, XAxis, YAxis } from "recharts";
 
 const averageChartConfig = {
@@ -47,17 +50,9 @@ export function TestResultsCard() {
   const statsQuery = useSuspenseQuery(
     trpc.planner.testResultStats.queryOptions(),
   );
-  const AddResult = () => {
-    return useMutation(
-      trpc.planner.addManualTestResult.mutationOptions({
-        onSuccess() {
-          void statsQuery.refetch();
-        },
-      })
-    );
 
-  };
-const {mutateAsync  , error } = AddResult();
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   const data = statsQuery.data;
   const hasAny = data.totalResults > 0;
   const hasParsed = data.parsedResults > 0;
@@ -90,20 +85,22 @@ const {mutateAsync  , error } = AddResult();
     <Card className="w-full">
       <CardHeader className="space-y-1">
         <CardTitle>Test results</CardTitle>
-       
+        <CardAction>
+          <Button variant="outline" size="icon" onClick={() => setDialogOpen(true)}>
+            <IconPlus />
+          </Button>
+        </CardAction>
       </CardHeader>
       <CardContent>
         {!hasAny ? (
           <EmptyState
-          icon={IconBook}
+            icon={IconBook}
             title="No test results yet"
-            description="Add a test result in your study plan to see performance stats here."
+            description="Add a test result to see performance stats here."
             action={{
-            label:"Add Result",
-        variant:"default",
-        onClick:()=>{
-          
-        }
+              label: "Add Result",
+              variant: "default",
+              onClick: () => setDialogOpen(true)
             }}
             bordered
           />
@@ -186,6 +183,12 @@ const {mutateAsync  , error } = AddResult();
           </div>
         )}
       </CardContent>
+
+      <ManualTestResultDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        onSuccess={() => void statsQuery.refetch()}
+      />
     </Card>
   );
 }
