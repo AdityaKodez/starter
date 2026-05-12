@@ -11,19 +11,29 @@ import {
 } from "@/components/ui/empty"
 import { cn } from "@/lib/utils"
 
-export const EntityHeader = ({ title, description, action }: { title: React.ReactNode; description: string; action?: React.ReactNode }) => {
+export const EntityHeader = ({
+  title,
+  description,
+  action,
+}: {
+  title: React.ReactNode
+  description: string
+  action?: React.ReactNode
+}) => {
   return (
-    <div className="w-full flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-      <div className="flex flex-col w-full items-start gap-2">
-        <h1 className="font-display text-xl sm:text-2xl font-semibold tracking-tighter leading-tight">
+    <div className="flex w-full flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+      <div className="min-w-0 flex-1 space-y-2">
+        <h1 className="font-display text-xl font-semibold tracking-tighter leading-tight wrap-break-word sm:text-2xl">
           {title}
         </h1>
-        <p className="text-muted-foreground text-xs sm:text-sm">
+
+        <p className="text-muted-foreground text-sm wrap-break-word">
           {description}
         </p>
       </div>
+
       {action && (
-        <div className="shrink-0 flex items-center justify-start sm:justify-end">
+        <div className="flex w-full shrink-0 items-center lg:w-auto lg:justify-end">
           {action}
         </div>
       )}
