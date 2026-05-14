@@ -1,4 +1,5 @@
 import OnboardingChat from "@/features/onboarding/onboarding";
+import { requireOnboarding } from "@/utils/auth-utils";
 import { getServerCaller } from "@/utils/caller";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -43,6 +44,7 @@ function OnboardingError() {
 }
 
 export default async function OnboardingPage() {
+  await requireOnboarding();
   const caller = await getServerCaller();
   const data = await caller.onboarding.isCompleted();
 

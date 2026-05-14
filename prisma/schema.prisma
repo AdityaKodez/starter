@@ -14,6 +14,7 @@ model User {
   email          String
   emailVerified  Boolean     @default(false)
   image          String?
+  timeZone       String?
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
   sessions       Session[]
@@ -21,6 +22,8 @@ model User {
   onboardingDone Boolean     @default(false)
   onboarding     Onboarding?
   studyPlans     StudyPlan[]
+  
+  streak         Streak?
   topicProgress  UserTopicProgress[]
   testResults    UserTestResult[]
 
@@ -28,15 +31,26 @@ model User {
   @@map("user")
 }
 
+model Streak {
+  id        String   @id @default(cuid())
+  userId    String @unique
+  count     Int      @default(0)
+  lastDate  DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId])
+}
 model Onboarding {
   id                String   @id @default(cuid())
   examYear          Int
-  attemptNumber     Int?
-  dailyStudyMinutes Int?
-  coachingStart     Int?
-  rankAim           Int?
-  coachingEnd       Int?
-  weakestSubject    Subject?
+  attemptNumber     Int
+  dailyStudyMinutes Int
+  coachingStart     Int
+  rankAim           Int
+  coachingEnd       Int
+  weakestSubject    Subject
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
@@ -126,6 +140,7 @@ model StudyPlanTask {
   durationMinutes Int
   reason          String
   status          TaskStatus @default(pending)
+  completedAt     DateTime?
   order           Int
 
   plan StudyPlan @relation(fields: [planId], references: [id], onDelete: Cascade)

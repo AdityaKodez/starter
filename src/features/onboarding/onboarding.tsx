@@ -24,6 +24,7 @@ import { AttemptTypeStep } from "./component/attempt-type-step";
 import { CoachingTimingStep } from "./component/coaching-timing-step";
 import { DailyStudyMinuteUI } from "./component/daily-study-minute";
 import { ExamYearStep } from "./component/exam-year-step";
+import { RankAimStep } from "./component/rank-aim-step";
 import { WeakestSubjectStep } from "./component/weakest-subject-step";
 // --- Types ---
 
@@ -33,7 +34,9 @@ interface OnboardingData {
   dailyStudyMinutes: number | null;
   coachingStart: number | null;
   coachingEnd: number | null;
+  rankAim: number | null;
   weakestSubject: Subject | null;
+  timeZone: string | null;
 }
 
 interface ChatMessage {
@@ -50,6 +53,7 @@ type StepKey =
   | "attemptType"
   | "dailyStudy"
   | "coachingTiming"
+  | "rankAim"
   | "onboarding-complete"
   | "weakest-subject";
 
@@ -100,6 +104,12 @@ const STEPS: StepDef[] = [
     },
   },
   {
+    key: "rankAim",
+    question:
+      "What rank are you aiming for? \n\nSet a target so I can keep your plan focused.",
+    formatAnswer: (data) => `My target rank is ${data.rankAim}`,
+  },
+  {
     key: "weakest-subject",
     question: `Got it Whats your weakest subject right now ? that would help me build your study plan accordingly`,
     formatAnswer: (data) => {
@@ -122,8 +132,14 @@ const OnboardingChat = () => {
     dailyStudyMinutes: null,
     coachingStart: null,
     coachingEnd: null,
+    rankAim: null,
     weakestSubject: null,
+    timeZone: null,
   });
+  const resolvedTimeZone =
+    typeof Intl !== "undefined"
+      ? Intl.DateTimeFormat().resolvedOptions().timeZone
+      : null;
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
 
   const trpc = useTRPC();
@@ -148,15 +164,17 @@ const OnboardingChat = () => {
       if (nextStep >= STEPS.length) {
         completeMutation.mutate({
           examYear: updatedData.examYear!,
-          attemptNumber: updatedData.attemptNumber,
-          dailyStudyMinutes: updatedData.dailyStudyMinutes,
-          coachingStart: updatedData.coachingStart,
-          coachingEnd: updatedData.coachingEnd,
-          weakestSubject: updatedData.weakestSubject,
+          attemptNumber: updatedData.attemptNumber!,
+          dailyStudyMinutes: updatedData.dailyStudyMinutes!,
+          coachingStart: updatedData.coachingStart!,
+          coachingEnd: updatedData.coachingEnd!,
+          rankAim: updatedData.rankAim!,
+          weakestSubject: updatedData.weakestSubject!,
+          timeZone: resolvedTimeZone ?? undefined,
         });
       }
     },
-    [currentStep, completeMutation],
+    [currentStep, completeMutation, resolvedTimeZone],
   );
 
   // Step handlers
@@ -208,6 +226,15 @@ const OnboardingChat = () => {
     [onboardingData, advanceStep],
   );
 
+  const handleRankAim = useCallback(
+    (rankAim: number) => {
+      const updated = { ...onboardingData, rankAim };
+      setOnboardingData(updated);
+      advanceStep(updated);
+    },
+    [onboardingData, advanceStep],
+  );
+
   // Build message list from completed steps + current step
   const messages = useMemo(() => {
     const msgs: ChatMessage[] = [];
@@ -242,6 +269,7 @@ const OnboardingChat = () => {
           handleAttemptType,
           handleDailyStudy,
           handleCoachingTiming,
+          handleRankAim,
           handleWeakestSubject,
         ),
       });
@@ -264,6 +292,7 @@ const OnboardingChat = () => {
     handleAttemptType,
     handleDailyStudy,
     handleCoachingTiming,
+    handleRankAim,
     handleWeakestSubject,
   ]);
 
@@ -342,6 +371,7 @@ function renderStepComponent(
   onAttemptType: (attempt: number) => void,
   onDailyStudy: (minutes: number) => void,
   onCoachingTiming: (start: number, end: number) => void,
+  onRankAim: (rankAim: number) => void,
   onWeakestSubject: (subject: Subject) => void,
 ): React.ReactNode {
   switch (key) {
@@ -353,6 +383,8 @@ function renderStepComponent(
       return <DailyStudyMinuteUI onSubmit={onDailyStudy} />;
     case "coachingTiming":
       return <CoachingTimingStep onSubmit={onCoachingTiming} />;
+    case "rankAim":
+      return <RankAimStep onSubmit={onRankAim} />;
     case "weakest-subject":
       return <WeakestSubjectStep onSubmit={onWeakestSubject} />;
   }

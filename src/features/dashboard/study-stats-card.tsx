@@ -1,7 +1,7 @@
 "use client";
 
 import { EmptyState } from "@/components/entity-component";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -32,14 +32,20 @@ export function StudyStatsCard() {
   const statsQuery = useSuspenseQuery(
     trpc.planner.dailyStudyStats.queryOptions(),
   );
+  const streakQuery = useSuspenseQuery(
+    trpc.planner.streakSummary.queryOptions(),
+  );
   const data = statsQuery.data;
+  const streak = streakQuery.data;
   const hasData = data.some((day) => day.totalMinutes > 0);
 
   return (
     <Card className="w-full">
       <CardHeader>
         <CardTitle>Study streak</CardTitle>
-      
+        <CardDescription>
+          {streak.emoji} {streak.count} day{streak.count === 1 ? "" : "s"}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         {hasData ? (

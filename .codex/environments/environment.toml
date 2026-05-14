@@ -19,3 +19,8 @@ command = "npm run lint"
 name = "ts-error"
 icon = "debug"
 command = "npx tsc --noEmit"
+
+[[actions]]
+name = "react-doctor"
+icon = "debug"
+command = "npx react-doctor@latest"

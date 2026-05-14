@@ -238,12 +238,12 @@ export type OnboardingGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 export type OnboardingGroupByOutputType = {
   id: string
   examYear: number
-  attemptNumber: number | null
-  dailyStudyMinutes: number | null
-  coachingStart: number | null
-  rankAim: number | null
-  coachingEnd: number | null
-  weakestSubject: $Enums.Subject | null
+  attemptNumber: number
+  dailyStudyMinutes: number
+  coachingStart: number
+  rankAim: number
+  coachingEnd: number
+  weakestSubject: $Enums.Subject
   createdAt: Date
   updatedAt: Date
   userId: string
@@ -275,12 +275,12 @@ export type OnboardingWhereInput = {
   NOT?: Prisma.OnboardingWhereInput | Prisma.OnboardingWhereInput[]
   id?: Prisma.StringFilter<"Onboarding"> | string
   examYear?: Prisma.IntFilter<"Onboarding"> | number
-  attemptNumber?: Prisma.IntNullableFilter<"Onboarding"> | number | null
-  dailyStudyMinutes?: Prisma.IntNullableFilter<"Onboarding"> | number | null
-  coachingStart?: Prisma.IntNullableFilter<"Onboarding"> | number | null
-  rankAim?: Prisma.IntNullableFilter<"Onboarding"> | number | null
-  coachingEnd?: Prisma.IntNullableFilter<"Onboarding"> | number | null
-  weakestSubject?: Prisma.EnumSubjectNullableFilter<"Onboarding"> | $Enums.Subject | null
+  attemptNumber?: Prisma.IntFilter<"Onboarding"> | number
+  dailyStudyMinutes?: Prisma.IntFilter<"Onboarding"> | number
+  coachingStart?: Prisma.IntFilter<"Onboarding"> | number
+  rankAim?: Prisma.IntFilter<"Onboarding"> | number
+  coachingEnd?: Prisma.IntFilter<"Onboarding"> | number
+  weakestSubject?: Prisma.EnumSubjectFilter<"Onboarding"> | $Enums.Subject
   createdAt?: Prisma.DateTimeFilter<"Onboarding"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Onboarding"> | Date | string
   userId?: Prisma.StringFilter<"Onboarding"> | string
@@ -290,12 +290,12 @@ export type OnboardingWhereInput = {
 export type OnboardingOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   examYear?: Prisma.SortOrder
-  attemptNumber?: Prisma.SortOrderInput | Prisma.SortOrder
-  dailyStudyMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
-  coachingStart?: Prisma.SortOrderInput | Prisma.SortOrder
-  rankAim?: Prisma.SortOrderInput | Prisma.SortOrder
-  coachingEnd?: Prisma.SortOrderInput | Prisma.SortOrder
-  weakestSubject?: Prisma.SortOrderInput | Prisma.SortOrder
+  attemptNumber?: Prisma.SortOrder
+  dailyStudyMinutes?: Prisma.SortOrder
+  coachingStart?: Prisma.SortOrder
+  rankAim?: Prisma.SortOrder
+  coachingEnd?: Prisma.SortOrder
+  weakestSubject?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -309,12 +309,12 @@ export type OnboardingWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.OnboardingWhereInput[]
   NOT?: Prisma.OnboardingWhereInput | Prisma.OnboardingWhereInput[]
   examYear?: Prisma.IntFilter<"Onboarding"> | number
-  attemptNumber?: Prisma.IntNullableFilter<"Onboarding"> | number | null
-  dailyStudyMinutes?: Prisma.IntNullableFilter<"Onboarding"> | number | null
-  coachingStart?: Prisma.IntNullableFilter<"Onboarding"> | number | null
-  rankAim?: Prisma.IntNullableFilter<"Onboarding"> | number | null
-  coachingEnd?: Prisma.IntNullableFilter<"Onboarding"> | number | null
-  weakestSubject?: Prisma.EnumSubjectNullableFilter<"Onboarding"> | $Enums.Subject | null
+  attemptNumber?: Prisma.IntFilter<"Onboarding"> | number
+  dailyStudyMinutes?: Prisma.IntFilter<"Onboarding"> | number
+  coachingStart?: Prisma.IntFilter<"Onboarding"> | number
+  rankAim?: Prisma.IntFilter<"Onboarding"> | number
+  coachingEnd?: Prisma.IntFilter<"Onboarding"> | number
+  weakestSubject?: Prisma.EnumSubjectFilter<"Onboarding"> | $Enums.Subject
   createdAt?: Prisma.DateTimeFilter<"Onboarding"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Onboarding"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -323,12 +323,12 @@ export type OnboardingWhereUniqueInput = Prisma.AtLeast<{
 export type OnboardingOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   examYear?: Prisma.SortOrder
-  attemptNumber?: Prisma.SortOrderInput | Prisma.SortOrder
-  dailyStudyMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
-  coachingStart?: Prisma.SortOrderInput | Prisma.SortOrder
-  rankAim?: Prisma.SortOrderInput | Prisma.SortOrder
-  coachingEnd?: Prisma.SortOrderInput | Prisma.SortOrder
-  weakestSubject?: Prisma.SortOrderInput | Prisma.SortOrder
+  attemptNumber?: Prisma.SortOrder
+  dailyStudyMinutes?: Prisma.SortOrder
+  coachingStart?: Prisma.SortOrder
+  rankAim?: Prisma.SortOrder
+  coachingEnd?: Prisma.SortOrder
+  weakestSubject?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -345,12 +345,12 @@ export type OnboardingScalarWhereWithAggregatesInput = {
   NOT?: Prisma.OnboardingScalarWhereWithAggregatesInput | Prisma.OnboardingScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Onboarding"> | string
   examYear?: Prisma.IntWithAggregatesFilter<"Onboarding"> | number
-  attemptNumber?: Prisma.IntNullableWithAggregatesFilter<"Onboarding"> | number | null
-  dailyStudyMinutes?: Prisma.IntNullableWithAggregatesFilter<"Onboarding"> | number | null
-  coachingStart?: Prisma.IntNullableWithAggregatesFilter<"Onboarding"> | number | null
-  rankAim?: Prisma.IntNullableWithAggregatesFilter<"Onboarding"> | number | null
-  coachingEnd?: Prisma.IntNullableWithAggregatesFilter<"Onboarding"> | number | null
-  weakestSubject?: Prisma.EnumSubjectNullableWithAggregatesFilter<"Onboarding"> | $Enums.Subject | null
+  attemptNumber?: Prisma.IntWithAggregatesFilter<"Onboarding"> | number
+  dailyStudyMinutes?: Prisma.IntWithAggregatesFilter<"Onboarding"> | number
+  coachingStart?: Prisma.IntWithAggregatesFilter<"Onboarding"> | number
+  rankAim?: Prisma.IntWithAggregatesFilter<"Onboarding"> | number
+  coachingEnd?: Prisma.IntWithAggregatesFilter<"Onboarding"> | number
+  weakestSubject?: Prisma.EnumSubjectWithAggregatesFilter<"Onboarding"> | $Enums.Subject
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Onboarding"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Onboarding"> | Date | string
   userId?: Prisma.StringWithAggregatesFilter<"Onboarding"> | string
@@ -359,12 +359,12 @@ export type OnboardingScalarWhereWithAggregatesInput = {
 export type OnboardingCreateInput = {
   id?: string
   examYear: number
-  attemptNumber?: number | null
-  dailyStudyMinutes?: number | null
-  coachingStart?: number | null
-  rankAim?: number | null
-  coachingEnd?: number | null
-  weakestSubject?: $Enums.Subject | null
+  attemptNumber: number
+  dailyStudyMinutes: number
+  coachingStart: number
+  rankAim: number
+  coachingEnd: number
+  weakestSubject: $Enums.Subject
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutOnboardingInput
@@ -373,12 +373,12 @@ export type OnboardingCreateInput = {
 export type OnboardingUncheckedCreateInput = {
   id?: string
   examYear: number
-  attemptNumber?: number | null
-  dailyStudyMinutes?: number | null
-  coachingStart?: number | null
-  rankAim?: number | null
-  coachingEnd?: number | null
-  weakestSubject?: $Enums.Subject | null
+  attemptNumber: number
+  dailyStudyMinutes: number
+  coachingStart: number
+  rankAim: number
+  coachingEnd: number
+  weakestSubject: $Enums.Subject
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
@@ -387,12 +387,12 @@ export type OnboardingUncheckedCreateInput = {
 export type OnboardingUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   examYear?: Prisma.IntFieldUpdateOperationsInput | number
-  attemptNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  dailyStudyMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  coachingStart?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  rankAim?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  coachingEnd?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  weakestSubject?: Prisma.NullableEnumSubjectFieldUpdateOperationsInput | $Enums.Subject | null
+  attemptNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyStudyMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  coachingStart?: Prisma.IntFieldUpdateOperationsInput | number
+  rankAim?: Prisma.IntFieldUpdateOperationsInput | number
+  coachingEnd?: Prisma.IntFieldUpdateOperationsInput | number
+  weakestSubject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutOnboardingNestedInput
@@ -401,12 +401,12 @@ export type OnboardingUpdateInput = {
 export type OnboardingUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   examYear?: Prisma.IntFieldUpdateOperationsInput | number
-  attemptNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  dailyStudyMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  coachingStart?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  rankAim?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  coachingEnd?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  weakestSubject?: Prisma.NullableEnumSubjectFieldUpdateOperationsInput | $Enums.Subject | null
+  attemptNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyStudyMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  coachingStart?: Prisma.IntFieldUpdateOperationsInput | number
+  rankAim?: Prisma.IntFieldUpdateOperationsInput | number
+  coachingEnd?: Prisma.IntFieldUpdateOperationsInput | number
+  weakestSubject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -415,12 +415,12 @@ export type OnboardingUncheckedUpdateInput = {
 export type OnboardingCreateManyInput = {
   id?: string
   examYear: number
-  attemptNumber?: number | null
-  dailyStudyMinutes?: number | null
-  coachingStart?: number | null
-  rankAim?: number | null
-  coachingEnd?: number | null
-  weakestSubject?: $Enums.Subject | null
+  attemptNumber: number
+  dailyStudyMinutes: number
+  coachingStart: number
+  rankAim: number
+  coachingEnd: number
+  weakestSubject: $Enums.Subject
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
@@ -429,12 +429,12 @@ export type OnboardingCreateManyInput = {
 export type OnboardingUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   examYear?: Prisma.IntFieldUpdateOperationsInput | number
-  attemptNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  dailyStudyMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  coachingStart?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  rankAim?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  coachingEnd?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  weakestSubject?: Prisma.NullableEnumSubjectFieldUpdateOperationsInput | $Enums.Subject | null
+  attemptNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyStudyMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  coachingStart?: Prisma.IntFieldUpdateOperationsInput | number
+  rankAim?: Prisma.IntFieldUpdateOperationsInput | number
+  coachingEnd?: Prisma.IntFieldUpdateOperationsInput | number
+  weakestSubject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -442,12 +442,12 @@ export type OnboardingUpdateManyMutationInput = {
 export type OnboardingUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   examYear?: Prisma.IntFieldUpdateOperationsInput | number
-  attemptNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  dailyStudyMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  coachingStart?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  rankAim?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  coachingEnd?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  weakestSubject?: Prisma.NullableEnumSubjectFieldUpdateOperationsInput | $Enums.Subject | null
+  attemptNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyStudyMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  coachingStart?: Prisma.IntFieldUpdateOperationsInput | number
+  rankAim?: Prisma.IntFieldUpdateOperationsInput | number
+  coachingEnd?: Prisma.IntFieldUpdateOperationsInput | number
+  weakestSubject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -550,35 +550,19 @@ export type OnboardingUncheckedUpdateOneWithoutUserNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.OnboardingUpdateToOneWithWhereWithoutUserInput, Prisma.OnboardingUpdateWithoutUserInput>, Prisma.OnboardingUncheckedUpdateWithoutUserInput>
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
-export type NullableEnumSubjectFieldUpdateOperationsInput = {
-  set?: $Enums.Subject | null
+export type EnumSubjectFieldUpdateOperationsInput = {
+  set?: $Enums.Subject
 }
 
 export type OnboardingCreateWithoutUserInput = {
   id?: string
   examYear: number
-  attemptNumber?: number | null
-  dailyStudyMinutes?: number | null
-  coachingStart?: number | null
-  rankAim?: number | null
-  coachingEnd?: number | null
-  weakestSubject?: $Enums.Subject | null
+  attemptNumber: number
+  dailyStudyMinutes: number
+  coachingStart: number
+  rankAim: number
+  coachingEnd: number
+  weakestSubject: $Enums.Subject
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -586,12 +570,12 @@ export type OnboardingCreateWithoutUserInput = {
 export type OnboardingUncheckedCreateWithoutUserInput = {
   id?: string
   examYear: number
-  attemptNumber?: number | null
-  dailyStudyMinutes?: number | null
-  coachingStart?: number | null
-  rankAim?: number | null
-  coachingEnd?: number | null
-  weakestSubject?: $Enums.Subject | null
+  attemptNumber: number
+  dailyStudyMinutes: number
+  coachingStart: number
+  rankAim: number
+  coachingEnd: number
+  weakestSubject: $Enums.Subject
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -615,12 +599,12 @@ export type OnboardingUpdateToOneWithWhereWithoutUserInput = {
 export type OnboardingUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   examYear?: Prisma.IntFieldUpdateOperationsInput | number
-  attemptNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  dailyStudyMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  coachingStart?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  rankAim?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  coachingEnd?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  weakestSubject?: Prisma.NullableEnumSubjectFieldUpdateOperationsInput | $Enums.Subject | null
+  attemptNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyStudyMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  coachingStart?: Prisma.IntFieldUpdateOperationsInput | number
+  rankAim?: Prisma.IntFieldUpdateOperationsInput | number
+  coachingEnd?: Prisma.IntFieldUpdateOperationsInput | number
+  weakestSubject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -628,12 +612,12 @@ export type OnboardingUpdateWithoutUserInput = {
 export type OnboardingUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   examYear?: Prisma.IntFieldUpdateOperationsInput | number
-  attemptNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  dailyStudyMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  coachingStart?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  rankAim?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  coachingEnd?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  weakestSubject?: Prisma.NullableEnumSubjectFieldUpdateOperationsInput | $Enums.Subject | null
+  attemptNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyStudyMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  coachingStart?: Prisma.IntFieldUpdateOperationsInput | number
+  rankAim?: Prisma.IntFieldUpdateOperationsInput | number
+  coachingEnd?: Prisma.IntFieldUpdateOperationsInput | number
+  weakestSubject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -718,12 +702,12 @@ export type $OnboardingPayload<ExtArgs extends runtime.Types.Extensions.Internal
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     examYear: number
-    attemptNumber: number | null
-    dailyStudyMinutes: number | null
-    coachingStart: number | null
-    rankAim: number | null
-    coachingEnd: number | null
-    weakestSubject: $Enums.Subject | null
+    attemptNumber: number
+    dailyStudyMinutes: number
+    coachingStart: number
+    rankAim: number
+    coachingEnd: number
+    weakestSubject: $Enums.Subject
     createdAt: Date
     updatedAt: Date
     userId: string

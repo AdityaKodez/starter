@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  Streak: 'Streak',
   Onboarding: 'Onboarding',
   Session: 'Session',
   Account: 'Account',
@@ -87,12 +88,25 @@ export const UserScalarFieldEnum = {
   email: 'email',
   emailVerified: 'emailVerified',
   image: 'image',
+  timeZone: 'timeZone',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   onboardingDone: 'onboardingDone'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const StreakScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  count: 'count',
+  lastDate: 'lastDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StreakScalarFieldEnum = (typeof StreakScalarFieldEnum)[keyof typeof StreakScalarFieldEnum]
 
 
 export const OnboardingScalarFieldEnum = {
@@ -182,6 +196,7 @@ export const StudyPlanTaskScalarFieldEnum = {
   durationMinutes: 'durationMinutes',
   reason: 'reason',
   status: 'status',
+  completedAt: 'completedAt',
   order: 'order'
 } as const
 

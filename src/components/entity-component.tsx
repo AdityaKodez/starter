@@ -23,7 +23,7 @@ export const EntityHeader = ({
   return (
     <div className="flex w-full flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
       <div className="min-w-0 flex-1 space-y-2">
-        <h1 className="font-display text-xl font-semibold tracking-tighter leading-tight wrap-break-word sm:text-2xl">
+        <h1 className="font-display text-lg font-semibold tracking-tighter leading-tight wrap-break-word sm:text-xl">
           {title}
         </h1>
 

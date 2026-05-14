@@ -58,6 +58,10 @@ export const Planner = () => {
   const [skipTask, setSkipTask] = useState<PlannerData["tasks"][number] | null>(null);
   const [dismissedReflectionPlanId, setDismissedReflectionPlanId] =
     useState<string | null>(null);
+  const resolvedTimeZone =
+    typeof Intl !== "undefined"
+      ? Intl.DateTimeFormat().resolvedOptions().timeZone
+      : undefined;
   const updateTaskMutation = useMutation(
     trpc.planner.updateTaskStatus.mutationOptions({
       onMutate: async (input) => {
@@ -259,6 +263,7 @@ export const Planner = () => {
       updateTaskMutation.mutate({
         taskId: resultTask.id,
         status: "done",
+        timeZone: resolvedTimeZone,
       });
     }
     closeResultDialog();
@@ -288,6 +293,7 @@ export const Planner = () => {
       taskId: skipTask.id,
       status: "skipped",
       skipReason: reason,
+      timeZone: resolvedTimeZone,
     });
     closeSkipDialog();
   }
@@ -370,6 +376,7 @@ export const Planner = () => {
                                 updateTaskMutation.mutate({
                                   taskId: task.id,
                                   status: nextStatus,
+                                  timeZone: resolvedTimeZone,
                                 });
                               }}
                             />
@@ -452,6 +459,7 @@ export const Planner = () => {
                                     updateTaskMutation.mutate({
                                       taskId: task.id,
                                       status: "pending",
+                                      timeZone: resolvedTimeZone,
                                     });
                                     return;
                                   }

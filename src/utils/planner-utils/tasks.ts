@@ -1,5 +1,5 @@
-import { TRPCError } from "@trpc/server";
 import { StudyPlanTaskType, type Subject } from "@/generated/prisma/enums";
+import { TRPCError } from "@trpc/server";
 import {
   subjectSchema,
   type GeneratedPlan,
@@ -104,7 +104,7 @@ export function buildPlanTasks(
     });
   }
 
-  validateCognitiveLoad(tasks, topicById);
+
 
   return { tasks, totalMinutes };
 }
@@ -168,28 +168,6 @@ function validateRevisionTask(
   }
 }
 
-function validateCognitiveLoad(
-  tasks: PlannerTask[],
-  topicById: Map<string, TopicForPlanning>,
-) {
-  let consecutiveHeavyTasks = 0;
-
-  for (const task of tasks) {
-    const topic = topicById.get(task.topicId);
-    const isHeavy =
-      topic?.difficulty === "hard" || topic?.difficulty === "advanced";
-
-    consecutiveHeavyTasks = isHeavy ? consecutiveHeavyTasks + 1 : 0;
-
-    if (consecutiveHeavyTasks > 2) {
-      throw new TRPCError({
-        code: "BAD_GATEWAY",
-        message:
-          "AI generated too many cognitively heavy topics consecutively",
-      });
-    }
-  }
-}
 
 function getRevisionGapDays(topic: TopicForPlanning) {
   if (!topic.lastRevisedAt) return 0;

@@ -8,8 +8,8 @@ export function makeQueryClient() {
         staleTime: 30 * 1000, // avoid immediate client refetch
       },
       dehydrate: {
-        shouldDehydrateQuery: (query) =>
-          defaultShouldDehydrateQuery(query) || query.state.status === "pending",
+        // Avoid dehydrating pending queries that might later reject during hydration.
+        shouldDehydrateQuery: (query) => defaultShouldDehydrateQuery(query),
       },
     },
   });

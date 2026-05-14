@@ -8,12 +8,13 @@ export const onboardingRouter = createTRPCRouter({
     .input(
       z.object({
         examYear: z.number().int().min(2024),
-        attemptNumber: z.number().int().optional().nullable(),
-        dailyStudyMinutes: z.number().int().optional().nullable(),
-        coachingStart: z.number().int().optional().nullable(),
-        rankAim: z.number().int().optional().nullable(),
-        coachingEnd: z.number().int().optional().nullable(),
-        weakestSubject: z.enum(Subject).optional().nullable(),
+        attemptNumber: z.number().int(),
+        dailyStudyMinutes: z.number().int(),
+        coachingStart: z.number().int(),
+        rankAim: z.number().int(),
+        coachingEnd: z.number().int(),
+        weakestSubject: z.enum(Subject),
+        timeZone: z.string().trim().min(1).max(80).optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -44,7 +45,10 @@ export const onboardingRouter = createTRPCRouter({
 
       await prisma.user.update({
         where: { id: user.id },
-        data: { onboardingDone: true },
+        data: {
+          onboardingDone: true,
+          timeZone: input.timeZone ?? undefined,
+        },
       });
 
       return { success: true, onboarding };
