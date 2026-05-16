@@ -36,4 +36,5 @@ const onboarding = await prisma.onboarding.findUnique({
 if (!onboarding) {
   redirect("/onboarding");
 }
+return session.user ;
 });

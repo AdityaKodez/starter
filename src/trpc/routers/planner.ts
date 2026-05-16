@@ -251,6 +251,7 @@ export const plannerRouter = createTRPCRouter({
             importance: true,
             estimatedMinutes: true,
             order: true,
+
             userProgress: {
               where: { userId },
               select: {
@@ -259,6 +260,7 @@ export const plannerRouter = createTRPCRouter({
                 mistakesCount: true,
                 lastStudiedAt: true,
                 lastRevisedAt: true,
+
               },
               take: 1,
             },
@@ -319,6 +321,139 @@ export const plannerRouter = createTRPCRouter({
       },
     });
   }),
+  regeneratePlan: authedProcedure
+    .input(
+      z.object({
+        date: z.coerce.date().optional(),
+      }),
+    )
+    .mutation(async ({ ctx }) => {
+      const userId = ctx.user.id;
+      const date = startOfDay(new Date());
+
+      const onboarding = await prisma.onboarding.findUnique({
+        where: { userId },
+      });
+      if (!onboarding) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Complete onboarding first",
+        });
+      }
+
+      const dailyMinutes = onboarding.dailyStudyMinutes;
+      const weakestSubject = onboarding.weakestSubject;
+
+      // Delete existing plan for the date
+      await prisma.studyPlan.deleteMany({
+        where: {
+          userId,
+          date,
+        },
+      });
+
+      // Also delete related tasks and reflections (cascade should handle this, but explicit is safer)
+      await prisma.studyPlanTask.deleteMany({
+        where: {
+          plan: {
+            userId,
+            date,
+          },
+        },
+      });
+
+      await prisma.studyPlanReflection.deleteMany({
+        where: {
+          plan: {
+            userId,
+            date,
+          },
+        },
+      });
+
+      const chaptersWithTopics = await prisma.studyChapter.findMany({
+        select: {
+          id: true,
+          subject: true,
+          name: true,
+          order: true,
+          topics: {
+            select: {
+              id: true,
+              name: true,
+              difficulty: true,
+              importance: true,
+              estimatedMinutes: true,
+              order: true,
+              userProgress: {
+                where: { userId },
+                select: {
+                  status: true,
+                  confidence: true,
+                  mistakesCount: true,
+                  lastStudiedAt: true,
+                  lastRevisedAt: true,
+                },
+                take: 1,
+              },
+            },
+            orderBy: { order: "asc" },
+          },
+        },
+        orderBy: { order: "asc" },
+      });
+
+      const topicsForPlanning = buildTopicsForPlanning(chaptersWithTopics);
+
+      if (topicsForPlanning.length === 0) {
+        throw new TRPCError({
+          code: "PRECONDITION_FAILED",
+          message: "No study topics are available to generate a plan",
+        });
+      }
+
+      const topicCandidates = buildRankedTopicCandidates({
+        topics: topicsForPlanning,
+        weakestSubject,
+        now: date,
+      });
+
+      const generatedPlan = await generateStudyPlan({
+        dailyMinutes,
+        weakestSubject,
+        onboarding: {
+          examYear: onboarding.examYear,
+          attemptNumber: onboarding.attemptNumber,
+          coachingStart: onboarding.coachingStart,
+          coachingEnd: onboarding.coachingEnd,
+          rankAim: onboarding.rankAim,
+        },
+        topics: topicCandidates,
+      });
+
+      const { tasks, totalMinutes } = buildPlanTasks({
+        generatedPlan,
+        topicsForPlanning: topicCandidates,
+        dailyMinutes,
+      });
+
+      return prisma.studyPlan.create({
+        data: {
+          userId,
+          date,
+          totalMinutes,
+          tasks: {
+            create: tasks,
+          },
+        },
+        include: {
+          tasks: {
+            orderBy: { order: "asc" },
+          },
+          reflection: true,
+        },
+      });
+    }),
   updateTaskStatus: authedProcedure
     .input(
       z

@@ -1,8 +1,7 @@
 import { Subject } from "@/generated/prisma/enums";
+import { differenceInDays } from "date-fns";
 import type { TopicCandidateForPlanning, TopicForPlanning } from "./schemas";
-
-const DAY_IN_MS = 24 * 60 * 60 * 1000;
-const DEFAULT_CANDIDATE_LIMIT = 15;
+const DEFAULT_CANDIDATE_LIMIT = 27;
 
 type ChapterTopicProgress = {
   status: string | null;
@@ -14,6 +13,7 @@ type ChapterTopicProgress = {
 
 type ChapterTopic = {
   id: string;
+  order: number
   name: string;
   difficulty: string;
   importance: string;
@@ -33,7 +33,6 @@ export function buildTopicsForPlanning(
   return chaptersWithTopics.flatMap((chapter) =>
     chapter.topics.map((topic) => {
       const progress = topic.userProgress[0];
-
       return {
         id: topic.id,
         subject: chapter.subject,
@@ -47,6 +46,7 @@ export function buildTopicsForPlanning(
         mistakesCount: progress?.mistakesCount ?? 0,
         lastStudiedAt: progress?.lastStudiedAt?.toISOString() ?? null,
         lastRevisedAt: progress?.lastRevisedAt?.toISOString() ?? null,
+        order: topic.order,
       };
     }),
   );
@@ -65,24 +65,35 @@ export function buildRankedTopicCandidates({
   now = new Date(),
   limit = DEFAULT_CANDIDATE_LIMIT,
 }: BuildRankedTopicCandidatesInput): TopicCandidateForPlanning[] {
-  return topics
-    .map((topic) => scoreTopicCandidate(topic, weakestSubject, now))
-    .sort((left, right) => {
-      if (right.priorityScore !== left.priorityScore) {
-        return right.priorityScore - left.priorityScore;
-      }
+ const scored = topics.map((topic) => scoreTopicCandidate(topic, weakestSubject, now));
+ const grouped = new Map<Subject, TopicCandidateForPlanning[]>()
+ for (const topic of scored) {
+  if(!grouped.has(topic.subject)) {
+   grouped.set(topic.subject, []);
+  }
+  grouped.get(topic.subject)!.push(topic);
+ }
+ for (const [subject , pool] of grouped) {
+ if(subject === weakestSubject){
+  pool.sort((a,b) => b.priorityScore - a.priorityScore)
+ } else{
+  pool.sort((a,b) =>  a.order - b.order)
+ }
+ }
+ const subjects = [...grouped.keys()]
+ const result: TopicCandidateForPlanning[] = []
 
-      if (left.subject === weakestSubject && right.subject !== weakestSubject) {
-        return -1;
-      }
-
-      if (right.subject === weakestSubject && left.subject !== weakestSubject) {
-        return 1;
-      }
-
-      return left.estimatedMinutes - right.estimatedMinutes;
-    })
-    .slice(0, limit);
+ while (result.length < limit) {
+  let added = 0
+  for (const subject of subjects) {
+    const pool = grouped.get(subject)!
+    if (!pool.length) continue
+    result.push(pool.shift()!)
+    added++
+  }
+  if (added === 0) break
+}
+return result.slice(0, limit);
 }
 
 function scoreTopicCandidate(
@@ -91,18 +102,26 @@ function scoreTopicCandidate(
   now: Date,
 ): TopicCandidateForPlanning {
   const reasons: string[] = [];
-  const revisionGapDays = getAgeInDays(topic.lastRevisedAt, now);
-  const lastStudiedGapDays = getAgeInDays(topic.lastStudiedAt, now);
+  
+  const revisionGapDays = topic.lastRevisedAt
+    ? differenceInDays(now, topic.lastRevisedAt)
+    : null;
+  const lastStudiedGapDays = topic.lastStudiedAt
+    ? differenceInDays(now, topic.lastStudiedAt)
+    : null;
   const isCognitivelyHeavy =
     topic.difficulty === "hard" || topic.difficulty === "advanced";
 
   let priorityScore = 0;
 
   if (topic.subject === weakestSubject) {
-    priorityScore += 25;
+    priorityScore += 10;
     reasons.push("weakest subject");
   }
-
+const isColdStart = topic.lastStudiedAt === null && topic.mistakesCount === 0
+if (isColdStart) {
+  priorityScore -= topic.order * 2
+}
   const importanceWeight = getImportanceWeight(topic.importance);
   priorityScore += importanceWeight;
   if (importanceWeight > 0) reasons.push(`${topic.importance} importance`);
@@ -145,7 +164,7 @@ function scoreTopicCandidate(
 }
 
 function getImportanceWeight(importance: string) {
-  if (importance === "primary") return 20;
+  if (importance === "primary") return 12;
   if (importance === "secondary") return 10;
   return 0;
 }
@@ -165,12 +184,4 @@ function getConfidencePenalty(confidence: number | null) {
   return 0;
 }
 
-function getAgeInDays(value: string | null, now: Date) {
-  if (!value) return null;
 
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) return null;
-
-  return Math.max(0, Math.floor((now.getTime() - date.getTime()) / DAY_IN_MS));
-}

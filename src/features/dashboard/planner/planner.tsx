@@ -316,10 +316,36 @@ export const Planner = () => {
     });
     setDismissedReflectionPlanId(planner.id);
   }
+
+  const regeneratePlanMutation = useMutation(
+    trpc.planner.regeneratePlan.mutationOptions({
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: plannerQueryOptions.queryKey,
+        });
+      },
+    }),
+  );
+
+  function handleRegeneratePlan() {
+    regeneratePlanMutation.mutate({});
+  }
+
   return (
     <Card className="w-full shadow-none border-none ring-0">
       <CardHeader className="space-y-2">
-          <CardTitle className="text-base sm:text-lg">Today&apos;s Study Plan</CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-base sm:text-lg">Today&apos;s Study Plan</CardTitle>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleRegeneratePlan}
+              disabled={regeneratePlanMutation.isPending}
+            >
+              <IconRefresh className="h-4 w-4 mr-2" />
+              {regeneratePlanMutation.isPending ? "Regenerating..." : "Regenerate"}
+            </Button>
+          </div>
           <CardDescription className="flex items-center gap-2">
             <Badge variant="default">{taskCount} tasks</Badge>
             <Badge variant="secondary" className=" flex items-center gap-1">
@@ -364,11 +390,12 @@ export const Planner = () => {
                         <li key={task.id} className="flex items-start gap-2 px-2 py-2 flex-col">
                           {showCheckbox && (
                             <Checkbox
-                              className="mt-0.5 cursor-pointer"
+                              className="mt-0.5 cursor-pointer size-5"
                               checked={isDone}
                               aria-label={`Mark ${task.title} as ${
                                 isDone ? "not done" : "done"
                               }`}
+                              
                               onCheckedChange={(checked) => {
                                 const nextStatus =
                                   checked === true ? "done" : "pending";
@@ -451,9 +478,9 @@ export const Planner = () => {
                             {!isDone && (
                               <Button
                                 type="button"
-                                variant="outline"
-                                size="xs"
-                                className="h-6 px-2"
+                                variant="secondary"
+                                size="sm"
+                              
                                 onClick={() => {
                                   if (isSkipped) {
                                     updateTaskMutation.mutate({
@@ -470,7 +497,11 @@ export const Planner = () => {
                                    {isSkipped ? (
                                <span className="text-muted-foreground">Undo skip</span>
                                    ) : (
+                                    <>
+                                    Skip
                                     <IconArrowRight className="h-3 w-3" />
+                                   
+                                    </>
                                    )}
                               </Button>
                             )}

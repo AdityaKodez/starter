@@ -34,6 +34,7 @@ export type TopicForPlanning = {
   subject: Subject;
   chapterName: string;
   topicName: string;
+  order: number;
   difficulty: string;
   importance: string;
   estimatedMinutes: number;

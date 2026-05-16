@@ -1,6 +1,7 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { AvatarImage, Avatar as AvatarRoot } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,42 +12,30 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { signOut } from "@/lib/auth-client";
+import Avatar from "boring-avatars";
 import { LogOut, Settings } from "lucide-react";
-
 type UserProfileMenuProps = {
   name?: string | null;
   email?: string | null;
   image?: string | null;
 };
 
-const getInitials = (value?: string | null) => {
-  if (!value) return "U";
 
-  const trimmed = value.trim();
-  if (!trimmed) return "U";
-
-  if (trimmed.includes("@")) {
-    return trimmed.slice(0, 2).toUpperCase();
-  }
-
-  const parts = trimmed.split(/\s+/);
-  const first = parts[0]?.[0] ?? "";
-  const second = parts[1]?.[0] ?? "";
-
-  return `${first}${second}`.toUpperCase() || trimmed.slice(0, 2).toUpperCase();
-};
 
 export const UserProfileMenu = ({ name, email, image }: UserProfileMenuProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="gap-2 px-2">
-          <Avatar size="sm">
-            <AvatarImage src={image ?? undefined} alt={name ?? "User"} />
-            <AvatarFallback>{getInitials(name ?? email)}</AvatarFallback>
-          </Avatar>
+        <Button variant="ghost" size="lg" className="gap-2 px-2">
+          <AvatarRoot size="sm">
+            {
+              image               ? <AvatarImage src={image} alt={name ?? "User"} /> : (
+                <Avatar size={32} name={name ?? email ?? "User"} variant="beam" />
+              )
+            }
+          
+          </AvatarRoot>
           <span className="hidden text-xs font-medium sm:inline">
             {name ?? "Account"}
           </span>

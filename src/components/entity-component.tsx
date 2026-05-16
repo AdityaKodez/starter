@@ -21,7 +21,7 @@ export const EntityHeader = ({
   action?: React.ReactNode
 }) => {
   return (
-    <div className="flex w-full flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+    <div className="flex w-full flex-col gap-4 lg:flex-row lg:items-start lg:justify-between px-4">
       <div className="min-w-0 flex-1 space-y-2">
         <h1 className="font-display text-lg font-semibold tracking-tighter leading-tight wrap-break-word sm:text-xl">
           {title}
@@ -33,7 +33,7 @@ export const EntityHeader = ({
       </div>
 
       {action && (
-        <div className="flex w-full shrink-0 items-center lg:w-auto lg:justify-end">
+        <div className=" w-full shrink-0 items-center lg:w-auto lg:justify-end hidden sm:block">
           {action}
         </div>
       )}
