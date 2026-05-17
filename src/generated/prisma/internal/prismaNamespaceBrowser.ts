@@ -61,6 +61,7 @@ export const ModelName = {
   StudyPlanTask: 'StudyPlanTask',
   StudyPlanReflection: 'StudyPlanReflection',
   UserTestResult: 'UserTestResult',
+  UserTestDeadline: 'UserTestDeadline',
   StudyChapter: 'StudyChapter',
   StudyTopic: 'StudyTopic',
   UserTopicProgress: 'UserTopicProgress'
@@ -226,6 +227,21 @@ export const UserTestResultScalarFieldEnum = {
 } as const
 
 export type UserTestResultScalarFieldEnum = (typeof UserTestResultScalarFieldEnum)[keyof typeof UserTestResultScalarFieldEnum]
+
+
+export const UserTestDeadlineScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  subject: 'subject',
+  title: 'title',
+  scheduledAt: 'scheduledAt',
+  notes: 'notes',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserTestDeadlineScalarFieldEnum = (typeof UserTestDeadlineScalarFieldEnum)[keyof typeof UserTestDeadlineScalarFieldEnum]
 
 
 export const StudyChapterScalarFieldEnum = {

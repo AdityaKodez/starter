@@ -277,6 +277,23 @@ export type EnumReflectionMoodWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumReflectionMoodFilter<$PrismaModel>
 }
 
+export type EnumUserTestDeadlineStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.UserTestDeadlineStatus | Prisma.EnumUserTestDeadlineStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.UserTestDeadlineStatus[] | Prisma.ListEnumUserTestDeadlineStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.UserTestDeadlineStatus[] | Prisma.ListEnumUserTestDeadlineStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumUserTestDeadlineStatusFilter<$PrismaModel> | $Enums.UserTestDeadlineStatus
+}
+
+export type EnumUserTestDeadlineStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.UserTestDeadlineStatus | Prisma.EnumUserTestDeadlineStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.UserTestDeadlineStatus[] | Prisma.ListEnumUserTestDeadlineStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.UserTestDeadlineStatus[] | Prisma.ListEnumUserTestDeadlineStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumUserTestDeadlineStatusWithAggregatesFilter<$PrismaModel> | $Enums.UserTestDeadlineStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumUserTestDeadlineStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumUserTestDeadlineStatusFilter<$PrismaModel>
+}
+
 export type EnumTopicDifficultyFilter<$PrismaModel = never> = {
   equals?: $Enums.TopicDifficulty | Prisma.EnumTopicDifficultyFieldRefInput<$PrismaModel>
   in?: $Enums.TopicDifficulty[] | Prisma.ListEnumTopicDifficultyFieldRefInput<$PrismaModel>
@@ -629,6 +646,23 @@ export type NestedEnumReflectionMoodWithAggregatesFilter<$PrismaModel = never> =
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumReflectionMoodFilter<$PrismaModel>
   _max?: Prisma.NestedEnumReflectionMoodFilter<$PrismaModel>
+}
+
+export type NestedEnumUserTestDeadlineStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.UserTestDeadlineStatus | Prisma.EnumUserTestDeadlineStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.UserTestDeadlineStatus[] | Prisma.ListEnumUserTestDeadlineStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.UserTestDeadlineStatus[] | Prisma.ListEnumUserTestDeadlineStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumUserTestDeadlineStatusFilter<$PrismaModel> | $Enums.UserTestDeadlineStatus
+}
+
+export type NestedEnumUserTestDeadlineStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.UserTestDeadlineStatus | Prisma.EnumUserTestDeadlineStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.UserTestDeadlineStatus[] | Prisma.ListEnumUserTestDeadlineStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.UserTestDeadlineStatus[] | Prisma.ListEnumUserTestDeadlineStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumUserTestDeadlineStatusWithAggregatesFilter<$PrismaModel> | $Enums.UserTestDeadlineStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumUserTestDeadlineStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumUserTestDeadlineStatusFilter<$PrismaModel>
 }
 
 export type NestedEnumTopicDifficultyFilter<$PrismaModel = never> = {

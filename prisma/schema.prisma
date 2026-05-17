@@ -26,6 +26,7 @@ model User {
   streak         Streak?
   topicProgress  UserTopicProgress[]
   testResults    UserTestResult[]
+  testDeadlines  UserTestDeadline[]
 
   @@unique([email])
   @@map("user")
@@ -190,6 +191,29 @@ model UserTestResult {
 
   @@index([userId, takenAt])
   @@map("user_test_result")
+}
+
+model UserTestDeadline {
+  id          String                 @id @default(cuid())
+  userId      String
+  subject     Subject
+  title       String
+  scheduledAt DateTime
+  notes       String?
+  status      UserTestDeadlineStatus @default(active)
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status, scheduledAt])
+  @@map("user_test_deadline")
+}
+
+enum UserTestDeadlineStatus {
+  active
+  completed
+  cancelled
 }
 
 enum ReflectionTaskFeel {

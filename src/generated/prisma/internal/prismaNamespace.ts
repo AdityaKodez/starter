@@ -394,6 +394,7 @@ export const ModelName = {
   StudyPlanTask: 'StudyPlanTask',
   StudyPlanReflection: 'StudyPlanReflection',
   UserTestResult: 'UserTestResult',
+  UserTestDeadline: 'UserTestDeadline',
   StudyChapter: 'StudyChapter',
   StudyTopic: 'StudyTopic',
   UserTopicProgress: 'UserTopicProgress'
@@ -412,7 +413,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "streak" | "onboarding" | "session" | "account" | "verification" | "studyPlan" | "studyPlanTask" | "studyPlanReflection" | "userTestResult" | "studyChapter" | "studyTopic" | "userTopicProgress"
+    modelProps: "user" | "streak" | "onboarding" | "session" | "account" | "verification" | "studyPlan" | "studyPlanTask" | "studyPlanReflection" | "userTestResult" | "userTestDeadline" | "studyChapter" | "studyTopic" | "userTopicProgress"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1156,6 +1157,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    UserTestDeadline: {
+      payload: Prisma.$UserTestDeadlinePayload<ExtArgs>
+      fields: Prisma.UserTestDeadlineFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserTestDeadlineFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTestDeadlinePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserTestDeadlineFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTestDeadlinePayload>
+        }
+        findFirst: {
+          args: Prisma.UserTestDeadlineFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTestDeadlinePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserTestDeadlineFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTestDeadlinePayload>
+        }
+        findMany: {
+          args: Prisma.UserTestDeadlineFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTestDeadlinePayload>[]
+        }
+        create: {
+          args: Prisma.UserTestDeadlineCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTestDeadlinePayload>
+        }
+        createMany: {
+          args: Prisma.UserTestDeadlineCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserTestDeadlineCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTestDeadlinePayload>[]
+        }
+        delete: {
+          args: Prisma.UserTestDeadlineDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTestDeadlinePayload>
+        }
+        update: {
+          args: Prisma.UserTestDeadlineUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTestDeadlinePayload>
+        }
+        deleteMany: {
+          args: Prisma.UserTestDeadlineDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserTestDeadlineUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserTestDeadlineUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTestDeadlinePayload>[]
+        }
+        upsert: {
+          args: Prisma.UserTestDeadlineUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTestDeadlinePayload>
+        }
+        aggregate: {
+          args: Prisma.UserTestDeadlineAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserTestDeadline>
+        }
+        groupBy: {
+          args: Prisma.UserTestDeadlineGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserTestDeadlineGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserTestDeadlineCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserTestDeadlineCountAggregateOutputType> | number
+        }
+      }
+    }
     StudyChapter: {
       payload: Prisma.$StudyChapterPayload<ExtArgs>
       fields: Prisma.StudyChapterFieldRefs
@@ -1563,6 +1638,21 @@ export const UserTestResultScalarFieldEnum = {
 export type UserTestResultScalarFieldEnum = (typeof UserTestResultScalarFieldEnum)[keyof typeof UserTestResultScalarFieldEnum]
 
 
+export const UserTestDeadlineScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  subject: 'subject',
+  title: 'title',
+  scheduledAt: 'scheduledAt',
+  notes: 'notes',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserTestDeadlineScalarFieldEnum = (typeof UserTestDeadlineScalarFieldEnum)[keyof typeof UserTestDeadlineScalarFieldEnum]
+
+
 export const StudyChapterScalarFieldEnum = {
   id: 'id',
   subject: 'subject',
@@ -1764,6 +1854,20 @@ export type ListEnumReflectionMoodFieldRefInput<$PrismaModel> = FieldRefInputTyp
 
 
 /**
+ * Reference to a field of type 'UserTestDeadlineStatus'
+ */
+export type EnumUserTestDeadlineStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserTestDeadlineStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'UserTestDeadlineStatus[]'
+ */
+export type ListEnumUserTestDeadlineStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserTestDeadlineStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'TopicDifficulty'
  */
 export type EnumTopicDifficultyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TopicDifficulty'>
@@ -1938,6 +2042,7 @@ export type GlobalOmitConfig = {
   studyPlanTask?: Prisma.StudyPlanTaskOmit
   studyPlanReflection?: Prisma.StudyPlanReflectionOmit
   userTestResult?: Prisma.UserTestResultOmit
+  userTestDeadline?: Prisma.UserTestDeadlineOmit
   studyChapter?: Prisma.StudyChapterOmit
   studyTopic?: Prisma.StudyTopicOmit
   userTopicProgress?: Prisma.UserTopicProgressOmit

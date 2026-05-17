@@ -1,11 +1,19 @@
 import { TRPCError } from "@trpc/server";
-import { eachDayOfInterval, format, startOfDay, subDays } from "date-fns";
+import {
+  addDays,
+  differenceInCalendarDays,
+  eachDayOfInterval,
+  format,
+  startOfDay,
+  subDays,
+} from "date-fns";
 import {
   ReflectionMood,
   ReflectionTaskFeel,
   StudyPlanTaskType,
   Subject,
   TaskStatus,
+  UserTestDeadlineStatus,
 } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
 import {
@@ -49,6 +57,32 @@ const parseTestResultToPercent = (result: string | null) => {
   }
 
   return null;
+};
+
+const TEST_DEADLINE_PLANNING_WINDOW_DAYS = 14;
+
+const buildUpcomingTestDeadlinesForPlanning = async (userId: string, today: Date) => {
+  const deadlines = await prisma.userTestDeadline.findMany({
+    where: {
+      userId,
+      status: UserTestDeadlineStatus.active,
+      scheduledAt: {
+        gte: today,
+        lte: addDays(today, TEST_DEADLINE_PLANNING_WINDOW_DAYS),
+      },
+    },
+    orderBy: { scheduledAt: "asc" },
+    take: 5,
+  });
+
+  return deadlines.map((deadline) => ({
+    id: deadline.id,
+    subject: deadline.subject,
+    title: deadline.title,
+    scheduledAt: deadline.scheduledAt.toISOString(),
+    daysUntil: differenceInCalendarDays(startOfDay(deadline.scheduledAt), today),
+    notes: deadline.notes,
+  }));
 };
 
 export const plannerRouter = createTRPCRouter({
@@ -204,6 +238,72 @@ export const plannerRouter = createTRPCRouter({
         takenAt: created.takenAt,
       };
     }),
+  upcomingTestDeadlines: authedProcedure.query(async ({ ctx }) => {
+    const today = startOfDay(new Date());
+
+    return prisma.userTestDeadline.findMany({
+      where: {
+        userId: ctx.user.id,
+        status: UserTestDeadlineStatus.active,
+        scheduledAt: { gte: today },
+      },
+      orderBy: { scheduledAt: "asc" },
+      take: 6,
+    });
+  }),
+  addTestDeadline: authedProcedure
+    .input(
+      z.object({
+        subject: z.enum(Subject),
+        title: z.string().trim().min(1).max(120),
+        scheduledAt: z.coerce.date(),
+        notes: z.string().trim().max(200).nullable().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const scheduledAt = startOfDay(input.scheduledAt);
+      const today = startOfDay(new Date());
+
+      if (scheduledAt < today) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Test date cannot be in the past",
+        });
+      }
+
+      const created = await prisma.userTestDeadline.create({
+        data: {
+          userId: ctx.user.id,
+          subject: input.subject,
+          title: input.title.trim(),
+          scheduledAt,
+          notes: input.notes?.trim() || null,
+        },
+      });
+
+      return created;
+    }),
+  markTestDeadlineDone: authedProcedure
+    .input(z.object({ deadlineId: z.string().min(1) }))
+    .mutation(async ({ ctx, input }) => {
+      const updated = await prisma.userTestDeadline.updateMany({
+        where: {
+          id: input.deadlineId,
+          userId: ctx.user.id,
+          status: UserTestDeadlineStatus.active,
+        },
+        data: { status: UserTestDeadlineStatus.completed },
+      });
+
+      if (updated.count === 0) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Test deadline not found",
+        });
+      }
+
+      return { id: input.deadlineId, status: UserTestDeadlineStatus.completed };
+    }),
   generateToday: authedProcedure.query(async ({ ctx }) => {
     const userId = ctx.user.id;
     const today = startOfDay(new Date());
@@ -279,9 +379,11 @@ export const plannerRouter = createTRPCRouter({
         message: "No study topics are available to generate a plan",
       });
     }
+    const testDeadlines = await buildUpcomingTestDeadlinesForPlanning(userId, today);
     const topicCandidates = buildRankedTopicCandidates({
       topics: topicsForPlanning,
       weakestSubject,
+      testDeadlines,
       now: today,
     });
 
@@ -296,6 +398,7 @@ export const plannerRouter = createTRPCRouter({
         rankAim: onboarding.rankAim,
       },
       topics: topicCandidates,
+      testDeadlines,
     });
 
     const { tasks, totalMinutes } = buildPlanTasks({
@@ -412,9 +515,11 @@ export const plannerRouter = createTRPCRouter({
         });
       }
 
+      const testDeadlines = await buildUpcomingTestDeadlinesForPlanning(userId, date);
       const topicCandidates = buildRankedTopicCandidates({
         topics: topicsForPlanning,
         weakestSubject,
+        testDeadlines,
         now: date,
       });
 
@@ -429,6 +534,7 @@ export const plannerRouter = createTRPCRouter({
           rankAim: onboarding.rankAim,
         },
         topics: topicCandidates,
+        testDeadlines,
       });
 
       const { tasks, totalMinutes } = buildPlanTasks({

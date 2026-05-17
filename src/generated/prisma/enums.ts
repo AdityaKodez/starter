@@ -46,6 +46,15 @@ export const StudyPlanTaskType = {
 export type StudyPlanTaskType = (typeof StudyPlanTaskType)[keyof typeof StudyPlanTaskType]
 
 
+export const UserTestDeadlineStatus = {
+  active: 'active',
+  completed: 'completed',
+  cancelled: 'cancelled'
+} as const
+
+export type UserTestDeadlineStatus = (typeof UserTestDeadlineStatus)[keyof typeof UserTestDeadlineStatus]
+
+
 export const ReflectionTaskFeel = {
   too_easy: 'too_easy',
   right_level: 'right_level',

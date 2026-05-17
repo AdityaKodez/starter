@@ -37,16 +37,23 @@ type ManualTestResultDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSuccess: () => void;
+  initialValues?: {
+    subject?: Subject;
+    title?: string | null;
+  };
 };
 
 export function ManualTestResultDialog({
   open,
   onOpenChange,
   onSuccess,
+  initialValues,
 }: ManualTestResultDialogProps) {
-  const [subject, setSubject] = useState<Subject | "">(Subject.physics);
+  const [subject, setSubject] = useState<Subject | "">(
+    initialValues?.subject ?? Subject.physics,
+  );
   const [result, setResult] = useState("");
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(initialValues?.title ?? "");
   
   const isMobile = useIsMobile();
   const trpc = useTRPC();

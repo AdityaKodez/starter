@@ -1,7 +1,7 @@
 "use client";
 
 import { EmptyState } from "@/components/entity-component";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardAction, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -43,9 +43,9 @@ export function StudyStatsCard() {
     <Card className="w-full">
       <CardHeader>
         <CardTitle>Study streak</CardTitle>
-        <CardDescription>
+        <CardAction>
           {streak.emoji} {streak.count} day{streak.count === 1 ? "" : "s"}
-        </CardDescription>
+        </CardAction>
       </CardHeader>
       <CardContent>
         {hasData ? (

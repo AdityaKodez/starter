@@ -7,7 +7,7 @@ import { Suspense } from "react";
 import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import { Planner } from "./planner/planner";
 import { StudyStatsCard } from "./study-stats-card";
-import { TestResultsCard } from "./test-results-card";
+import { TestDeadlinesCard, TestResultsCard } from "./test-results-card";
 
 const CardSkeleton = ({ title }: { title: string }) => {
     return (
@@ -72,17 +72,27 @@ export const DashboardContent = () => {
     return (
         <div className="w-full flex flex-col items-start justify-start gap-4">
                     <div className="w-full grid grid-cols-1 gap-4 sm:grid-cols-2 items-start">
+                        <div className="flex flex-col gap-4">
+
                         <ErrorBoundary FallbackComponent={renderCardError("Planner")}> 
                             <Suspense fallback={<CardSkeleton title="Planner" />}>
                                 <Planner />
                             </Suspense>
                         </ErrorBoundary>
+                        <ErrorBoundary FallbackComponent={renderCardError("Upcoming tests")}> 
+                                <Suspense fallback={<CardSkeleton title="Upcoming tests" />}>
+                                    <TestDeadlinesCard />
+                                </Suspense>
+                            </ErrorBoundary>
+                        </div>
+
                         <div className="flex flex-col gap-4">
                             <ErrorBoundary FallbackComponent={renderCardError("Study streak")}> 
                                 <Suspense fallback={<CardSkeleton title="Study streak" />}>
                                     <StudyStatsCard />
                                 </Suspense>
                             </ErrorBoundary>
+                            
                             <ErrorBoundary FallbackComponent={renderCardError("Test results")}> 
                                 <Suspense fallback={<CardSkeleton title="Test results" />}>
                                     <TestResultsCard />

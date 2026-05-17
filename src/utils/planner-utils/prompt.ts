@@ -31,6 +31,8 @@ export function buildPlannerPrompt(input: PlannerPromptInput) {
       prioritizationRules: [
         "Select from higher priorityScore topics before lower priorityScore topics unless the schedule would become unrealistic.",
         "Use priorityReasons to explain why a task belongs in today's plan.",
+        "Upcoming test deadlines are already reflected in priorityScore; treat them as hard context for selecting relevant subjects and task types.",
+        "For deadlines within 3 days, strongly prefer revision or practice for that subject over unrelated optional new topics.",
         "Strongly prioritize revision for topics whose revisionGapDays exceeds 2.",
         "Mix difficult and moderate tasks when possible.",
         "Avoid turning the plan into only revision, only tests, or only cognitively heavy work.",
@@ -77,6 +79,8 @@ export function buildPlannerPrompt(input: PlannerPromptInput) {
         weakestSubject: input.weakestSubject,
         ...input.onboarding,
       },
+
+      upcomingTestDeadlines: input.testDeadlines ?? [],
 
       candidateTopics: input.topics,
 

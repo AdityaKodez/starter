@@ -52,6 +52,15 @@ export type TopicCandidateForPlanning = TopicForPlanning & {
   isCognitivelyHeavy: boolean;
 };
 
+export type TestDeadlineForPlanning = {
+  id: string;
+  subject: Subject;
+  title: string;
+  scheduledAt: string;
+  daysUntil: number;
+  notes: string | null;
+};
+
 export type PlannerOnboarding = {
   examYear: number;
   attemptNumber: number | null;
@@ -65,4 +74,5 @@ export type PlannerPromptInput = {
   weakestSubject: Subject;
   onboarding: PlannerOnboarding;
   topics: TopicCandidateForPlanning[];
+  testDeadlines?: TestDeadlineForPlanning[];
 };

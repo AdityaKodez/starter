@@ -92,6 +92,11 @@ export type StudyPlanReflection = Prisma.StudyPlanReflectionModel
  */
 export type UserTestResult = Prisma.UserTestResultModel
 /**
+ * Model UserTestDeadline
+ * 
+ */
+export type UserTestDeadline = Prisma.UserTestDeadlineModel
+/**
  * Model StudyChapter
  * 
  */

@@ -221,6 +221,7 @@ export type UserWhereInput = {
   streak?: Prisma.XOR<Prisma.StreakNullableScalarRelationFilter, Prisma.StreakWhereInput> | null
   topicProgress?: Prisma.UserTopicProgressListRelationFilter
   testResults?: Prisma.UserTestResultListRelationFilter
+  testDeadlines?: Prisma.UserTestDeadlineListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -240,6 +241,7 @@ export type UserOrderByWithRelationInput = {
   streak?: Prisma.StreakOrderByWithRelationInput
   topicProgress?: Prisma.UserTopicProgressOrderByRelationAggregateInput
   testResults?: Prisma.UserTestResultOrderByRelationAggregateInput
+  testDeadlines?: Prisma.UserTestDeadlineOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -262,6 +264,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   streak?: Prisma.XOR<Prisma.StreakNullableScalarRelationFilter, Prisma.StreakWhereInput> | null
   topicProgress?: Prisma.UserTopicProgressListRelationFilter
   testResults?: Prisma.UserTestResultListRelationFilter
+  testDeadlines?: Prisma.UserTestDeadlineListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -311,6 +314,7 @@ export type UserCreateInput = {
   streak?: Prisma.StreakCreateNestedOneWithoutUserInput
   topicProgress?: Prisma.UserTopicProgressCreateNestedManyWithoutUserInput
   testResults?: Prisma.UserTestResultCreateNestedManyWithoutUserInput
+  testDeadlines?: Prisma.UserTestDeadlineCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -330,6 +334,7 @@ export type UserUncheckedCreateInput = {
   streak?: Prisma.StreakUncheckedCreateNestedOneWithoutUserInput
   topicProgress?: Prisma.UserTopicProgressUncheckedCreateNestedManyWithoutUserInput
   testResults?: Prisma.UserTestResultUncheckedCreateNestedManyWithoutUserInput
+  testDeadlines?: Prisma.UserTestDeadlineUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -349,6 +354,7 @@ export type UserUpdateInput = {
   streak?: Prisma.StreakUpdateOneWithoutUserNestedInput
   topicProgress?: Prisma.UserTopicProgressUpdateManyWithoutUserNestedInput
   testResults?: Prisma.UserTestResultUpdateManyWithoutUserNestedInput
+  testDeadlines?: Prisma.UserTestDeadlineUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -368,6 +374,7 @@ export type UserUncheckedUpdateInput = {
   streak?: Prisma.StreakUncheckedUpdateOneWithoutUserNestedInput
   topicProgress?: Prisma.UserTopicProgressUncheckedUpdateManyWithoutUserNestedInput
   testResults?: Prisma.UserTestResultUncheckedUpdateManyWithoutUserNestedInput
+  testDeadlines?: Prisma.UserTestDeadlineUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -547,6 +554,20 @@ export type UserUpdateOneRequiredWithoutTestResultsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTestResultsInput, Prisma.UserUpdateWithoutTestResultsInput>, Prisma.UserUncheckedUpdateWithoutTestResultsInput>
 }
 
+export type UserCreateNestedOneWithoutTestDeadlinesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTestDeadlinesInput, Prisma.UserUncheckedCreateWithoutTestDeadlinesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTestDeadlinesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutTestDeadlinesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTestDeadlinesInput, Prisma.UserUncheckedCreateWithoutTestDeadlinesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTestDeadlinesInput
+  upsert?: Prisma.UserUpsertWithoutTestDeadlinesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTestDeadlinesInput, Prisma.UserUpdateWithoutTestDeadlinesInput>, Prisma.UserUncheckedUpdateWithoutTestDeadlinesInput>
+}
+
 export type UserCreateNestedOneWithoutTopicProgressInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutTopicProgressInput, Prisma.UserUncheckedCreateWithoutTopicProgressInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutTopicProgressInput
@@ -577,6 +598,7 @@ export type UserCreateWithoutStreakInput = {
   studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
   topicProgress?: Prisma.UserTopicProgressCreateNestedManyWithoutUserInput
   testResults?: Prisma.UserTestResultCreateNestedManyWithoutUserInput
+  testDeadlines?: Prisma.UserTestDeadlineCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutStreakInput = {
@@ -595,6 +617,7 @@ export type UserUncheckedCreateWithoutStreakInput = {
   studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
   topicProgress?: Prisma.UserTopicProgressUncheckedCreateNestedManyWithoutUserInput
   testResults?: Prisma.UserTestResultUncheckedCreateNestedManyWithoutUserInput
+  testDeadlines?: Prisma.UserTestDeadlineUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStreakInput = {
@@ -629,6 +652,7 @@ export type UserUpdateWithoutStreakInput = {
   studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
   topicProgress?: Prisma.UserTopicProgressUpdateManyWithoutUserNestedInput
   testResults?: Prisma.UserTestResultUpdateManyWithoutUserNestedInput
+  testDeadlines?: Prisma.UserTestDeadlineUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStreakInput = {
@@ -647,6 +671,7 @@ export type UserUncheckedUpdateWithoutStreakInput = {
   studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
   topicProgress?: Prisma.UserTopicProgressUncheckedUpdateManyWithoutUserNestedInput
   testResults?: Prisma.UserTestResultUncheckedUpdateManyWithoutUserNestedInput
+  testDeadlines?: Prisma.UserTestDeadlineUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutOnboardingInput = {
@@ -665,6 +690,7 @@ export type UserCreateWithoutOnboardingInput = {
   streak?: Prisma.StreakCreateNestedOneWithoutUserInput
   topicProgress?: Prisma.UserTopicProgressCreateNestedManyWithoutUserInput
   testResults?: Prisma.UserTestResultCreateNestedManyWithoutUserInput
+  testDeadlines?: Prisma.UserTestDeadlineCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutOnboardingInput = {
@@ -683,6 +709,7 @@ export type UserUncheckedCreateWithoutOnboardingInput = {
   streak?: Prisma.StreakUncheckedCreateNestedOneWithoutUserInput
   topicProgress?: Prisma.UserTopicProgressUncheckedCreateNestedManyWithoutUserInput
   testResults?: Prisma.UserTestResultUncheckedCreateNestedManyWithoutUserInput
+  testDeadlines?: Prisma.UserTestDeadlineUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutOnboardingInput = {
@@ -717,6 +744,7 @@ export type UserUpdateWithoutOnboardingInput = {
   streak?: Prisma.StreakUpdateOneWithoutUserNestedInput
   topicProgress?: Prisma.UserTopicProgressUpdateManyWithoutUserNestedInput
   testResults?: Prisma.UserTestResultUpdateManyWithoutUserNestedInput
+  testDeadlines?: Prisma.UserTestDeadlineUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOnboardingInput = {
@@ -735,6 +763,7 @@ export type UserUncheckedUpdateWithoutOnboardingInput = {
   streak?: Prisma.StreakUncheckedUpdateOneWithoutUserNestedInput
   topicProgress?: Prisma.UserTopicProgressUncheckedUpdateManyWithoutUserNestedInput
   testResults?: Prisma.UserTestResultUncheckedUpdateManyWithoutUserNestedInput
+  testDeadlines?: Prisma.UserTestDeadlineUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -753,6 +782,7 @@ export type UserCreateWithoutSessionsInput = {
   streak?: Prisma.StreakCreateNestedOneWithoutUserInput
   topicProgress?: Prisma.UserTopicProgressCreateNestedManyWithoutUserInput
   testResults?: Prisma.UserTestResultCreateNestedManyWithoutUserInput
+  testDeadlines?: Prisma.UserTestDeadlineCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -771,6 +801,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   streak?: Prisma.StreakUncheckedCreateNestedOneWithoutUserInput
   topicProgress?: Prisma.UserTopicProgressUncheckedCreateNestedManyWithoutUserInput
   testResults?: Prisma.UserTestResultUncheckedCreateNestedManyWithoutUserInput
+  testDeadlines?: Prisma.UserTestDeadlineUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -805,6 +836,7 @@ export type UserUpdateWithoutSessionsInput = {
   streak?: Prisma.StreakUpdateOneWithoutUserNestedInput
   topicProgress?: Prisma.UserTopicProgressUpdateManyWithoutUserNestedInput
   testResults?: Prisma.UserTestResultUpdateManyWithoutUserNestedInput
+  testDeadlines?: Prisma.UserTestDeadlineUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -823,6 +855,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   streak?: Prisma.StreakUncheckedUpdateOneWithoutUserNestedInput
   topicProgress?: Prisma.UserTopicProgressUncheckedUpdateManyWithoutUserNestedInput
   testResults?: Prisma.UserTestResultUncheckedUpdateManyWithoutUserNestedInput
+  testDeadlines?: Prisma.UserTestDeadlineUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -841,6 +874,7 @@ export type UserCreateWithoutAccountsInput = {
   streak?: Prisma.StreakCreateNestedOneWithoutUserInput
   topicProgress?: Prisma.UserTopicProgressCreateNestedManyWithoutUserInput
   testResults?: Prisma.UserTestResultCreateNestedManyWithoutUserInput
+  testDeadlines?: Prisma.UserTestDeadlineCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -859,6 +893,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   streak?: Prisma.StreakUncheckedCreateNestedOneWithoutUserInput
   topicProgress?: Prisma.UserTopicProgressUncheckedCreateNestedManyWithoutUserInput
   testResults?: Prisma.UserTestResultUncheckedCreateNestedManyWithoutUserInput
+  testDeadlines?: Prisma.UserTestDeadlineUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -893,6 +928,7 @@ export type UserUpdateWithoutAccountsInput = {
   streak?: Prisma.StreakUpdateOneWithoutUserNestedInput
   topicProgress?: Prisma.UserTopicProgressUpdateManyWithoutUserNestedInput
   testResults?: Prisma.UserTestResultUpdateManyWithoutUserNestedInput
+  testDeadlines?: Prisma.UserTestDeadlineUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -911,6 +947,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   streak?: Prisma.StreakUncheckedUpdateOneWithoutUserNestedInput
   topicProgress?: Prisma.UserTopicProgressUncheckedUpdateManyWithoutUserNestedInput
   testResults?: Prisma.UserTestResultUncheckedUpdateManyWithoutUserNestedInput
+  testDeadlines?: Prisma.UserTestDeadlineUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutStudyPlansInput = {
@@ -929,6 +966,7 @@ export type UserCreateWithoutStudyPlansInput = {
   streak?: Prisma.StreakCreateNestedOneWithoutUserInput
   topicProgress?: Prisma.UserTopicProgressCreateNestedManyWithoutUserInput
   testResults?: Prisma.UserTestResultCreateNestedManyWithoutUserInput
+  testDeadlines?: Prisma.UserTestDeadlineCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutStudyPlansInput = {
@@ -947,6 +985,7 @@ export type UserUncheckedCreateWithoutStudyPlansInput = {
   streak?: Prisma.StreakUncheckedCreateNestedOneWithoutUserInput
   topicProgress?: Prisma.UserTopicProgressUncheckedCreateNestedManyWithoutUserInput
   testResults?: Prisma.UserTestResultUncheckedCreateNestedManyWithoutUserInput
+  testDeadlines?: Prisma.UserTestDeadlineUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStudyPlansInput = {
@@ -981,6 +1020,7 @@ export type UserUpdateWithoutStudyPlansInput = {
   streak?: Prisma.StreakUpdateOneWithoutUserNestedInput
   topicProgress?: Prisma.UserTopicProgressUpdateManyWithoutUserNestedInput
   testResults?: Prisma.UserTestResultUpdateManyWithoutUserNestedInput
+  testDeadlines?: Prisma.UserTestDeadlineUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStudyPlansInput = {
@@ -999,6 +1039,7 @@ export type UserUncheckedUpdateWithoutStudyPlansInput = {
   streak?: Prisma.StreakUncheckedUpdateOneWithoutUserNestedInput
   topicProgress?: Prisma.UserTopicProgressUncheckedUpdateManyWithoutUserNestedInput
   testResults?: Prisma.UserTestResultUncheckedUpdateManyWithoutUserNestedInput
+  testDeadlines?: Prisma.UserTestDeadlineUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTestResultsInput = {
@@ -1017,6 +1058,7 @@ export type UserCreateWithoutTestResultsInput = {
   studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
   streak?: Prisma.StreakCreateNestedOneWithoutUserInput
   topicProgress?: Prisma.UserTopicProgressCreateNestedManyWithoutUserInput
+  testDeadlines?: Prisma.UserTestDeadlineCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTestResultsInput = {
@@ -1035,6 +1077,7 @@ export type UserUncheckedCreateWithoutTestResultsInput = {
   studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
   streak?: Prisma.StreakUncheckedCreateNestedOneWithoutUserInput
   topicProgress?: Prisma.UserTopicProgressUncheckedCreateNestedManyWithoutUserInput
+  testDeadlines?: Prisma.UserTestDeadlineUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTestResultsInput = {
@@ -1069,6 +1112,7 @@ export type UserUpdateWithoutTestResultsInput = {
   studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
   streak?: Prisma.StreakUpdateOneWithoutUserNestedInput
   topicProgress?: Prisma.UserTopicProgressUpdateManyWithoutUserNestedInput
+  testDeadlines?: Prisma.UserTestDeadlineUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTestResultsInput = {
@@ -1087,6 +1131,99 @@ export type UserUncheckedUpdateWithoutTestResultsInput = {
   studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
   streak?: Prisma.StreakUncheckedUpdateOneWithoutUserNestedInput
   topicProgress?: Prisma.UserTopicProgressUncheckedUpdateManyWithoutUserNestedInput
+  testDeadlines?: Prisma.UserTestDeadlineUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutTestDeadlinesInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  timeZone?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  onboardingDone?: boolean
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  onboarding?: Prisma.OnboardingCreateNestedOneWithoutUserInput
+  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
+  streak?: Prisma.StreakCreateNestedOneWithoutUserInput
+  topicProgress?: Prisma.UserTopicProgressCreateNestedManyWithoutUserInput
+  testResults?: Prisma.UserTestResultCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutTestDeadlinesInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  timeZone?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  onboardingDone?: boolean
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  onboarding?: Prisma.OnboardingUncheckedCreateNestedOneWithoutUserInput
+  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
+  streak?: Prisma.StreakUncheckedCreateNestedOneWithoutUserInput
+  topicProgress?: Prisma.UserTopicProgressUncheckedCreateNestedManyWithoutUserInput
+  testResults?: Prisma.UserTestResultUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutTestDeadlinesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutTestDeadlinesInput, Prisma.UserUncheckedCreateWithoutTestDeadlinesInput>
+}
+
+export type UserUpsertWithoutTestDeadlinesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTestDeadlinesInput, Prisma.UserUncheckedUpdateWithoutTestDeadlinesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTestDeadlinesInput, Prisma.UserUncheckedCreateWithoutTestDeadlinesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutTestDeadlinesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTestDeadlinesInput, Prisma.UserUncheckedUpdateWithoutTestDeadlinesInput>
+}
+
+export type UserUpdateWithoutTestDeadlinesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timeZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  onboarding?: Prisma.OnboardingUpdateOneWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
+  streak?: Prisma.StreakUpdateOneWithoutUserNestedInput
+  topicProgress?: Prisma.UserTopicProgressUpdateManyWithoutUserNestedInput
+  testResults?: Prisma.UserTestResultUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutTestDeadlinesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timeZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  onboarding?: Prisma.OnboardingUncheckedUpdateOneWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
+  streak?: Prisma.StreakUncheckedUpdateOneWithoutUserNestedInput
+  topicProgress?: Prisma.UserTopicProgressUncheckedUpdateManyWithoutUserNestedInput
+  testResults?: Prisma.UserTestResultUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTopicProgressInput = {
@@ -1105,6 +1242,7 @@ export type UserCreateWithoutTopicProgressInput = {
   studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
   streak?: Prisma.StreakCreateNestedOneWithoutUserInput
   testResults?: Prisma.UserTestResultCreateNestedManyWithoutUserInput
+  testDeadlines?: Prisma.UserTestDeadlineCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTopicProgressInput = {
@@ -1123,6 +1261,7 @@ export type UserUncheckedCreateWithoutTopicProgressInput = {
   studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
   streak?: Prisma.StreakUncheckedCreateNestedOneWithoutUserInput
   testResults?: Prisma.UserTestResultUncheckedCreateNestedManyWithoutUserInput
+  testDeadlines?: Prisma.UserTestDeadlineUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTopicProgressInput = {
@@ -1157,6 +1296,7 @@ export type UserUpdateWithoutTopicProgressInput = {
   studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
   streak?: Prisma.StreakUpdateOneWithoutUserNestedInput
   testResults?: Prisma.UserTestResultUpdateManyWithoutUserNestedInput
+  testDeadlines?: Prisma.UserTestDeadlineUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTopicProgressInput = {
@@ -1175,6 +1315,7 @@ export type UserUncheckedUpdateWithoutTopicProgressInput = {
   studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
   streak?: Prisma.StreakUncheckedUpdateOneWithoutUserNestedInput
   testResults?: Prisma.UserTestResultUncheckedUpdateManyWithoutUserNestedInput
+  testDeadlines?: Prisma.UserTestDeadlineUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1188,6 +1329,7 @@ export type UserCountOutputType = {
   studyPlans: number
   topicProgress: number
   testResults: number
+  testDeadlines: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1196,6 +1338,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   studyPlans?: boolean | UserCountOutputTypeCountStudyPlansArgs
   topicProgress?: boolean | UserCountOutputTypeCountTopicProgressArgs
   testResults?: boolean | UserCountOutputTypeCountTestResultsArgs
+  testDeadlines?: boolean | UserCountOutputTypeCountTestDeadlinesArgs
 }
 
 /**
@@ -1243,6 +1386,13 @@ export type UserCountOutputTypeCountTestResultsArgs<ExtArgs extends runtime.Type
   where?: Prisma.UserTestResultWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountTestDeadlinesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserTestDeadlineWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1261,6 +1411,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   streak?: boolean | Prisma.User$streakArgs<ExtArgs>
   topicProgress?: boolean | Prisma.User$topicProgressArgs<ExtArgs>
   testResults?: boolean | Prisma.User$testResultsArgs<ExtArgs>
+  testDeadlines?: boolean | Prisma.User$testDeadlinesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1309,6 +1460,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   streak?: boolean | Prisma.User$streakArgs<ExtArgs>
   topicProgress?: boolean | Prisma.User$topicProgressArgs<ExtArgs>
   testResults?: boolean | Prisma.User$testResultsArgs<ExtArgs>
+  testDeadlines?: boolean | Prisma.User$testDeadlinesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1324,6 +1476,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     streak: Prisma.$StreakPayload<ExtArgs> | null
     topicProgress: Prisma.$UserTopicProgressPayload<ExtArgs>[]
     testResults: Prisma.$UserTestResultPayload<ExtArgs>[]
+    testDeadlines: Prisma.$UserTestDeadlinePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1736,6 +1889,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   streak<T extends Prisma.User$streakArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$streakArgs<ExtArgs>>): Prisma.Prisma__StreakClient<runtime.Types.Result.GetResult<Prisma.$StreakPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   topicProgress<T extends Prisma.User$topicProgressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$topicProgressArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserTopicProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   testResults<T extends Prisma.User$testResultsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$testResultsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserTestResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  testDeadlines<T extends Prisma.User$testDeadlinesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$testDeadlinesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserTestDeadlinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2322,6 +2476,30 @@ export type User$testResultsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.UserTestResultScalarFieldEnum | Prisma.UserTestResultScalarFieldEnum[]
+}
+
+/**
+ * User.testDeadlines
+ */
+export type User$testDeadlinesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserTestDeadline
+   */
+  select?: Prisma.UserTestDeadlineSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserTestDeadline
+   */
+  omit?: Prisma.UserTestDeadlineOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserTestDeadlineInclude<ExtArgs> | null
+  where?: Prisma.UserTestDeadlineWhereInput
+  orderBy?: Prisma.UserTestDeadlineOrderByWithRelationInput | Prisma.UserTestDeadlineOrderByWithRelationInput[]
+  cursor?: Prisma.UserTestDeadlineWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserTestDeadlineScalarFieldEnum | Prisma.UserTestDeadlineScalarFieldEnum[]
 }
 
 /**

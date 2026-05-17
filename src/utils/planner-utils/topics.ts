@@ -1,6 +1,10 @@
 import { Subject } from "@/generated/prisma/enums";
 import { differenceInDays } from "date-fns";
-import type { TopicCandidateForPlanning, TopicForPlanning } from "./schemas";
+import type {
+  TestDeadlineForPlanning,
+  TopicCandidateForPlanning,
+  TopicForPlanning,
+} from "./schemas";
 const DEFAULT_CANDIDATE_LIMIT = 27;
 
 type ChapterTopicProgress = {
@@ -55,6 +59,7 @@ export function buildTopicsForPlanning(
 type BuildRankedTopicCandidatesInput = {
   topics: TopicForPlanning[];
   weakestSubject: Subject;
+  testDeadlines?: TestDeadlineForPlanning[];
   now?: Date;
   limit?: number;
 };
@@ -62,10 +67,13 @@ type BuildRankedTopicCandidatesInput = {
 export function buildRankedTopicCandidates({
   topics,
   weakestSubject,
+  testDeadlines = [],
   now = new Date(),
   limit = DEFAULT_CANDIDATE_LIMIT,
 }: BuildRankedTopicCandidatesInput): TopicCandidateForPlanning[] {
- const scored = topics.map((topic) => scoreTopicCandidate(topic, weakestSubject, now));
+ const scored = topics.map((topic) =>
+  scoreTopicCandidate(topic, weakestSubject, now, testDeadlines),
+ );
  const grouped = new Map<Subject, TopicCandidateForPlanning[]>()
  for (const topic of scored) {
   if(!grouped.has(topic.subject)) {
@@ -73,12 +81,8 @@ export function buildRankedTopicCandidates({
   }
   grouped.get(topic.subject)!.push(topic);
  }
- for (const [subject , pool] of grouped) {
- if(subject === weakestSubject){
-  pool.sort((a,b) => b.priorityScore - a.priorityScore)
- } else{
-  pool.sort((a,b) =>  a.order - b.order)
- }
+ for (const pool of grouped.values()) {
+  pool.sort((a,b) => b.priorityScore - a.priorityScore || a.order - b.order)
  }
  const subjects = [...grouped.keys()]
  const result: TopicCandidateForPlanning[] = []
@@ -100,6 +104,7 @@ function scoreTopicCandidate(
   topic: TopicForPlanning,
   weakestSubject: Subject,
   now: Date,
+  testDeadlines: TestDeadlineForPlanning[],
 ): TopicCandidateForPlanning {
   const reasons: string[] = [];
   
@@ -117,6 +122,23 @@ function scoreTopicCandidate(
   if (topic.subject === weakestSubject) {
     priorityScore += 10;
     reasons.push("weakest subject");
+  }
+
+  const nearestDeadline = testDeadlines
+    .filter((deadline) => deadline.subject === topic.subject && deadline.daysUntil >= 0)
+    .sort((a, b) => a.daysUntil - b.daysUntil)[0];
+
+  if (nearestDeadline && nearestDeadline.daysUntil <= 14) {
+    const deadlineBoost =
+      nearestDeadline.daysUntil <= 3
+        ? 35
+        : Math.max(10, 28 - nearestDeadline.daysUntil);
+    priorityScore += deadlineBoost;
+    reasons.push(
+      nearestDeadline.daysUntil === 0
+        ? `test deadline today: ${nearestDeadline.title}`
+        : `test deadline in ${nearestDeadline.daysUntil} days: ${nearestDeadline.title}`,
+    );
   }
 const isColdStart = topic.lastStudiedAt === null && topic.mistakesCount === 0
 if (isColdStart) {
@@ -183,5 +205,3 @@ function getConfidencePenalty(confidence: number | null) {
   if (confidence === 4) return 5;
   return 0;
 }
-
-
