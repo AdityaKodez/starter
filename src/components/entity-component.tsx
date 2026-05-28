@@ -21,19 +21,19 @@ export const EntityHeader = ({
   action?: React.ReactNode
 }) => {
   return (
-    <div className="flex w-full flex-col gap-4 lg:flex-row lg:items-start lg:justify-between px-4">
-      <div className="min-w-0 flex-1 space-y-2">
-        <h1 className="font-display text-lg font-semibold tracking-tighter leading-tight wrap-break-word sm:text-xl">
+    <div className="flex w-full flex-col gap-4 p-4 lg:flex-row lg:items-center lg:justify-between">
+      <div className="min-w-0 flex-1 space-y-1.5">
+        <h1 className="font-display text-2xl font-bold tracking-tight">
           {title}
         </h1>
 
-        <p className="text-muted-foreground text-sm wrap-break-word">
+        <p className="text-muted-foreground text-base">
           {description}
         </p>
       </div>
 
       {action && (
-        <div className=" w-full shrink-0 items-center lg:w-auto lg:justify-end hidden sm:block">
+        <div className="shrink-0 items-center hidden sm:flex lg:justify-end">
           {action}
         </div>
       )}
@@ -81,23 +81,23 @@ export function EmptyState({
 }: EmptyStateProps) {
   return (
     <Empty
-      className={cn("flex-1", bordered && "border border-dashed", className)}
+      className={cn("flex-1 m-4 p-8 flex flex-col items-center justify-center gap-6", bordered && "border border-dashed", className)}
     >
-      <EmptyHeader>
+      <EmptyHeader className="flex flex-col items-center text-center gap-2">
         {Icon && (
-          <EmptyMedia variant="icon">
-            <Icon />
+          <EmptyMedia variant="icon" className="mb-4">
+            <Icon className="h-10 w-10 text-muted-foreground" />
           </EmptyMedia>
         )}
-        <EmptyTitle>{title}</EmptyTitle>
-        {description && <EmptyDescription>{description}</EmptyDescription>}
+        <EmptyTitle className="text-xl font-semibold">{title}</EmptyTitle>
+        {description && <EmptyDescription className="text-muted-foreground text-sm max-w-md">{description}</EmptyDescription>}
       </EmptyHeader>
 
       {(action || secondaryAction || children) && (
-        <EmptyContent>
+        <EmptyContent className="flex flex-col items-center gap-6 mt-4">
           {children}
           {(action || secondaryAction) && (
-            <div className="flex items-center gap-2">
+            <div className="flex flex-row items-center gap-4">
               {action && (
                 <Button
                   variant={action.variant ?? "default"}

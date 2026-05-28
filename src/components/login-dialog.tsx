@@ -39,21 +39,21 @@ export function LoginDialog({ children }: LoginDialogProps) {
       <DialogTrigger asChild>
         {children || <Button variant="default">Login</Button>}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
-        <div className="flex flex-row items-center gap-2">
-          <Avatar>
+      <DialogContent className="sm:max-w-md p-6 gap-6">
+        <DialogHeader className="flex flex-col items-center gap-4 text-center">
+          <Avatar className="h-12 w-12">
             <AvatarFallback>A</AvatarFallback>
           </Avatar>
-        </div>
-        <DialogHeader>
-          <DialogTitle className=" text-2xl font-bold">
-            Welcome back
-          </DialogTitle>
-          <DialogDescription className="">
-            Sign in to your account to continue
-          </DialogDescription>
+          <div className="flex flex-col gap-1.5">
+            <DialogTitle className="text-2xl font-bold">
+              Welcome back
+            </DialogTitle>
+            <DialogDescription className="text-muted-foreground">
+              Sign in to your account to continue
+            </DialogDescription>
+          </div>
         </DialogHeader>
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center gap-4">
           <Button
             type="button"
             variant="outline"
