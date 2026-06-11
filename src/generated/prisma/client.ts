@@ -47,6 +47,11 @@ export { Prisma }
  */
 export type User = Prisma.UserModel
 /**
+ * Model Streak
+ * 
+ */
+export type Streak = Prisma.StreakModel
+/**
  * Model Onboarding
  * 
  */

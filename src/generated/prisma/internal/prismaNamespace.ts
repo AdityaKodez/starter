@@ -385,6 +385,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
+  Streak: 'Streak',
   Onboarding: 'Onboarding',
   Session: 'Session',
   Account: 'Account',
@@ -411,7 +412,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "onboarding" | "session" | "account" | "verification" | "studyPlan" | "studyPlanTask" | "studyPlanReflection" | "userTestResult" | "studyChapter" | "studyTopic" | "userTopicProgress"
+    modelProps: "user" | "streak" | "onboarding" | "session" | "account" | "verification" | "studyPlan" | "studyPlanTask" | "studyPlanReflection" | "userTestResult" | "studyChapter" | "studyTopic" | "userTopicProgress"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -486,6 +487,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.UserCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.UserCountAggregateOutputType> | number
+        }
+      }
+    }
+    Streak: {
+      payload: Prisma.$StreakPayload<ExtArgs>
+      fields: Prisma.StreakFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StreakFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StreakPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StreakFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StreakPayload>
+        }
+        findFirst: {
+          args: Prisma.StreakFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StreakPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StreakFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StreakPayload>
+        }
+        findMany: {
+          args: Prisma.StreakFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StreakPayload>[]
+        }
+        create: {
+          args: Prisma.StreakCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StreakPayload>
+        }
+        createMany: {
+          args: Prisma.StreakCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StreakCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StreakPayload>[]
+        }
+        delete: {
+          args: Prisma.StreakDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StreakPayload>
+        }
+        update: {
+          args: Prisma.StreakUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StreakPayload>
+        }
+        deleteMany: {
+          args: Prisma.StreakDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StreakUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StreakUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StreakPayload>[]
+        }
+        upsert: {
+          args: Prisma.StreakUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StreakPayload>
+        }
+        aggregate: {
+          args: Prisma.StreakAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStreak>
+        }
+        groupBy: {
+          args: Prisma.StreakGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StreakGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StreakCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StreakCountAggregateOutputType> | number
         }
       }
     }
@@ -1356,6 +1431,18 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const StreakScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  count: 'count',
+  lastDate: 'lastDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StreakScalarFieldEnum = (typeof StreakScalarFieldEnum)[keyof typeof StreakScalarFieldEnum]
+
+
 export const OnboardingScalarFieldEnum = {
   id: 'id',
   examYear: 'examYear',
@@ -1840,6 +1927,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
+  streak?: Prisma.StreakOmit
   onboarding?: Prisma.OnboardingOmit
   session?: Prisma.SessionOmit
   account?: Prisma.AccountOmit

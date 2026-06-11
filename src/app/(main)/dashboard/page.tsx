@@ -1,15 +1,21 @@
-import { EmptyState, EntityHeader } from "@/components/entity-component";
+import { EntityHeader } from "@/components/entity-component";
 import { DashboardContent } from "@/features/dashboard/dashboard";
-import { UserProfileMenu } from "@/features/dashboard/user-profile-menu";
 import { DashboardContentSkeleton } from "@/features/dashboard/planner/component/dashboard-skeleton";
+import { UserProfileMenu } from "@/features/dashboard/user-profile-menu";
 import { auth } from "@/lib/auth";
+import { prefetchPlanner, prefetchStudyStats } from "@/lib/prefetch";
 import { HydrateClient } from "@/trpc/server";
 import { requireAuth } from "@/utils/auth-utils";
+import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
-import { prefetchPlanner, prefetchStudyStats } from "@/lib/prefetch";
-import { AlertTriangleIcon } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description:
+    "View your study plans, track progress, and access resources on your personalized dashboard.",
+};
+
 export default  async function DashboardPage() {
   await requireAuth();
   const user = await auth.api.getSession({
@@ -33,9 +39,9 @@ export default  async function DashboardPage() {
           <HydrateClient>
             {/* Dashboard content goes here */}
             <Suspense fallback={<DashboardContentSkeleton />}>
-              <ErrorBoundary fallback={<EmptyState icon={AlertTriangleIcon} title="Error" description="Failed to load dashboard content." bordered />}>
+       
             <DashboardContent/>
-            </ErrorBoundary>
+      
             </Suspense>
           </HydrateClient>
         </div>

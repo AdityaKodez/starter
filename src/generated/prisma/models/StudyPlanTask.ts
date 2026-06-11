@@ -569,10 +569,6 @@ export type EnumStudyPlanTaskTypeFieldUpdateOperationsInput = {
   set?: $Enums.StudyPlanTaskType
 }
 
-export type EnumSubjectFieldUpdateOperationsInput = {
-  set?: $Enums.Subject
-}
-
 export type EnumTaskStatusFieldUpdateOperationsInput = {
   set?: $Enums.TaskStatus
 }

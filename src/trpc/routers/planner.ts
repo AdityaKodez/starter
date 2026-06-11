@@ -46,25 +46,7 @@ const parseTestResultToPercent = (result: string | null) => {
 };
 
 export const plannerRouter = createTRPCRouter({
-  today: authedProcedure.query(async ({ ctx }) => {
-    const today = startOfDay(new Date());
-    const planner = await prisma.studyPlan.findFirst({
-      where: {
-        date: today,
-        userId: ctx.user.id,
-      },
-      include: {
-        tasks: {
-          orderBy: { order: "asc" },
-        },
-        reflection: true,
-      },
-    });
-    if (!planner) {
-      return { tasks: [], totalMinutes: 0 };
-    }
-    return { tasks: planner.tasks, totalMinutes: planner.totalMinutes };
-  }),
+ 
   dailyStudyStats: authedProcedure.query(async ({ ctx }) => {
     const today = startOfDay(new Date());
     const startDate = subDays(today, 6);
@@ -215,13 +197,11 @@ export const plannerRouter = createTRPCRouter({
     });
 
     if (existingPlan) return existingPlan;
-
-    const dailyMinutes = onboarding.dailyStudyMinutes ?? 180;
-    const weakestSubject = onboarding.weakestSubject ?? Subject.maths;
+   
+    const dailyMinutes = onboarding.dailyStudyMinutes ;
+    const weakestSubject = onboarding.weakestSubject;
     const chaptersWithTopics = await prisma.studyChapter.findMany({
-      where: {
-        subject: { in: [Subject.physics, Subject.chemistry, Subject.maths] },
-      },
+   
       select: {
         id: true,
         subject: true,
@@ -261,14 +241,6 @@ export const plannerRouter = createTRPCRouter({
         message: "No study topics are available to generate a plan",
       });
     }
-
-    if (!process.env.GOOGLE_AI_API_KEY) {
-      throw new TRPCError({
-        code: "PRECONDITION_FAILED",
-        message: "GOOGLE_AI_API_KEY is required to generate a study plan",
-      });
-    }
-
     const topicCandidates = buildRankedTopicCandidates({
       topics: topicsForPlanning,
       weakestSubject,
