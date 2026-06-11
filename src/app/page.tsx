@@ -682,6 +682,7 @@ export default async function HomePage() {
             </LoginDialog>
           </section>
         </div>
+      </div>
     </main>
   );
 }
