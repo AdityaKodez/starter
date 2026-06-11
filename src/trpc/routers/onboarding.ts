@@ -13,6 +13,8 @@ export const onboardingRouter = createTRPCRouter({
         coachingStart: z.number().int(),
         rankAim: z.number().int(),
         coachingEnd: z.number().int(),
+        schoolStart: z.number().int().min(0).max(23),
+        schoolEnd: z.number().int().min(0).max(23),
         weakestSubject: z.enum(Subject),
         timeZone: z.string().trim().min(1).max(80).optional(),
       }),
@@ -29,6 +31,8 @@ export const onboardingRouter = createTRPCRouter({
           coachingStart: input.coachingStart,
           rankAim: input.rankAim,
           coachingEnd: input.coachingEnd,
+          schoolStart: input.schoolStart,
+          schoolEnd: input.schoolEnd,
           weakestSubject: input.weakestSubject,
         },
         create: {
@@ -39,6 +43,8 @@ export const onboardingRouter = createTRPCRouter({
           coachingStart: input.coachingStart,
           rankAim: input.rankAim,
           coachingEnd: input.coachingEnd,
+          schoolStart: input.schoolStart,
+          schoolEnd: input.schoolEnd,
           weakestSubject: input.weakestSubject,
         },
       });

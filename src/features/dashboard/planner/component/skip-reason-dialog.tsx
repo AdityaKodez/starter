@@ -27,6 +27,13 @@ const SKIP_EMOJIS = [
   "😐",
 ] as const;
 
+const SKIP_ADJUSTMENTS = [
+  "We'll adjust tomorrow's plan to fit your busy day by prioritizing high-impact tasks and scheduling shorter, more focused sessions.",
+  "We'll make tomorrow's plan much gentler, suggesting low-effort, low-demand activities to help you recover your energy.",
+  "We'll break down complex or challenging tasks into smaller, bite-sized steps tomorrow and adjust the difficulty.",
+  "We'll prune tasks from this category tomorrow and introduce other topics that better align with your current interests."
+] as const;
+
 type SkipReasonDialogProps = {
   open: boolean;
   taskTitle?: string | null;
@@ -60,15 +67,18 @@ export function SkipReasonDialog({
           </div>
         )}
         <div className="space-y-4">
-            <div className="flex justify-between text-lg text-muted-foreground">
-                {
-                    SKIP_EMOJIS.map((e, i) => (
-                        <span key={e} className={" " + (i === selected ? "font-medium text-foreground" : "")}>
-                            {e}
-                        </span>
-                    ))
-                }
-            </div>
+          <div className="flex justify-between text-xl px-1">
+            {SKIP_EMOJIS.map((e, i) => (
+              <span
+                key={e}
+                className={`transition-all duration-300 transform ${
+                  i === selected ? "scale-125 filter-none font-semibold" : "opacity-40 grayscale"
+                }`}
+              >
+                {e}
+              </span>
+            ))}
+          </div>
           <Slider
             min={0}
             max={SKIP_REASONS.length - 1}
@@ -80,12 +90,27 @@ export function SkipReasonDialog({
           />
           <div className="flex justify-between text-xs text-muted-foreground">
             {SKIP_REASONS.map((r, i) => (
-              <span key={r} className={"" + (i === selected ? "font-medium text-foreground" : "")}>
+              <span
+                key={r}
+                className={`transition-colors duration-300 ${
+                  i === selected ? "font-semibold text-foreground" : ""
+                }`}
+              >
                 {r}
               </span>
             ))}
           </div>
-        </div>
+
+         
+            <div className="flex items-center gap-1.5 font-semibold text-primary dark:text-primary-foreground mb-1">
+            
+              <span>Tomorrow&apos;s adjustment:</span>
+            </div>
+            <p className="leading-relaxed text-muted-foreground">
+              {SKIP_ADJUSTMENTS[selected]}
+            </p>
+          </div>
+     
         <DialogFooter>
           <Button variant="ghost" type="button" onClick={onCancel}>
             Cancel

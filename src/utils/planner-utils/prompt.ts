@@ -24,8 +24,15 @@ export function buildPlannerPrompt(input: PlannerPromptInput) {
         "Include atleast 2 different subjects if available time allows.",
         "Target 90% to 100% utilization of dailyMinutes.",
         "Prefer 2 to 5 tasks unless available time is very small.",
-        "Avoid duplicate tasks for the same topic unless a test follows study/revision.",
+        "Do not schedule duplicate tasks for the same topic unless a test follows study/revision.",
         "Do not schedule more than 2 cognitively heavy topics consecutively.",
+        "The current day of the week is provided in `currentDayOfWeek`.",
+        "All study tasks must have sequential non-overlapping `startTime` and `endTime` (e.g. Task 1 starts and ends, then Task 2 starts). Leave reasonable buffer space or start next task immediately.",
+        "Do not schedule tasks during coaching/tuition hours (from coachingStart to coachingEnd, e.g. 9 for 9:00 AM to 17 for 5:00 PM). This coaching restriction applies on ALL days.",
+        "Do not schedule tasks during school hours (from schoolStart to schoolEnd, e.g. 8 for 8:00 AM to 14 for 2:00 PM) on weekdays and Saturdays.",
+        "Sunday Exception: If currentDayOfWeek is 'Sunday', DO NOT take school timing into account (since school is closed on Sundays). Only coaching/tuition timing restriction applies on Sunday.",
+        "The duration of each task (endTime minus startTime) must exactly equal `durationMinutes`.",
+        "Return startTime and endTime in standard 'hh:mm AM/PM' format (e.g., '08:00 AM', '10:30 AM', '02:00 PM').",
       ],
 
       prioritizationRules: [
@@ -77,6 +84,7 @@ export function buildPlannerPrompt(input: PlannerPromptInput) {
       studentProfile: {
         dailyMinutes: input.dailyMinutes,
         weakestSubject: input.weakestSubject,
+        currentDayOfWeek: input.currentDayOfWeek,
         ...input.onboarding,
       },
 
@@ -93,6 +101,8 @@ export function buildPlannerPrompt(input: PlannerPromptInput) {
               topicId: "existing topic id only",
               durationMinutes: 45,
               reason: "short explanation grounded in provided data",
+              startTime: "hh:mm AM/PM (e.g., 08:00 AM)",
+              endTime: "hh:mm AM/PM (e.g., 09:30 AM)",
             },
           ],
         },

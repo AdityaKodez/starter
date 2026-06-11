@@ -76,21 +76,21 @@ export function TestDeadlinesCard() {
       <CardHeader className="space-y-1">
         <CardTitle>Upcoming tests</CardTitle>
         <CardAction>
-          <Button size="sm" onClick={() => setDeadlineDialogOpen(true)}>
+          <Button size="sm" variant={"secondary"} onClick={() => setDeadlineDialogOpen(true)}>
             <IconCalendarPlus />
             Add test
           </Button>
         </CardAction>
       </CardHeader>
       <CardContent className="space-y-3">
-        <p className="text-xs text-muted-foreground">
-          Used by the planner for prep priority.
-        </p>
 
         {deadlines.length === 0 ? (
-          <div className="rounded-lg border border-dashed p-3 text-sm text-muted-foreground">
-            No upcoming tests saved.
-          </div>
+       <EmptyState 
+            icon={IconCalendarPlus}
+            title="No upcoming tests"
+            description="Add your test deadlines to get prep reminders and personalized study plans."
+            bordered
+          />
         ) : (
           <ul className="space-y-2">
             {deadlines.map((deadline) => {
@@ -251,11 +251,7 @@ export function TestResultsCard() {
                   </p>
                 </div>
 
-                <div className="text-right">
-                  <p className="text-2xl font-bold">
-                    {formatPercent(data.averagePercent)}
-                  </p>
-                </div>
+               
               </div>
 
               <ChartContainer

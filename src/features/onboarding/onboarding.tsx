@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import { AssistantLogo } from "./component/assistant-logo";
 import { AttemptTypeStep } from "./component/attempt-type-step";
 import { CoachingTimingStep } from "./component/coaching-timing-step";
+import { SchoolTimingStep } from "./component/school-timing-step";
 import { DailyStudyMinuteUI } from "./component/daily-study-minute";
 import { ExamYearStep } from "./component/exam-year-step";
 import { RankAimStep } from "./component/rank-aim-step";
@@ -34,6 +35,8 @@ interface OnboardingData {
   dailyStudyMinutes: number | null;
   coachingStart: number | null;
   coachingEnd: number | null;
+  schoolStart: number | null;
+  schoolEnd: number | null;
   rankAim: number | null;
   weakestSubject: Subject | null;
   timeZone: string | null;
@@ -53,6 +56,7 @@ type StepKey =
   | "attemptType"
   | "dailyStudy"
   | "coachingTiming"
+  | "schoolTiming"
   | "rankAim"
   | "onboarding-complete"
   | "weakest-subject";
@@ -104,6 +108,19 @@ const STEPS: StepDef[] = [
     },
   },
   {
+    key: "schoolTiming",
+    question:
+      "Got it! Now — **what are your school timings?** \n\nI will make sure your study plan does not overlap with your school hours.",
+    formatAnswer: (data) => {
+      const formatTime = (h: number) => {
+        const period = h >= 12 ? "PM" : "AM";
+        const display = h === 0 ? 12 : h > 12 ? h - 12 : h;
+        return `${display}:00 ${period}`;
+      };
+      return `My school is from ${formatTime(data.schoolStart ?? 8)} to ${formatTime(data.schoolEnd ?? 14)}`;
+    },
+  },
+  {
     key: "rankAim",
     question:
       "What rank are you aiming for? \n\nSet a target so I can keep your plan focused.",
@@ -132,6 +149,8 @@ const OnboardingChat = () => {
     dailyStudyMinutes: null,
     coachingStart: null,
     coachingEnd: null,
+    schoolStart: null,
+    schoolEnd: null,
     rankAim: null,
     weakestSubject: null,
     timeZone: null,
@@ -168,6 +187,8 @@ const OnboardingChat = () => {
           dailyStudyMinutes: updatedData.dailyStudyMinutes!,
           coachingStart: updatedData.coachingStart!,
           coachingEnd: updatedData.coachingEnd!,
+          schoolStart: updatedData.schoolStart!,
+          schoolEnd: updatedData.schoolEnd!,
           rankAim: updatedData.rankAim!,
           weakestSubject: updatedData.weakestSubject!,
           timeZone: resolvedTimeZone ?? undefined,
@@ -225,6 +246,18 @@ const OnboardingChat = () => {
     },
     [onboardingData, advanceStep],
   );
+  const handleSchoolTiming = useCallback(
+    (start: number, end: number) => {
+      const updated = {
+        ...onboardingData,
+        schoolStart: start,
+        schoolEnd: end,
+      };
+      setOnboardingData(updated);
+      advanceStep(updated);
+    },
+    [onboardingData, advanceStep],
+  );
 
   const handleRankAim = useCallback(
     (rankAim: number) => {
@@ -269,6 +302,7 @@ const OnboardingChat = () => {
           handleAttemptType,
           handleDailyStudy,
           handleCoachingTiming,
+          handleSchoolTiming,
           handleRankAim,
           handleWeakestSubject,
         ),
@@ -292,6 +326,7 @@ const OnboardingChat = () => {
     handleAttemptType,
     handleDailyStudy,
     handleCoachingTiming,
+    handleSchoolTiming,
     handleRankAim,
     handleWeakestSubject,
   ]);
@@ -371,6 +406,7 @@ function renderStepComponent(
   onAttemptType: (attempt: number) => void,
   onDailyStudy: (minutes: number) => void,
   onCoachingTiming: (start: number, end: number) => void,
+  onSchoolTiming: (start: number, end: number) => void,
   onRankAim: (rankAim: number) => void,
   onWeakestSubject: (subject: Subject) => void,
 ): React.ReactNode {
@@ -383,6 +419,8 @@ function renderStepComponent(
       return <DailyStudyMinuteUI onSubmit={onDailyStudy} />;
     case "coachingTiming":
       return <CoachingTimingStep onSubmit={onCoachingTiming} />;
+    case "schoolTiming":
+      return <SchoolTimingStep onSubmit={onSchoolTiming} />;
     case "rankAim":
       return <RankAimStep onSubmit={onRankAim} />;
     case "weakest-subject":

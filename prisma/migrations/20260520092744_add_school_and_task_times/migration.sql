@@ -1,0 +1,8 @@
+-- AlterTable
+ALTER TABLE "Onboarding" ADD COLUMN     "schoolEnd" INTEGER NOT NULL DEFAULT 14,
+ADD COLUMN     "schoolStart" INTEGER NOT NULL DEFAULT 8;
+
+-- AlterTable
+ALTER TABLE "StudyPlanTask" ADD COLUMN     "endTime" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "rangeTime" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "startTime" TEXT NOT NULL DEFAULT '';
