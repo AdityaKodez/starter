@@ -529,14 +529,6 @@ export type EnumTopicStatusFieldUpdateOperationsInput = {
   set?: $Enums.TopicStatus
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type UserTopicProgressCreateWithoutUserInput = {
   id?: string
   status?: $Enums.TopicStatus

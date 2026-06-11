@@ -46,6 +46,14 @@ export const StudyPlanTaskType = {
 export type StudyPlanTaskType = (typeof StudyPlanTaskType)[keyof typeof StudyPlanTaskType]
 
 
+export const RewardType = {
+  xp: 'xp',
+  gems: 'gems'
+} as const
+
+export type RewardType = (typeof RewardType)[keyof typeof RewardType]
+
+
 export const UserTestDeadlineStatus = {
   active: 'active',
   completed: 'completed',

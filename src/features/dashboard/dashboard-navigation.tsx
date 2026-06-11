@@ -7,6 +7,7 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { UserProfileMenu } from "@/features/dashboard/user-profile-menu";
+import { GemCounter } from "@/features/dashboard/gem-counter";
 import { Logo } from "@/components/logo";
 
 type DashboardNavigationProps = {
@@ -41,10 +42,11 @@ export function DashboardNavigation({ user }: DashboardNavigationProps) {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <div className=" flex items-center gap-2">
+        <div className=" flex items-center gap-3">
           <span className="hidden text-xs font-medium text-muted-foreground sm:inline">
             {`Welcome back, ${displayName}`}
           </span>
+          <GemCounter />
           <UserProfileMenu name={user.name} email={user.email} image={user.image} />
         </div>
       </div>

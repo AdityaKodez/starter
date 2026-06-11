@@ -16,11 +16,13 @@ import {
   formatMs,
   type PomodoroSession,
 } from "../hooks/use-pomodoro";
+import { RewardBurst, type TaskReward } from "./reward-burst";
 
 type PomodoroTimerProps = {
   session: PomodoroSession;
   remainingMs: number;
   isMarkingComplete: boolean;
+  reward?: TaskReward | null;
   onPause: () => void;
   onResume: () => void;
   onStop: () => void;
@@ -33,6 +35,7 @@ export function PomodoroTimer({
   session,
   remainingMs,
   isMarkingComplete,
+  reward,
   onPause,
   onResume,
   onStop,
@@ -51,9 +54,12 @@ export function PomodoroTimer({
   if (session.phase === "workDone") {
     return (
       <div className="mt-2 w-full rounded-md border border-primary/40 bg-primary/5 p-3 space-y-2">
-        <p className="text-sm font-medium text-foreground">
-          Session complete — task marked as done. Nice focus!
-        </p>
+        <div className="flex flex-wrap items-center gap-2">
+          <p className="text-sm font-medium text-foreground">
+            Session complete — task marked as done. Nice focus!
+          </p>
+          {reward && <RewardBurst reward={reward} />}
+        </div>
         <div className="flex flex-wrap items-center gap-2">
           <Button
             type="button"

@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import { PlanReflectionDialog } from "./component/plan-reflection-dialog";
 import { PomodoroDialog } from "./component/pomodoro-dialog";
 import { PomodoroTimer } from "./component/pomodoro-timer";
+import type { TaskReward } from "./component/reward-burst";
 import { SkipReasonDialog } from "./component/skip-reason-dialog";
 import { TestResultDialog } from "./component/test-result-dialog";
 import { usePomodoro, type PomodoroSettings } from "./hooks/use-pomodoro";
@@ -62,6 +63,9 @@ export const Planner = () => {
   const [skipTask, setSkipTask] = useState<PlannerData["tasks"][number] | null>(null);
   const [pomodoroDialogOpen, setPomodoroDialogOpen] = useState(false);
   const [pomodoroTask, setPomodoroTask] = useState<PlannerData["tasks"][number] | null>(null);
+  const [lastReward, setLastReward] = useState<
+    ({ taskId: string } & TaskReward) | null
+  >(null);
   const [dismissedReflectionPlanId, setDismissedReflectionPlanId] =
     useState<string | null>(null);
   const resolvedTimeZone =
@@ -130,6 +134,16 @@ export const Planner = () => {
             };
           },
         );
+        if (data.reward) {
+          setLastReward({
+            taskId: data.id,
+            type: data.reward.type,
+            amount: data.reward.amount,
+          });
+          queryClient.invalidateQueries({
+            queryKey: trpc.planner.getRewardBalance.queryKey(),
+          });
+        }
       },
     }),
   );
@@ -399,10 +413,15 @@ export const Planner = () => {
         ) : isPlanComplete ? (
           <div className="space-y-3">
             {pomodoro.session && (
-              <PomodoroTimer
-                session={pomodoro.session}
-                remainingMs={pomodoro.remainingMs}
-                isMarkingComplete={updateTaskMutation.isPending}
+                <PomodoroTimer
+                  session={pomodoro.session}
+                  remainingMs={pomodoro.remainingMs}
+                  isMarkingComplete={updateTaskMutation.isPending}
+                  reward={
+                    lastReward?.taskId === pomodoro.session.taskId
+                      ? lastReward
+                      : null
+                  }
                 onPause={pomodoro.pause}
                 onResume={pomodoro.resume}
                 onStop={pomodoro.stop}
@@ -592,6 +611,11 @@ export const Planner = () => {
                               session={pomodoro.session}
                               remainingMs={pomodoro.remainingMs}
                               isMarkingComplete={updateTaskMutation.isPending}
+                              reward={
+                                lastReward?.taskId === pomodoro.session.taskId
+                                  ? lastReward
+                                  : null
+                              }
                               onPause={pomodoro.pause}
                               onResume={pomodoro.resume}
                               onStop={pomodoro.stop}
