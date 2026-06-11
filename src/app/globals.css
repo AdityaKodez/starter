@@ -121,15 +121,18 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply scroll-smooth font-sans;
   }
+
   ::selection {
-    background: oklch(0.546 0.245 262.881);
-    color: oklch(0.97 0.014 254.604);
+    background: #555;
+    color: #fff;
   }
 }
 

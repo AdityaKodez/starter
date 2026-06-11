@@ -1,5 +1,59 @@
 export type AmbientSound = "none" | "ocean" | "rain" | "white";
 
+// Real audio recordings — preload them once as <audio> elements so the
+// browser has them buffered before the user starts a session (no glitch on play).
+const RAIN_URL =
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/liecio-calming-rain-257596-RLTu3jRr0OWSvJEpXX8PkVt2XfWlaP.mp3";
+const OCEAN_URL =
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/catfox_alex-ocean-wave-slowly-236010-u5SyqQBIfS73DWnYJpKpDxUkdFGxDX.mp3";
+const WHITE_NOISE_URL =
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/extrasounds-white-noise-358382-StSq2h8UNs9TeUmTQfXZcMkWa9vyAf.mp3";
+
+let rainEl: HTMLAudioElement | null = null;
+let oceanEl: HTMLAudioElement | null = null;
+let whiteNoiseEl: HTMLAudioElement | null = null;
+
+function getRainElement(): HTMLAudioElement {
+  if (!rainEl) {
+    rainEl = new Audio(RAIN_URL);
+    rainEl.loop = true;
+    rainEl.preload = "auto";
+    rainEl.volume = 0.55;
+    rainEl.load();
+  }
+  return rainEl;
+}
+
+function getOceanElement(): HTMLAudioElement {
+  if (!oceanEl) {
+    oceanEl = new Audio(OCEAN_URL);
+    oceanEl.loop = true;
+    oceanEl.preload = "auto";
+    oceanEl.volume = 0.55;
+    oceanEl.load();
+  }
+  return oceanEl;
+}
+
+function getWhiteNoiseElement(): HTMLAudioElement {
+  if (!whiteNoiseEl) {
+    whiteNoiseEl = new Audio(WHITE_NOISE_URL);
+    whiteNoiseEl.loop = true;
+    whiteNoiseEl.preload = "auto";
+    whiteNoiseEl.volume = 0.55;
+    whiteNoiseEl.load();
+  }
+  return whiteNoiseEl;
+}
+
+// Pre-buffer all as soon as this module is imported (runs at bundle evaluation
+// time in the browser, no-op on the server).
+if (typeof window !== "undefined") {
+  getRainElement();
+  getOceanElement();
+  getWhiteNoiseElement();
+}
+
 /**
  * Synthesizes ambient sounds with the Web Audio API so no audio
  * assets need to be downloaded. Must only be called client-side,
@@ -75,53 +129,47 @@ class AmbientAudioEngine {
     master.connect(ctx.destination);
 
     if (sound === "white") {
-      const src = ctx.createBufferSource();
-      src.buffer = createNoiseBuffer(ctx, "white");
-      src.loop = true;
-      master.gain.value = 0.08;
-      src.connect(master);
-      src.start();
-      this.activeNodes = [src, master];
+      // Use the preloaded <audio> element — seamless looping, no synthesis.
+      master.disconnect(); // not needed for the <audio> path
+      const el = getWhiteNoiseElement();
+      el.currentTime = 0;
+      void el.play();
+      this.activeNodes = [];
     } else if (sound === "rain") {
-      const src = ctx.createBufferSource();
-      src.buffer = createNoiseBuffer(ctx, "pink");
-      src.loop = true;
-      const highpass = ctx.createBiquadFilter();
-      highpass.type = "highpass";
-      highpass.frequency.value = 500;
-      const lowpass = ctx.createBiquadFilter();
-      lowpass.type = "lowpass";
-      lowpass.frequency.value = 6000;
-      master.gain.value = 0.5;
-      src.connect(highpass).connect(lowpass).connect(master);
-      src.start();
-      this.activeNodes = [src, highpass, lowpass, master];
+      // Use the preloaded <audio> element — seamless looping, no synthesis.
+      master.disconnect(); // not needed for the <audio> path
+      const el = getRainElement();
+      el.currentTime = 0;
+      void el.play();
+      this.activeNodes = [];
+    } else if (sound === "ocean") {
+      // Use the preloaded <audio> element — seamless looping, no synthesis.
+      master.disconnect(); // not needed for the <audio> path
+      const el = getOceanElement();
+      el.currentTime = 0;
+      void el.play();
+      this.activeNodes = [];
     } else {
-      // ocean: brown noise with a slow swell, like waves
-      const src = ctx.createBufferSource();
-      src.buffer = createNoiseBuffer(ctx, "brown");
-      src.loop = true;
-      const lowpass = ctx.createBiquadFilter();
-      lowpass.type = "lowpass";
-      lowpass.frequency.value = 600;
-      const swell = ctx.createGain();
-      swell.gain.value = 0.5;
-      const lfo = ctx.createOscillator();
-      lfo.frequency.value = 0.12;
-      const lfoGain = ctx.createGain();
-      lfoGain.gain.value = 0.3;
-      lfo.connect(lfoGain).connect(swell.gain);
-      master.gain.value = 0.55;
-      src.connect(lowpass).connect(swell).connect(master);
-      src.start();
-      lfo.start();
-      this.activeNodes = [src, lowpass, swell, lfo, lfoGain, master];
-    }
 
     this.current = sound;
   }
 
   stop() {
+    // Always pause all real audio elements regardless of what was playing,
+    // in case stop() is called while they're active.
+    if (rainEl && !rainEl.paused) {
+      rainEl.pause();
+      rainEl.currentTime = 0;
+    }
+    if (oceanEl && !oceanEl.paused) {
+      oceanEl.pause();
+      oceanEl.currentTime = 0;
+    }
+    if (whiteNoiseEl && !whiteNoiseEl.paused) {
+      whiteNoiseEl.pause();
+      whiteNoiseEl.currentTime = 0;
+    }
+
     for (const node of this.activeNodes) {
       try {
         if ("stop" in node && typeof node.stop === "function") {
