@@ -3,22 +3,26 @@ import { EmptyState } from "@/components/entity-component";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { useTRPC } from "@/trpc/client";
 import {
   IconArrowRight,
   IconBook2,
+  IconCheck,
   IconClipboardCheck,
   IconClock12,
+  IconPlayerPlayFilled,
   IconRefresh
 } from "@tabler/icons-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ClockIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PlanReflectionDialog } from "./component/plan-reflection-dialog";
+import { PomodoroDialog } from "./component/pomodoro-dialog";
+import { PomodoroTimer } from "./component/pomodoro-timer";
 import { SkipReasonDialog } from "./component/skip-reason-dialog";
 import { TestResultDialog } from "./component/test-result-dialog";
+import { usePomodoro, type PomodoroSettings } from "./hooks/use-pomodoro";
 import { useFetchPlanner, usePlannerQueryOptions } from "./hooks/use-planner";
 
 type PlannerData = NonNullable<ReturnType<typeof useFetchPlanner>["data"]>;
@@ -56,6 +60,8 @@ export const Planner = () => {
   const [resultTask, setResultTask] = useState<PlannerData["tasks"][number] | null>(null);
   const [skipDialogOpen, setSkipDialogOpen] = useState(false);
   const [skipTask, setSkipTask] = useState<PlannerData["tasks"][number] | null>(null);
+  const [pomodoroDialogOpen, setPomodoroDialogOpen] = useState(false);
+  const [pomodoroTask, setPomodoroTask] = useState<PlannerData["tasks"][number] | null>(null);
   const [dismissedReflectionPlanId, setDismissedReflectionPlanId] =
     useState<string | null>(null);
   const resolvedTimeZone =
@@ -195,7 +201,41 @@ export const Planner = () => {
     }),
   );
 
+  const pomodoro = usePomodoro({
+    onWorkComplete: (taskId) => {
+      updateTaskMutation.mutate({
+        taskId,
+        status: "done",
+        timeZone: resolvedTimeZone,
+      });
+    },
+  });
+
+  function openPomodoroDialog(task: PlannerData["tasks"][number]) {
+    setPomodoroTask(task);
+    setPomodoroDialogOpen(true);
+  }
+
+  function handlePomodoroStart(settings: PomodoroSettings) {
+    if (!pomodoroTask) return;
+    pomodoro.start(pomodoroTask.id, settings);
+    setPomodoroDialogOpen(false);
+    setPomodoroTask(null);
+  }
+
   const { data: planner } = useFetchPlanner();
+
+  // Clear a persisted session whose task no longer exists (new day / regenerated plan).
+  const sessionTaskId = pomodoro.session?.taskId;
+  const sessionTaskExists =
+    !sessionTaskId || planner.tasks.some((task) => task.id === sessionTaskId);
+  const stopPomodoro = pomodoro.stop;
+  useEffect(() => {
+    if (!sessionTaskExists) {
+      stopPomodoro();
+    }
+  }, [sessionTaskExists, stopPomodoro]);
+
   const plannerCategorisedBySubject = planner.tasks.reduce((acc, task) => {
     const subject = task.subject ?? "other";
     if (!acc[subject]) {
@@ -357,11 +397,26 @@ export const Planner = () => {
         {planner.tasks.length === 0 ? (
           <EmptyState icon={ClockIcon} title="No tasks for today" description="You have no tasks scheduled for today. Enjoy your free time or add some tasks to your planner!" />
         ) : isPlanComplete ? (
-          <EmptyState
-            icon={IconClipboardCheck}
-            title="All tasks completed"
-            description="Nice work! You&apos;re done for today. Take a break or reflect on how it felt."
-          />
+          <div className="space-y-3">
+            {pomodoro.session && (
+              <PomodoroTimer
+                session={pomodoro.session}
+                remainingMs={pomodoro.remainingMs}
+                isMarkingComplete={updateTaskMutation.isPending}
+                onPause={pomodoro.pause}
+                onResume={pomodoro.resume}
+                onStop={pomodoro.stop}
+                onStartBreak={pomodoro.startBreak}
+                onToggleSound={pomodoro.toggleSound}
+                onMarkComplete={pomodoro.stop}
+              />
+            )}
+            <EmptyState
+              icon={IconClipboardCheck}
+              title="All tasks completed"
+              description="Nice work! You&apos;re done for today. Take a break or reflect on how it felt."
+            />
+          </div>
         ) : (
       
           <ul className="space-y-4">
@@ -383,32 +438,45 @@ export const Planner = () => {
                       const isDone = task.status === "done";
                       const isSkipped = task.status === "skipped";
                       const isInactive = isDone || isSkipped;
-                      const showCheckbox = task.type !== "test" && !isSkipped;
+                      const isTimerTask = task.type !== "test" && !isSkipped;
+                      const hasActiveSession = pomodoro.session !== null;
+                      const isSessionTask =
+                        pomodoro.session?.taskId === task.id;
                       const taskType = getTaskTypeMeta(task.type);
                       const TaskTypeIcon = taskType.icon;
                       return (
                         <li key={task.id} className="flex items-start gap-2 px-2 py-2 flex-col">
-                          {showCheckbox && (
-                            <Checkbox
-                              className="mt-0.5 cursor-pointer size-5"
-                              checked={isDone}
-                              aria-label={`Mark ${task.title} as ${
-                                isDone ? "not done" : "done"
-                              }`}
-                              
-                              onCheckedChange={(checked) => {
-                                const nextStatus =
-                                  checked === true ? "done" : "pending";
-                                if (task.status === nextStatus) return;
+                          {isTimerTask && !isDone && !isSessionTask && (
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="icon"
+                              className="size-7 rounded-full"
+                              aria-label={`Start focus session for ${task.title}`}
+                              disabled={hasActiveSession}
+                              onClick={() => openPomodoroDialog(task)}
+                            >
+                              <IconPlayerPlayFilled className="h-3.5 w-3.5" />
+                            </Button>
+                          )}
+                          {isTimerTask && isDone && !isSessionTask && (
+                            <Button
+                              type="button"
+                              variant="default"
+                              size="icon"
+                              className="size-7 rounded-full"
+                              aria-label={`Mark ${task.title} as not done`}
+                              onClick={() => {
                                 updateTaskMutation.mutate({
                                   taskId: task.id,
-                                  status: nextStatus,
+                                  status: "pending",
                                   timeZone: resolvedTimeZone,
                                 });
                               }}
-                            />
-                          )
-                          }
+                            >
+                              <IconCheck className="h-3.5 w-3.5" />
+                            </Button>
+                          )}
                           <div className="min-w-0 flex-1">
                             <div className="flex flex-wrap items-center gap-2">
                               <TaskTypeIcon className="h-3 w-3 hidden sm:block" />
@@ -519,6 +587,19 @@ export const Planner = () => {
                               </Button>
                             )}
                           </div>
+                          {isSessionTask && pomodoro.session && (
+                            <PomodoroTimer
+                              session={pomodoro.session}
+                              remainingMs={pomodoro.remainingMs}
+                              isMarkingComplete={updateTaskMutation.isPending}
+                              onPause={pomodoro.pause}
+                              onResume={pomodoro.resume}
+                              onStop={pomodoro.stop}
+                              onStartBreak={pomodoro.startBreak}
+                              onToggleSound={pomodoro.toggleSound}
+                              onMarkComplete={pomodoro.stop}
+                            />
+                          )}
                         </li>
                       );
                     })}
@@ -538,6 +619,17 @@ export const Planner = () => {
         onOpenChange={handleResultDialogChange}
         onCancel={closeResultDialog}
         onSave={handleSaveResult}
+      />
+      <PomodoroDialog
+        key={pomodoroTask?.id ?? "pomodoro"}
+        open={pomodoroDialogOpen}
+        taskTitle={pomodoroTask?.title}
+        taskDurationMinutes={pomodoroTask?.durationMinutes}
+        onOpenChange={(open) => {
+          setPomodoroDialogOpen(open);
+          if (!open) setPomodoroTask(null);
+        }}
+        onStart={handlePomodoroStart}
       />
       <SkipReasonDialog
         open={skipDialogOpen}
