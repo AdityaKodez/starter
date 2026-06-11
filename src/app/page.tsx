@@ -1,4 +1,5 @@
 import { LoginDialog } from "@/components/login-dialog";
+import { Logo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -434,9 +435,7 @@ export default async function HomePage() {
       <header className="sticky top-0 z-50 w-full border-b border-dashed border-foreground/20 bg-background/60 backdrop-blur-md">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-6 py-3 sm:px-12">
           <div className="flex items-center gap-3">
-            <div className="flex size-10 items-center justify-center rounded-2xl bg-primary/10 text-sm font-semibold text-primary">
-              A
-            </div>
+            <Logo size={36} className="text-foreground" />
             <div>
               <p className="text-sm font-semibold">Aura</p>
               <p className="text-xs text-muted-foreground">

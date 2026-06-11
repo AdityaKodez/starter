@@ -16,10 +16,9 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { UserProfileMenu } from "@/features/dashboard/user-profile-menu";
-import { IconCalendarStats, IconHome, IconPremiumRights, IconTargetArrow, IconXFilled } from "@tabler/icons-react";
+import { IconPremiumRights, IconXFilled } from "@tabler/icons-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import IconLogo from "../../../public/logo";
+import { Logo } from "@/components/logo";
 import { useState } from "react";
 
 type DashboardSidebarProps = {
@@ -30,27 +29,10 @@ type DashboardSidebarProps = {
   };
 };
 
-const navItems = [
-  {
-    title: "Dashboard",
-    href: "/dashboard",
-    icon: IconHome,
-  },
-  {
-    title: "Test",
-    href: "/dashboard#planner",
-    icon: IconTargetArrow,
-  },
-  {
-    title: "Progress",
-    href: "/dashboard#progress",
-    icon: IconCalendarStats,
-  },
-];
+const navItems = [];
 
 export function DashboardSidebar({ user }: DashboardSidebarProps) {
-  const pathname = usePathname();
- const [close , setClose] = useState(false);
+  const [close, setClose] = useState(false);
 
   return (
     <Sidebar collapsible="icon">
@@ -59,13 +41,11 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
        <SidebarMenuItem>
   <SidebarMenuButton asChild size="lg">
     <Link href="/dashboard" className="flex items-center gap-2">
-      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
-        <IconLogo className="h-4 w-4" />
-      </div>
+      <Logo size={28} className="shrink-0 text-foreground" />
 
       <div className="flex min-w-0 flex-col">
         <span className="truncate font-semibold">
-          Revind
+          Aura
         </span>
 
         <span className="truncate text-xs text-muted-foreground">
@@ -79,28 +59,6 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {navItems.map((item) => (
-                <SidebarMenuItem key={item.href} >
-                  <SidebarMenuButton
-                  
-                    asChild
-                    isActive={pathname === "/dashboard" && item.href === "/dashboard"}
-                    tooltip={item.title}
-                  >
-                    <Link href={item.href}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
       </SidebarContent>
 
       <SidebarFooter className="group-data-[collapsible=icon]:hidden">

@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { authClient } from "@/lib/auth-client";
 import { Loader2 } from "lucide-react";
-import { Avatar, AvatarFallback } from "./ui/avatar";
+import { Logo } from "@/components/logo";
 
 interface LoginDialogProps {
   children?: React.ReactNode;
@@ -41,9 +41,7 @@ export function LoginDialog({ children }: LoginDialogProps) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-md p-6 gap-6">
         <DialogHeader className="flex flex-col items-center gap-4 text-center">
-          <Avatar className="h-12 w-12">
-            <AvatarFallback>A</AvatarFallback>
-          </Avatar>
+          <Logo size={48} className="text-foreground" />
           <div className="flex flex-col gap-1.5">
             <DialogTitle className="text-2xl font-bold">
               Welcome back
