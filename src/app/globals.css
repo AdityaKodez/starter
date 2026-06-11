@@ -128,8 +128,8 @@
     @apply scroll-smooth font-sans;
   }
   ::selection {
-    background: ;
-    color: oklch(0.97 0.014 254.604);
+    background: #555;
+    color: #888;
   }
 }
 
