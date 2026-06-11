@@ -90,102 +90,159 @@ export function PlannerDoodle() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-    
-      
-      {/* Main Planner Card */}
+      <defs>
+        <pattern
+          id="planner-hatch"
+          width="10"
+          height="10"
+          patternTransform="rotate(45)"
+          patternUnits="userSpaceOnUse"
+        >
+          <line
+            x1="0"
+            y1="0"
+            x2="0"
+            y2="10"
+            className="stroke-foreground"
+            strokeWidth="4"
+          />
+        </pattern>
+      </defs>
+
+      {/* Hard offset shadow */}
       <rect
-        x="130"
+        x="122"
+        y="52"
+        width="270"
+        height="244"
+        className="fill-foreground"
+      />
+
+      {/* Main planner card — sharp corners, heavy outline */}
+      <rect
+        x="110"
         y="40"
-        width="240"
-        height="240"
-        rx="24"
-        className="fill-background stroke-border"
-        strokeWidth="4"
-      />
-      
-      {/* Header Bar */}
-      <line
-        x1="170"
-        y1="80"
-        x2="270"
-        y2="80"
-        className="stroke-foreground/80"
-        strokeWidth="8"
-        strokeLinecap="round"
+        width="270"
+        height="244"
+        className="fill-background stroke-foreground"
+        strokeWidth="5"
       />
 
-      {/* Task 1 - Checked */}
-      <rect x="170" y="120" width="24" height="24" rx="6" className="fill-emerald-500" />
+      {/* Header band — solid black with inverted label */}
+      <rect x="110" y="40" width="270" height="48" className="fill-foreground" />
+      <text
+        x="130"
+        y="72"
+        className="fill-background font-mono"
+        fontSize="22"
+        fontWeight="800"
+        letterSpacing="4"
+      >
+        TODAY
+      </text>
+      {/* Header tick squares */}
+      <rect x="330" y="54" width="10" height="10" className="fill-background" />
+      <rect x="346" y="54" width="10" height="10" className="fill-background/40" />
+      <rect x="330" y="70" width="10" height="10" className="fill-background/40" />
+      <rect x="346" y="70" width="10" height="10" className="fill-background" />
+
+      {/* Task 1 — done: solid box with bold check */}
+      <rect x="134" y="108" width="26" height="26" className="fill-foreground" />
       <path
-        d="M177 132 l5 5 l8 -10"
+        d="M140 121 l6 6 l11 -13"
         className="stroke-background"
-        strokeWidth="3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <line
-        x1="210"
-        y1="132"
-        x2="330"
-        y2="132"
-        className="stroke-foreground/40"
-        strokeWidth="6"
-        strokeLinecap="round"
-      />
-
-      {/* Task 2 - Unchecked */}
-      <rect
-        x="170"
-        y="166"
-        width="24"
-        height="24"
-        rx="6"
-        className="stroke-foreground/30 fill-transparent"
-        strokeWidth="3"
-      />
-      <line
-        x1="210"
-        y1="178"
-        x2="300"
-        y2="178"
-        className="stroke-foreground/40"
-        strokeWidth="6"
-        strokeLinecap="round"
-      />
-
-      {/* Task 3 - Unchecked */}
-      <rect
-        x="170"
-        y="212"
-        width="24"
-        height="24"
-        rx="6"
-        className="stroke-foreground/30 fill-transparent"
-        strokeWidth="3"
-      />
-      <line
-        x1="210"
-        y1="224"
-        x2="280"
-        y2="224"
-        className="stroke-foreground/40"
-        strokeWidth="6"
-        strokeLinecap="round"
-      />
-
-      {/* Accent Arrow */}
-      <path
-        d="M80 150 C 100 110, 140 120, 155 125"
-        className="stroke-amber-500 fill-transparent"
         strokeWidth="4"
-        strokeLinecap="round"
+        strokeLinecap="square"
       />
+      <rect x="176" y="114" width="150" height="13" className="fill-foreground" />
+
+      {/* Task 2 — done: solid box with bold check */}
+      <rect x="134" y="152" width="26" height="26" className="fill-foreground" />
       <path
-        d="M145 115 L 160 127 L 145 140"
-        className="stroke-amber-500 fill-transparent"
+        d="M140 165 l6 6 l11 -13"
+        className="stroke-background"
         strokeWidth="4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        strokeLinecap="square"
+      />
+      <rect x="176" y="158" width="118" height="13" className="fill-foreground/35" />
+
+      {/* Task 3 — current: outlined box, hatched bar */}
+      <rect
+        x="134"
+        y="196"
+        width="26"
+        height="26"
+        className="stroke-foreground fill-transparent"
+        strokeWidth="4"
+      />
+      <rect
+        x="176"
+        y="202"
+        width="170"
+        height="13"
+        fill="url(#planner-hatch)"
+        className="stroke-foreground"
+        strokeWidth="2.5"
+      />
+
+      {/* Progress bar — 2 of 3 filled */}
+      <rect
+        x="134"
+        y="244"
+        width="190"
+        height="18"
+        className="stroke-foreground fill-transparent"
+        strokeWidth="4"
+      />
+      <rect x="134" y="244" width="127" height="18" className="fill-foreground" />
+      <text
+        x="336"
+        y="259"
+        className="fill-foreground font-mono"
+        fontSize="15"
+        fontWeight="800"
+      >
+        2/3
+      </text>
+
+      {/* Offset tag — intentionally tilted */}
+      <g transform="rotate(-7 70 96)">
+        <rect
+          x="22"
+          y="78"
+          width="96"
+          height="36"
+          className="fill-background stroke-foreground"
+          strokeWidth="4"
+        />
+        <text
+          x="36"
+          y="102"
+          className="fill-foreground font-mono"
+          fontSize="15"
+          fontWeight="800"
+          letterSpacing="2"
+        >
+          PLAN 01
+        </text>
+      </g>
+
+      {/* Bold geometric arrow pointing at current task */}
+      <g transform="rotate(4 60 209)">
+        <rect x="20" y="202" width="58" height="13" className="fill-foreground" />
+        <path d="M78 192 L102 208.5 L78 225 Z" className="fill-foreground" />
+      </g>
+
+      {/* Corner accents — utilitarian crop marks */}
+      <path d="M404 56 h24 M416 44 v24" className="stroke-foreground" strokeWidth="4" />
+      <rect x="412" y="262" width="16" height="16" className="fill-foreground" />
+      <rect
+        x="438"
+        y="250"
+        width="16"
+        height="16"
+        className="stroke-foreground fill-transparent"
+        strokeWidth="4"
       />
     </svg>
   );
@@ -200,74 +257,170 @@ export function WellnessDoodle() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      {/* Background Soft Plate */}
+      <defs>
+        <pattern
+          id="wellness-hatch"
+          width="10"
+          height="10"
+          patternTransform="rotate(45)"
+          patternUnits="userSpaceOnUse"
+        >
+          <line
+            x1="0"
+            y1="0"
+            x2="0"
+            y2="10"
+            className="stroke-foreground"
+            strokeWidth="4"
+          />
+        </pattern>
+      </defs>
+
+      {/* ===== Left panel: LOAD gauge ===== */}
+      {/* Hard offset shadow */}
+      <rect x="52" y="62" width="190" height="216" className="fill-foreground" />
       <rect
-        x="60"
-        y="60"
-        width="400"
-        height="200"
-        rx="40"
-        className="fill-rose-500/5"
+        x="40"
+        y="50"
+        width="190"
+        height="216"
+        className="fill-background stroke-foreground"
+        strokeWidth="5"
       />
+      {/* Header band */}
+      <rect x="40" y="50" width="190" height="42" className="fill-foreground" />
+      <text
+        x="56"
+        y="78"
+        className="fill-background font-mono"
+        fontSize="18"
+        fontWeight="800"
+        letterSpacing="4"
+      >
+        LOAD
+      </text>
+      <rect x="196" y="62" width="10" height="10" className="fill-background" />
+      <rect x="210" y="62" width="10" height="10" className="fill-background/40" />
 
-      {/* Activity Ring Backgrounds */}
-      <circle
-        cx="160"
-        cy="160"
-        r="54"
-        className="stroke-foreground/10 fill-transparent"
-        strokeWidth="14"
-      />
-      <circle
-        cx="160"
-        cy="160"
-        r="34"
-        className="stroke-foreground/10 fill-transparent"
-        strokeWidth="14"
-      />
-
-      {/* Activity Ring Foregrounds */}
-      <path
-        d="M160 106 A 54 54 0 1 1 106 160"
-        className="stroke-rose-500 fill-transparent"
-        strokeWidth="14"
-        strokeLinecap="round"
-      />
-      <path
-        d="M160 126 A 34 34 0 0 1 194 160"
-        className="stroke-amber-500 fill-transparent"
-        strokeWidth="14"
-        strokeLinecap="round"
-      />
-
-      {/* ECG / Health Stat Line */}
-      <path
-        d="M 270 160 L 300 160 L 320 110 L 350 220 L 370 160 L 420 160"
-        className="stroke-emerald-500 fill-transparent"
-        strokeWidth="6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-
-      {/* Floating Stat Card */}
+      {/* Vertical load bars — heavy / medium / light */}
+      <rect x="62" y="124" width="34" height="110" className="fill-foreground" />
       <rect
-        x="320"
-        y="60"
-        width="90"
-        height="36"
-        rx="18"
-        className="fill-background stroke-border"
+        x="110"
+        y="156"
+        width="34"
+        height="78"
+        fill="url(#wellness-hatch)"
+        className="stroke-foreground"
         strokeWidth="3"
       />
-      <circle cx="344" cy="78" r="6" className="fill-emerald-500" />
+      <rect
+        x="158"
+        y="186"
+        width="34"
+        height="48"
+        className="stroke-foreground fill-transparent"
+        strokeWidth="4"
+      />
+      {/* Baseline */}
+      <line x1="56" y1="234" x2="214" y2="234" className="stroke-foreground" strokeWidth="5" />
+      {/* Limit marker */}
       <line
-        x1="360"
-        y1="78"
-        x2="390"
-        y2="78"
-        className="stroke-foreground/60"
+        x1="56"
+        y1="124"
+        x2="214"
+        y2="124"
+        className="stroke-foreground"
+        strokeWidth="3"
+        strokeDasharray="8 6"
+      />
+      <text
+        x="62"
+        y="256"
+        className="fill-foreground font-mono"
+        fontSize="13"
+        fontWeight="800"
+        letterSpacing="2"
+      >
+        MAX 2 HEAVY
+      </text>
+
+      {/* ===== Right panel: STEADY pulse ===== */}
+      <rect x="272" y="92" width="196" height="142" className="fill-foreground" />
+      <rect
+        x="260"
+        y="80"
+        width="196"
+        height="142"
+        className="fill-background stroke-foreground"
         strokeWidth="5"
-        strokeLinecap="round"
+      />
+      {/* Blocky step pulse — steady, not spiky */}
+      <path
+        d="M276 168 h28 v-36 h28 v36 h30 v-52 h28 v52 h28 v-24 h22"
+        className="stroke-foreground fill-transparent"
+        strokeWidth="6"
+        strokeLinecap="square"
+        strokeLinejoin="miter"
+      />
+      {/* Recovery window — hatched block under the line */}
+      <rect
+        x="362"
+        y="184"
+        width="64"
+        height="22"
+        fill="url(#wellness-hatch)"
+        className="stroke-foreground"
+        strokeWidth="3"
+      />
+      <text
+        x="276"
+        y="206"
+        className="fill-foreground font-mono"
+        fontSize="13"
+        fontWeight="800"
+        letterSpacing="2"
+      >
+        REST
+      </text>
+
+      {/* Offset tag — intentionally tilted */}
+      <g transform="rotate(6 380 64)">
+        <rect
+          x="330"
+          y="42"
+          width="118"
+          height="36"
+          className="fill-background stroke-foreground"
+          strokeWidth="4"
+        />
+        <text
+          x="344"
+          y="66"
+          className="fill-foreground font-mono"
+          fontSize="15"
+          fontWeight="800"
+          letterSpacing="2"
+        >
+          STEADY
+        </text>
+      </g>
+
+      {/* Bold geometric arrow linking load to pulse */}
+      <g transform="rotate(-3 245 160)">
+        <rect x="226" y="152" width="34" height="12" className="fill-foreground" />
+        <path d="M260 142 L282 158 L260 174 Z" className="fill-foreground" />
+      </g>
+
+      {/* Corner accents — utilitarian crop marks */}
+      <path d="M276 252 h24 M288 240 v24" className="stroke-foreground" strokeWidth="4" />
+      <rect x="430" y="246" width="16" height="16" className="fill-foreground" />
+      <rect
+        x="454"
+        y="234"
+        width="16"
+        height="16"
+        className="stroke-foreground fill-transparent"
+        strokeWidth="4"
       />
     </svg>
   );
@@ -344,18 +497,20 @@ export default async function HomePage() {
               </CardHeader>
               <CardContent className="space-y-5 flex">
                 <PlannerDoodle />
-                <div className="flex flex-col gap-2 text-center text-xs">
-                  <div className="rounded-2xl border border-border/60 bg-sky-500/10 p-3">
-                    <p className="font-medium">Study</p>
-                    <p className="text-muted-foreground">45 min</p>
+                <div className="flex flex-col gap-3 text-center font-mono text-xs">
+                  <div className="border-2 border-foreground bg-foreground p-3 text-background shadow-[4px_4px_0_0_var(--muted-foreground)]">
+                    <p className="font-bold uppercase tracking-widest">Study</p>
+                    <p className="text-background/70">45 MIN</p>
                   </div>
-                  <div className="rounded-2xl border border-border/60 bg-emerald-500/10 p-3">
-                    <p className="font-medium">Revision</p>
-                    <p className="text-muted-foreground">25 min</p>
+                  <div className="border-2 border-foreground bg-background p-3 shadow-[4px_4px_0_0_var(--foreground)]">
+                    <p className="font-bold uppercase tracking-widest">
+                      Revision
+                    </p>
+                    <p className="text-muted-foreground">25 MIN</p>
                   </div>
-                  <div className="rounded-2xl border border-border/60 bg-amber-500/10 p-3">
-                    <p className="font-medium">Test</p>
-                    <p className="text-muted-foreground">20 min</p>
+                  <div className="border-2 border-dashed border-foreground bg-background p-3 shadow-[4px_4px_0_0_var(--foreground)]">
+                    <p className="font-bold uppercase tracking-widest">Test</p>
+                    <p className="text-muted-foreground">20 MIN</p>
                   </div>
                 </div>
               </CardContent>
