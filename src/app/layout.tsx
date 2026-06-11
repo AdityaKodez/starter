@@ -24,6 +24,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Aura",
   description: "AI-powered study planning with cognitive load balancing.",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
