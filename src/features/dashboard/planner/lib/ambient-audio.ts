@@ -6,9 +6,12 @@ const RAIN_URL =
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/liecio-calming-rain-257596-RLTu3jRr0OWSvJEpXX8PkVt2XfWlaP.mp3";
 const OCEAN_URL =
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/catfox_alex-ocean-wave-slowly-236010-u5SyqQBIfS73DWnYJpKpDxUkdFGxDX.mp3";
+const WHITE_NOISE_URL =
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/extrasounds-white-noise-358382-StSq2h8UNs9TeUmTQfXZcMkWa9vyAf.mp3";
 
 let rainEl: HTMLAudioElement | null = null;
 let oceanEl: HTMLAudioElement | null = null;
+let whiteNoiseEl: HTMLAudioElement | null = null;
 
 function getRainElement(): HTMLAudioElement {
   if (!rainEl) {
@@ -32,11 +35,23 @@ function getOceanElement(): HTMLAudioElement {
   return oceanEl;
 }
 
-// Pre-buffer both as soon as this module is imported (runs at bundle evaluation
+function getWhiteNoiseElement(): HTMLAudioElement {
+  if (!whiteNoiseEl) {
+    whiteNoiseEl = new Audio(WHITE_NOISE_URL);
+    whiteNoiseEl.loop = true;
+    whiteNoiseEl.preload = "auto";
+    whiteNoiseEl.volume = 0.55;
+    whiteNoiseEl.load();
+  }
+  return whiteNoiseEl;
+}
+
+// Pre-buffer all as soon as this module is imported (runs at bundle evaluation
 // time in the browser, no-op on the server).
 if (typeof window !== "undefined") {
   getRainElement();
   getOceanElement();
+  getWhiteNoiseElement();
 }
 
 /**
@@ -114,13 +129,12 @@ class AmbientAudioEngine {
     master.connect(ctx.destination);
 
     if (sound === "white") {
-      const src = ctx.createBufferSource();
-      src.buffer = createNoiseBuffer(ctx, "white");
-      src.loop = true;
-      master.gain.value = 0.08;
-      src.connect(master);
-      src.start();
-      this.activeNodes = [src, master];
+      // Use the preloaded <audio> element — seamless looping, no synthesis.
+      master.disconnect(); // not needed for the <audio> path
+      const el = getWhiteNoiseElement();
+      el.currentTime = 0;
+      void el.play();
+      this.activeNodes = [];
     } else if (sound === "rain") {
       // Use the preloaded <audio> element — seamless looping, no synthesis.
       master.disconnect(); // not needed for the <audio> path
@@ -141,7 +155,7 @@ class AmbientAudioEngine {
   }
 
   stop() {
-    // Always pause both real audio elements regardless of what was playing,
+    // Always pause all real audio elements regardless of what was playing,
     // in case stop() is called while they're active.
     if (rainEl && !rainEl.paused) {
       rainEl.pause();
@@ -150,6 +164,10 @@ class AmbientAudioEngine {
     if (oceanEl && !oceanEl.paused) {
       oceanEl.pause();
       oceanEl.currentTime = 0;
+    }
+    if (whiteNoiseEl && !whiteNoiseEl.paused) {
+      whiteNoiseEl.pause();
+      whiteNoiseEl.currentTime = 0;
     }
 
     for (const node of this.activeNodes) {
