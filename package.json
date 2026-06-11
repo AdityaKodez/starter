@@ -25,6 +25,7 @@
     "@trpc/client": "^11.13.0",
     "@trpc/server": "^11.13.0",
     "@trpc/tanstack-react-query": "^11.13.0",
+    "@vercel/analytics": "^2.0.1",
     "ai": "^6.0.174",
     "avvvatars-react": "^0.4.2",
     "babel-plugin-react-compiler": "^1.0.0",
