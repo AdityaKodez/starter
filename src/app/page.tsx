@@ -90,102 +90,159 @@ export function PlannerDoodle() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-    
-      
-      {/* Main Planner Card */}
+      <defs>
+        <pattern
+          id="planner-hatch"
+          width="10"
+          height="10"
+          patternTransform="rotate(45)"
+          patternUnits="userSpaceOnUse"
+        >
+          <line
+            x1="0"
+            y1="0"
+            x2="0"
+            y2="10"
+            className="stroke-foreground"
+            strokeWidth="4"
+          />
+        </pattern>
+      </defs>
+
+      {/* Hard offset shadow */}
       <rect
-        x="130"
+        x="122"
+        y="52"
+        width="270"
+        height="244"
+        className="fill-foreground"
+      />
+
+      {/* Main planner card — sharp corners, heavy outline */}
+      <rect
+        x="110"
         y="40"
-        width="240"
-        height="240"
-        rx="24"
-        className="fill-background stroke-border"
-        strokeWidth="4"
-      />
-      
-      {/* Header Bar */}
-      <line
-        x1="170"
-        y1="80"
-        x2="270"
-        y2="80"
-        className="stroke-foreground/80"
-        strokeWidth="8"
-        strokeLinecap="round"
+        width="270"
+        height="244"
+        className="fill-background stroke-foreground"
+        strokeWidth="5"
       />
 
-      {/* Task 1 - Checked */}
-      <rect x="170" y="120" width="24" height="24" rx="6" className="fill-emerald-500" />
+      {/* Header band — solid black with inverted label */}
+      <rect x="110" y="40" width="270" height="48" className="fill-foreground" />
+      <text
+        x="130"
+        y="72"
+        className="fill-background font-mono"
+        fontSize="22"
+        fontWeight="800"
+        letterSpacing="4"
+      >
+        TODAY
+      </text>
+      {/* Header tick squares */}
+      <rect x="330" y="54" width="10" height="10" className="fill-background" />
+      <rect x="346" y="54" width="10" height="10" className="fill-background/40" />
+      <rect x="330" y="70" width="10" height="10" className="fill-background/40" />
+      <rect x="346" y="70" width="10" height="10" className="fill-background" />
+
+      {/* Task 1 — done: solid box with bold check */}
+      <rect x="134" y="108" width="26" height="26" className="fill-foreground" />
       <path
-        d="M177 132 l5 5 l8 -10"
+        d="M140 121 l6 6 l11 -13"
         className="stroke-background"
-        strokeWidth="3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <line
-        x1="210"
-        y1="132"
-        x2="330"
-        y2="132"
-        className="stroke-foreground/40"
-        strokeWidth="6"
-        strokeLinecap="round"
-      />
-
-      {/* Task 2 - Unchecked */}
-      <rect
-        x="170"
-        y="166"
-        width="24"
-        height="24"
-        rx="6"
-        className="stroke-foreground/30 fill-transparent"
-        strokeWidth="3"
-      />
-      <line
-        x1="210"
-        y1="178"
-        x2="300"
-        y2="178"
-        className="stroke-foreground/40"
-        strokeWidth="6"
-        strokeLinecap="round"
-      />
-
-      {/* Task 3 - Unchecked */}
-      <rect
-        x="170"
-        y="212"
-        width="24"
-        height="24"
-        rx="6"
-        className="stroke-foreground/30 fill-transparent"
-        strokeWidth="3"
-      />
-      <line
-        x1="210"
-        y1="224"
-        x2="280"
-        y2="224"
-        className="stroke-foreground/40"
-        strokeWidth="6"
-        strokeLinecap="round"
-      />
-
-      {/* Accent Arrow */}
-      <path
-        d="M80 150 C 100 110, 140 120, 155 125"
-        className="stroke-amber-500 fill-transparent"
         strokeWidth="4"
-        strokeLinecap="round"
+        strokeLinecap="square"
       />
+      <rect x="176" y="114" width="150" height="13" className="fill-foreground" />
+
+      {/* Task 2 — done: solid box with bold check */}
+      <rect x="134" y="152" width="26" height="26" className="fill-foreground" />
       <path
-        d="M145 115 L 160 127 L 145 140"
-        className="stroke-amber-500 fill-transparent"
+        d="M140 165 l6 6 l11 -13"
+        className="stroke-background"
         strokeWidth="4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        strokeLinecap="square"
+      />
+      <rect x="176" y="158" width="118" height="13" className="fill-foreground/35" />
+
+      {/* Task 3 — current: outlined box, hatched bar */}
+      <rect
+        x="134"
+        y="196"
+        width="26"
+        height="26"
+        className="stroke-foreground fill-transparent"
+        strokeWidth="4"
+      />
+      <rect
+        x="176"
+        y="202"
+        width="170"
+        height="13"
+        fill="url(#planner-hatch)"
+        className="stroke-foreground"
+        strokeWidth="2.5"
+      />
+
+      {/* Progress bar — 2 of 3 filled */}
+      <rect
+        x="134"
+        y="244"
+        width="190"
+        height="18"
+        className="stroke-foreground fill-transparent"
+        strokeWidth="4"
+      />
+      <rect x="134" y="244" width="127" height="18" className="fill-foreground" />
+      <text
+        x="336"
+        y="259"
+        className="fill-foreground font-mono"
+        fontSize="15"
+        fontWeight="800"
+      >
+        2/3
+      </text>
+
+      {/* Offset tag — intentionally tilted */}
+      <g transform="rotate(-7 70 96)">
+        <rect
+          x="22"
+          y="78"
+          width="96"
+          height="36"
+          className="fill-background stroke-foreground"
+          strokeWidth="4"
+        />
+        <text
+          x="36"
+          y="102"
+          className="fill-foreground font-mono"
+          fontSize="15"
+          fontWeight="800"
+          letterSpacing="2"
+        >
+          PLAN 01
+        </text>
+      </g>
+
+      {/* Bold geometric arrow pointing at current task */}
+      <g transform="rotate(4 60 209)">
+        <rect x="20" y="202" width="58" height="13" className="fill-foreground" />
+        <path d="M78 192 L102 208.5 L78 225 Z" className="fill-foreground" />
+      </g>
+
+      {/* Corner accents — utilitarian crop marks */}
+      <path d="M404 56 h24 M416 44 v24" className="stroke-foreground" strokeWidth="4" />
+      <rect x="412" y="262" width="16" height="16" className="fill-foreground" />
+      <rect
+        x="438"
+        y="250"
+        width="16"
+        height="16"
+        className="stroke-foreground fill-transparent"
+        strokeWidth="4"
       />
     </svg>
   );
