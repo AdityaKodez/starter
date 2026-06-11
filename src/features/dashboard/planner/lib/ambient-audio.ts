@@ -55,55 +55,12 @@ if (typeof window !== "undefined") {
 }
 
 /**
- * Synthesizes ambient sounds with the Web Audio API so no audio
- * assets need to be downloaded. Must only be called client-side,
+ * Plays looping ambient background sounds from preloaded recordings, and a
+ * short synthesized chime when a phase ends. Must only be driven client-side,
  * in response to a user gesture (browser autoplay policy).
  */
-function createNoiseBuffer(
-  ctx: AudioContext,
-  color: "white" | "pink" | "brown",
-): AudioBuffer {
-  const length = ctx.sampleRate * 2;
-  const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
-  const data = buffer.getChannelData(0);
-
-  if (color === "white") {
-    for (let i = 0; i < length; i++) {
-      data[i] = Math.random() * 2 - 1;
-    }
-  } else if (color === "pink") {
-    let b0 = 0,
-      b1 = 0,
-      b2 = 0,
-      b3 = 0,
-      b4 = 0,
-      b5 = 0,
-      b6 = 0;
-    for (let i = 0; i < length; i++) {
-      const w = Math.random() * 2 - 1;
-      b0 = 0.99886 * b0 + w * 0.0555179;
-      b1 = 0.99332 * b1 + w * 0.0750759;
-      b2 = 0.969 * b2 + w * 0.153852;
-      b3 = 0.8665 * b3 + w * 0.3104856;
-      b4 = 0.55 * b4 + w * 0.5329522;
-      b5 = -0.7616 * b5 - w * 0.016898;
-      data[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + w * 0.5362) * 0.11;
-      b6 = w * 0.115926;
-    }
-  } else {
-    let last = 0;
-    for (let i = 0; i < length; i++) {
-      const w = Math.random() * 2 - 1;
-      last = (last + 0.02 * w) / 1.02;
-      data[i] = last * 3.5;
-    }
-  }
-  return buffer;
-}
-
 class AmbientAudioEngine {
   private ctx: AudioContext | null = null;
-  private activeNodes: AudioNode[] = [];
   private current: AmbientSound = "none";
 
   private getContext(): AudioContext {
@@ -124,32 +81,20 @@ class AmbientAudioEngine {
     this.stop();
     if (sound === "none" || typeof window === "undefined") return;
 
-    const ctx = this.getContext();
-    const master = ctx.createGain();
-    master.connect(ctx.destination);
-
+    let el: HTMLAudioElement | null = null;
     if (sound === "white") {
-      // Use the preloaded <audio> element — seamless looping, no synthesis.
-      master.disconnect(); // not needed for the <audio> path
-      const el = getWhiteNoiseElement();
-      el.currentTime = 0;
-      void el.play();
-      this.activeNodes = [];
+      el = getWhiteNoiseElement();
     } else if (sound === "rain") {
-      // Use the preloaded <audio> element — seamless looping, no synthesis.
-      master.disconnect(); // not needed for the <audio> path
-      const el = getRainElement();
-      el.currentTime = 0;
-      void el.play();
-      this.activeNodes = [];
+      el = getRainElement();
     } else if (sound === "ocean") {
-      // Use the preloaded <audio> element — seamless looping, no synthesis.
-      master.disconnect(); // not needed for the <audio> path
-      const el = getOceanElement();
+      el = getOceanElement();
+    }
+
+    if (el) {
       el.currentTime = 0;
-      void el.play();
-      this.activeNodes = [];
-    } else {
+      // play() may reject if the call isn't tied to a user gesture; swallow it.
+      void el.play().catch(() => {});
+    }
 
     this.current = sound;
   }
@@ -170,17 +115,6 @@ class AmbientAudioEngine {
       whiteNoiseEl.currentTime = 0;
     }
 
-    for (const node of this.activeNodes) {
-      try {
-        if ("stop" in node && typeof node.stop === "function") {
-          (node as AudioScheduledSourceNode).stop();
-        }
-        node.disconnect();
-      } catch {
-        // node may already be stopped/disconnected
-      }
-    }
-    this.activeNodes = [];
     this.current = "none";
   }
 
