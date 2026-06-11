@@ -437,6 +437,7 @@ export const Planner = () => {
                                 {task.reason}
                               </p>
                             )}
+
                             {isSkipped && (
                               <p className="mt-1 text-xs text-muted-foreground">
                                 {task.skipReason
@@ -464,16 +465,28 @@ export const Planner = () => {
                             )}
                           </div>
                           <div className="flex items-center gap-2 whitespace-nowrap justify-between w-full">
-                            <span
-                              className={cn(
-                                "text-xs",
-                                getDurationColor(task.durationMinutes),
-                                isInactive && "text-muted-foreground",
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span
+                                className={cn(
+                                  "text-xs font-semibold",
+                                  getDurationColor(task.durationMinutes),
+                                  isInactive && "text-muted-foreground",
+                                )}
+                              >
+                                {task.durationMinutes} min
+                              </span>
+                              {task.startTime && task.endTime && (
+                                <span className={cn(
+                                  "text-[11px] px-1.5 py-0.5 rounded-md flex items-center gap-1 font-mono",
+                                  isInactive 
+                                    ? "bg-muted text-muted-foreground/60" 
+                                    : "bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-foreground/80",
+                                )}>
+                                  <ClockIcon className="h-2.5 w-2.5" />
+                                  {task.startTime} - {task.endTime}
+                                </span>
                               )}
-                            >
-                              {task.durationMinutes} min 
-                                 
-                            </span>
+                            </div>
                          
                             {!isDone && (
                               <Button

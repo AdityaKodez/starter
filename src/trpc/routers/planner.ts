@@ -1,12 +1,3 @@
-import { TRPCError } from "@trpc/server";
-import {
-  addDays,
-  differenceInCalendarDays,
-  eachDayOfInterval,
-  format,
-  startOfDay,
-  subDays,
-} from "date-fns";
 import {
   ReflectionMood,
   ReflectionTaskFeel,
@@ -22,14 +13,23 @@ import {
   getStreakEmoji,
   resolveTimeZone,
 } from "@/lib/streak";
-import { authedProcedure, createTRPCRouter } from "../init";
+import { generateStudyPlan } from "@/utils/planner-utils/generate-plan";
 import { buildPlanTasks } from "@/utils/planner-utils/tasks";
 import {
   buildRankedTopicCandidates,
   buildTopicsForPlanning,
 } from "@/utils/planner-utils/topics";
-import { generateStudyPlan } from "@/utils/planner-utils/generate-plan";
+import { TRPCError } from "@trpc/server";
+import {
+  addDays,
+  differenceInCalendarDays,
+  eachDayOfInterval,
+  format,
+  startOfDay,
+  subDays,
+} from "date-fns";
 import { z } from "zod";
+import { authedProcedure, createTRPCRouter } from "../init";
 
 const roundToOneDecimal = (value: number) => Math.round(value * 10) / 10;
 
@@ -60,6 +60,7 @@ const parseTestResultToPercent = (result: string | null) => {
 };
 
 const TEST_DEADLINE_PLANNING_WINDOW_DAYS = 14;
+const STUDY_STATS_WINDOW_DAYS = 364;
 
 const buildUpcomingTestDeadlinesForPlanning = async (userId: string, today: Date) => {
   const deadlines = await prisma.userTestDeadline.findMany({
@@ -89,7 +90,7 @@ export const plannerRouter = createTRPCRouter({
  
   dailyStudyStats: authedProcedure.query(async ({ ctx }) => {
     const today = startOfDay(new Date());
-    const startDate = subDays(today, 6);
+    const startDate = subDays(today, STUDY_STATS_WINDOW_DAYS - 1);
     const plans = await prisma.studyPlan.findMany({
       where: {
         userId: ctx.user.id,
@@ -127,6 +128,7 @@ export const plannerRouter = createTRPCRouter({
       }
 
       return {
+        dateKey: key,
         date: format(day, "MMM d"),
         physics: totals.physics,
         chemistry: totals.chemistry,
@@ -310,6 +312,11 @@ export const plannerRouter = createTRPCRouter({
 
     const onboarding = await prisma.onboarding.findUnique({
       where: { userId },
+      include: {
+        user: {
+          select: { timeZone: true },
+        },
+      },
     });
     if (!onboarding) {
       throw new TRPCError({
@@ -387,6 +394,13 @@ export const plannerRouter = createTRPCRouter({
       now: today,
     });
 
+    const userTimeZone = resolveTimeZone(onboarding.user?.timeZone ?? null);
+    const dayOfWeekFormatter = new Intl.DateTimeFormat("en-US", {
+      timeZone: userTimeZone,
+      weekday: "long",
+    });
+    const currentDayOfWeek = dayOfWeekFormatter.format(new Date());
+
     const generatedPlan = await generateStudyPlan({
       dailyMinutes,
       weakestSubject,
@@ -395,10 +409,13 @@ export const plannerRouter = createTRPCRouter({
         attemptNumber: onboarding.attemptNumber,
         coachingStart: onboarding.coachingStart,
         coachingEnd: onboarding.coachingEnd,
+        schoolStart: onboarding.schoolStart,
+        schoolEnd: onboarding.schoolEnd,
         rankAim: onboarding.rankAim,
       },
       topics: topicCandidates,
       testDeadlines,
+      currentDayOfWeek,
     });
 
     const { tasks, totalMinutes } = buildPlanTasks({
@@ -430,12 +447,17 @@ export const plannerRouter = createTRPCRouter({
         date: z.coerce.date().optional(),
       }),
     )
-    .mutation(async ({ ctx }) => {
+    .mutation(async ({ ctx, input }) => {
       const userId = ctx.user.id;
-      const date = startOfDay(new Date());
+      const date = startOfDay(input.date ?? new Date());
 
       const onboarding = await prisma.onboarding.findUnique({
         where: { userId },
+        include: {
+          user: {
+            select: { timeZone: true },
+          },
+        },
       });
       if (!onboarding) {
         throw new TRPCError({
@@ -523,6 +545,13 @@ export const plannerRouter = createTRPCRouter({
         now: date,
       });
 
+      const userTimeZone = resolveTimeZone(onboarding.user?.timeZone ?? null);
+      const dayOfWeekFormatter = new Intl.DateTimeFormat("en-US", {
+        timeZone: userTimeZone,
+        weekday: "long",
+      });
+      const currentDayOfWeek = dayOfWeekFormatter.format(date);
+
       const generatedPlan = await generateStudyPlan({
         dailyMinutes,
         weakestSubject,
@@ -531,10 +560,13 @@ export const plannerRouter = createTRPCRouter({
           attemptNumber: onboarding.attemptNumber,
           coachingStart: onboarding.coachingStart,
           coachingEnd: onboarding.coachingEnd,
+          schoolStart: onboarding.schoolStart,
+          schoolEnd: onboarding.schoolEnd,
           rankAim: onboarding.rankAim,
         },
         topics: topicCandidates,
         testDeadlines,
+        currentDayOfWeek,
       });
 
       const { tasks, totalMinutes } = buildPlanTasks({

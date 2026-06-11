@@ -15,6 +15,9 @@ type PlannerTask = {
   title: string;
   durationMinutes: number;
   reason: string;
+  startTime: string;
+  endTime: string;
+  rangeTime: string;
   order: number;
 };
 
@@ -74,6 +77,9 @@ export function buildPlanTasks(
       title: buildTaskTitle(task.type, topic),
       durationMinutes: task.durationMinutes,
       reason: task.reason,
+      startTime: task.startTime,
+      endTime: task.endTime,
+      rangeTime: `${task.startTime} - ${task.endTime}`,
       order: index + 1,
     };
   });

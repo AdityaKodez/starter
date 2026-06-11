@@ -21,6 +21,8 @@ export const generatedPlanSchema = z.object({
         topicId: z.string().min(1),
         durationMinutes: z.number().int().min(15).max(180),
         reason: z.string().min(10).max(240),
+        startTime: z.string().min(1),
+        endTime: z.string().min(1),
       }),
     )
     .min(1)
@@ -66,6 +68,8 @@ export type PlannerOnboarding = {
   attemptNumber: number | null;
   coachingStart: number | null;
   coachingEnd: number | null;
+  schoolStart: number | null;
+  schoolEnd: number | null;
   rankAim: number | null;
 };
 
@@ -75,4 +79,5 @@ export type PlannerPromptInput = {
   onboarding: PlannerOnboarding;
   topics: TopicCandidateForPlanning[];
   testDeadlines?: TestDeadlineForPlanning[];
+  currentDayOfWeek?: string;
 };

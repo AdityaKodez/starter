@@ -6,7 +6,7 @@ import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 function OnboardingSkeleton() {
   return (
-    <div className="max-w-4xl w-full mx-auto pt-8 md:pt-18 px-6 animate-in fade-in duration-300">
+    <div className="w-full pt-8 md:pt-18 px-6 animate-in fade-in duration-300">
       <div className="flex flex-col gap-8">
         {/* Assistant avatar + message skeleton */}
         <div className="flex flex-col gap-2 max-w-[95%]">
@@ -52,12 +52,14 @@ export default async function OnboardingPage() {
     redirect("/dashboard");
   }
   return (
-    <div className="flex flex-col h-screen w-screen items-center justify-center p-4 no-scrollbar">
-      <Suspense fallback={<OnboardingSkeleton />}>
-        <ErrorBoundary fallback={<OnboardingError />}>
-          <OnboardingChat />
-        </ErrorBoundary>
-      </Suspense>
+    <div className="flex justify-center min-h-screen bg-background">
+      <div className="flex flex-col h-screen w-full max-w-4xl border-x border-dashed border-foreground/20 no-scrollbar">
+        <Suspense fallback={<OnboardingSkeleton />}>
+          <ErrorBoundary fallback={<OnboardingError />}>
+            <OnboardingChat />
+          </ErrorBoundary>
+        </Suspense>
+      </div>
     </div>
   );
 }

@@ -72,7 +72,7 @@ export const DashboardContent = () => {
     return (
         <div className="w-full flex flex-col items-start justify-start gap-4">
                     <div className="w-full grid grid-cols-1 gap-4 sm:grid-cols-2 items-start">
-                        <div className="flex flex-col gap-4">
+                        <div id="planner" className="flex flex-col gap-4 scroll-mt-20">
 
                         <ErrorBoundary FallbackComponent={renderCardError("Planner")}> 
                             <Suspense fallback={<CardSkeleton title="Planner" />}>
@@ -86,7 +86,7 @@ export const DashboardContent = () => {
                             </ErrorBoundary>
                         </div>
 
-                        <div className="flex flex-col gap-4">
+                        <div id="progress" className="flex flex-col gap-4 scroll-mt-20">
                             <ErrorBoundary FallbackComponent={renderCardError("Study streak")}> 
                                 <Suspense fallback={<CardSkeleton title="Study streak" />}>
                                     <StudyStatsCard />

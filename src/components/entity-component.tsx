@@ -11,35 +11,7 @@ import {
 } from "@/components/ui/empty"
 import { cn } from "@/lib/utils"
 
-export const EntityHeader = ({
-  title,
-  description,
-  action,
-}: {
-  title: React.ReactNode
-  description: string
-  action?: React.ReactNode
-}) => {
-  return (
-    <div className="flex w-full flex-col gap-4 lg:flex-row lg:items-start lg:justify-between px-4">
-      <div className="min-w-0 flex-1 space-y-2">
-        <h1 className="font-display text-lg font-semibold tracking-tighter leading-tight wrap-break-word sm:text-xl">
-          {title}
-        </h1>
 
-        <p className="text-muted-foreground text-sm wrap-break-word">
-          {description}
-        </p>
-      </div>
-
-      {action && (
-        <div className=" w-full shrink-0 items-center lg:w-auto lg:justify-end hidden sm:block">
-          {action}
-        </div>
-      )}
-    </div>
-  )
-}
 
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement>>

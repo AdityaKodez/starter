@@ -15,6 +15,7 @@ import {
 import { signOut } from "@/lib/auth-client";
 import Avatar from "boring-avatars";
 import { LogOut, Settings } from "lucide-react";
+import { useRouter } from "next/navigation";
 type UserProfileMenuProps = {
   name?: string | null;
   email?: string | null;
@@ -24,6 +25,7 @@ type UserProfileMenuProps = {
 
 
 export const UserProfileMenu = ({ name, email, image }: UserProfileMenuProps) => {
+  const router = useRouter();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -68,6 +70,7 @@ export const UserProfileMenu = ({ name, email, image }: UserProfileMenuProps) =>
             variant="destructive"
             onSelect={() => {
               void signOut();
+              router.push("/");
             }}
           >
             <LogOut />

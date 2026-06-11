@@ -33,6 +33,8 @@ export type OnboardingAvgAggregateOutputType = {
   coachingStart: number | null
   rankAim: number | null
   coachingEnd: number | null
+  schoolStart: number | null
+  schoolEnd: number | null
 }
 
 export type OnboardingSumAggregateOutputType = {
@@ -42,6 +44,8 @@ export type OnboardingSumAggregateOutputType = {
   coachingStart: number | null
   rankAim: number | null
   coachingEnd: number | null
+  schoolStart: number | null
+  schoolEnd: number | null
 }
 
 export type OnboardingMinAggregateOutputType = {
@@ -52,6 +56,8 @@ export type OnboardingMinAggregateOutputType = {
   coachingStart: number | null
   rankAim: number | null
   coachingEnd: number | null
+  schoolStart: number | null
+  schoolEnd: number | null
   weakestSubject: $Enums.Subject | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -66,6 +72,8 @@ export type OnboardingMaxAggregateOutputType = {
   coachingStart: number | null
   rankAim: number | null
   coachingEnd: number | null
+  schoolStart: number | null
+  schoolEnd: number | null
   weakestSubject: $Enums.Subject | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -80,6 +88,8 @@ export type OnboardingCountAggregateOutputType = {
   coachingStart: number
   rankAim: number
   coachingEnd: number
+  schoolStart: number
+  schoolEnd: number
   weakestSubject: number
   createdAt: number
   updatedAt: number
@@ -95,6 +105,8 @@ export type OnboardingAvgAggregateInputType = {
   coachingStart?: true
   rankAim?: true
   coachingEnd?: true
+  schoolStart?: true
+  schoolEnd?: true
 }
 
 export type OnboardingSumAggregateInputType = {
@@ -104,6 +116,8 @@ export type OnboardingSumAggregateInputType = {
   coachingStart?: true
   rankAim?: true
   coachingEnd?: true
+  schoolStart?: true
+  schoolEnd?: true
 }
 
 export type OnboardingMinAggregateInputType = {
@@ -114,6 +128,8 @@ export type OnboardingMinAggregateInputType = {
   coachingStart?: true
   rankAim?: true
   coachingEnd?: true
+  schoolStart?: true
+  schoolEnd?: true
   weakestSubject?: true
   createdAt?: true
   updatedAt?: true
@@ -128,6 +144,8 @@ export type OnboardingMaxAggregateInputType = {
   coachingStart?: true
   rankAim?: true
   coachingEnd?: true
+  schoolStart?: true
+  schoolEnd?: true
   weakestSubject?: true
   createdAt?: true
   updatedAt?: true
@@ -142,6 +160,8 @@ export type OnboardingCountAggregateInputType = {
   coachingStart?: true
   rankAim?: true
   coachingEnd?: true
+  schoolStart?: true
+  schoolEnd?: true
   weakestSubject?: true
   createdAt?: true
   updatedAt?: true
@@ -243,6 +263,8 @@ export type OnboardingGroupByOutputType = {
   coachingStart: number
   rankAim: number
   coachingEnd: number
+  schoolStart: number
+  schoolEnd: number
   weakestSubject: $Enums.Subject
   createdAt: Date
   updatedAt: Date
@@ -280,6 +302,8 @@ export type OnboardingWhereInput = {
   coachingStart?: Prisma.IntFilter<"Onboarding"> | number
   rankAim?: Prisma.IntFilter<"Onboarding"> | number
   coachingEnd?: Prisma.IntFilter<"Onboarding"> | number
+  schoolStart?: Prisma.IntFilter<"Onboarding"> | number
+  schoolEnd?: Prisma.IntFilter<"Onboarding"> | number
   weakestSubject?: Prisma.EnumSubjectFilter<"Onboarding"> | $Enums.Subject
   createdAt?: Prisma.DateTimeFilter<"Onboarding"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Onboarding"> | Date | string
@@ -295,6 +319,8 @@ export type OnboardingOrderByWithRelationInput = {
   coachingStart?: Prisma.SortOrder
   rankAim?: Prisma.SortOrder
   coachingEnd?: Prisma.SortOrder
+  schoolStart?: Prisma.SortOrder
+  schoolEnd?: Prisma.SortOrder
   weakestSubject?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -314,6 +340,8 @@ export type OnboardingWhereUniqueInput = Prisma.AtLeast<{
   coachingStart?: Prisma.IntFilter<"Onboarding"> | number
   rankAim?: Prisma.IntFilter<"Onboarding"> | number
   coachingEnd?: Prisma.IntFilter<"Onboarding"> | number
+  schoolStart?: Prisma.IntFilter<"Onboarding"> | number
+  schoolEnd?: Prisma.IntFilter<"Onboarding"> | number
   weakestSubject?: Prisma.EnumSubjectFilter<"Onboarding"> | $Enums.Subject
   createdAt?: Prisma.DateTimeFilter<"Onboarding"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Onboarding"> | Date | string
@@ -328,6 +356,8 @@ export type OnboardingOrderByWithAggregationInput = {
   coachingStart?: Prisma.SortOrder
   rankAim?: Prisma.SortOrder
   coachingEnd?: Prisma.SortOrder
+  schoolStart?: Prisma.SortOrder
+  schoolEnd?: Prisma.SortOrder
   weakestSubject?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -350,6 +380,8 @@ export type OnboardingScalarWhereWithAggregatesInput = {
   coachingStart?: Prisma.IntWithAggregatesFilter<"Onboarding"> | number
   rankAim?: Prisma.IntWithAggregatesFilter<"Onboarding"> | number
   coachingEnd?: Prisma.IntWithAggregatesFilter<"Onboarding"> | number
+  schoolStart?: Prisma.IntWithAggregatesFilter<"Onboarding"> | number
+  schoolEnd?: Prisma.IntWithAggregatesFilter<"Onboarding"> | number
   weakestSubject?: Prisma.EnumSubjectWithAggregatesFilter<"Onboarding"> | $Enums.Subject
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Onboarding"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Onboarding"> | Date | string
@@ -364,6 +396,8 @@ export type OnboardingCreateInput = {
   coachingStart: number
   rankAim: number
   coachingEnd: number
+  schoolStart?: number
+  schoolEnd?: number
   weakestSubject: $Enums.Subject
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -378,6 +412,8 @@ export type OnboardingUncheckedCreateInput = {
   coachingStart: number
   rankAim: number
   coachingEnd: number
+  schoolStart?: number
+  schoolEnd?: number
   weakestSubject: $Enums.Subject
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -392,6 +428,8 @@ export type OnboardingUpdateInput = {
   coachingStart?: Prisma.IntFieldUpdateOperationsInput | number
   rankAim?: Prisma.IntFieldUpdateOperationsInput | number
   coachingEnd?: Prisma.IntFieldUpdateOperationsInput | number
+  schoolStart?: Prisma.IntFieldUpdateOperationsInput | number
+  schoolEnd?: Prisma.IntFieldUpdateOperationsInput | number
   weakestSubject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -406,6 +444,8 @@ export type OnboardingUncheckedUpdateInput = {
   coachingStart?: Prisma.IntFieldUpdateOperationsInput | number
   rankAim?: Prisma.IntFieldUpdateOperationsInput | number
   coachingEnd?: Prisma.IntFieldUpdateOperationsInput | number
+  schoolStart?: Prisma.IntFieldUpdateOperationsInput | number
+  schoolEnd?: Prisma.IntFieldUpdateOperationsInput | number
   weakestSubject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -420,6 +460,8 @@ export type OnboardingCreateManyInput = {
   coachingStart: number
   rankAim: number
   coachingEnd: number
+  schoolStart?: number
+  schoolEnd?: number
   weakestSubject: $Enums.Subject
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -434,6 +476,8 @@ export type OnboardingUpdateManyMutationInput = {
   coachingStart?: Prisma.IntFieldUpdateOperationsInput | number
   rankAim?: Prisma.IntFieldUpdateOperationsInput | number
   coachingEnd?: Prisma.IntFieldUpdateOperationsInput | number
+  schoolStart?: Prisma.IntFieldUpdateOperationsInput | number
+  schoolEnd?: Prisma.IntFieldUpdateOperationsInput | number
   weakestSubject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -447,6 +491,8 @@ export type OnboardingUncheckedUpdateManyInput = {
   coachingStart?: Prisma.IntFieldUpdateOperationsInput | number
   rankAim?: Prisma.IntFieldUpdateOperationsInput | number
   coachingEnd?: Prisma.IntFieldUpdateOperationsInput | number
+  schoolStart?: Prisma.IntFieldUpdateOperationsInput | number
+  schoolEnd?: Prisma.IntFieldUpdateOperationsInput | number
   weakestSubject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -466,6 +512,8 @@ export type OnboardingCountOrderByAggregateInput = {
   coachingStart?: Prisma.SortOrder
   rankAim?: Prisma.SortOrder
   coachingEnd?: Prisma.SortOrder
+  schoolStart?: Prisma.SortOrder
+  schoolEnd?: Prisma.SortOrder
   weakestSubject?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -479,6 +527,8 @@ export type OnboardingAvgOrderByAggregateInput = {
   coachingStart?: Prisma.SortOrder
   rankAim?: Prisma.SortOrder
   coachingEnd?: Prisma.SortOrder
+  schoolStart?: Prisma.SortOrder
+  schoolEnd?: Prisma.SortOrder
 }
 
 export type OnboardingMaxOrderByAggregateInput = {
@@ -489,6 +539,8 @@ export type OnboardingMaxOrderByAggregateInput = {
   coachingStart?: Prisma.SortOrder
   rankAim?: Prisma.SortOrder
   coachingEnd?: Prisma.SortOrder
+  schoolStart?: Prisma.SortOrder
+  schoolEnd?: Prisma.SortOrder
   weakestSubject?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -503,6 +555,8 @@ export type OnboardingMinOrderByAggregateInput = {
   coachingStart?: Prisma.SortOrder
   rankAim?: Prisma.SortOrder
   coachingEnd?: Prisma.SortOrder
+  schoolStart?: Prisma.SortOrder
+  schoolEnd?: Prisma.SortOrder
   weakestSubject?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -516,6 +570,8 @@ export type OnboardingSumOrderByAggregateInput = {
   coachingStart?: Prisma.SortOrder
   rankAim?: Prisma.SortOrder
   coachingEnd?: Prisma.SortOrder
+  schoolStart?: Prisma.SortOrder
+  schoolEnd?: Prisma.SortOrder
 }
 
 export type OnboardingCreateNestedOneWithoutUserInput = {
@@ -562,6 +618,8 @@ export type OnboardingCreateWithoutUserInput = {
   coachingStart: number
   rankAim: number
   coachingEnd: number
+  schoolStart?: number
+  schoolEnd?: number
   weakestSubject: $Enums.Subject
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -575,6 +633,8 @@ export type OnboardingUncheckedCreateWithoutUserInput = {
   coachingStart: number
   rankAim: number
   coachingEnd: number
+  schoolStart?: number
+  schoolEnd?: number
   weakestSubject: $Enums.Subject
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -604,6 +664,8 @@ export type OnboardingUpdateWithoutUserInput = {
   coachingStart?: Prisma.IntFieldUpdateOperationsInput | number
   rankAim?: Prisma.IntFieldUpdateOperationsInput | number
   coachingEnd?: Prisma.IntFieldUpdateOperationsInput | number
+  schoolStart?: Prisma.IntFieldUpdateOperationsInput | number
+  schoolEnd?: Prisma.IntFieldUpdateOperationsInput | number
   weakestSubject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -617,6 +679,8 @@ export type OnboardingUncheckedUpdateWithoutUserInput = {
   coachingStart?: Prisma.IntFieldUpdateOperationsInput | number
   rankAim?: Prisma.IntFieldUpdateOperationsInput | number
   coachingEnd?: Prisma.IntFieldUpdateOperationsInput | number
+  schoolStart?: Prisma.IntFieldUpdateOperationsInput | number
+  schoolEnd?: Prisma.IntFieldUpdateOperationsInput | number
   weakestSubject?: Prisma.EnumSubjectFieldUpdateOperationsInput | $Enums.Subject
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -632,6 +696,8 @@ export type OnboardingSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   coachingStart?: boolean
   rankAim?: boolean
   coachingEnd?: boolean
+  schoolStart?: boolean
+  schoolEnd?: boolean
   weakestSubject?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -647,6 +713,8 @@ export type OnboardingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   coachingStart?: boolean
   rankAim?: boolean
   coachingEnd?: boolean
+  schoolStart?: boolean
+  schoolEnd?: boolean
   weakestSubject?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -662,6 +730,8 @@ export type OnboardingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   coachingStart?: boolean
   rankAim?: boolean
   coachingEnd?: boolean
+  schoolStart?: boolean
+  schoolEnd?: boolean
   weakestSubject?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -677,13 +747,15 @@ export type OnboardingSelectScalar = {
   coachingStart?: boolean
   rankAim?: boolean
   coachingEnd?: boolean
+  schoolStart?: boolean
+  schoolEnd?: boolean
   weakestSubject?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
 }
 
-export type OnboardingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "examYear" | "attemptNumber" | "dailyStudyMinutes" | "coachingStart" | "rankAim" | "coachingEnd" | "weakestSubject" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["onboarding"]>
+export type OnboardingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "examYear" | "attemptNumber" | "dailyStudyMinutes" | "coachingStart" | "rankAim" | "coachingEnd" | "schoolStart" | "schoolEnd" | "weakestSubject" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["onboarding"]>
 export type OnboardingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -707,6 +779,8 @@ export type $OnboardingPayload<ExtArgs extends runtime.Types.Extensions.Internal
     coachingStart: number
     rankAim: number
     coachingEnd: number
+    schoolStart: number
+    schoolEnd: number
     weakestSubject: $Enums.Subject
     createdAt: Date
     updatedAt: Date
@@ -1142,6 +1216,8 @@ export interface OnboardingFieldRefs {
   readonly coachingStart: Prisma.FieldRef<"Onboarding", 'Int'>
   readonly rankAim: Prisma.FieldRef<"Onboarding", 'Int'>
   readonly coachingEnd: Prisma.FieldRef<"Onboarding", 'Int'>
+  readonly schoolStart: Prisma.FieldRef<"Onboarding", 'Int'>
+  readonly schoolEnd: Prisma.FieldRef<"Onboarding", 'Int'>
   readonly weakestSubject: Prisma.FieldRef<"Onboarding", 'Subject'>
   readonly createdAt: Prisma.FieldRef<"Onboarding", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Onboarding", 'DateTime'>
