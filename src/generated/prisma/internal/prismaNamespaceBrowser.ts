@@ -92,7 +92,9 @@ export const UserScalarFieldEnum = {
   timeZone: 'timeZone',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  onboardingDone: 'onboardingDone'
+  onboardingDone: 'onboardingDone',
+  gems: 'gems',
+  xp: 'xp'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -203,6 +205,8 @@ export const StudyPlanTaskScalarFieldEnum = {
   reason: 'reason',
   status: 'status',
   completedAt: 'completedAt',
+  rewardType: 'rewardType',
+  rewardAmount: 'rewardAmount',
   order: 'order'
 } as const
 

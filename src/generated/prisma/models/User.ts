@@ -20,8 +20,20 @@ export type UserModel = runtime.Types.Result.DefaultSelection<Prisma.$UserPayloa
 
 export type AggregateUser = {
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
+}
+
+export type UserAvgAggregateOutputType = {
+  gems: number | null
+  xp: number | null
+}
+
+export type UserSumAggregateOutputType = {
+  gems: number | null
+  xp: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -34,6 +46,8 @@ export type UserMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   onboardingDone: boolean | null
+  gems: number | null
+  xp: number | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -46,6 +60,8 @@ export type UserMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   onboardingDone: boolean | null
+  gems: number | null
+  xp: number | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -58,9 +74,21 @@ export type UserCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   onboardingDone: number
+  gems: number
+  xp: number
   _all: number
 }
 
+
+export type UserAvgAggregateInputType = {
+  gems?: true
+  xp?: true
+}
+
+export type UserSumAggregateInputType = {
+  gems?: true
+  xp?: true
+}
 
 export type UserMinAggregateInputType = {
   id?: true
@@ -72,6 +100,8 @@ export type UserMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   onboardingDone?: true
+  gems?: true
+  xp?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -84,6 +114,8 @@ export type UserMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   onboardingDone?: true
+  gems?: true
+  xp?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -96,6 +128,8 @@ export type UserCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   onboardingDone?: true
+  gems?: true
+  xp?: true
   _all?: true
 }
 
@@ -137,6 +171,18 @@ export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: UserAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: UserSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: UserMinAggregateInputType
@@ -167,6 +213,8 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: UserCountAggregateInputType | true
+  _avg?: UserAvgAggregateInputType
+  _sum?: UserSumAggregateInputType
   _min?: UserMinAggregateInputType
   _max?: UserMaxAggregateInputType
 }
@@ -181,7 +229,11 @@ export type UserGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   onboardingDone: boolean
+  gems: number
+  xp: number
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
 }
@@ -214,6 +266,8 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   onboardingDone?: Prisma.BoolFilter<"User"> | boolean
+  gems?: Prisma.IntFilter<"User"> | number
+  xp?: Prisma.IntFilter<"User"> | number
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
   onboarding?: Prisma.XOR<Prisma.OnboardingNullableScalarRelationFilter, Prisma.OnboardingWhereInput> | null
@@ -234,6 +288,8 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   onboardingDone?: Prisma.SortOrder
+  gems?: Prisma.SortOrder
+  xp?: Prisma.SortOrder
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   onboarding?: Prisma.OnboardingOrderByWithRelationInput
@@ -257,6 +313,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   onboardingDone?: Prisma.BoolFilter<"User"> | boolean
+  gems?: Prisma.IntFilter<"User"> | number
+  xp?: Prisma.IntFilter<"User"> | number
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
   onboarding?: Prisma.XOR<Prisma.OnboardingNullableScalarRelationFilter, Prisma.OnboardingWhereInput> | null
@@ -277,9 +335,13 @@ export type UserOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   onboardingDone?: Prisma.SortOrder
+  gems?: Prisma.SortOrder
+  xp?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
+  _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
+  _sum?: Prisma.UserSumOrderByAggregateInput
 }
 
 export type UserScalarWhereWithAggregatesInput = {
@@ -295,6 +357,8 @@ export type UserScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   onboardingDone?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  gems?: Prisma.IntWithAggregatesFilter<"User"> | number
+  xp?: Prisma.IntWithAggregatesFilter<"User"> | number
 }
 
 export type UserCreateInput = {
@@ -307,6 +371,8 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   onboardingDone?: boolean
+  gems?: number
+  xp?: number
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   onboarding?: Prisma.OnboardingCreateNestedOneWithoutUserInput
@@ -327,6 +393,8 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   onboardingDone?: boolean
+  gems?: number
+  xp?: number
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   onboarding?: Prisma.OnboardingUncheckedCreateNestedOneWithoutUserInput
@@ -347,6 +415,8 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gems?: Prisma.IntFieldUpdateOperationsInput | number
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   onboarding?: Prisma.OnboardingUpdateOneWithoutUserNestedInput
@@ -367,6 +437,8 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gems?: Prisma.IntFieldUpdateOperationsInput | number
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   onboarding?: Prisma.OnboardingUncheckedUpdateOneWithoutUserNestedInput
@@ -387,6 +459,8 @@ export type UserCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   onboardingDone?: boolean
+  gems?: number
+  xp?: number
 }
 
 export type UserUpdateManyMutationInput = {
@@ -399,6 +473,8 @@ export type UserUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gems?: Prisma.IntFieldUpdateOperationsInput | number
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -411,6 +487,8 @@ export type UserUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gems?: Prisma.IntFieldUpdateOperationsInput | number
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -423,6 +501,13 @@ export type UserCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   onboardingDone?: Prisma.SortOrder
+  gems?: Prisma.SortOrder
+  xp?: Prisma.SortOrder
+}
+
+export type UserAvgOrderByAggregateInput = {
+  gems?: Prisma.SortOrder
+  xp?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -435,6 +520,8 @@ export type UserMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   onboardingDone?: Prisma.SortOrder
+  gems?: Prisma.SortOrder
+  xp?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -447,6 +534,13 @@ export type UserMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   onboardingDone?: Prisma.SortOrder
+  gems?: Prisma.SortOrder
+  xp?: Prisma.SortOrder
+}
+
+export type UserSumOrderByAggregateInput = {
+  gems?: Prisma.SortOrder
+  xp?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -468,6 +562,14 @@ export type NullableStringFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type UserCreateNestedOneWithoutStreakInput = {
@@ -592,6 +694,8 @@ export type UserCreateWithoutStreakInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   onboardingDone?: boolean
+  gems?: number
+  xp?: number
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   onboarding?: Prisma.OnboardingCreateNestedOneWithoutUserInput
@@ -611,6 +715,8 @@ export type UserUncheckedCreateWithoutStreakInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   onboardingDone?: boolean
+  gems?: number
+  xp?: number
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   onboarding?: Prisma.OnboardingUncheckedCreateNestedOneWithoutUserInput
@@ -646,6 +752,8 @@ export type UserUpdateWithoutStreakInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gems?: Prisma.IntFieldUpdateOperationsInput | number
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   onboarding?: Prisma.OnboardingUpdateOneWithoutUserNestedInput
@@ -665,6 +773,8 @@ export type UserUncheckedUpdateWithoutStreakInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gems?: Prisma.IntFieldUpdateOperationsInput | number
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   onboarding?: Prisma.OnboardingUncheckedUpdateOneWithoutUserNestedInput
@@ -684,6 +794,8 @@ export type UserCreateWithoutOnboardingInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   onboardingDone?: boolean
+  gems?: number
+  xp?: number
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
@@ -703,6 +815,8 @@ export type UserUncheckedCreateWithoutOnboardingInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   onboardingDone?: boolean
+  gems?: number
+  xp?: number
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
@@ -738,6 +852,8 @@ export type UserUpdateWithoutOnboardingInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gems?: Prisma.IntFieldUpdateOperationsInput | number
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
@@ -757,6 +873,8 @@ export type UserUncheckedUpdateWithoutOnboardingInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gems?: Prisma.IntFieldUpdateOperationsInput | number
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
@@ -776,6 +894,8 @@ export type UserCreateWithoutSessionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   onboardingDone?: boolean
+  gems?: number
+  xp?: number
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   onboarding?: Prisma.OnboardingCreateNestedOneWithoutUserInput
   studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
@@ -795,6 +915,8 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   onboardingDone?: boolean
+  gems?: number
+  xp?: number
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   onboarding?: Prisma.OnboardingUncheckedCreateNestedOneWithoutUserInput
   studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
@@ -830,6 +952,8 @@ export type UserUpdateWithoutSessionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gems?: Prisma.IntFieldUpdateOperationsInput | number
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   onboarding?: Prisma.OnboardingUpdateOneWithoutUserNestedInput
   studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
@@ -849,6 +973,8 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gems?: Prisma.IntFieldUpdateOperationsInput | number
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   onboarding?: Prisma.OnboardingUncheckedUpdateOneWithoutUserNestedInput
   studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
@@ -868,6 +994,8 @@ export type UserCreateWithoutAccountsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   onboardingDone?: boolean
+  gems?: number
+  xp?: number
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   onboarding?: Prisma.OnboardingCreateNestedOneWithoutUserInput
   studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
@@ -887,6 +1015,8 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   onboardingDone?: boolean
+  gems?: number
+  xp?: number
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   onboarding?: Prisma.OnboardingUncheckedCreateNestedOneWithoutUserInput
   studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
@@ -922,6 +1052,8 @@ export type UserUpdateWithoutAccountsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gems?: Prisma.IntFieldUpdateOperationsInput | number
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   onboarding?: Prisma.OnboardingUpdateOneWithoutUserNestedInput
   studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
@@ -941,6 +1073,8 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gems?: Prisma.IntFieldUpdateOperationsInput | number
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   onboarding?: Prisma.OnboardingUncheckedUpdateOneWithoutUserNestedInput
   studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
@@ -960,6 +1094,8 @@ export type UserCreateWithoutStudyPlansInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   onboardingDone?: boolean
+  gems?: number
+  xp?: number
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   onboarding?: Prisma.OnboardingCreateNestedOneWithoutUserInput
@@ -979,6 +1115,8 @@ export type UserUncheckedCreateWithoutStudyPlansInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   onboardingDone?: boolean
+  gems?: number
+  xp?: number
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   onboarding?: Prisma.OnboardingUncheckedCreateNestedOneWithoutUserInput
@@ -1014,6 +1152,8 @@ export type UserUpdateWithoutStudyPlansInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gems?: Prisma.IntFieldUpdateOperationsInput | number
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   onboarding?: Prisma.OnboardingUpdateOneWithoutUserNestedInput
@@ -1033,6 +1173,8 @@ export type UserUncheckedUpdateWithoutStudyPlansInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gems?: Prisma.IntFieldUpdateOperationsInput | number
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   onboarding?: Prisma.OnboardingUncheckedUpdateOneWithoutUserNestedInput
@@ -1052,6 +1194,8 @@ export type UserCreateWithoutTestResultsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   onboardingDone?: boolean
+  gems?: number
+  xp?: number
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   onboarding?: Prisma.OnboardingCreateNestedOneWithoutUserInput
@@ -1071,6 +1215,8 @@ export type UserUncheckedCreateWithoutTestResultsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   onboardingDone?: boolean
+  gems?: number
+  xp?: number
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   onboarding?: Prisma.OnboardingUncheckedCreateNestedOneWithoutUserInput
@@ -1106,6 +1252,8 @@ export type UserUpdateWithoutTestResultsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gems?: Prisma.IntFieldUpdateOperationsInput | number
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   onboarding?: Prisma.OnboardingUpdateOneWithoutUserNestedInput
@@ -1125,6 +1273,8 @@ export type UserUncheckedUpdateWithoutTestResultsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gems?: Prisma.IntFieldUpdateOperationsInput | number
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   onboarding?: Prisma.OnboardingUncheckedUpdateOneWithoutUserNestedInput
@@ -1144,6 +1294,8 @@ export type UserCreateWithoutTestDeadlinesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   onboardingDone?: boolean
+  gems?: number
+  xp?: number
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   onboarding?: Prisma.OnboardingCreateNestedOneWithoutUserInput
@@ -1163,6 +1315,8 @@ export type UserUncheckedCreateWithoutTestDeadlinesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   onboardingDone?: boolean
+  gems?: number
+  xp?: number
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   onboarding?: Prisma.OnboardingUncheckedCreateNestedOneWithoutUserInput
@@ -1198,6 +1352,8 @@ export type UserUpdateWithoutTestDeadlinesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gems?: Prisma.IntFieldUpdateOperationsInput | number
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   onboarding?: Prisma.OnboardingUpdateOneWithoutUserNestedInput
@@ -1217,6 +1373,8 @@ export type UserUncheckedUpdateWithoutTestDeadlinesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gems?: Prisma.IntFieldUpdateOperationsInput | number
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   onboarding?: Prisma.OnboardingUncheckedUpdateOneWithoutUserNestedInput
@@ -1236,6 +1394,8 @@ export type UserCreateWithoutTopicProgressInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   onboardingDone?: boolean
+  gems?: number
+  xp?: number
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   onboarding?: Prisma.OnboardingCreateNestedOneWithoutUserInput
@@ -1255,6 +1415,8 @@ export type UserUncheckedCreateWithoutTopicProgressInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   onboardingDone?: boolean
+  gems?: number
+  xp?: number
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   onboarding?: Prisma.OnboardingUncheckedCreateNestedOneWithoutUserInput
@@ -1290,6 +1452,8 @@ export type UserUpdateWithoutTopicProgressInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gems?: Prisma.IntFieldUpdateOperationsInput | number
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   onboarding?: Prisma.OnboardingUpdateOneWithoutUserNestedInput
@@ -1309,6 +1473,8 @@ export type UserUncheckedUpdateWithoutTopicProgressInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gems?: Prisma.IntFieldUpdateOperationsInput | number
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   onboarding?: Prisma.OnboardingUncheckedUpdateOneWithoutUserNestedInput
@@ -1404,6 +1570,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   onboardingDone?: boolean
+  gems?: boolean
+  xp?: boolean
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   onboarding?: boolean | Prisma.User$onboardingArgs<ExtArgs>
@@ -1425,6 +1593,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   onboardingDone?: boolean
+  gems?: boolean
+  xp?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1437,6 +1607,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   onboardingDone?: boolean
+  gems?: boolean
+  xp?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -1449,9 +1621,11 @@ export type UserSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   onboardingDone?: boolean
+  gems?: boolean
+  xp?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "timeZone" | "createdAt" | "updatedAt" | "onboardingDone", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "timeZone" | "createdAt" | "updatedAt" | "onboardingDone" | "gems" | "xp", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
@@ -1488,6 +1662,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     createdAt: Date
     updatedAt: Date
     onboardingDone: boolean
+    gems: number
+    xp: number
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -1928,6 +2104,8 @@ export interface UserFieldRefs {
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly onboardingDone: Prisma.FieldRef<"User", 'Boolean'>
+  readonly gems: Prisma.FieldRef<"User", 'Int'>
+  readonly xp: Prisma.FieldRef<"User", 'Int'>
 }
     
 

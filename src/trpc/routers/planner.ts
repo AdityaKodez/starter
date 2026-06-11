@@ -1,6 +1,7 @@
 import {
   ReflectionMood,
   ReflectionTaskFeel,
+  RewardType,
   StudyPlanTaskType,
   Subject,
   TaskStatus,
@@ -650,7 +651,7 @@ export const plannerRouter = createTRPCRouter({
             id: input.taskId,
             plan: { userId: user.id },
           },
-          select: { id: true, status: true },
+          select: { id: true, status: true, rewardType: true, rewardAmount: true },
         });
 
         if (!task) {
@@ -664,12 +665,37 @@ export const plannerRouter = createTRPCRouter({
         const isNowDone = input.status === TaskStatus.done;
         const completedAt = isNowDone ? now : null;
 
+        // Roll a reward exactly once per task — re-completions reuse the
+        // stored reward, un-completing never claws it back.
+        let reward: { type: RewardType; amount: number } | null = null;
+        if (!wasDone && isNowDone) {
+          if (task.rewardType && task.rewardAmount) {
+            reward = { type: task.rewardType, amount: task.rewardAmount };
+          } else {
+            reward =
+              Math.random() < 0.6
+                ? { type: RewardType.xp, amount: 25 }
+                : { type: RewardType.gems, amount: 10 };
+
+            await tx.user.update({
+              where: { id: user.id },
+              data:
+                reward.type === RewardType.gems
+                  ? { gems: { increment: reward.amount } }
+                  : { xp: { increment: reward.amount } },
+            });
+          }
+        }
+
         await tx.studyPlanTask.update({
           where: { id: task.id },
           data: {
             status: input.status,
             skipReason,
             completedAt,
+            ...(reward && !task.rewardType
+              ? { rewardType: reward.type, rewardAmount: reward.amount }
+              : {}),
           },
         });
 
@@ -702,9 +728,24 @@ export const plannerRouter = createTRPCRouter({
           });
         }
 
-        return { id: input.taskId, status: input.status, skipReason };
+        return { id: input.taskId, status: input.status, skipReason, reward };
       });
     }),
+  getRewardBalance: authedProcedure.query(async ({ ctx }) => {
+    const user = await prisma.user.findUnique({
+      where: { id: ctx.user.id },
+      select: { gems: true, xp: true },
+    });
+
+    if (!user) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "User not found",
+      });
+    }
+
+    return { gems: user.gems, xp: user.xp };
+  }),
   updateTestResult: authedProcedure
     .input(
       z.object({

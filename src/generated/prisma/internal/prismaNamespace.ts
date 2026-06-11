@@ -1501,7 +1501,9 @@ export const UserScalarFieldEnum = {
   timeZone: 'timeZone',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  onboardingDone: 'onboardingDone'
+  onboardingDone: 'onboardingDone',
+  gems: 'gems',
+  xp: 'xp'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -1612,6 +1614,8 @@ export const StudyPlanTaskScalarFieldEnum = {
   reason: 'reason',
   status: 'status',
   completedAt: 'completedAt',
+  rewardType: 'rewardType',
+  rewardAmount: 'rewardAmount',
   order: 'order'
 } as const
 
@@ -1827,6 +1831,20 @@ export type EnumTaskStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Prism
  * Reference to a field of type 'TaskStatus[]'
  */
 export type ListEnumTaskStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'RewardType'
+ */
+export type EnumRewardTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RewardType'>
+    
+
+
+/**
+ * Reference to a field of type 'RewardType[]'
+ */
+export type ListEnumRewardTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RewardType[]'>
     
 
 

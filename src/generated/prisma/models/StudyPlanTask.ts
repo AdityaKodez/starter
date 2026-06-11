@@ -28,11 +28,13 @@ export type AggregateStudyPlanTask = {
 
 export type StudyPlanTaskAvgAggregateOutputType = {
   durationMinutes: number | null
+  rewardAmount: number | null
   order: number | null
 }
 
 export type StudyPlanTaskSumAggregateOutputType = {
   durationMinutes: number | null
+  rewardAmount: number | null
   order: number | null
 }
 
@@ -52,6 +54,8 @@ export type StudyPlanTaskMinAggregateOutputType = {
   reason: string | null
   status: $Enums.TaskStatus | null
   completedAt: Date | null
+  rewardType: $Enums.RewardType | null
+  rewardAmount: number | null
   order: number | null
 }
 
@@ -71,6 +75,8 @@ export type StudyPlanTaskMaxAggregateOutputType = {
   reason: string | null
   status: $Enums.TaskStatus | null
   completedAt: Date | null
+  rewardType: $Enums.RewardType | null
+  rewardAmount: number | null
   order: number | null
 }
 
@@ -90,6 +96,8 @@ export type StudyPlanTaskCountAggregateOutputType = {
   reason: number
   status: number
   completedAt: number
+  rewardType: number
+  rewardAmount: number
   order: number
   _all: number
 }
@@ -97,11 +105,13 @@ export type StudyPlanTaskCountAggregateOutputType = {
 
 export type StudyPlanTaskAvgAggregateInputType = {
   durationMinutes?: true
+  rewardAmount?: true
   order?: true
 }
 
 export type StudyPlanTaskSumAggregateInputType = {
   durationMinutes?: true
+  rewardAmount?: true
   order?: true
 }
 
@@ -121,6 +131,8 @@ export type StudyPlanTaskMinAggregateInputType = {
   reason?: true
   status?: true
   completedAt?: true
+  rewardType?: true
+  rewardAmount?: true
   order?: true
 }
 
@@ -140,6 +152,8 @@ export type StudyPlanTaskMaxAggregateInputType = {
   reason?: true
   status?: true
   completedAt?: true
+  rewardType?: true
+  rewardAmount?: true
   order?: true
 }
 
@@ -159,6 +173,8 @@ export type StudyPlanTaskCountAggregateInputType = {
   reason?: true
   status?: true
   completedAt?: true
+  rewardType?: true
+  rewardAmount?: true
   order?: true
   _all?: true
 }
@@ -265,6 +281,8 @@ export type StudyPlanTaskGroupByOutputType = {
   reason: string
   status: $Enums.TaskStatus
   completedAt: Date | null
+  rewardType: $Enums.RewardType | null
+  rewardAmount: number | null
   order: number
   _count: StudyPlanTaskCountAggregateOutputType | null
   _avg: StudyPlanTaskAvgAggregateOutputType | null
@@ -307,6 +325,8 @@ export type StudyPlanTaskWhereInput = {
   reason?: Prisma.StringFilter<"StudyPlanTask"> | string
   status?: Prisma.EnumTaskStatusFilter<"StudyPlanTask"> | $Enums.TaskStatus
   completedAt?: Prisma.DateTimeNullableFilter<"StudyPlanTask"> | Date | string | null
+  rewardType?: Prisma.EnumRewardTypeNullableFilter<"StudyPlanTask"> | $Enums.RewardType | null
+  rewardAmount?: Prisma.IntNullableFilter<"StudyPlanTask"> | number | null
   order?: Prisma.IntFilter<"StudyPlanTask"> | number
   plan?: Prisma.XOR<Prisma.StudyPlanScalarRelationFilter, Prisma.StudyPlanWhereInput>
   topic?: Prisma.XOR<Prisma.StudyTopicNullableScalarRelationFilter, Prisma.StudyTopicWhereInput> | null
@@ -328,6 +348,8 @@ export type StudyPlanTaskOrderByWithRelationInput = {
   reason?: Prisma.SortOrder
   status?: Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  rewardType?: Prisma.SortOrderInput | Prisma.SortOrder
+  rewardAmount?: Prisma.SortOrderInput | Prisma.SortOrder
   order?: Prisma.SortOrder
   plan?: Prisma.StudyPlanOrderByWithRelationInput
   topic?: Prisma.StudyTopicOrderByWithRelationInput
@@ -352,6 +374,8 @@ export type StudyPlanTaskWhereUniqueInput = Prisma.AtLeast<{
   reason?: Prisma.StringFilter<"StudyPlanTask"> | string
   status?: Prisma.EnumTaskStatusFilter<"StudyPlanTask"> | $Enums.TaskStatus
   completedAt?: Prisma.DateTimeNullableFilter<"StudyPlanTask"> | Date | string | null
+  rewardType?: Prisma.EnumRewardTypeNullableFilter<"StudyPlanTask"> | $Enums.RewardType | null
+  rewardAmount?: Prisma.IntNullableFilter<"StudyPlanTask"> | number | null
   order?: Prisma.IntFilter<"StudyPlanTask"> | number
   plan?: Prisma.XOR<Prisma.StudyPlanScalarRelationFilter, Prisma.StudyPlanWhereInput>
   topic?: Prisma.XOR<Prisma.StudyTopicNullableScalarRelationFilter, Prisma.StudyTopicWhereInput> | null
@@ -373,6 +397,8 @@ export type StudyPlanTaskOrderByWithAggregationInput = {
   reason?: Prisma.SortOrder
   status?: Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  rewardType?: Prisma.SortOrderInput | Prisma.SortOrder
+  rewardAmount?: Prisma.SortOrderInput | Prisma.SortOrder
   order?: Prisma.SortOrder
   _count?: Prisma.StudyPlanTaskCountOrderByAggregateInput
   _avg?: Prisma.StudyPlanTaskAvgOrderByAggregateInput
@@ -400,6 +426,8 @@ export type StudyPlanTaskScalarWhereWithAggregatesInput = {
   reason?: Prisma.StringWithAggregatesFilter<"StudyPlanTask"> | string
   status?: Prisma.EnumTaskStatusWithAggregatesFilter<"StudyPlanTask"> | $Enums.TaskStatus
   completedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"StudyPlanTask"> | Date | string | null
+  rewardType?: Prisma.EnumRewardTypeNullableWithAggregatesFilter<"StudyPlanTask"> | $Enums.RewardType | null
+  rewardAmount?: Prisma.IntNullableWithAggregatesFilter<"StudyPlanTask"> | number | null
   order?: Prisma.IntWithAggregatesFilter<"StudyPlanTask"> | number
 }
 
@@ -417,6 +445,8 @@ export type StudyPlanTaskCreateInput = {
   reason: string
   status?: $Enums.TaskStatus
   completedAt?: Date | string | null
+  rewardType?: $Enums.RewardType | null
+  rewardAmount?: number | null
   order: number
   plan: Prisma.StudyPlanCreateNestedOneWithoutTasksInput
   topic?: Prisma.StudyTopicCreateNestedOneWithoutPlanTasksInput
@@ -438,6 +468,8 @@ export type StudyPlanTaskUncheckedCreateInput = {
   reason: string
   status?: $Enums.TaskStatus
   completedAt?: Date | string | null
+  rewardType?: $Enums.RewardType | null
+  rewardAmount?: number | null
   order: number
 }
 
@@ -455,6 +487,8 @@ export type StudyPlanTaskUpdateInput = {
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rewardType?: Prisma.NullableEnumRewardTypeFieldUpdateOperationsInput | $Enums.RewardType | null
+  rewardAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   plan?: Prisma.StudyPlanUpdateOneRequiredWithoutTasksNestedInput
   topic?: Prisma.StudyTopicUpdateOneWithoutPlanTasksNestedInput
@@ -476,6 +510,8 @@ export type StudyPlanTaskUncheckedUpdateInput = {
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rewardType?: Prisma.NullableEnumRewardTypeFieldUpdateOperationsInput | $Enums.RewardType | null
+  rewardAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -495,6 +531,8 @@ export type StudyPlanTaskCreateManyInput = {
   reason: string
   status?: $Enums.TaskStatus
   completedAt?: Date | string | null
+  rewardType?: $Enums.RewardType | null
+  rewardAmount?: number | null
   order: number
 }
 
@@ -512,6 +550,8 @@ export type StudyPlanTaskUpdateManyMutationInput = {
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rewardType?: Prisma.NullableEnumRewardTypeFieldUpdateOperationsInput | $Enums.RewardType | null
+  rewardAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -531,6 +571,8 @@ export type StudyPlanTaskUncheckedUpdateManyInput = {
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rewardType?: Prisma.NullableEnumRewardTypeFieldUpdateOperationsInput | $Enums.RewardType | null
+  rewardAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -560,11 +602,14 @@ export type StudyPlanTaskCountOrderByAggregateInput = {
   reason?: Prisma.SortOrder
   status?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
+  rewardType?: Prisma.SortOrder
+  rewardAmount?: Prisma.SortOrder
   order?: Prisma.SortOrder
 }
 
 export type StudyPlanTaskAvgOrderByAggregateInput = {
   durationMinutes?: Prisma.SortOrder
+  rewardAmount?: Prisma.SortOrder
   order?: Prisma.SortOrder
 }
 
@@ -584,6 +629,8 @@ export type StudyPlanTaskMaxOrderByAggregateInput = {
   reason?: Prisma.SortOrder
   status?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
+  rewardType?: Prisma.SortOrder
+  rewardAmount?: Prisma.SortOrder
   order?: Prisma.SortOrder
 }
 
@@ -603,11 +650,14 @@ export type StudyPlanTaskMinOrderByAggregateInput = {
   reason?: Prisma.SortOrder
   status?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
+  rewardType?: Prisma.SortOrder
+  rewardAmount?: Prisma.SortOrder
   order?: Prisma.SortOrder
 }
 
 export type StudyPlanTaskSumOrderByAggregateInput = {
   durationMinutes?: Prisma.SortOrder
+  rewardAmount?: Prisma.SortOrder
   order?: Prisma.SortOrder
 }
 
@@ -659,6 +709,18 @@ export type EnumStudyPlanTaskTypeFieldUpdateOperationsInput = {
 
 export type EnumTaskStatusFieldUpdateOperationsInput = {
   set?: $Enums.TaskStatus
+}
+
+export type NullableEnumRewardTypeFieldUpdateOperationsInput = {
+  set?: $Enums.RewardType | null
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type StudyPlanTaskCreateNestedManyWithoutTopicInput = {
@@ -717,6 +779,8 @@ export type StudyPlanTaskCreateWithoutPlanInput = {
   reason: string
   status?: $Enums.TaskStatus
   completedAt?: Date | string | null
+  rewardType?: $Enums.RewardType | null
+  rewardAmount?: number | null
   order: number
   topic?: Prisma.StudyTopicCreateNestedOneWithoutPlanTasksInput
 }
@@ -736,6 +800,8 @@ export type StudyPlanTaskUncheckedCreateWithoutPlanInput = {
   reason: string
   status?: $Enums.TaskStatus
   completedAt?: Date | string | null
+  rewardType?: $Enums.RewardType | null
+  rewardAmount?: number | null
   order: number
 }
 
@@ -784,6 +850,8 @@ export type StudyPlanTaskScalarWhereInput = {
   reason?: Prisma.StringFilter<"StudyPlanTask"> | string
   status?: Prisma.EnumTaskStatusFilter<"StudyPlanTask"> | $Enums.TaskStatus
   completedAt?: Prisma.DateTimeNullableFilter<"StudyPlanTask"> | Date | string | null
+  rewardType?: Prisma.EnumRewardTypeNullableFilter<"StudyPlanTask"> | $Enums.RewardType | null
+  rewardAmount?: Prisma.IntNullableFilter<"StudyPlanTask"> | number | null
   order?: Prisma.IntFilter<"StudyPlanTask"> | number
 }
 
@@ -801,6 +869,8 @@ export type StudyPlanTaskCreateWithoutTopicInput = {
   reason: string
   status?: $Enums.TaskStatus
   completedAt?: Date | string | null
+  rewardType?: $Enums.RewardType | null
+  rewardAmount?: number | null
   order: number
   plan: Prisma.StudyPlanCreateNestedOneWithoutTasksInput
 }
@@ -820,6 +890,8 @@ export type StudyPlanTaskUncheckedCreateWithoutTopicInput = {
   reason: string
   status?: $Enums.TaskStatus
   completedAt?: Date | string | null
+  rewardType?: $Enums.RewardType | null
+  rewardAmount?: number | null
   order: number
 }
 
@@ -864,6 +936,8 @@ export type StudyPlanTaskCreateManyPlanInput = {
   reason: string
   status?: $Enums.TaskStatus
   completedAt?: Date | string | null
+  rewardType?: $Enums.RewardType | null
+  rewardAmount?: number | null
   order: number
 }
 
@@ -881,6 +955,8 @@ export type StudyPlanTaskUpdateWithoutPlanInput = {
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rewardType?: Prisma.NullableEnumRewardTypeFieldUpdateOperationsInput | $Enums.RewardType | null
+  rewardAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   topic?: Prisma.StudyTopicUpdateOneWithoutPlanTasksNestedInput
 }
@@ -900,6 +976,8 @@ export type StudyPlanTaskUncheckedUpdateWithoutPlanInput = {
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rewardType?: Prisma.NullableEnumRewardTypeFieldUpdateOperationsInput | $Enums.RewardType | null
+  rewardAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -918,6 +996,8 @@ export type StudyPlanTaskUncheckedUpdateManyWithoutPlanInput = {
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rewardType?: Prisma.NullableEnumRewardTypeFieldUpdateOperationsInput | $Enums.RewardType | null
+  rewardAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -936,6 +1016,8 @@ export type StudyPlanTaskCreateManyTopicInput = {
   reason: string
   status?: $Enums.TaskStatus
   completedAt?: Date | string | null
+  rewardType?: $Enums.RewardType | null
+  rewardAmount?: number | null
   order: number
 }
 
@@ -953,6 +1035,8 @@ export type StudyPlanTaskUpdateWithoutTopicInput = {
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rewardType?: Prisma.NullableEnumRewardTypeFieldUpdateOperationsInput | $Enums.RewardType | null
+  rewardAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   plan?: Prisma.StudyPlanUpdateOneRequiredWithoutTasksNestedInput
 }
@@ -972,6 +1056,8 @@ export type StudyPlanTaskUncheckedUpdateWithoutTopicInput = {
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rewardType?: Prisma.NullableEnumRewardTypeFieldUpdateOperationsInput | $Enums.RewardType | null
+  rewardAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -990,6 +1076,8 @@ export type StudyPlanTaskUncheckedUpdateManyWithoutTopicInput = {
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rewardType?: Prisma.NullableEnumRewardTypeFieldUpdateOperationsInput | $Enums.RewardType | null
+  rewardAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -1011,6 +1099,8 @@ export type StudyPlanTaskSelect<ExtArgs extends runtime.Types.Extensions.Interna
   reason?: boolean
   status?: boolean
   completedAt?: boolean
+  rewardType?: boolean
+  rewardAmount?: boolean
   order?: boolean
   plan?: boolean | Prisma.StudyPlanDefaultArgs<ExtArgs>
   topic?: boolean | Prisma.StudyPlanTask$topicArgs<ExtArgs>
@@ -1032,6 +1122,8 @@ export type StudyPlanTaskSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   reason?: boolean
   status?: boolean
   completedAt?: boolean
+  rewardType?: boolean
+  rewardAmount?: boolean
   order?: boolean
   plan?: boolean | Prisma.StudyPlanDefaultArgs<ExtArgs>
   topic?: boolean | Prisma.StudyPlanTask$topicArgs<ExtArgs>
@@ -1053,6 +1145,8 @@ export type StudyPlanTaskSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   reason?: boolean
   status?: boolean
   completedAt?: boolean
+  rewardType?: boolean
+  rewardAmount?: boolean
   order?: boolean
   plan?: boolean | Prisma.StudyPlanDefaultArgs<ExtArgs>
   topic?: boolean | Prisma.StudyPlanTask$topicArgs<ExtArgs>
@@ -1074,10 +1168,12 @@ export type StudyPlanTaskSelectScalar = {
   reason?: boolean
   status?: boolean
   completedAt?: boolean
+  rewardType?: boolean
+  rewardAmount?: boolean
   order?: boolean
 }
 
-export type StudyPlanTaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "planId" | "topicId" | "type" | "subject" | "title" | "rangeTime" | "startTime" | "endTime" | "testResult" | "skipReason" | "durationMinutes" | "reason" | "status" | "completedAt" | "order", ExtArgs["result"]["studyPlanTask"]>
+export type StudyPlanTaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "planId" | "topicId" | "type" | "subject" | "title" | "rangeTime" | "startTime" | "endTime" | "testResult" | "skipReason" | "durationMinutes" | "reason" | "status" | "completedAt" | "rewardType" | "rewardAmount" | "order", ExtArgs["result"]["studyPlanTask"]>
 export type StudyPlanTaskInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   plan?: boolean | Prisma.StudyPlanDefaultArgs<ExtArgs>
   topic?: boolean | Prisma.StudyPlanTask$topicArgs<ExtArgs>
@@ -1113,6 +1209,8 @@ export type $StudyPlanTaskPayload<ExtArgs extends runtime.Types.Extensions.Inter
     reason: string
     status: $Enums.TaskStatus
     completedAt: Date | null
+    rewardType: $Enums.RewardType | null
+    rewardAmount: number | null
     order: number
   }, ExtArgs["result"]["studyPlanTask"]>
   composites: {}
@@ -1554,6 +1652,8 @@ export interface StudyPlanTaskFieldRefs {
   readonly reason: Prisma.FieldRef<"StudyPlanTask", 'String'>
   readonly status: Prisma.FieldRef<"StudyPlanTask", 'TaskStatus'>
   readonly completedAt: Prisma.FieldRef<"StudyPlanTask", 'DateTime'>
+  readonly rewardType: Prisma.FieldRef<"StudyPlanTask", 'RewardType'>
+  readonly rewardAmount: Prisma.FieldRef<"StudyPlanTask", 'Int'>
   readonly order: Prisma.FieldRef<"StudyPlanTask", 'Int'>
 }
     
