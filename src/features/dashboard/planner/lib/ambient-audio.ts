@@ -1,5 +1,31 @@
 export type AmbientSound = "none" | "ocean" | "rain" | "white";
 
+// Rain is a real recording — preload it once as an <audio> element so the
+// browser has it buffered before the user starts a session (no glitch on play).
+const RAIN_URL =
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/liecio-calming-rain-257596-RLTu3jRr0OWSvJEpXX8PkVt2XfWlaP.mp3";
+
+let rainEl: HTMLAudioElement | null = null;
+
+function getRainElement(): HTMLAudioElement {
+  if (!rainEl) {
+    rainEl = new Audio(RAIN_URL);
+    rainEl.loop = true;
+    rainEl.preload = "auto";
+    rainEl.volume = 0.55;
+    // Kick off buffering immediately (browser may restrict until gesture,
+    // but subsequent play() calls will succeed after the first user action).
+    rainEl.load();
+  }
+  return rainEl;
+}
+
+// Pre-buffer as soon as this module is imported (runs at bundle evaluation
+// time in the browser, no-op on the server).
+if (typeof window !== "undefined") {
+  getRainElement();
+}
+
 /**
  * Synthesizes ambient sounds with the Web Audio API so no audio
  * assets need to be downloaded. Must only be called client-side,
@@ -83,19 +109,12 @@ class AmbientAudioEngine {
       src.start();
       this.activeNodes = [src, master];
     } else if (sound === "rain") {
-      const src = ctx.createBufferSource();
-      src.buffer = createNoiseBuffer(ctx, "pink");
-      src.loop = true;
-      const highpass = ctx.createBiquadFilter();
-      highpass.type = "highpass";
-      highpass.frequency.value = 500;
-      const lowpass = ctx.createBiquadFilter();
-      lowpass.type = "lowpass";
-      lowpass.frequency.value = 6000;
-      master.gain.value = 0.5;
-      src.connect(highpass).connect(lowpass).connect(master);
-      src.start();
-      this.activeNodes = [src, highpass, lowpass, master];
+      // Use the preloaded <audio> element — seamless looping, no synthesis.
+      master.disconnect(); // not needed for the <audio> path
+      const el = getRainElement();
+      el.currentTime = 0;
+      void el.play();
+      this.activeNodes = [];
     } else {
       // ocean: brown noise with a slow swell, like waves
       const src = ctx.createBufferSource();
@@ -122,6 +141,13 @@ class AmbientAudioEngine {
   }
 
   stop() {
+    // Always pause the rain element regardless of what was playing,
+    // in case stop() is called while rain is active.
+    if (rainEl && !rainEl.paused) {
+      rainEl.pause();
+      rainEl.currentTime = 0;
+    }
+
     for (const node of this.activeNodes) {
       try {
         if ("stop" in node && typeof node.stop === "function") {
