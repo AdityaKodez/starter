@@ -22,8 +22,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Revind",
-  description: "Turn any YouTube playlist into a structured course.",
+  title: "Aura",
+  description: "AI-powered study planning with cognitive load balancing.",
 };
 
 export default function RootLayout({

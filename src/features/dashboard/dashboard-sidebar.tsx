@@ -16,7 +16,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { UserProfileMenu } from "@/features/dashboard/user-profile-menu";
-import { IconCalendarStats, IconHome, IconPremiumRights, IconTargetArrow, IconXFilled } from "@tabler/icons-react";
+import { IconXFilled } from "@tabler/icons-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import IconLogo from "../../../public/logo";
@@ -30,23 +30,7 @@ type DashboardSidebarProps = {
   };
 };
 
-const navItems = [
-  {
-    title: "Dashboard",
-    href: "/dashboard",
-    icon: IconHome,
-  },
-  {
-    title: "Test",
-    href: "/dashboard#planner",
-    icon: IconTargetArrow,
-  },
-  {
-    title: "Progress",
-    href: "/dashboard#progress",
-    icon: IconCalendarStats,
-  },
-];
+const navItems = [];
 
 export function DashboardSidebar({ user }: DashboardSidebarProps) {
   const pathname = usePathname();
@@ -65,7 +49,7 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
 
       <div className="flex min-w-0 flex-col">
         <span className="truncate font-semibold">
-          Revind
+          Aura
         </span>
 
         <span className="truncate text-xs text-muted-foreground">
@@ -79,28 +63,6 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {navItems.map((item) => (
-                <SidebarMenuItem key={item.href} >
-                  <SidebarMenuButton
-                  
-                    asChild
-                    isActive={pathname === "/dashboard" && item.href === "/dashboard"}
-                    tooltip={item.title}
-                  >
-                    <Link href={item.href}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
       </SidebarContent>
 
       <SidebarFooter className="group-data-[collapsible=icon]:hidden">
