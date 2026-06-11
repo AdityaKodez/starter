@@ -526,7 +526,7 @@ export default async function HomePage() {
             return (
               <div
                 key={item.title}
-                className="rounded-3xl border border-border/60 bg-card/70 p-5 backdrop-blur"
+                className="rounded-none border border-border/60 bg-card/70 p-5 backdrop-blur"
               >
                 <div className="mb-5 flex size-10 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                   <Icon className="size-5" />
@@ -562,7 +562,7 @@ export default async function HomePage() {
               return (
                 <div
                   key={step.title}
-                  className="relative rounded-3xl border border-border/60 bg-card/75 p-5"
+                  className="relative rounded-none border border-border/60 bg-card/75 p-5"
                 >
                   {index < planningSteps.length - 1 ? (
                     <div className="absolute -right-5 top-12 hidden h-px w-6 bg-border lg:block" />
@@ -586,7 +586,7 @@ export default async function HomePage() {
         <hr className="border-t border-dashed border-foreground/20 w-full" />
 
         <div className="px-6 sm:px-12">
-          <section className="grid gap-8 rounded-[2rem] border border-border/60 bg-card/70 p-5 backdrop-blur sm:p-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <section className="grid gap-8 rounded-none border border-border/60 bg-card/70 p-5 backdrop-blur sm:p-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <div className="space-y-4">
               <Badge variant="outline" className="rounded-full">
                 Wellness built into planning
@@ -607,7 +607,7 @@ export default async function HomePage() {
                 return (
                   <div
                     key={rule.title}
-                    className="rounded-3xl border border-border/60 bg-background/70 p-5"
+                    className="rounded-none border border-border/60 bg-background/70 p-5"
                   >
                     <div className="mb-4 flex size-10 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
                       <Icon className="size-5" />
@@ -646,7 +646,7 @@ export default async function HomePage() {
             ].map(([title, description], index) => (
               <div
                 key={title}
-                className="rounded-3xl border border-border/60 bg-card/70 p-5"
+                className="rounded-none border border-border/60 bg-card/70 p-5"
               >
                 <div className="mb-5 flex size-9 items-center justify-center rounded-full border border-foreground/15 text-sm font-semibold">
                   {index + 1}
@@ -663,7 +663,7 @@ export default async function HomePage() {
         <hr className="border-t border-dashed border-foreground/20 w-full" />
 
         <div className="px-6 sm:px-12">
-          <section className="flex flex-col items-start gap-5 rounded-[2rem] border border-border/60 bg-foreground p-6 text-background sm:flex-row sm:items-center sm:justify-between">
+          <section className="flex flex-col items-start gap-5 rounded-none border border-border/60 bg-foreground p-6 text-background sm:flex-row sm:items-center sm:justify-between">
             <div className="max-w-xl">
               <div className="mb-3 flex items-center gap-2 text-sm font-medium">
                 <IconBrain className="size-5" />
