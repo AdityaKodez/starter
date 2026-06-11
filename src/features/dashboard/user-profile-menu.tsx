@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "@/lib/auth-client";
 import Avatar from "boring-avatars";
-import { LogOut, Settings } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 type UserProfileMenuProps = {
   name?: string | null;
@@ -62,10 +62,7 @@ export const UserProfileMenu = ({ name, email, image }: UserProfileMenuProps) =>
             <span>Theme</span>
             <ThemeToggle size="icon-xs" className="size-6" />
           </DropdownMenuItem>
-          <DropdownMenuItem onSelect={(event) => event.preventDefault()}>
-            <Settings />
-            <span>Settings</span>
-          </DropdownMenuItem>
+        
           <DropdownMenuItem
             variant="destructive"
             onSelect={() => {
