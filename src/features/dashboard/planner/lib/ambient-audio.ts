@@ -1,11 +1,14 @@
 export type AmbientSound = "none" | "ocean" | "rain" | "white";
 
-// Rain is a real recording — preload it once as an <audio> element so the
-// browser has it buffered before the user starts a session (no glitch on play).
+// Real audio recordings — preload them once as <audio> elements so the
+// browser has them buffered before the user starts a session (no glitch on play).
 const RAIN_URL =
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/liecio-calming-rain-257596-RLTu3jRr0OWSvJEpXX8PkVt2XfWlaP.mp3";
+const OCEAN_URL =
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/catfox_alex-ocean-wave-slowly-236010-u5SyqQBIfS73DWnYJpKpDxUkdFGxDX.mp3";
 
 let rainEl: HTMLAudioElement | null = null;
+let oceanEl: HTMLAudioElement | null = null;
 
 function getRainElement(): HTMLAudioElement {
   if (!rainEl) {
@@ -13,17 +16,27 @@ function getRainElement(): HTMLAudioElement {
     rainEl.loop = true;
     rainEl.preload = "auto";
     rainEl.volume = 0.55;
-    // Kick off buffering immediately (browser may restrict until gesture,
-    // but subsequent play() calls will succeed after the first user action).
     rainEl.load();
   }
   return rainEl;
 }
 
-// Pre-buffer as soon as this module is imported (runs at bundle evaluation
+function getOceanElement(): HTMLAudioElement {
+  if (!oceanEl) {
+    oceanEl = new Audio(OCEAN_URL);
+    oceanEl.loop = true;
+    oceanEl.preload = "auto";
+    oceanEl.volume = 0.55;
+    oceanEl.load();
+  }
+  return oceanEl;
+}
+
+// Pre-buffer both as soon as this module is imported (runs at bundle evaluation
 // time in the browser, no-op on the server).
 if (typeof window !== "undefined") {
   getRainElement();
+  getOceanElement();
 }
 
 /**
@@ -115,37 +128,28 @@ class AmbientAudioEngine {
       el.currentTime = 0;
       void el.play();
       this.activeNodes = [];
+    } else if (sound === "ocean") {
+      // Use the preloaded <audio> element — seamless looping, no synthesis.
+      master.disconnect(); // not needed for the <audio> path
+      const el = getOceanElement();
+      el.currentTime = 0;
+      void el.play();
+      this.activeNodes = [];
     } else {
-      // ocean: brown noise with a slow swell, like waves
-      const src = ctx.createBufferSource();
-      src.buffer = createNoiseBuffer(ctx, "brown");
-      src.loop = true;
-      const lowpass = ctx.createBiquadFilter();
-      lowpass.type = "lowpass";
-      lowpass.frequency.value = 600;
-      const swell = ctx.createGain();
-      swell.gain.value = 0.5;
-      const lfo = ctx.createOscillator();
-      lfo.frequency.value = 0.12;
-      const lfoGain = ctx.createGain();
-      lfoGain.gain.value = 0.3;
-      lfo.connect(lfoGain).connect(swell.gain);
-      master.gain.value = 0.55;
-      src.connect(lowpass).connect(swell).connect(master);
-      src.start();
-      lfo.start();
-      this.activeNodes = [src, lowpass, swell, lfo, lfoGain, master];
-    }
 
     this.current = sound;
   }
 
   stop() {
-    // Always pause the rain element regardless of what was playing,
-    // in case stop() is called while rain is active.
+    // Always pause both real audio elements regardless of what was playing,
+    // in case stop() is called while they're active.
     if (rainEl && !rainEl.paused) {
       rainEl.pause();
       rainEl.currentTime = 0;
+    }
+    if (oceanEl && !oceanEl.paused) {
+      oceanEl.pause();
+      oceanEl.currentTime = 0;
     }
 
     for (const node of this.activeNodes) {
