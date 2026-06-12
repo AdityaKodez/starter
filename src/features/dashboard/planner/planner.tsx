@@ -241,6 +241,9 @@ export const Planner = () => {
 
   // Clear a persisted session whose task no longer exists (new day / regenerated plan).
   const sessionTaskId = pomodoro.session?.taskId;
+  const sessionTask = sessionTaskId
+    ? planner.tasks.find((t) => t.id === sessionTaskId) ?? null
+    : null;
   const sessionTaskExists =
     !sessionTaskId || planner.tasks.some((task) => task.id === sessionTaskId);
   const stopPomodoro = pomodoro.stop;
@@ -422,6 +425,11 @@ export const Planner = () => {
                       ? lastReward
                       : null
                   }
+                  taskTitle={sessionTask?.title}
+                  taskReason={sessionTask?.reason ?? undefined}
+                  taskStartTime={sessionTask?.startTime}
+                  taskEndTime={sessionTask?.endTime}
+                  taskDurationMinutes={sessionTask?.durationMinutes}
                 onPause={pomodoro.pause}
                 onResume={pomodoro.resume}
                 onStop={pomodoro.stop}
@@ -616,6 +624,12 @@ export const Planner = () => {
                                   ? lastReward
                                   : null
                               }
+                              taskTitle={task.title}
+                              taskReason={task.reason ?? undefined}
+                              taskStartTime={task.startTime}
+                              taskEndTime={task.endTime}
+                              taskDurationMinutes={task.durationMinutes}
+                              onSkip={() => openSkipDialog(task)}
                               onPause={pomodoro.pause}
                               onResume={pomodoro.resume}
                               onStop={pomodoro.stop}

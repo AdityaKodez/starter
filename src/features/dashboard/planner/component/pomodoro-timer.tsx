@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
@@ -20,6 +21,13 @@ type PomodoroTimerProps = {
   remainingMs: number;
   isMarkingComplete: boolean;
   reward?: TaskReward | null;
+  /** Task metadata shown in the header */
+  taskTitle?: string;
+  taskReason?: string;
+  taskStartTime?: string | null;
+  taskEndTime?: string | null;
+  taskDurationMinutes?: number;
+  onSkip?: () => void;
   onPause: () => void;
   onResume: () => void;
   onStop: () => void;
@@ -28,7 +36,11 @@ type PomodoroTimerProps = {
   onMarkComplete: () => void;
 };
 
+// ─── completion state ────────────────────────────────────────────────────────
+
 type SessionCompleteProps = {
+  taskTitle?: string;
+  taskReason?: string;
   breakMinutes: number;
   isMarkingComplete: boolean;
   reward?: TaskReward | null;
@@ -37,6 +49,8 @@ type SessionCompleteProps = {
 };
 
 function SessionComplete({
+  taskTitle,
+  taskReason,
   breakMinutes,
   isMarkingComplete,
   reward,
@@ -44,38 +58,159 @@ function SessionComplete({
   onMarkComplete,
 }: SessionCompleteProps) {
   return (
-    <div className="mt-2 w-full rounded-md border border-primary/40 bg-primary/5 p-3 space-y-3">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="text-sm font-medium text-foreground">
-          Session complete. Nice focus!
+    <div className="w-full space-y-0">
+      {/* header */}
+      <div className="px-4 pt-4 pb-3">
+        <p className="text-sm font-bold text-foreground leading-snug">
+          {taskTitle ?? "Session complete"}
         </p>
-        {reward && <RewardBurst reward={reward} />}
+        {taskReason && (
+          <p className="mt-0.5 text-xs text-muted-foreground">{taskReason}</p>
+        )}
       </div>
-      <div className="flex flex-wrap items-center gap-2">
-        <Button type="button" size="sm" variant="outline" onClick={onStartBreak}>
-          <IconCoffee className="h-4 w-4 mr-1" />
-          {`${breakMinutes} min break`}
-        </Button>
-        <Button
-          type="button"
-          size="sm"
-          variant="ghost"
-          onClick={onMarkComplete}
-          disabled={isMarkingComplete}
-        >
-          <IconCheck className="h-4 w-4 mr-1" />
-          Done
-        </Button>
+
+      <div className="border-t border-border/60" />
+
+      {/* body */}
+      <div className="flex items-center justify-between gap-4 px-4 py-4">
+        <div className="space-y-1">
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+            Done
+          </p>
+          <p className="text-sm text-muted-foreground">Session complete. Nice focus!</p>
+          {reward && <RewardBurst reward={reward} className="mt-2" />}
+        </div>
+
+        <div className="flex items-center gap-2 shrink-0">
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            onClick={onStartBreak}
+          >
+            <IconCoffee className="h-4 w-4 mr-1.5" />
+            {`${breakMinutes} min break`}
+          </Button>
+          <Button
+            type="button"
+            size="sm"
+            variant="ghost"
+            onClick={onMarkComplete}
+            disabled={isMarkingComplete}
+          >
+            <IconCheck className="h-4 w-4 mr-1.5" />
+            Done
+          </Button>
+        </div>
       </div>
     </div>
   );
 }
+
+// ─── control dots ─────────────────────────────────────────────────────────────
+
+type ControlDotsProps = {
+  phase: PomodoroSession["phase"];
+  isPaused: boolean;
+  showSoundToggle: boolean;
+  soundOn: boolean;
+  onToggleSound: () => void;
+  onTogglePlay: () => void;
+  onStop: () => void;
+};
+
+function ControlDots({
+  phase,
+  isPaused,
+  showSoundToggle,
+  soundOn,
+  onToggleSound,
+  onTogglePlay,
+  onStop,
+}: ControlDotsProps) {
+  const isBreak = phase === "break";
+
+  type Control = {
+    key: string;
+    label: string;
+    active: boolean;
+    icon: React.ReactNode;
+    onClick: () => void;
+  };
+
+  const controls: Control[] = (
+    [
+      showSoundToggle
+        ? ({
+            key: "sound",
+            label: soundOn ? "Mute" : "Unmute",
+            active: soundOn,
+            icon: soundOn ? (
+              <IconVolume className="h-4 w-4" />
+            ) : (
+              <IconVolumeOff className="h-4 w-4" />
+            ),
+            onClick: onToggleSound,
+          } satisfies Control)
+        : null,
+      !isBreak
+        ? ({
+            key: "play",
+            label: isPaused ? "Resume" : "Pause",
+            active: !isPaused,
+            icon: isPaused ? (
+              <IconPlayerPlayFilled className="h-4 w-4" />
+            ) : (
+              <IconPlayerPauseFilled className="h-4 w-4" />
+            ),
+            onClick: onTogglePlay,
+          } satisfies Control)
+        : null,
+      {
+        key: "stop",
+        label: isBreak ? "End break" : "Stop",
+        active: false,
+        icon: <IconPlayerStopFilled className="h-4 w-4" />,
+        onClick: onStop,
+      } satisfies Control,
+    ] as (Control | null)[]
+  ).filter((c): c is Control => c !== null);
+
+  return (
+    <div className="flex items-center gap-2 shrink-0">
+      {controls.map((c) => (
+        <button
+          key={c.key}
+          type="button"
+          aria-label={c.label}
+          onClick={c.onClick}
+          className={cn(
+            "flex h-9 w-9 items-center justify-center rounded-full transition-colors",
+            c.active
+              ? "bg-primary text-primary-foreground"
+              : "bg-muted text-muted-foreground hover:bg-muted/80",
+          )}
+        >
+          {c.icon}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// ─── main timer ───────────────────────────────────────────────────────────────
 
 export function PomodoroTimer({
   session,
   remainingMs,
   isMarkingComplete,
   reward,
+  taskTitle,
+  taskReason,
+  taskStartTime,
+  taskEndTime,
+  taskDurationMinutes,
+  onSkip,
   onPause,
   onResume,
   onStop,
@@ -88,6 +223,8 @@ export function PomodoroTimer({
   if (phase === "workDone") {
     return (
       <SessionComplete
+        taskTitle={taskTitle}
+        taskReason={taskReason}
         breakMinutes={settings.breakMinutes}
         isMarkingComplete={isMarkingComplete}
         reward={reward}
@@ -100,76 +237,81 @@ export function PomodoroTimer({
   const isBreak = phase === "break";
   const isPaused = session.endsAt === null;
   const isFocusing = phase === "work" && !isPaused;
+  const phaseLabel = isBreak ? "Break" : isPaused ? "Paused" : "Focusing";
 
   const totalMs =
     (isBreak ? settings.breakMinutes : settings.workMinutes) * 60_000;
   const progress = totalMs > 0 ? ((totalMs - remainingMs) / totalMs) * 100 : 0;
 
-  const phaseLabel = isBreak ? "Break" : isPaused ? "Paused" : "Focusing";
   const showSoundToggle = settings.sound !== "none" && isFocusing;
 
+  const timeRangeParts: string[] = [];
+  if (taskStartTime && taskEndTime)
+    timeRangeParts.push(`${taskStartTime} – ${taskEndTime}`);
+  if (taskDurationMinutes) timeRangeParts.push(`${taskDurationMinutes} min`);
+  const timeRange = timeRangeParts.join(" · ");
+
   return (
-    <div className="mt-2 w-full p-2 space-y-2">
-      <div className="flex items-center justify-between gap-2">
-        <div className="flex flex-col items-center gap-2 min-w-0">
-          <span
+    <div className="w-full space-y-0">
+      {/* ── header: title + skip ─────────────────────────────────────────── */}
+      <div className="flex items-start justify-between gap-3 px-4 pt-4 pb-3">
+        <div className="min-w-0">
+          <p className="text-sm font-bold text-foreground leading-snug truncate">
+            {taskTitle ?? "Focus session"}
+          </p>
+          {taskReason && (
+            <p className="mt-0.5 text-xs text-muted-foreground line-clamp-1">
+              {taskReason}
+            </p>
+          )}
+        </div>
+        {onSkip && (
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            className="shrink-0"
+            onClick={onSkip}
+          >
+            Skip
+          </Button>
+        )}
+      </div>
+
+      <div className="border-t border-border/60" />
+
+      {/* ── clock row ────────────────────────────────────────────────────── */}
+      <div className="flex items-center justify-between gap-4 px-4 py-4">
+        <div className="space-y-0.5">
+          <p
             className={cn(
-              "text-sm font-semibold uppercase tracking-wide",
+              "text-[11px] font-semibold uppercase tracking-widest",
               isBreak ? "text-muted-foreground" : "text-primary",
             )}
           >
             {phaseLabel}
-          </span>
-          <span className="font-mono text-xl font-think tabular-nums text-foreground">
+          </p>
+          <p className="font-mono text-5xl font-thin tabular-nums leading-none text-foreground">
             {formatMs(remainingMs)}
-          </span>
-        </div>
-        <div className="flex items-center gap-1">
-          {showSoundToggle && (
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              className="size-7"
-              onClick={onToggleSound}
-              aria-label={soundOn ? "Mute background sound" : "Play background sound"}
-            >
-              {soundOn ? (
-                <IconVolume className="h-4 w-4" />
-              ) : (
-                <IconVolumeOff className="h-4 w-4" />
-              )}
-            </Button>
+          </p>
+          {timeRange && (
+            <p className="pt-1 text-xs text-muted-foreground">{timeRange}</p>
           )}
-          {phase === "work" && (
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              className="size-7"
-              onClick={isPaused ? onResume : onPause}
-              aria-label={isPaused ? "Resume timer" : "Pause timer"}
-            >
-              {isPaused ? (
-                <IconPlayerPlayFilled className="h-4 w-4" />
-              ) : (
-                <IconPlayerPauseFilled className="h-4 w-4" />
-              )}
-            </Button>
-          )}
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            className="size-7 text-muted-foreground"
-            onClick={onStop}
-            aria-label={isBreak ? "End break" : "Stop session"}
-          >
-            <IconPlayerStopFilled className="h-4 w-4" />
-          </Button>
         </div>
+
+        <ControlDots
+          phase={phase}
+          isPaused={isPaused}
+          showSoundToggle={showSoundToggle}
+          soundOn={soundOn}
+          onToggleSound={onToggleSound}
+          onTogglePlay={isPaused ? onResume : onPause}
+          onStop={onStop}
+        />
       </div>
-      <Progress value={progress} className="h-1.5" />
+
+      {/* ── progress bar ─────────────────────────────────────────────────── */}
+      <Progress value={progress} className="h-1 rounded-none" />
     </div>
   );
 }
