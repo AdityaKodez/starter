@@ -21,12 +21,6 @@ type PomodoroTimerProps = {
   remainingMs: number;
   isMarkingComplete: boolean;
   reward?: TaskReward | null;
-  /** Task metadata shown in the header */
-  taskTitle?: string;
-  taskReason?: string;
-  taskStartTime?: string | null;
-  taskEndTime?: string | null;
-  taskDurationMinutes?: number;
   onSkip?: () => void;
   onPause: () => void;
   onResume: () => void;
@@ -39,9 +33,7 @@ type PomodoroTimerProps = {
 // ─── completion state ────────────────────────────────────────────────────────
 
 type SessionCompleteProps = {
-  taskTitle?: string;
-  taskReason?: string;
-  breakMinutes: number;
+  breakMinutes:number;
   isMarkingComplete: boolean;
   reward?: TaskReward | null;
   onStartBreak: () => void;
@@ -49,8 +41,6 @@ type SessionCompleteProps = {
 };
 
 function SessionComplete({
-  taskTitle,
-  taskReason,
   breakMinutes,
   isMarkingComplete,
   reward,
@@ -59,19 +49,6 @@ function SessionComplete({
 }: SessionCompleteProps) {
   return (
     <div className="w-full space-y-0">
-      {/* header */}
-      <div className="px-4 pt-4 pb-3">
-        <p className="text-sm font-bold text-foreground leading-snug">
-          {taskTitle ?? "Session complete"}
-        </p>
-        {taskReason && (
-          <p className="mt-0.5 text-xs text-muted-foreground">{taskReason}</p>
-        )}
-      </div>
-
-      <div className="border-t border-border/60" />
-
-      {/* body */}
       <div className="flex items-center justify-between gap-4 px-4 py-4">
         <div className="space-y-1">
           <p className="text-xs font-semibold uppercase tracking-widest text-primary">
@@ -205,11 +182,7 @@ export function PomodoroTimer({
   remainingMs,
   isMarkingComplete,
   reward,
-  taskTitle,
-  taskReason,
-  taskStartTime,
-  taskEndTime,
-  taskDurationMinutes,
+
   onSkip,
   onPause,
   onResume,
@@ -223,8 +196,7 @@ export function PomodoroTimer({
   if (phase === "workDone") {
     return (
       <SessionComplete
-        taskTitle={taskTitle}
-        taskReason={taskReason}
+        
         breakMinutes={settings.breakMinutes}
         isMarkingComplete={isMarkingComplete}
         reward={reward}
@@ -246,41 +218,11 @@ export function PomodoroTimer({
   const showSoundToggle = settings.sound !== "none" && isFocusing;
 
   const timeRangeParts: string[] = [];
-  if (taskStartTime && taskEndTime)
-    timeRangeParts.push(`${taskStartTime} – ${taskEndTime}`);
-  if (taskDurationMinutes) timeRangeParts.push(`${taskDurationMinutes} min`);
+ 
   const timeRange = timeRangeParts.join(" · ");
 
   return (
-    <div className="w-full space-y-0">
-      {/* ── header: title + skip ─────────────────────────────────────────── */}
-      <div className="flex items-start justify-between gap-3 px-4 pt-4 pb-3">
-        <div className="min-w-0">
-          <p className="text-sm font-bold text-foreground leading-snug truncate">
-            {taskTitle ?? "Focus session"}
-          </p>
-          {taskReason && (
-            <p className="mt-0.5 text-xs text-muted-foreground line-clamp-1">
-              {taskReason}
-            </p>
-          )}
-        </div>
-        {onSkip && (
-          <Button
-            type="button"
-            size="sm"
-            variant="outline"
-            className="shrink-0"
-            onClick={onSkip}
-          >
-            Skip
-          </Button>
-        )}
-      </div>
-
-      <div className="border-t border-border/60" />
-
-      {/* ── clock row ────────────────────────────────────────────────────── */}
+    <div className="w-full space-y-0 border-t border-border/60">
       <div className="flex items-center justify-between gap-4 px-4 py-4">
         <div className="space-y-0.5">
           <p
