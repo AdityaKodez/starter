@@ -53,7 +53,7 @@ export function PomodoroTimer({
 
   if (session.phase === "workDone") {
     return (
-      <div className="mt-2 w-full rounded-md border border-primary/40 bg-primary/5 p-3 space-y-2">
+      <div className="mt-2 w-full border border-primary/40 bg-primary/5 p-3 space-y-2">
         <div className="flex flex-wrap items-center gap-2">
           <p className="text-sm font-medium text-foreground">
             Session complete — task marked as done. Nice focus!
