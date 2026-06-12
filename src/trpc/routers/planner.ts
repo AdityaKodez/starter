@@ -745,6 +745,101 @@ export const plannerRouter = createTRPCRouter({
         return { id: input.taskId, status: input.status, skipReason, reward };
       });
     }),
+  replaceTask: authedProcedure
+    .input(
+      z.object({
+        taskId: z.string().min(1),
+        skipReason: z.string().trim().min(1).max(120),
+        alternative: z.object({
+          title: z.string().trim().min(1).max(200),
+          durationMinutes: z.number().int().min(1).max(300),
+          reason: z.string().trim().min(1).max(300),
+        }),
+        timeZone: z.string().trim().min(1).max(80).optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.user.id;
+
+      return prisma.$transaction(async (tx) => {
+        const task = await tx.studyPlanTask.findFirst({
+          where: {
+            id: input.taskId,
+            plan: { userId },
+          },
+          select: {
+            id: true,
+            planId: true,
+            subject: true,
+            topicId: true,
+            order: true,
+            status: true,
+          },
+        });
+
+        if (!task) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "Task not found",
+          });
+        }
+
+        // Skip the original task
+        await tx.studyPlanTask.update({
+          where: { id: task.id },
+          data: {
+            status: TaskStatus.skipped,
+            skipReason: input.skipReason,
+          },
+        });
+
+        // Determine the next order value for the new task
+        const maxOrderTask = await tx.studyPlanTask.findFirst({
+          where: { planId: task.planId },
+          orderBy: { order: "desc" },
+          select: { order: true },
+        });
+        const nextOrder = (maxOrderTask?.order ?? task.order) + 1;
+
+        // Create the replacement task
+        const newTask = await tx.studyPlanTask.create({
+          data: {
+            planId: task.planId,
+            topicId: task.topicId,
+            type: StudyPlanTaskType.study,
+            subject: task.subject,
+            title: input.alternative.title,
+            durationMinutes: input.alternative.durationMinutes,
+            reason: input.alternative.reason,
+            order: nextOrder,
+          },
+        });
+
+        return {
+          skippedTaskId: task.id,
+          newTask: {
+            id: newTask.id,
+            planId: newTask.planId,
+            topicId: newTask.topicId,
+            type: newTask.type,
+            subject: newTask.subject,
+            title: newTask.title,
+            durationMinutes: newTask.durationMinutes,
+            reason: newTask.reason,
+            status: newTask.status,
+            order: newTask.order,
+            startTime: newTask.startTime,
+            endTime: newTask.endTime,
+            rangeTime: newTask.rangeTime,
+            skipReason: newTask.skipReason,
+            testResult: newTask.testResult,
+            completedAt: newTask.completedAt,
+            rewardType: newTask.rewardType,
+            rewardAmount: newTask.rewardAmount,
+          },
+        };
+      });
+    }),
   getRewardBalance: authedProcedure.query(async ({ ctx }) => {
     const user = await prisma.user.findUnique({
       where: { id: ctx.user.id },

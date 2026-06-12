@@ -147,6 +147,49 @@ export const Planner = () => {
       },
     }),
   );
+  const replaceTaskMutation = useMutation(
+    trpc.planner.replaceTask.mutationOptions({
+      onMutate: async (input) => {
+        await queryClient.cancelQueries({
+          queryKey: plannerQueryOptions.queryKey,
+        });
+
+        const previous = queryClient.getQueryData<PlannerData>(
+          plannerQueryOptions.queryKey,
+        );
+
+        queryClient.setQueryData<PlannerData>(
+          plannerQueryOptions.queryKey,
+          (old) => {
+            if (!old) return old;
+            return {
+              ...old,
+              tasks: old.tasks.map((task) =>
+                task.id === input.taskId
+                  ? { ...task, status: "skipped" as const, skipReason: input.skipReason }
+                  : task,
+              ),
+            };
+          },
+        );
+
+        return { previous };
+      },
+      onError: (_err, _input, context) => {
+        if (context?.previous) {
+          queryClient.setQueryData(
+            plannerQueryOptions.queryKey,
+            context.previous,
+          );
+        }
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: plannerQueryOptions.queryKey,
+        });
+      },
+    }),
+  );
   const updateTestResultMutation = useMutation(
     trpc.planner.updateTestResult.mutationOptions({
       onMutate: async (input) => {
@@ -270,7 +313,7 @@ export const Planner = () => {
   );
   const taskCount = planner.tasks.filter((task) => task.status === "pending").length;
   const totalMinutes = planner.totalMinutes ?? planner.tasks.reduce((sum, task) => sum + task.durationMinutes, 0);
-  const isSavingResult = updateTestResultMutation.isPending || updateTaskMutation.isPending;
+  const isSavingResult = updateTestResultMutation.isPending || updateTaskMutation.isPending || replaceTaskMutation.isPending;
   const isSavingReflection = savePlanReflectionMutation.isPending;
   const isPlanComplete =
     planner.tasks.length > 0 &&
@@ -354,18 +397,32 @@ export const Planner = () => {
     alternative?: {
       title: string;
       durationMinutes: number;
+      reason: string;
     },
   ) {
     if (!skipTask) return;
-    const skipReason = alternative
-      ? `${reason}; instead: ${alternative.durationMinutes}m ${alternative.title}`.slice(0, 120)
-      : reason;
-    updateTaskMutation.mutate({
-      taskId: skipTask.id,
-      status: "skipped",
-      skipReason,
-      timeZone: resolvedTimeZone,
-    });
+
+    if (alternative) {
+      // Skip the old task AND create a replacement task in the plan
+      replaceTaskMutation.mutate({
+        taskId: skipTask.id,
+        skipReason: reason,
+        alternative: {
+          title: alternative.title,
+          durationMinutes: alternative.durationMinutes,
+          reason: alternative.reason,
+        },
+        timeZone: resolvedTimeZone,
+      });
+    } else {
+      // Plain skip with no replacement
+      updateTaskMutation.mutate({
+        taskId: skipTask.id,
+        status: "skipped",
+        skipReason: reason,
+        timeZone: resolvedTimeZone,
+      });
+    }
     closeSkipDialog();
   }
 
@@ -689,7 +746,7 @@ export const Planner = () => {
         open={skipDialogOpen}
         taskId={skipTask?.id}
         taskTitle={skipTask?.title}
-        isSaving={updateTaskMutation.isPending}
+        isSaving={updateTaskMutation.isPending || replaceTaskMutation.isPending}
         onOpenChange={handleSkipDialogChange}
         onCancel={closeSkipDialog}
         onSelect={handleSkipReasonSelect}
