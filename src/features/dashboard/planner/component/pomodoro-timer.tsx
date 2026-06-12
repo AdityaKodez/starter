@@ -21,6 +21,12 @@ type PomodoroTimerProps = {
   remainingMs: number;
   isMarkingComplete: boolean;
   reward?: TaskReward | null;
+  isSkipped?: boolean;
+  taskTitle?: string;
+  taskReason?: string;
+  taskStartTime?: string;
+  taskEndTime?: string;
+  taskDurationMinutes?: number;
   onSkip?: () => void;
   onPause: () => void;
   onResume: () => void;
@@ -182,7 +188,7 @@ export function PomodoroTimer({
   remainingMs,
   isMarkingComplete,
   reward,
-
+  isSkipped = false,
   onSkip,
   onPause,
   onResume,
@@ -192,6 +198,9 @@ export function PomodoroTimer({
   onMarkComplete,
 }: PomodoroTimerProps) {
   const { phase, settings, soundOn } = session;
+
+  // Task was skipped while the timer was running — stop audio and unmount.
+  if (isSkipped) return null;
 
   if (phase === "workDone") {
     return (

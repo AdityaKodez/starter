@@ -327,6 +327,11 @@ export const Planner = () => {
   }
 
   function openSkipDialog(task: PlannerData["tasks"][number]) {
+    // If the active timer belongs to the task being skipped, kill it now so
+    // the timer component unmounts cleanly and no further ticks fire.
+    if (pomodoro.session?.taskId === task.id) {
+      pomodoro.stop();
+    }
     setSkipTask(task);
     setSkipDialogOpen(true);
   }
@@ -430,6 +435,7 @@ export const Planner = () => {
                   taskStartTime={sessionTask?.startTime}
                   taskEndTime={sessionTask?.endTime}
                   taskDurationMinutes={sessionTask?.durationMinutes}
+                  isSkipped={sessionTask?.status === "skipped"}
                 onPause={pomodoro.pause}
                 onResume={pomodoro.resume}
                 onStop={pomodoro.stop}
@@ -629,6 +635,7 @@ export const Planner = () => {
                               taskStartTime={task.startTime}
                               taskEndTime={task.endTime}
                               taskDurationMinutes={task.durationMinutes}
+                              isSkipped={task.status === "skipped"}
                               onSkip={() => openSkipDialog(task)}
                               onPause={pomodoro.pause}
                               onResume={pomodoro.resume}
