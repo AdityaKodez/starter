@@ -2,7 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { useState } from "react";
+import { Spinner } from "@/components/ui/spinner";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -34,17 +35,25 @@ const SKIP_ADJUSTMENTS = [
   "We'll prune tasks from this category tomorrow and introduce other topics that better align with your current interests."
 ] as const;
 
+type SkipAlternative = {
+  title: string;
+  durationMinutes: number;
+  reason: string;
+};
+
 type SkipReasonDialogProps = {
   open: boolean;
+  taskId?: string | null;
   taskTitle?: string | null;
   isSaving: boolean;
   onOpenChange: (open: boolean) => void;
   onCancel: () => void;
-  onSelect: (reason: string) => void;
+  onSelect: (reason: string, alternative?: SkipAlternative) => void;
 };
 
 export function SkipReasonDialog({
   open,
+  taskId,
   taskTitle,
   isSaving,
   onOpenChange,
@@ -52,6 +61,61 @@ export function SkipReasonDialog({
   onSelect,
 }: SkipReasonDialogProps) {
   const [selected, setSelected] = useState(0);
+  const [alternatives, setAlternatives] = useState<SkipAlternative[]>([]);
+  const [isLoadingAlternatives, setIsLoadingAlternatives] = useState(false);
+  const [alternativeError, setAlternativeError] = useState<string | null>(null);
+  const selectedReason = SKIP_REASONS[selected];
+
+  useEffect(() => {
+    if (!open) {
+      setSelected(0);
+      setAlternatives([]);
+      setIsLoadingAlternatives(false);
+      setAlternativeError(null);
+    }
+  }, [open]);
+
+  async function handleFindAlternatives() {
+    if (!taskId) {
+      setAlternativeError("Task details are missing. You can still skip it.");
+      return;
+    }
+
+    setIsLoadingAlternatives(true);
+    setAlternativeError(null);
+
+    try {
+      const response = await fetch("/api/ai/skip-alternatives", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          taskId,
+          skipReason: selectedReason,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Could not generate alternatives");
+      }
+
+      const data = (await response.json()) as {
+        alternatives?: SkipAlternative[];
+      };
+
+      if (!Array.isArray(data.alternatives) || data.alternatives.length !== 3) {
+        throw new Error("AI returned an invalid alternative list");
+      }
+
+      setAlternatives(data.alternatives);
+    } catch (error) {
+      console.error("Failed to load skip alternatives", error);
+      setAlternatives([]);
+      setAlternativeError("Could not load alternatives. You can still skip it.");
+    } finally {
+      setIsLoadingAlternatives(false);
+    }
+  }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
@@ -109,19 +173,65 @@ export function SkipReasonDialog({
             <p className="leading-relaxed text-muted-foreground">
               {SKIP_ADJUSTMENTS[selected]}
             </p>
+            {alternatives.length > 0 && (
+              <div className="space-y-2 pt-1">
+                <div className="text-sm font-semibold text-foreground">
+                  Do this instead
+                </div>
+                <div className="space-y-2">
+                  {alternatives.map((alternative) => (
+                    <button
+                      key={`${alternative.title}-${alternative.durationMinutes}`}
+                      type="button"
+                      className="w-full rounded-md border border-border/70 p-3 text-left transition-colors hover:bg-muted disabled:opacity-60"
+                      disabled={isSaving}
+                      onClick={() => onSelect(selectedReason, alternative)}
+                    >
+                      <span className="flex items-center justify-between gap-3">
+                        <span className="text-sm font-medium text-foreground">
+                          {alternative.title}
+                        </span>
+                        <span className="shrink-0 text-xs font-semibold text-primary">
+                          {alternative.durationMinutes} min
+                        </span>
+                      </span>
+                      <span className="mt-1 block text-xs leading-relaxed text-muted-foreground">
+                        {alternative.reason}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+            {alternativeError && (
+              <p className="text-xs font-medium text-destructive">
+                {alternativeError}
+              </p>
+            )}
           </div>
      
         <DialogFooter>
           <Button variant="ghost" type="button" onClick={onCancel}>
             Cancel
           </Button>
+          {(alternatives.length > 0 || alternativeError) && (
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => onSelect(selectedReason)}
+              disabled={isSaving}
+            >
+              Other
+            </Button>
+          )}
           <Button
             type="button"
             variant="default"
-            onClick={() => onSelect(SKIP_REASONS[selected])}
-            disabled={isSaving}
+            onClick={handleFindAlternatives}
+            disabled={isSaving || isLoadingAlternatives}
           >
-            Skip
+            {isLoadingAlternatives && <Spinner />}
+            {alternatives.length > 0 ? "Refresh" : "Skip"}
           </Button>
         </DialogFooter>
       </DialogContent>
