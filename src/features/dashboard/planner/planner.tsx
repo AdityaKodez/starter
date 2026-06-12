@@ -341,12 +341,21 @@ export const Planner = () => {
     setSkipDialogOpen(true);
   }
 
-  function handleSkipReasonSelect(reason: string) {
+  function handleSkipReasonSelect(
+    reason: string,
+    alternative?: {
+      title: string;
+      durationMinutes: number;
+    },
+  ) {
     if (!skipTask) return;
+    const skipReason = alternative
+      ? `${reason}; instead: ${alternative.durationMinutes}m ${alternative.title}`.slice(0, 120)
+      : reason;
     updateTaskMutation.mutate({
       taskId: skipTask.id,
       status: "skipped",
-      skipReason: reason,
+      skipReason,
       timeZone: resolvedTimeZone,
     });
     closeSkipDialog();
@@ -657,6 +666,7 @@ export const Planner = () => {
       />
       <SkipReasonDialog
         open={skipDialogOpen}
+        taskId={skipTask?.id}
         taskTitle={skipTask?.title}
         isSaving={updateTaskMutation.isPending}
         onOpenChange={handleSkipDialogChange}
