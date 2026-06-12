@@ -1,5 +1,10 @@
 import { z } from "zod";
-import { StudyPlanTaskType, Subject } from "@/generated/prisma/enums";
+import {
+  ReflectionMood,
+  ReflectionTaskFeel,
+  StudyPlanTaskType,
+  Subject,
+} from "@/generated/prisma/enums";
 
 export const subjectSchema = z.enum([
   Subject.physics,
@@ -73,6 +78,11 @@ export type PlannerOnboarding = {
   rankAim: number | null;
 };
 
+export type PlannerLastReflection = {
+  mood: ReflectionMood;
+  taskFeeling: ReflectionTaskFeel;
+};
+
 export type PlannerPromptInput = {
   dailyMinutes: number;
   weakestSubject: Subject;
@@ -80,4 +90,5 @@ export type PlannerPromptInput = {
   topics: TopicCandidateForPlanning[];
   testDeadlines?: TestDeadlineForPlanning[];
   currentDayOfWeek?: string;
+  lastReflection?: PlannerLastReflection | null;
 };

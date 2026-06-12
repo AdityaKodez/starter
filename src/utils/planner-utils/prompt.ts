@@ -1,6 +1,34 @@
 import type { PlannerPromptInput } from "./schemas";
 
+const MOOD_GUIDANCE: Record<string, string> = {
+  low: "Student reported LOW energy/mood yesterday. Reduce cognitive load: target the lower end of dailyMinutes (around 70-80%), prefer revision and familiar/easier topics, avoid new cognitively heavy topics, keep tasks shorter (favor 15-40 min blocks), and schedule at most one moderately hard task. Do NOT pile on new material.",
+  okay: "Student reported an OKAY mood yesterday. Use balanced, default planning: normal dailyMinutes utilization with a healthy mix of study and revision.",
+  good: "Student reported GOOD energy/mood yesterday. The student can handle more: push toward full dailyMinutes utilization, include cognitively heavy or advanced topics earlier in the day, and introduce new high-priority material confidently.",
+};
+
+const TASK_FEELING_GUIDANCE: Record<string, string> = {
+  too_easy:
+    "Yesterday's tasks felt TOO EASY. Slightly increase difficulty: prefer harder/advanced topics, allow marginally longer durations, and lean toward new material over repeated revision.",
+  right_level:
+    "Yesterday's tasks felt at the RIGHT LEVEL. Maintain a similar difficulty and duration balance.",
+  too_hard:
+    "Yesterday's tasks felt TOO HARD. Reduce difficulty: prefer easier topics and revision of already-seen material, shorten durations slightly, and avoid back-to-back hard topics.",
+};
+
 export function buildPlannerPrompt(input: PlannerPromptInput) {
+  const reflection = input.lastReflection ?? null;
+  const moodAdaptation = reflection
+    ? {
+        note: "Adapt today's plan based on the student's most recent self-reported reflection. This is a soft signal: never violate hardConstraints, valid topicIds, or scheduling/timing rules to honor it.",
+        reportedMood: reflection.mood,
+        reportedTaskFeeling: reflection.taskFeeling,
+        moodInstruction: MOOD_GUIDANCE[reflection.mood],
+        taskFeelingInstruction: TASK_FEELING_GUIDANCE[reflection.taskFeeling],
+      }
+    : {
+        note: "No recent reflection is available. Use balanced default planning.",
+      };
+
   return JSON.stringify(
     {
       role: "You are a conservative academic planner that creates realistic daily study plans.",
@@ -12,6 +40,7 @@ export function buildPlannerPrompt(input: PlannerPromptInput) {
         "Optimize for consistency and completion probability.",
         "Prefer fewer completed tasks over many unfinished tasks.",
         "Backend priorityScore already ranks the best candidates; use it as the source of truth for topic priority.",
+        "Adapt difficulty, volume, and task-type mix to the student's most recent reflection in moodAdaptation, without breaking any hardConstraints.",
         "Avoid unrealistic schedules.",
       ],
 
@@ -89,6 +118,8 @@ export function buildPlannerPrompt(input: PlannerPromptInput) {
       },
 
       upcomingTestDeadlines: input.testDeadlines ?? [],
+
+      moodAdaptation,
 
       candidateTopics: input.topics,
 
