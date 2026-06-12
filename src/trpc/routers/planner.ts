@@ -402,6 +402,12 @@ export const plannerRouter = createTRPCRouter({
     });
     const currentDayOfWeek = dayOfWeekFormatter.format(new Date());
 
+    const lastReflectionRecord = await prisma.studyPlanReflection.findFirst({
+      where: { plan: { userId, date: { lt: today } } },
+      orderBy: { createdAt: "desc" },
+      select: { mood: true, taskFeeling: true },
+    });
+
     const generatedPlan = await generateStudyPlan({
       dailyMinutes,
       weakestSubject,
@@ -417,6 +423,7 @@ export const plannerRouter = createTRPCRouter({
       topics: topicCandidates,
       testDeadlines,
       currentDayOfWeek,
+      lastReflection: lastReflectionRecord,
     });
 
     const { tasks, totalMinutes } = buildPlanTasks({
@@ -553,6 +560,12 @@ export const plannerRouter = createTRPCRouter({
       });
       const currentDayOfWeek = dayOfWeekFormatter.format(date);
 
+      const lastReflectionRecord = await prisma.studyPlanReflection.findFirst({
+        where: { plan: { userId, date: { lt: date } } },
+        orderBy: { createdAt: "desc" },
+        select: { mood: true, taskFeeling: true },
+      });
+
       const generatedPlan = await generateStudyPlan({
         dailyMinutes,
         weakestSubject,
@@ -568,6 +581,7 @@ export const plannerRouter = createTRPCRouter({
         topics: topicCandidates,
         testDeadlines,
         currentDayOfWeek,
+        lastReflection: lastReflectionRecord,
       });
 
       const { tasks, totalMinutes } = buildPlanTasks({
