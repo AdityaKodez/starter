@@ -12,10 +12,7 @@ import {
   IconVolume,
   IconVolumeOff,
 } from "@tabler/icons-react";
-import {
-  formatMs,
-  type PomodoroSession,
-} from "../hooks/use-pomodoro";
+import { formatMs, type PomodoroSession } from "../hooks/use-pomodoro";
 import { RewardBurst, type TaskReward } from "./reward-burst";
 
 type PomodoroTimerProps = {
@@ -31,6 +28,49 @@ type PomodoroTimerProps = {
   onMarkComplete: () => void;
 };
 
+type SessionCompleteProps = {
+  breakMinutes: number;
+  isMarkingComplete: boolean;
+  reward?: TaskReward | null;
+  onStartBreak: () => void;
+  onMarkComplete: () => void;
+};
+
+function SessionComplete({
+  breakMinutes,
+  isMarkingComplete,
+  reward,
+  onStartBreak,
+  onMarkComplete,
+}: SessionCompleteProps) {
+  return (
+    <div className="mt-2 w-full rounded-md border border-primary/40 bg-primary/5 p-3 space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="text-sm font-medium text-foreground">
+          Session complete. Nice focus!
+        </p>
+        {reward && <RewardBurst reward={reward} />}
+      </div>
+      <div className="flex flex-wrap items-center gap-2">
+        <Button type="button" size="sm" variant="outline" onClick={onStartBreak}>
+          <IconCoffee className="h-4 w-4 mr-1" />
+          {`${breakMinutes} min break`}
+        </Button>
+        <Button
+          type="button"
+          size="sm"
+          variant="ghost"
+          onClick={onMarkComplete}
+          disabled={isMarkingComplete}
+        >
+          <IconCheck className="h-4 w-4 mr-1" />
+          Done
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 export function PomodoroTimer({
   session,
   remainingMs,
@@ -43,47 +83,30 @@ export function PomodoroTimer({
   onToggleSound,
   onMarkComplete,
 }: PomodoroTimerProps) {
-  const isPaused = session.endsAt === null && session.phase !== "workDone";
-  const totalMs =
-    (session.phase === "break"
-      ? session.settings.breakMinutes
-      : session.settings.workMinutes) * 60_000;
-  const progress = totalMs > 0 ? ((totalMs - remainingMs) / totalMs) * 100 : 0;
-  const hasSound = session.settings.sound !== "none";
+  const { phase, settings, soundOn } = session;
 
-  if (session.phase === "workDone") {
+  if (phase === "workDone") {
     return (
-      <div className="mt-2 w-full rounded-md border border-primary/40 bg-primary/5 p-3 space-y-2">
-        <div className="flex flex-wrap items-center gap-2">
-          <p className="text-sm font-medium text-foreground">
-            Session complete — task marked as done. Nice focus!
-          </p>
-          {reward && <RewardBurst reward={reward} />}
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <Button
-            type="button"
-            size="sm"
-            variant="outline"
-            onClick={onStartBreak}
-          >
-            <IconCoffee className="h-4 w-4 mr-1" />
-            Take a {session.settings.breakMinutes} min break
-          </Button>
-          <Button
-            type="button"
-            size="sm"
-            variant="ghost"
-            onClick={onMarkComplete}
-            disabled={isMarkingComplete}
-          >
-            <IconCheck className="h-4 w-4 mr-1" />
-            Done
-          </Button>
-        </div>
-      </div>
+      <SessionComplete
+        breakMinutes={settings.breakMinutes}
+        isMarkingComplete={isMarkingComplete}
+        reward={reward}
+        onStartBreak={onStartBreak}
+        onMarkComplete={onMarkComplete}
+      />
     );
   }
+
+  const isBreak = phase === "break";
+  const isPaused = session.endsAt === null;
+  const isFocusing = phase === "work" && !isPaused;
+
+  const totalMs =
+    (isBreak ? settings.breakMinutes : settings.workMinutes) * 60_000;
+  const progress = totalMs > 0 ? ((totalMs - remainingMs) / totalMs) * 100 : 0;
+
+  const phaseLabel = isBreak ? "Break" : isPaused ? "Paused" : "Focusing";
+  const showSoundToggle = settings.sound !== "none" && isFocusing;
 
   return (
     <div className="mt-2 w-full rounded-md border border-border bg-muted/40 p-3 space-y-2">
@@ -92,39 +115,33 @@ export function PomodoroTimer({
           <span
             className={cn(
               "text-[11px] font-semibold uppercase tracking-wide",
-              session.phase === "break"
-                ? "text-muted-foreground"
-                : "text-primary",
+              isBreak ? "text-muted-foreground" : "text-primary",
             )}
           >
-            {session.phase === "break"
-              ? "Break"
-              : isPaused
-                ? "Paused"
-                : "Focusing"}
+            {phaseLabel}
           </span>
           <span className="font-mono text-lg font-semibold tabular-nums text-foreground">
             {formatMs(remainingMs)}
           </span>
         </div>
         <div className="flex items-center gap-1">
-          {hasSound && session.phase === "work" && !isPaused && (
+          {showSoundToggle && (
             <Button
               type="button"
               variant="ghost"
               size="icon"
               className="size-7"
               onClick={onToggleSound}
-              aria-label={session.soundOn ? "Mute background sound" : "Play background sound"}
+              aria-label={soundOn ? "Mute background sound" : "Play background sound"}
             >
-              {session.soundOn ? (
+              {soundOn ? (
                 <IconVolume className="h-4 w-4" />
               ) : (
                 <IconVolumeOff className="h-4 w-4" />
               )}
             </Button>
           )}
-          {session.phase === "work" && (
+          {phase === "work" && (
             <Button
               type="button"
               variant="ghost"
@@ -146,7 +163,7 @@ export function PomodoroTimer({
             size="icon"
             className="size-7 text-muted-foreground"
             onClick={onStop}
-            aria-label={session.phase === "break" ? "End break" : "Stop session"}
+            aria-label={isBreak ? "End break" : "Stop session"}
           >
             <IconPlayerStopFilled className="h-4 w-4" />
           </Button>
