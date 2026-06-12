@@ -109,18 +109,18 @@ export function PomodoroTimer({
   const showSoundToggle = settings.sound !== "none" && isFocusing;
 
   return (
-    <div className="mt-2 w-full rounded-md border border-border bg-muted/40 p-3 space-y-2">
+    <div className="mt-2 w-full p-2 space-y-2">
       <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 min-w-0">
+        <div className="flex flex-col items-center gap-2 min-w-0">
           <span
             className={cn(
-              "text-[11px] font-semibold uppercase tracking-wide",
+              "text-sm font-semibold uppercase tracking-wide",
               isBreak ? "text-muted-foreground" : "text-primary",
             )}
           >
             {phaseLabel}
           </span>
-          <span className="font-mono text-lg font-semibold tabular-nums text-foreground">
+          <span className="font-mono text-xl font-think tabular-nums text-foreground">
             {formatMs(remainingMs)}
           </span>
         </div>
