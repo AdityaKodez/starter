@@ -57,6 +57,9 @@ export type TopicCandidateForPlanning = TopicForPlanning & {
   priorityReasons: string[];
   revisionGapDays: number | null;
   isCognitivelyHeavy: boolean;
+  completionRate: number | null;
+  completionAttempts: number;
+  completionScore: number;
 };
 
 export type TestDeadlineForPlanning = {
@@ -66,6 +69,19 @@ export type TestDeadlineForPlanning = {
   scheduledAt: string;
   daysUntil: number;
   notes: string | null;
+};
+
+export type CompletionRateForPlanning = {
+  attempts: number;
+  completed: number;
+  partial: number;
+  skipped: number;
+  rate: number;
+};
+
+export type PlannerCompletionStats = {
+  subjectRates: Partial<Record<Subject, CompletionRateForPlanning>>;
+  topicRates: Record<string, CompletionRateForPlanning>;
 };
 
 export type PlannerOnboarding = {

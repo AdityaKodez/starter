@@ -39,7 +39,7 @@ export function buildPlannerPrompt(input: PlannerPromptInput) {
       planningPhilosophy: [
         "Optimize for consistency and completion probability.",
         "Prefer fewer completed tasks over many unfinished tasks.",
-        "Backend priorityScore already ranks the best candidates; use it as the source of truth for topic priority.",
+        "Backend priorityScore already ranks the best candidates using weakness, deadlines, progress, and historical completion fit; use it as the source of truth for topic priority.",
         "Adapt difficulty, volume, and task-type mix to the student's most recent reflection in moodAdaptation, without breaking any hardConstraints.",
         "Avoid unrealistic schedules.",
       ],
@@ -67,8 +67,9 @@ export function buildPlannerPrompt(input: PlannerPromptInput) {
       prioritizationRules: [
         "Select from higher priorityScore topics before lower priorityScore topics unless the schedule would become unrealistic.",
         "Use priorityReasons to explain why a task belongs in today's plan.",
-        "Upcoming test deadlines are already reflected in priorityScore; treat them as hard context for selecting relevant subjects and task types.",
+        "Upcoming test deadlines are strongly reflected in priorityScore; do not skip a deadline subject just because another subject has a slightly better completion fit.",
         "For deadlines within 3 days, strongly prefer revision or practice for that subject over unrelated optional new topics.",
+        "Prefer topics with positive completionScore when two candidates are otherwise similarly urgent.",
         "Strongly prioritize revision for topics whose revisionGapDays exceeds 2.",
         "Mix difficult and moderate tasks when possible.",
         "Avoid turning the plan into only revision, only tests, or only cognitively heavy work.",
@@ -98,7 +99,7 @@ export function buildPlannerPrompt(input: PlannerPromptInput) {
 
       reasoningRules: [
         "Every task must include a short reason grounded in the provided student or progress data.",
-        "Reasons must reference concrete signals like confidence, status, mistakesCount, revision gap, importance, or weakestSubject.",
+        "Reasons must reference concrete signals like confidence, status, mistakesCount, revision gap, importance, weakestSubject, deadline, or completion fit.",
         "Do not generate motivational or generic explanations.",
       ],
 

@@ -5,8 +5,10 @@ import {
   StudyPlanTaskType,
   Subject,
   TaskStatus,
+  TopicStatus,
   UserTestDeadlineStatus,
 } from "@/generated/prisma/enums";
+import type { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import {
   calculateDisplayStreak,
@@ -15,6 +17,10 @@ import {
   resolveTimeZone,
 } from "@/lib/streak";
 import { generateStudyPlan } from "@/utils/planner-utils/generate-plan";
+import type {
+  CompletionRateForPlanning,
+  PlannerCompletionStats,
+} from "@/utils/planner-utils/schemas";
 import { buildPlanTasks } from "@/utils/planner-utils/tasks";
 import {
   buildRankedTopicCandidates,
@@ -62,6 +68,19 @@ const parseTestResultToPercent = (result: string | null) => {
 
 const TEST_DEADLINE_PLANNING_WINDOW_DAYS = 14;
 const STUDY_STATS_WINDOW_DAYS = 364;
+const COMPLETION_STATS_WINDOW_DAYS = 90;
+const COMPLETION_STATUSES = [
+  TaskStatus.done,
+  TaskStatus.partial,
+  TaskStatus.skipped,
+];
+
+type CompletionAccumulator = {
+  attempts: number;
+  completed: number;
+  partial: number;
+  skipped: number;
+};
 
 const buildUpcomingTestDeadlinesForPlanning = async (userId: string, today: Date) => {
   const deadlines = await prisma.userTestDeadline.findMany({
@@ -85,6 +104,198 @@ const buildUpcomingTestDeadlinesForPlanning = async (userId: string, today: Date
     daysUntil: differenceInCalendarDays(startOfDay(deadline.scheduledAt), today),
     notes: deadline.notes,
   }));
+};
+
+const emptyCompletionAccumulator = (): CompletionAccumulator => ({
+  attempts: 0,
+  completed: 0,
+  partial: 0,
+  skipped: 0,
+});
+
+const recordCompletionAttempt = (
+  accumulator: CompletionAccumulator,
+  status: TaskStatus,
+) => {
+  accumulator.attempts += 1;
+
+  if (status === TaskStatus.done) {
+    accumulator.completed += 1;
+    return;
+  }
+
+  if (status === TaskStatus.partial) {
+    accumulator.partial += 1;
+    return;
+  }
+
+  if (status === TaskStatus.skipped) {
+    accumulator.skipped += 1;
+  }
+};
+
+const toCompletionRate = (
+  accumulator: CompletionAccumulator,
+): CompletionRateForPlanning => ({
+  ...accumulator,
+  rate:
+    accumulator.attempts === 0
+      ? 0
+      : (accumulator.completed + accumulator.partial * 0.5) /
+        accumulator.attempts,
+});
+
+const buildCompletionStatsForPlanning = async (
+  userId: string,
+  planDate: Date,
+): Promise<PlannerCompletionStats> => {
+  const windowStart = subDays(planDate, COMPLETION_STATS_WINDOW_DAYS);
+  const tasks = await prisma.studyPlanTask.findMany({
+    where: {
+      status: { in: COMPLETION_STATUSES },
+      plan: {
+        userId,
+        date: {
+          gte: windowStart,
+          lt: planDate,
+        },
+      },
+    },
+    select: {
+      subject: true,
+      topicId: true,
+      status: true,
+    },
+  });
+
+  const subjectAccumulators: Partial<Record<Subject, CompletionAccumulator>> = {};
+  const topicAccumulators: Record<string, CompletionAccumulator> = {};
+
+  for (const task of tasks) {
+    const subjectAccumulator =
+      subjectAccumulators[task.subject] ?? emptyCompletionAccumulator();
+    subjectAccumulators[task.subject] = subjectAccumulator;
+    recordCompletionAttempt(subjectAccumulator, task.status);
+
+    if (task.topicId) {
+      topicAccumulators[task.topicId] ??= emptyCompletionAccumulator();
+      recordCompletionAttempt(topicAccumulators[task.topicId], task.status);
+    }
+  }
+
+  const subjectRates: PlannerCompletionStats["subjectRates"] = {};
+  for (const subject of Object.values(Subject)) {
+    const accumulator = subjectAccumulators[subject];
+    if (accumulator) {
+      subjectRates[subject] = toCompletionRate(accumulator);
+    }
+  }
+
+  const topicRates: PlannerCompletionStats["topicRates"] = {};
+  for (const [topicId, accumulator] of Object.entries(topicAccumulators)) {
+    topicRates[topicId] = toCompletionRate(accumulator);
+  }
+
+  return { subjectRates, topicRates };
+};
+
+const maxDate = (dates: Array<Date | null>) => {
+  const timestamps = dates
+    .filter((date): date is Date => date !== null)
+    .map((date) => date.getTime());
+
+  if (timestamps.length === 0) return null;
+
+  return new Date(Math.max(...timestamps));
+};
+
+const refreshTopicProgressFromTasks = async (
+  tx: Prisma.TransactionClient,
+  userId: string,
+  topicId: string,
+) => {
+  const attempts = await tx.studyPlanTask.findMany({
+    where: {
+      topicId,
+      status: { in: COMPLETION_STATUSES },
+      plan: { userId },
+    },
+    select: {
+      status: true,
+      type: true,
+      completedAt: true,
+    },
+  });
+
+  const doneStudyAttempts = attempts.filter(
+    (task) =>
+      task.status === TaskStatus.done && task.type === StudyPlanTaskType.study,
+  );
+  const doneTestAttempts = attempts.filter(
+    (task) =>
+      task.status === TaskStatus.done && task.type === StudyPlanTaskType.test,
+  );
+  const doneRevisionAttempts = attempts.filter(
+    (task) =>
+      task.status === TaskStatus.done &&
+      task.type === StudyPlanTaskType.revision,
+  );
+  const partialAttempts = attempts.filter(
+    (task) => task.status === TaskStatus.partial,
+  );
+  const skippedAttempts = attempts.filter(
+    (task) => task.status === TaskStatus.skipped,
+  );
+
+  const hasCompletedLearning =
+    doneStudyAttempts.length > 0 || doneTestAttempts.length > 0;
+  const hasStartedLearning =
+    hasCompletedLearning ||
+    doneRevisionAttempts.length > 0 ||
+    partialAttempts.length > 0;
+
+  await tx.userTopicProgress.upsert({
+    where: {
+      userId_topicId: {
+        userId,
+        topicId,
+      },
+    },
+    update: {
+      status: hasCompletedLearning
+        ? TopicStatus.completed
+        : hasStartedLearning
+          ? TopicStatus.in_progress
+          : TopicStatus.not_started,
+      lastStudiedAt: maxDate([
+        ...doneStudyAttempts.map((task) => task.completedAt),
+        ...doneTestAttempts.map((task) => task.completedAt),
+        ...partialAttempts.map((task) => task.completedAt),
+      ]),
+      lastRevisedAt: maxDate(
+        doneRevisionAttempts.map((task) => task.completedAt),
+      ),
+      mistakesCount: partialAttempts.length + skippedAttempts.length,
+    },
+    create: {
+      userId,
+      topicId,
+      status: hasCompletedLearning
+        ? TopicStatus.completed
+        : hasStartedLearning
+          ? TopicStatus.in_progress
+          : TopicStatus.not_started,
+      lastStudiedAt: maxDate([
+        ...doneStudyAttempts.map((task) => task.completedAt),
+        ...doneTestAttempts.map((task) => task.completedAt),
+        ...partialAttempts.map((task) => task.completedAt),
+      ]),
+      lastRevisedAt: maxDate(
+        doneRevisionAttempts.map((task) => task.completedAt),
+      ),
+      mistakesCount: partialAttempts.length + skippedAttempts.length,
+    },
+  });
 };
 
 export const plannerRouter = createTRPCRouter({
@@ -388,10 +599,12 @@ export const plannerRouter = createTRPCRouter({
       });
     }
     const testDeadlines = await buildUpcomingTestDeadlinesForPlanning(userId, today);
+    const completionStats = await buildCompletionStatsForPlanning(userId, today);
     const topicCandidates = buildRankedTopicCandidates({
       topics: topicsForPlanning,
       weakestSubject,
       testDeadlines,
+      completionStats,
       now: today,
     });
 
@@ -546,10 +759,12 @@ export const plannerRouter = createTRPCRouter({
       }
 
       const testDeadlines = await buildUpcomingTestDeadlinesForPlanning(userId, date);
+      const completionStats = await buildCompletionStatsForPlanning(userId, date);
       const topicCandidates = buildRankedTopicCandidates({
         topics: topicsForPlanning,
         weakestSubject,
         testDeadlines,
+        completionStats,
         now: date,
       });
 
@@ -665,7 +880,13 @@ export const plannerRouter = createTRPCRouter({
             id: input.taskId,
             plan: { userId: user.id },
           },
-          select: { id: true, status: true, rewardType: true, rewardAmount: true },
+          select: {
+            id: true,
+            topicId: true,
+            status: true,
+            rewardType: true,
+            rewardAmount: true,
+          },
         });
 
         if (!task) {
@@ -677,7 +898,8 @@ export const plannerRouter = createTRPCRouter({
 
         const wasDone = task.status === TaskStatus.done;
         const isNowDone = input.status === TaskStatus.done;
-        const completedAt = isNowDone ? now : null;
+        const isNowPartial = input.status === TaskStatus.partial;
+        const completedAt = isNowDone || isNowPartial ? now : null;
 
         // Roll a reward exactly once per task — re-completions reuse the
         // stored reward, un-completing never claws it back.
@@ -712,6 +934,10 @@ export const plannerRouter = createTRPCRouter({
               : {}),
           },
         });
+
+        if (task.topicId) {
+          await refreshTopicProgressFromTasks(tx, user.id, task.topicId);
+        }
 
         if (resolvedInputTimeZone && resolvedInputTimeZone !== user.timeZone) {
           await tx.user.update({
@@ -792,6 +1018,10 @@ export const plannerRouter = createTRPCRouter({
             skipReason: input.skipReason,
           },
         });
+
+        if (task.topicId) {
+          await refreshTopicProgressFromTasks(tx, userId, task.topicId);
+        }
 
         // Determine the next order value for the new task
         const maxOrderTask = await tx.studyPlanTask.findFirst({
