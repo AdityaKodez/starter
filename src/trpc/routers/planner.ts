@@ -690,6 +690,25 @@ export const plannerRouter = createTRPCRouter({
       const dailyMinutes = onboarding.dailyStudyMinutes;
       const weakestSubject = onboarding.weakestSubject;
 
+      const nonPendingTasksCount = await prisma.studyPlanTask.count({
+        where: {
+          plan: {
+            userId,
+            date,
+          },
+          status: {
+            not: TaskStatus.pending,
+          },
+        },
+      });
+
+      if (nonPendingTasksCount > 0) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Cannot regenerate plan with completed tasks",
+        });
+      }
+
       // Delete existing plan for the date
       await prisma.studyPlan.deleteMany({
         where: {
@@ -1007,6 +1026,13 @@ export const plannerRouter = createTRPCRouter({
           throw new TRPCError({
             code: "NOT_FOUND",
             message: "Task not found",
+          });
+        }
+
+        if (task.status !== TaskStatus.pending) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "Only pending tasks can be replaced",
           });
         }
 
